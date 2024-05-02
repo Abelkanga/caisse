@@ -1,0 +1,466 @@
+    body{
+        width:"100%";
+        margin: 0;
+        padding: 0 !important;
+        mso-line-height-rule: exactly;
+        background: #F5F5F5;
+    }
+
+    @font-face {
+    font-family: 'Proxima Nova';
+    src: url(https://www.banyanbotanicals.com/media/fonts/proxima-nova/proxima-nova-regular.eot);
+    src:
+        /* IE6-IE8 */
+        /* Modern Browsers */
+        /* Safari, Android, iOS */
+        url(https://www.banyanbotanicals.com/media/fonts/proxima-nova/proxima-nova-regular.eot?#iefix) format("embedded-opentype"), url(https://www.banyanbotanicals.com/media/fonts/proxima-nova/proxima-nova-regular.woff) format("woff"), url(https://www.banyanbotanicals.com/media/fonts/proxima-nova/proxima-nova-regular.ttf) format("truetype"), url(https://www.banyanbotanicals.com/media/fonts/proxima-nova/proxima-nova-regular.svg#2c1459d58560f08b4b0586fbe80aa4cd) format("svg");
+    font-style: normal;
+    font-weight: 400;
+    }
+
+    @font-face {
+    font-family: 'Proxima Nova';
+    src: url(https://www.banyanbotanicals.com/media/fonts/proxima-nova/proxima-nova-semi-bold.eot);
+    src:
+        /* IE6-IE8 */
+        /* Modern Browsers */
+        /* Safari, Android, iOS */
+        url(https://www.banyanbotanicals.com/media/fonts/proxima-nova/proxima-nova-semi-bold.eot?#iefix) format("embedded-opentype"), url(https://www.banyanbotanicals.com/media/fonts/proxima-nova/proxima-nova-semi-bold.woff) format("woff"), url(https://www.banyanbotanicals.com/media/fonts/proxima-nova/proxima-nova-semi-bold.ttf) format("truetype"), url(https://www.banyanbotanicals.com/media/fonts/proxima-nova/proxima-nova-semi-bold.svg#d1e00a8fb1fd9b428ab6b90409479fde) format("svg");
+    font-style: normal;
+    font-weight: 600;
+    }
+
+    @font-face {
+    font-family: 'Proxima Nova';
+    src: url(https://www.banyanbotanicals.com/media/fonts/proxima-nova/proxima-nova-bold.eot);
+    src:
+        /* IE6-IE8 */
+        /* Modern Browsers */
+        /* Safari, Android, iOS */
+        url(https://www.banyanbotanicals.com/media/fonts/proxima-nova/proxima-nova-bold.eot?#iefix) format("embedded-opentype"), url(https://www.banyanbotanicals.com/media/fonts/proxima-nova/proxima-nova-bold.woff) format("woff"), url(https://www.banyanbotanicals.com/media/fonts/proxima-nova/proxima-nova-bold.ttf) format("truetype"), url(https://www.banyanbotanicals.com/media/fonts/proxima-nova/proxima-nova-bold.svg#d1e00a8fb1fd9b428ab6b90409479fde) format("svg");
+    font-style: normal;
+    font-weight: 700;
+    }
+
+    @font-face {
+    font-family: 'Proxima Nova';
+    src: url(https://www.banyanbotanicals.com/media/fonts/proxima-nova/proxima-nova-regular.eot);
+    src:
+        /* IE6-IE8 */
+        /* Modern Browsers */
+        /* Safari, Android, iOS */
+        url(https://www.banyanbotanicals.com/media/fonts/proxima-nova/proxima-nova-regular.eot?#iefix) format("embedded-opentype"), url(https://www.banyanbotanicals.com/media/fonts/proxima-nova/proxima-nova-regular.woff) format("woff"), url(https://www.banyanbotanicals.com/media/fonts/proxima-nova/proxima-nova-regular.ttf) format("truetype"), url(https://www.banyanbotanicals.com/media/fonts/proxima-nova/proxima-nova-regular.svg#2c1459d58560f08b4b0586fbe80aa4cd) format("svg");
+    font-style: normal;
+    font-weight: 400;
+    }
+
+    @font-face {
+    font-family: 'Proxima Nova';
+    src: url(https://www.banyanbotanicals.com/media/fonts/proxima-nova/proxima-nova-semi-bold.eot);
+    src:
+        /* IE6-IE8 */
+        /* Modern Browsers */
+        /* Safari, Android, iOS */
+        url(https://www.banyanbotanicals.com/media/fonts/proxima-nova/proxima-nova-semi-bold.eot?#iefix) format("embedded-opentype"), url(https://www.banyanbotanicals.com/media/fonts/proxima-nova/proxima-nova-semi-bold.woff) format("woff"), url(https://www.banyanbotanicals.com/media/fonts/proxima-nova/proxima-nova-semi-bold.ttf) format("truetype"), url(https://www.banyanbotanicals.com/media/fonts/proxima-nova/proxima-nova-semi-bold.svg#d1e00a8fb1fd9b428ab6b90409479fde) format("svg");
+    font-style: normal;
+    font-weight: 600;
+    }
+
+    @font-face {
+    font-family: 'Proxima Nova';
+    src: url(https://www.banyanbotanicals.com/media/fonts/proxima-nova/proxima-nova-bold.eot);
+    src:
+        /* IE6-IE8 */
+        /* Modern Browsers */
+        /* Safari, Android, iOS */
+        url(https://www.banyanbotanicals.com/media/fonts/proxima-nova/proxima-nova-bold.eot?#iefix) format("embedded-opentype"), url(https://www.banyanbotanicals.com/media/fonts/proxima-nova/proxima-nova-bold.woff) format("woff"), url(https://www.banyanbotanicals.com/media/fonts/proxima-nova/proxima-nova-bold.ttf) format("truetype"), url(https://www.banyanbotanicals.com/media/fonts/proxima-nova/proxima-nova-bold.svg#d1e00a8fb1fd9b428ab6b90409479fde) format("svg");
+    font-style: normal;
+    font-weight: 700;
+    }
+
+    html,
+    body {
+    margin: 0 !important;
+    padding: 0 !important;
+    height: 100% !important;
+    width: 100% !important;
+    }
+
+    * {
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+    }
+
+    div[style*="margin: 16px 0"] {
+    margin: 0 !important;
+    }
+
+    #MessageViewBody,
+    #MessageWebViewDiv {
+    width: 100% !important;
+    }
+
+    table,
+    td {
+    mso-table-lspace: 0 !important;
+    mso-table-rspace: 0 !important;
+    }
+
+    table {
+    border-spacing: 0 !important;
+    border-collapse: collapse !important;
+    table-layout: fixed !important;
+    margin: 0 auto !important;
+    }
+
+    img {
+    -ms-interpolation-mode: bicubic;
+    }
+
+    a {
+    text-decoration: none;
+    }
+
+    a[x-apple-data-detectors],
+    /* iOS */
+    .unstyle-auto-detected-links a,
+    .aBn {
+    border-bottom: 0 !important;
+    cursor: default !important;
+    color: inherit !important;
+    text-decoration: none !important;
+    font-size: inherit !important;
+    font-family: inherit !important;
+    font-weight: inherit !important;
+    line-height: inherit !important;
+    }
+
+    .im {
+    color: inherit !important;
+    }
+
+    .a6S {
+    display: none !important;
+    opacity: .01 !important;
+    }
+
+    img.g-img+div {
+    display: none !important;
+    }
+
+    /* Media Queries */
+    /* iPhone 4, 4S, 5, 5S, 5C, and 5SE */
+    @media only screen and (min-device-width: 320px) and (max-device-width: 374px) {
+    u~div .email-container {
+        min-width: 320px !important;
+    }
+    }
+
+    /* iPhone 6, 6S, 7, 8, and X */
+    @media only screen and (min-device-width: 375px) and (max-device-width: 413px) {
+    u~div .email-container {
+        min-width: 375px !important;
+    }
+    }
+
+    /* iPhone 6+, 7+, and 8+ */
+    @media only screen and (min-device-width: 414px) {
+    u~div .email-container {
+        min-width: 414px !important;
+    }
+    }
+
+    @font-face {
+    font-family: 'Proxima Nova';
+    src: url(https://www.banyanbotanicals.com/media/fonts/proxima-nova/proxima-nova-regular.eot);
+    src:
+        /* IE6-IE8 */
+        /* Modern Browsers */
+        /* Safari, Android, iOS */
+        url(https://www.banyanbotanicals.com/media/fonts/proxima-nova/proxima-nova-regular.eot?#iefix) format("embedded-opentype"), url(https://www.banyanbotanicals.com/media/fonts/proxima-nova/proxima-nova-regular.woff) format("woff"), url(https://www.banyanbotanicals.com/media/fonts/proxima-nova/proxima-nova-regular.ttf) format("truetype"), url(https://www.banyanbotanicals.com/media/fonts/proxima-nova/proxima-nova-regular.svg#2c1459d58560f08b4b0586fbe80aa4cd) format("svg");
+    font-style: normal;
+    font-weight: 400;
+    }
+
+    @font-face {
+    font-family: 'Proxima Nova';
+    src: url(https://www.banyanbotanicals.com/media/fonts/proxima-nova/proxima-nova-semi-bold.eot);
+    src:
+        /* IE6-IE8 */
+        /* Modern Browsers */
+        /* Safari, Android, iOS */
+        url(https://www.banyanbotanicals.com/media/fonts/proxima-nova/proxima-nova-semi-bold.eot?#iefix) format("embedded-opentype"), url(https://www.banyanbotanicals.com/media/fonts/proxima-nova/proxima-nova-semi-bold.woff) format("woff"), url(https://www.banyanbotanicals.com/media/fonts/proxima-nova/proxima-nova-semi-bold.ttf) format("truetype"), url(https://www.banyanbotanicals.com/media/fonts/proxima-nova/proxima-nova-semi-bold.svg#d1e00a8fb1fd9b428ab6b90409479fde) format("svg");
+    font-style: normal;
+    font-weight: 600;
+    }
+
+    @font-face {
+    font-family: 'Proxima Nova';
+    src: url(https://www.banyanbotanicals.com/media/fonts/proxima-nova/proxima-nova-bold.eot);
+    src:
+        /* IE6-IE8 */
+        /* Modern Browsers */
+        /* Safari, Android, iOS */
+        url(https://www.banyanbotanicals.com/media/fonts/proxima-nova/proxima-nova-bold.eot?#iefix) format("embedded-opentype"), url(https://www.banyanbotanicals.com/media/fonts/proxima-nova/proxima-nova-bold.woff) format("woff"), url(https://www.banyanbotanicals.com/media/fonts/proxima-nova/proxima-nova-bold.ttf) format("truetype"), url(https://www.banyanbotanicals.com/media/fonts/proxima-nova/proxima-nova-bold.svg#d1e00a8fb1fd9b428ab6b90409479fde) format("svg");
+    font-style: normal;
+    font-weight: 700;
+    }
+
+    html,
+    body {
+    margin: 0 !important;
+    padding: 0 !important;
+    height: 100% !important;
+    width: 100% !important;
+    }
+
+    * {
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+    }
+
+    div[style*="margin: 16px 0"] {
+    margin: 0 !important;
+    }
+
+    #MessageViewBody,
+    #MessageWebViewDiv {
+    width: 100% !important;
+    }
+
+    table,
+    td {
+    mso-table-lspace: 0 !important;
+    mso-table-rspace: 0 !important;
+    }
+
+    table {
+    border-spacing: 0 !important;
+    border-collapse: collapse !important;
+    table-layout: fixed !important;
+    margin: 0 auto !important;
+    }
+
+    img {
+    -ms-interpolation-mode: bicubic;
+    }
+
+    a {
+    text-decoration: none;
+    }
+
+    a[x-apple-data-detectors],
+    /* iOS */
+    .unstyle-auto-detected-links a,
+    .aBn {
+    border-bottom: 0 !important;
+    cursor: default !important;
+    color: inherit !important;
+    text-decoration: none !important;
+    font-size: inherit !important;
+    font-family: inherit !important;
+    font-weight: inherit !important;
+    line-height: inherit !important;
+    }
+
+    .im {
+    color: inherit !important;
+    }
+
+    .a6S {
+    display: none !important;
+    opacity: .01 !important;
+    }
+
+    img.g-img+div {
+    display: none !important;
+    }
+
+    /* Media Queries */
+    /* iPhone 4, 4S, 5, 5S, 5C, and 5SE */
+    @media only screen and (min-device-width: 320px) and (max-device-width: 374px) {
+    u~div .email-container {
+        min-width: 320px !important;
+    }
+    }
+
+    /* iPhone 6, 6S, 7, 8, and X */
+    @media only screen and (min-device-width: 375px) and (max-device-width: 413px) {
+    u~div .email-container {
+        min-width: 375px !important;
+    }
+    }
+
+    /* iPhone 6+, 7+, and 8+ */
+    @media only screen and (min-device-width: 414px) {
+    u~div .email-container {
+        min-width: 414px !important;
+    }
+    }
+
+    .button-td,
+    .button-a {
+    transition: all 100ms ease-in;
+    }
+
+    .button-td-primary:hover,
+    .button-a-primary:hover {
+    opacity: .8 !important;
+    color: #FFFFFF !important;
+    }
+
+    /* Media Queries */
+    @media screen and (max-width: 480px) {
+
+    .stack-column,
+    .stack-column-center {
+        display: block !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        direction: ltr !important;
+    }
+
+    .stack-column-button,
+    .stack-column-center-button {
+        display: block !important;
+        direction: ltr !important;
+    }
+
+    .stack-column-center {
+        text-align: center !important;
+    }
+
+    .stack-column-left {
+        text-align: left !important;
+    }
+
+    .center-on-narrow {
+        text-align: center !important;
+        display: block !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        float: none !important;
+    }
+
+    table.center-on-narrow {
+        display: inline-block !important;
+    }
+
+    .Product-Image {
+        padding: 0 !important;
+    }
+
+    .Product-Title {
+        padding: 20px 0 0 60px !important;
+    }
+
+    .Product-SKU {
+        padding: 0 0 0 60px !important;
+    }
+
+    .Product-Price {
+        padding: 0 30px 0 0 !important;
+    }
+
+    .Divider {
+        margin: 0 20px !important;
+    }
+
+    .Mobile-Header {
+        padding: 7% 7% 0 !important;
+    }
+
+    .CTA {
+        padding: 9% 0 0 0 !important;
+    }
+
+    .Numbers-Text {
+        text-align: left !important;
+        padding: 15px 20px 25px !important;
+    }
+
+    .Numbers-Text-Two {
+        text-align: left !important;
+        padding: 15px 15px 17px !important;
+    }
+
+    .Numbers-Text-Three {
+        text-align: left !important;
+        padding: 15px 15px 40px !important;
+    }
+
+    .Questions-Mobile {
+        padding: 10% 10% 3% !important;
+    }
+
+    .Free-Shipping-Text {
+        font-size: 27px !important;
+    }
+
+    .Free-Shipping-Text-Two {
+        padding: 10% 11% 0 !important;
+    }
+
+    .Footer-Text {
+        font-size: 10px !important;
+    }
+
+    .Mobile-Center-Button {
+        text-align: center !important;
+    }
+
+    .Padding-Button {
+        padding: 10px !important;
+    }
+
+    .Desktop-Only {
+        display: none !important;
+    }
+
+    .Mobile-Only {
+        display: block !important;
+    }
+    }
+
+    @media screen and (max-width: 350px) {
+
+    .Product-Title-2 {
+        padding: 0 0 0 60px !important;
+        font-size: 14px !important;
+    }
+
+    .Divider {
+        margin: 0 15px !important;
+    }
+
+    .Product-Price {
+        font-size: 14px !important;
+    }
+
+    .Free-Shipping-Text {
+        font-size: 22px !important;
+    }
+
+    .Mobile-Center-Button {
+        text-align: center !important;
+    }
+    }
+
+    .bouton-action {
+        background-color:#333E48;
+        color:#FFFFFF;
+        display:inline-block;
+        font-family:'Proxima Nova', helvetica, arial, sans-serif;
+        font-size:18px;
+        font-weight:normal;
+        line-height:45px;
+        text-align:center;
+        text-decoration:none;
+        width:225px;
+        -webkit-text-size-adjust:none;
+        margin-bottom: 20px;
+    }
+
+    .bouton-action a{
+        color:#FFFFFF;
+    }

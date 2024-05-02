@@ -1,17 +1,182 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        {% block stylesheets %}
-        {% endblock %}
+<html lang="fr">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- End Required meta tags -->
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    <!-- FAVICONS -->
+    <link rel="apple-touch-icon" sizes="144x144" href="{{ asset('img/favicone.png') }}">
+    <meta name="theme-color" content="#3063A0">
+    <!-- End FAVICONS -->
+    <!-- GOOGLE FONT -->
+    <link href="https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600" rel="stylesheet"><!-- End GOOGLE FONT -->
+    <!-- BEGIN PLUGINS STYLES -->
+    {{ encore_entry_link_tags('app') }}
+    <!-- BEGIN THEME STYLES -->
+    <link rel="stylesheet" href="{{ asset('css/theme.min.css') }}" data-skin="default">
+    <link rel="stylesheet" href="{{ asset('css/theme-dark.min.css') }}" data-skin="dark">
+    <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
+    {% block stylesheets %}
+        <style>
+            fieldset > legend {
+                color: inherit;
+                margin-bottom: 1rem;
+                font-size: 1rem;
+                border-bottom: 1px solid rgb(225, 231, 214);
+            }
 
-        {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
+            div.bg-soft-custom {
+                background-color: #232754;
+                color: #FFFFFF;
+                padding: 0.5rem !important;
+            }
+
+            .font-header tr {
+                font-size: 11px;
+                text-align: center !important;
+            }
+
+            label.text-right {
+                text-align: left !important;
+            }
+        </style>
+    {% endblock %}
+    <script>
+        var skin = localStorage.getItem('skin') || 'default';
+        var isCompact = JSON.parse(localStorage.getItem('hasCompactMenu'));
+        var disabledSkinStylesheet = document.querySelector('link[data-skin]:not([data-skin="' + skin + '"])');
+        // Disable unused skin immediately
+        disabledSkinStylesheet.setAttribute('rel', '');
+        disabledSkinStylesheet.setAttribute('disabled', true);
+        // add flag class to html immediately
+        if (isCompact === true) document.querySelector('html').classList.add('preparing-compact-menu');
+    </script>
+    <!-- END THEME STYLES -->
+</head>
+<body>
+<!-- .app -->
+<div class="app">
+    <!--[if lt IE 10]>
+    <div class="page-message" role="alert">You are using an <strong>outdated</strong> browser. Please <a
+            class="alert-link" href="http://browsehappy.com/">upgrade your browser</a> to improve your experience and
+        security.
+    </div>
+    <![endif]-->
+    <!-- .app-header -->
+    {% if is_granted("ROLE_ADMIN") or is_granted("ROLE_SUPER_ADMIN") or is_granted("ROLE_STATION_MANAGER") or
+    is_granted("ROLE_SHIPPING_MANAGER") %}
+    {% include 'partial/_header.html.twig' %}
+    {% endif %}
+    <!-- /.app-aside -->
+
+    {% if is_granted("ROLE_ADMIN") or is_granted("ROLE_SUPER_ADMIN") or is_granted("ROLE_STATION_MANAGER") or is_granted("ROLE_SHIPPING_MANAGER") %}
+        {% include 'partial/_aside.html.twig' %}
+    {% endif %}
+    <!-- .app-main -->
+    <main class="app-main">
+        <!-- .wrapper -->
+        <div class="wrapper">
+            <!-- .page -->
+            <div class="page">
+                <!-- .page-inner -->
+                <div class="page-inner">
+
+                    <!-- .page-section -->
+                    <div class="page-section">
+                        {% block body %}{% endblock %}
+                    </div><!-- /.page-section -->
+                </div><!-- /.page-inner -->
+            </div><!-- /.page -->
+        </div><!-- .app-footer -->
+    <footer class="app-footer">
+        <div class="copyright">
+            <p class="mb-0 px-3 text-muted text-center">
+                Copyright ©
+                {{ 'now'| date('Y') }}
+                Design by
+                <a href="https://www.offset-consulting.com/" target="_blank">
+                    Offset Consulting.</a><br>
+                All right reserved.
+            </p>
+        </div>
+    </footer><!-- /.app-footer -->
+        <!-- /.wrapper -->
+    </main><!-- /.app-main -->
+
+</div><!-- /.app -->
+<script src="{{ asset('js/jquery.min.js') }}"></script>
+<script src="{{ asset('js/popper.min.js') }}"></script>
+<script src="{{ asset('js/bootstrap.min.js') }}"></script>
+
+<script src="{{ asset('js/pace.min.js') }}"></script>
+<script src="{{ asset('js/stacked-menu.min.js') }}"></script>
+<script src="{{ asset('js/perfect-scrollbar.min.js') }}"></script>
+<script src="{{ asset('js/flatpickr.min.js') }}"></script>
+<script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+{{ encore_entry_script_tags('app') }}
+
+<!-- BEGIN BASE JS -->
+<script src="{{ asset('js/theme.js') }}"></script>
+{% block javascripts %}
+{% endblock %}
+<script>
+    {% for label, messages in app.flashes %}
+    {% for message in messages %}
+    toastr.{{ label }}("{{ message }}")
+    {% endfor %}
+    {% endfor %}
+</script>
+
+<!--<script>
+    Pusher.logToConsole = true;
+
+    const pusher = new Pusher('275eeebe8ffe9de15400', { cluster: 'mt1' });
+    const channel = pusher.subscribe('event.station');
+    channel
+        // .bind('event.notification', function (data) {
+        //     if (data) {
+        //
+        //         if (Station.id === id_station) {
+        //
+        //         }
+        //     }
+        // })
+
+        .bind(`station.${Station.id}`, function (data) {
+            const { message, linkTo, createdAt, id_station } = data;
+            toastr.info(`${message}`, null, {
+                "closeButton": true,
+                "preventDuplicates": false,
+                "onclick": function () {
+                    window.location.href = linkTo
+                }
+            })
+
+            let $notification1 = $('#notification-body');
+            let $notification = $notification1;
+            let notificationCount = $notification1.children().length;
+            if (!$notification.hasClass('dropdown-scroll has-scrollable') && notificationCount > 3) {
+                $notification.addClass('dropdown-scroll has-scrollable')
+            }
+            if (notificationCount === 1) {
+                $notification.empty();
+            }
+            if (!$('#header-notification').hasClass('has-notified')) {
+                $('#header-notification').addClass('has-notified')
+            }
+            $notification.append(`
+                    <a href="${linkTo}" class="dropdown-item unread">
+                        <div class="user-avatar">
+                        </div>
+                    <div class="dropdown-item-body">
+                        <p class="subject">Notification</p>
+                        <p class="text text-truncate">${message}</p>
+                        <span class="date">${moment(createdAt).fromNow()}</span>
+                    </div>
+                    </a>`)
+        })
+</script>-->
+</body>
 </html>
