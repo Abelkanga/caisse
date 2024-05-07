@@ -41,6 +41,17 @@ class Fdb
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
+    /**
+     * @var Collection<int, Detail>
+     */
+    #[ORM\OneToMany(targetEntity: Detail::class, mappedBy: 'fdb')]
+    private Collection $details;
+
+    public function __construct()
+    {
+        $this->details = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {
@@ -141,6 +152,36 @@ class Fdb
     public function setUser(?User $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Detail>
+     */
+    public function getDetails(): Collection
+    {
+        return $this->details;
+    }
+
+    public function addDetail(Detail $detail): static
+    {
+        if (!$this->details->contains($detail)) {
+            $this->details->add($detail);
+            $detail->setFdb($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDetail(Detail $detail): static
+    {
+        if ($this->details->removeElement($detail)) {
+            // set the owning side to null (unless already changed)
+            if ($detail->getFdb() === $this) {
+                $detail->setFdb(null);
+            }
+        }
 
         return $this;
     }

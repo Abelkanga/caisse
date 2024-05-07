@@ -35,6 +35,17 @@ class Caisse
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
+    /**
+     * @var Collection<int, Operation>
+     */
+    #[ORM\OneToMany(targetEntity: Operation::class, mappedBy: 'caisse')]
+    private Collection $operations;
+
+    public function __construct()
+    {
+        $this->operations = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {
@@ -110,6 +121,36 @@ class Caisse
     public function setUser(?User $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Operation>
+     */
+    public function getOperations(): Collection
+    {
+        return $this->operations;
+    }
+
+    public function addOperation(Operation $operation): static
+    {
+        if (!$this->operations->contains($operation)) {
+            $this->operations->add($operation);
+            $operation->setCaisse($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOperation(Operation $operation): static
+    {
+        if ($this->operations->removeElement($operation)) {
+            // set the owning side to null (unless already changed)
+            if ($operation->getCaisse() === $this) {
+                $operation->setCaisse(null);
+            }
+        }
 
         return $this;
     }

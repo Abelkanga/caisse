@@ -20,7 +20,6 @@ class CaisseType extends AbstractType
             ->add('solde_disponible', NumberType::class)
             ->add('gerant', TextType::class)
             ->add('plafond', NumberType::class)
-
             ->add('submit', SubmitType::class, [
                 'attr' => [
                     'class' => 'btn btn-primary mt-4' 

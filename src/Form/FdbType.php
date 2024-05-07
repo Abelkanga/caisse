@@ -22,7 +22,6 @@ class FdbType extends AbstractType
             ->add('destinataire', TextType::class)
             ->add('departement', TextType::class)
             ->add('signature', TextType::class)
-            // ->add('produits_services', TextType::class)
             ->add('submit', SubmitType::class, [
                 'attr' => [
                     'class' => 'btn btn-primary mt-4' 
