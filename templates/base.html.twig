@@ -13,7 +13,7 @@
     <!-- GOOGLE FONT -->
     <link href="https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600" rel="stylesheet"><!-- End GOOGLE FONT -->
     <!-- BEGIN PLUGINS STYLES -->
-    {{ encore_entry_link_tags('app') }}
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}" data-skin="default">
     <!-- BEGIN THEME STYLES -->
     <link rel="stylesheet" href="{{ asset('css/theme.min.css') }}" data-skin="default">
     <link rel="stylesheet" href="{{ asset('css/theme-dark.min.css') }}" data-skin="dark">
@@ -65,15 +65,9 @@
     </div>
     <![endif]-->
     <!-- .app-header -->
-    {% if is_granted("ROLE_ADMIN") or is_granted("ROLE_SUPER_ADMIN") or is_granted("ROLE_STATION_MANAGER") or
-    is_granted("ROLE_SHIPPING_MANAGER") %}
-    {% include 'partial/_header.html.twig' %}
-    {% endif %}
+    
+    {% include 'partials/_header.html.twig' %}
     <!-- /.app-aside -->
-
-    {% if is_granted("ROLE_ADMIN") or is_granted("ROLE_SUPER_ADMIN") or is_granted("ROLE_STATION_MANAGER") or is_granted("ROLE_SHIPPING_MANAGER") %}
-        {% include 'partial/_aside.html.twig' %}
-    {% endif %}
     <!-- .app-main -->
     <main class="app-main">
         <!-- .wrapper -->
@@ -115,7 +109,6 @@
 <script src="{{ asset('js/perfect-scrollbar.min.js') }}"></script>
 <script src="{{ asset('js/flatpickr.min.js') }}"></script>
 <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
-{{ encore_entry_script_tags('app') }}
 
 <!-- BEGIN BASE JS -->
 <script src="{{ asset('js/theme.js') }}"></script>
@@ -129,54 +122,5 @@
     {% endfor %}
 </script>
 
-<!--<script>
-    Pusher.logToConsole = true;
-
-    const pusher = new Pusher('275eeebe8ffe9de15400', { cluster: 'mt1' });
-    const channel = pusher.subscribe('event.station');
-    channel
-        // .bind('event.notification', function (data) {
-        //     if (data) {
-        //
-        //         if (Station.id === id_station) {
-        //
-        //         }
-        //     }
-        // })
-
-        .bind(`station.${Station.id}`, function (data) {
-            const { message, linkTo, createdAt, id_station } = data;
-            toastr.info(`${message}`, null, {
-                "closeButton": true,
-                "preventDuplicates": false,
-                "onclick": function () {
-                    window.location.href = linkTo
-                }
-            })
-
-            let $notification1 = $('#notification-body');
-            let $notification = $notification1;
-            let notificationCount = $notification1.children().length;
-            if (!$notification.hasClass('dropdown-scroll has-scrollable') && notificationCount > 3) {
-                $notification.addClass('dropdown-scroll has-scrollable')
-            }
-            if (notificationCount === 1) {
-                $notification.empty();
-            }
-            if (!$('#header-notification').hasClass('has-notified')) {
-                $('#header-notification').addClass('has-notified')
-            }
-            $notification.append(`
-                    <a href="${linkTo}" class="dropdown-item unread">
-                        <div class="user-avatar">
-                        </div>
-                    <div class="dropdown-item-body">
-                        <p class="subject">Notification</p>
-                        <p class="text text-truncate">${message}</p>
-                        <span class="date">${moment(createdAt).fromNow()}</span>
-                    </div>
-                    </a>`)
-        })
-</script>-->
 </body>
 </html>

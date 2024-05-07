@@ -1,0 +1,39 @@
+div.top-bar {
+    background-color: #232754;
+    border-bottom: 3px solid #ffff00;
+}
+
+.form-control[readonly] {
+    cursor: default;
+    opacity: 1;
+    background-color: #e9ecef;
+}
+
+thead,
+th {
+    font-size: 0.75rem !important;
+}
+
+td {
+    font-size: 0.65rem !important;
+}
+
+.select2-selection__rendered {
+    font-size: initial !important;
+}
+
+table.bordered {
+    border: solid grey !important;
+    border-width: 1px 0 0 1px !important;
+}
+
+table.bordered th,
+table.bordered td {
+    border: solid grey !important;
+    border-width: 0 1px 1px 0 !important;
+}
+
+table.bordered>thead>tr>th {
+    text-align: center !important;
+    vertical-align: middle;
+}

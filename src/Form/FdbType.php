@@ -16,14 +16,13 @@ class FdbType extends AbstractType
     {
         $builder
             ->add('numero_fiche_besoin', TextType::class)
-            ->add('date_etablissement', DateType::class)
+            ->add('date', DateType::class)
             ->add('objet', TextType::class)
-            ->add('responsable_demande', TextType::class)
+            ->add('responsable', TextType::class)
             ->add('destinataire', TextType::class)
-            ->add('departements_projets_concernes', TextType::class)
+            ->add('departement', TextType::class)
             ->add('signature', TextType::class)
-            ->add('produits_services', TextType::class)
-
+            // ->add('produits_services', TextType::class)
             ->add('submit', SubmitType::class, [
                 'attr' => [
                     'class' => 'btn btn-primary mt-4' 

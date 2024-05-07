@@ -30,34 +30,11 @@ class Caisse
     #[ORM\Column(length: 255)]
     private ?string $gerant = null;
 
-    /**
-     * @var Collection<int, Depense>
-     */
-    #[ORM\OneToMany(targetEntity: Depense::class, mappedBy: 'caisse')]
-    private Collection $depense;
-
-    /**
-     * @var Collection<int, Bda>
-     */
-    #[ORM\OneToMany(targetEntity: Bda::class, mappedBy: 'caisse')]
-    private Collection $bda;
-
-    /**
-     * @var Collection<int, Edc>
-     */
-    #[ORM\OneToMany(targetEntity: Edc::class, mappedBy: 'caisse')]
-    private Collection $edc;
 
     #[ORM\ManyToOne(inversedBy: 'caisse')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    public function __construct()
-    {
-        $this->depense = new ArrayCollection();
-        $this->bda = new ArrayCollection();
-        $this->edc = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -124,95 +101,6 @@ class Caisse
         return $this;
     }
 
-    /**
-     * @return Collection<int, Depense>
-     */
-    public function getDepense(): Collection
-    {
-        return $this->depense;
-    }
-
-    public function addDepense(Depense $depense): static
-    {
-        if (!$this->depense->contains($depense)) {
-            $this->depense->add($depense);
-            $depense->setCaisse($this);
-        }
-
-        return $this;
-    }
-
-    public function removeDepense(Depense $depense): static
-    {
-        if ($this->depense->removeElement($depense)) {
-            // set the owning side to null (unless already changed)
-            if ($depense->getCaisse() === $this) {
-                $depense->setCaisse(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Bda>
-     */
-    public function getBda(): Collection
-    {
-        return $this->bda;
-    }
-
-    public function addBda(Bda $bda): static
-    {
-        if (!$this->bda->contains($bda)) {
-            $this->bda->add($bda);
-            $bda->setCaisse($this);
-        }
-
-        return $this;
-    }
-
-    public function removeBda(Bda $bda): static
-    {
-        if ($this->bda->removeElement($bda)) {
-            // set the owning side to null (unless already changed)
-            if ($bda->getCaisse() === $this) {
-                $bda->setCaisse(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Edc>
-     */
-    public function getEdc(): Collection
-    {
-        return $this->edc;
-    }
-
-    public function addEdc(Edc $edc): static
-    {
-        if (!$this->edc->contains($edc)) {
-            $this->edc->add($edc);
-            $edc->setCaisse($this);
-        }
-
-        return $this;
-    }
-
-    public function removeEdc(Edc $edc): static
-    {
-        if ($this->edc->removeElement($edc)) {
-            // set the owning side to null (unless already changed)
-            if ($edc->getCaisse() === $this) {
-                $edc->setCaisse(null);
-            }
-        }
-
-        return $this;
-    }
 
     public function getUser(): ?User
     {

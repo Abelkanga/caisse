@@ -16,7 +16,7 @@ class Fdb
     private ?int $id = null;
 
     #[ORM\Column(length: 20)]
-    private ?string $numéroFDB = null;
+    private ?string $numero_fiche_besoin = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $date = null;
@@ -31,39 +31,30 @@ class Fdb
     private ?string $destinataire = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $département = null;
+    private ?string $departement = null;
 
     #[ORM\Column(length: 255)]
     private ?string $signature = null;
 
-    /**
-     * @var Collection<int, Depense>
-     */
-    #[ORM\OneToMany(targetEntity: Depense::class, mappedBy: 'fdb')]
-    private Collection $depense;
-
+   
     #[ORM\ManyToOne(inversedBy: 'fdb')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    public function __construct()
-    {
-        $this->depense = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getNuméroFDB(): ?string
+    public function getNumeroFicheBesoin(): ?string
     {
-        return $this->numéroFDB;
+        return $this->numero_fiche_besoin;
     }
 
-    public function setNuméroFDB(string $numéroFDB): static
+    public function setNumeroFicheBesoin(string $numero_fiche_besoin): static
     {
-        $this->numéroFDB = $numéroFDB;
+        $this->numero_fiche_besoin = $numero_fiche_besoin;
 
         return $this;
     }
@@ -116,14 +107,14 @@ class Fdb
         return $this;
     }
 
-    public function getDépartement(): ?string
+    public function getDepartement(): ?string
     {
-        return $this->département;
+        return $this->departement;
     }
 
-    public function setDépartement(string $département): static
+    public function setDepartement(string $département): static
     {
-        $this->département = $département;
+        $this->departement = $département;
 
         return $this;
     }
@@ -140,35 +131,7 @@ class Fdb
         return $this;
     }
 
-    /**
-     * @return Collection<int, Depense>
-     */
-    public function getDepense(): Collection
-    {
-        return $this->depense;
-    }
 
-    public function addDepense(Depense $depense): static
-    {
-        if (!$this->depense->contains($depense)) {
-            $this->depense->add($depense);
-            $depense->setFdb($this);
-        }
-
-        return $this;
-    }
-
-    public function removeDepense(Depense $depense): static
-    {
-        if ($this->depense->removeElement($depense)) {
-            // set the owning side to null (unless already changed)
-            if ($depense->getFdb() === $this) {
-                $depense->setFdb(null);
-            }
-        }
-
-        return $this;
-    }
 
     public function getUser(): ?User
     {

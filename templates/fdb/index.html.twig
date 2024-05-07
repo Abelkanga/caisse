@@ -1,20 +1,44 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello FdbController!{% endblock %}
+{% block title %}Fiches de Besoin{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <h1>Fiches de Besoin</h1>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Numéro de Fiche de Besoin</th>
+                <th>Date d’Établissement</th>
+                <th>Objet</th>
+                <th>Responsable de la Demande</th>
+                <th>Destinataire</th>
+                <th>Départements ou Projets Concernés</th>
+                <th>Signature</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for fdb in fdb %}
+            <tr>
+                <td>{{ fdb.id }}</td>
+                <td>{{ fdb.numero_fiche_besoin }}</td>
+                <td>{{ fdb.date ? fdb.date.format('Y-m-d') : '' }}</td>
+                <td>{{ fdb.objet }}</td>
+                <td>{{ fdb.responsable }}</td>
+                <td>{{ fdb.destinataire }}</td>
+                <td>{{ fdb.departement }}</td>
+                <td>{{ fdb.signature }}</td>
+                <td>
+                    <a href="{{ path('fdb_show', {'id': fdb.id}) }}">Voir</a>
+                    <a href="{{ path('fdb_edit', {'id': fdb.id}) }}">Modifier</a>
+                    <a href="{{ path('fdb_delete', {'id': fdb.id}) }}">Annuler</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/xampp/htdocs/caisse/src/Controller/FdbController.php</code></li>
-        <li>Your template at <code>C:/xampp/htdocs/caisse/templates/fdb/index.html.twig</code></li>
-    </ul>
-</div>
+    <a href="{{ path('fdb_new') }}">Créer une nouvelle Fiche de Besoin</a>
 {% endblock %}

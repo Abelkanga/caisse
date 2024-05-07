@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Fiche de Besoin{% endblock %}
+
+{% block body %}
+    <h1>Fiche de Besoin N°{{ fdb.numero_fiche_besoin }}</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>De</th>
+                <td>{{ fdb.responsable }}</td>
+            </tr>
+            <tr>
+                <th>À</th>
+                <td>{{ fdb.destinataire }}</td>
+            </tr>
+            <tr>
+                <th>Date d’Établissement</th>
+                <td>{{ fdb.date ? fdb.date.format('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Objet</th>
+                <td>{{ fdb.objet }}</td>
+            </tr>
+            <tr>
+                <th>Départements ou Projets Concernés</th>
+                <td>{{ fdb.departement }}</td>
+            </tr>
+            <tr>
+                <th>Signature</th>
+                <td>{{ fdb.signature }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('fdb_index') }}">Retour à la liste</a>
+    <a href="{{ path('fdb_edit', {'id': fdb.id}) }}">Modifier</a>
+{% endblock %}

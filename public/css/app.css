@@ -1,0 +1,9 @@
+@import "open-iconic/font/css/open-iconic-bootstrap.min.css";
+@import "@fortawesome/fontawesome-free/css/all.css";
+@import "datatables.net-bs4/css/dataTables.bootstrap4.css";
+@import "datatables.net-buttons-bs4/css/buttons.bootstrap4.css";
+@import "datatables.net-rowgroup-bs4/css/rowGroup.bootstrap4.css";
+@import "datatables.net-fixedheader-bs4/css/fixedHeader.bootstrap4.css";
+@import "datatables.net-responsive-bs4/css/responsive.bootstrap4.css";
+@import "select2/dist/css/select2.min.css";
+@import "../plugins/toastr.min.css";

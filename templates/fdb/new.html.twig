@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle Fiche de Besoin{% endblock %}
+
+{% block body %}
+    <h1>Créer une nouvelle Fiche de Besoin</h1>
+
+    {{ form_start(form) }}
+        <div>
+            <label for="numero_fiche_besoin">N° Fiche de besoin</label>
+            {{ form_widget(form.numero_fiche_besoin) }}
+        </div>
+
+        <div>
+            <label for="date_etablissement">Date d'établissement</label>
+            {{ form_widget(form.date) }}
+        </div>
+
+        <div>
+            <label for="objet">Objet (description du besoin)</label>
+            {{ form_widget(form.objet) }}
+        </div>
+
+        <div>
+            <label for="responsable_demande">Responsable de la demande</label>
+            {{ form_widget(form.responsable) }}
+        </div>
+
+        <div>
+            <label for="destinataire">Destinataire</label>
+            {{ form_widget(form.destinataire) }}
+        </div>
+
+        <div>
+            <label for="departements_projets_concernes">Départements ou projets concernés</label>
+            {{ form_widget(form.departement) }}
+        </div>
+
+        <div>
+            <label for="signature">Signature</label>
+            {{ form_widget(form.signature) }}
+        </div>
+
+        {# <div>
+            <label for="produits_services">Produits ou services</label>
+            {{ form_widget(form.produits_services) }}
+        </div> #}
+
+        <button type="submit" class="btn btn-success">Créer</button>
+    {{ form_end(form) }}
+
+    <a href="{{ path('fdb_index') }}" class="btn btn-primary">Retour à la liste</a>
+{% endblock %}
