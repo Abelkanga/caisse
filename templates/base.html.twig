@@ -13,7 +13,7 @@
     <!-- GOOGLE FONT -->
     <link href="https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600" rel="stylesheet"><!-- End GOOGLE FONT -->
     <!-- BEGIN PLUGINS STYLES -->
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}" data-skin="default">
+    {{ encore_entry_link_tags('app') }}
     <!-- BEGIN THEME STYLES -->
     <link rel="stylesheet" href="{{ asset('css/theme.min.css') }}" data-skin="default">
     <link rel="stylesheet" href="{{ asset('css/theme-dark.min.css') }}" data-skin="dark">
@@ -65,8 +65,10 @@
     </div>
     <![endif]-->
     <!-- .app-header -->
-    
-    {% include 'partials/_header.html.twig' %}
+        {% include 'partials/_header.html.twig' %}
+        <!-- .app-aside -->
+        {% include 'partials/_aside.html.twig' %}
+
     <!-- /.app-aside -->
     <!-- .app-main -->
     <main class="app-main">
@@ -84,18 +86,23 @@
                 </div><!-- /.page-inner -->
             </div><!-- /.page -->
         </div><!-- .app-footer -->
-    <footer class="app-footer">
-        <div class="copyright">
-            <p class="mb-0 px-3 text-muted text-center">
-                Copyright ©
-                {{ 'now'| date('Y') }}
-                Design by
-                <a href="https://www.offset-consulting.com/" target="_blank">
-                    Offset Consulting.</a><br>
-                All right reserved.
-            </p>
-        </div>
-    </footer><!-- /.app-footer -->
+        {#        <footer class="app-footer"> #}
+        {#            <ul class="list-inline"> #}
+        {#                <li class="list-inline-item"> #}
+        {#                    <a class="text-muted" href="#">Support</a> #}
+        {#                </li> #}
+        {#                <li class="list-inline-item"> #}
+        {#                    <a class="text-muted" href="#">Help Center</a> #}
+        {#                </li> #}
+        {#                <li class="list-inline-item"> #}
+        {#                    <a class="text-muted" href="#">Privacy</a> #}
+        {#                </li> #}
+        {#                <li class="list-inline-item"> #}
+        {#                    <a class="text-muted" href="#">Terms of Service</a> #}
+        {#                </li> #}
+        {#            </ul> #}
+        {#            <div class="copyright"> Copyright © 2018. All right reserved.</div> #}
+        {#        </footer><!-- /.app-footer --> #}
         <!-- /.wrapper -->
     </main><!-- /.app-main -->
 
@@ -108,7 +115,8 @@
 <script src="{{ asset('js/stacked-menu.min.js') }}"></script>
 <script src="{{ asset('js/perfect-scrollbar.min.js') }}"></script>
 <script src="{{ asset('js/flatpickr.min.js') }}"></script>
-<script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+<script src="https://code.iconify.design/3/3.0.0/iconify.min.js"></script>
+{{ encore_entry_script_tags('app') }}
 
 <!-- BEGIN BASE JS -->
 <script src="{{ asset('js/theme.js') }}"></script>
@@ -122,5 +130,8 @@
     {% endfor %}
 </script>
 
+<script>
+
+</script>
 </body>
 </html>

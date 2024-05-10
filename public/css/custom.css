@@ -1,32 +1,4 @@
 /* put your own styles to customize and override the theme */
-table.bordered td,
-tr {
-    font-size: 11px !important;
-}
-
-table.bordered {
-    border: solid grey !important;
-    border-width: 1px 0 0 1px !important;
-}
-
-table.bordered th,
-table.bordered td {
-    border: solid grey !important;
-    border-width: 0 1px 1px 0 !important;
-}
-
-table.bordered>thead>tr>th {
-    text-align: center !important;
-    vertical-align: middle;
-}
-
-.modal-title {
-    margin-bottom: 0;
-    line-height: 0.5 !important;
-}
-
-.form-control:disabled,
 .form-control[readonly] {
-    background-color: #f6f7f9;
-    opacity: 1;
+    background-color: #f3f3f4 !important
 }

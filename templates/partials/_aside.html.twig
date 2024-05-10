@@ -1,148 +1,88 @@
-<header
-	class="app-header app-header-dark">
-	<!-- .top-bar -->
+<aside
+	class="app-aside app-aside-expand-md app-aside-light">
+	<!-- .aside-content -->
 	<div
-		class="top-bar">
-		<!-- .top-bar-brand -->
-		<div
-			class="top-bar-brand">
-			<!-- toggle aside menu -->
-			<button class="hamburger hamburger-squeeze mr-2" type="button" data-toggle="aside-menu" aria-label="toggle aside menu">
-				<span class="hamburger-box">
-					<span class="hamburger-inner"></span>
+		class="aside-content">
+		<!-- .aside-header -->
+		<header
+			class="aside-header d-block d-md-none">
+			<!-- .btn-account -->
+			<button class="btn-account" type="button" data-toggle="collapse" data-target="#dropdown-aside">
+				<span class="account-icon">
+					<span class="fa fa-caret-down fa-lg"></span>
+				</span>
+				<span class="account-summary">
+					{% if is_granted('ROLE_SUPER_ADMIN') %}
+						<span class="account-name">
+							Administrateur</span>
+					{% else %}
+						<span class="account-name">
+{#							{{ app.user.firstName }}#}
+{#							{{ app.user.lastName }}#}
+						</span>
+{#						<span class="account-description">{{ app.user.email }}</span>#}
+					{% endif %}
 				</span>
 			</button>
-			<!-- /toggle aside menu -->
-			<a href="">
-				ORBIS GARE
-			</a>
-		</div>
-		<!-- /.top-bar-brand -->
-	
-		<!-- .top-bar-list -->
+			<!-- /.btn-account -->
+			<!-- .dropdown-aside -->
+			<div
+				id="dropdown-aside" class="dropdown-aside collapse">
+				<!-- dropdown-items -->
+				<div class="pb-3">
+					<a class="dropdown-item" href="">
+						<span class="dropdown-icon oi oi-person"></span>
+						Profile</a>
+					<a class="dropdown-item" href="{{ path('app_logout') }}">
+						<span class="dropdown-icon oi oi-account-logout"></span>
+						Déconnexion
+					</a>
+				</div>
+				<!-- /dropdown-items -->
+			</div>
+			<!-- /.dropdown-aside -->
+		</header>
+		<!-- /.aside-header -->
+		<!-- .aside-menu -->
 		<div
-			class="top-bar-list">
-			<!-- .top-bar-item -->
-			<div
-				class="top-bar-item px-2 d-md-none d-lg-none d-xl-none">
-				<!-- toggle menu -->
-				<button class="hamburger hamburger-squeeze" type="button" data-toggle="aside" aria-label="toggle menu">
-					<span class="hamburger-box">
-						<span class="hamburger-inner"></span>
-					</span>
-				</button>
-				<!-- /toggle menu -->
-			</div>
-			<!-- /.top-bar-item -->
-			<!-- .top-bar-item -->
-			<div
-				class="top-bar-item px-0 d-none d-sm-flex">
-				<!-- .top-bar-item -->
-				<div class="top-bar-item top-bar-item-full">
-					{% if gare.name is defined %}
-						<button class="btn-account d-flex align-items-center" type="button" >
-							<span class="oi oi-map-marker p-1"></span>
-							<strong class="pt-1"></strong>
-						</button>
-					{% else %}
-						<button class="btn-account d-flex align-items-center" type="button" >
-							<span class="fa-solid fa-building-columns p-1"></span>
-							<strong class="pt-1">Administration</strong>
-						</button>
-					{% endif %}
-
-					<button class="btn-account d-flex align-items-center" type="button" >
-						<span class="oi oi-clock p-1"></span>
-						<strong class="pt-1">Date du jour :	{{ "now"|date('d-m-Y') }}</strong>
-					</button>
-				</div>
-				<!-- /.top-bar-item -->
-
-			</div>
-			<!-- /.top-bar-item -->
-			<!-- .top-bar-item -->
-			<div class="top-bar-item top-bar-item-right px-0 d-none d-sm-flex">
-				<ul class="header-nav nav">
-					<li class="nav-item dropdown header-nav-dropdown has-notified" id="header-notification">
-						<a class="nav-link" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							<span class="oi oi-envelope-open"></span>
+			class="aside-menu overflow-hidden">
+			<!-- .stacked-menu -->
+			<nav
+				id="stacked-menu" class="stacked-menu">
+				<!-- .menu -->
+				<ul
+					class="menu">
+					<!-- .menu-item -->
+					<li class="menu-item has-active">
+						<a href="#" class="menu-link">
+							<span class="menu-icon fas fa-home"></span>
+							<span class="menu-text">Tableau de bord</span>
 						</a>
-						<!-- .dropdown-menu -->
-						<div class="dropdown-menu dropdown-menu-rich dropdown-menu-right">
-							<div class="dropdown-arrow"></div>
-							<h6 class="dropdown-header stop-propagation">
-								<span>Messages</span>
-							</h6>
-							<!-- .dropdown-scroll -->
-							<div class="dropdown-scroll has-scrollable" id="notification-body">
-								<!-- .dropdown-item -->
-								<!--	<a href="" class="dropdown-item unread">
-										<div class="user-avatar">
-											<img src="https://ui-avatars.com/api/?name=" alt="Notification">
-										</div>
-										<div class="dropdown-item-body">
-											<p class="subject">Notification</p>
-											<p class="text text-truncate"></p>
-											<span class="date"></span>
-										</div>
-									</a>-->
-									<!-- /.dropdown-item -->
-									<!-- .dropdown-item -->
-									<a href="#" class="dropdown-item unread">
-										<div class="user-avatar"></div>
-										<div class="dropdown-item-body">
-											<p class="subject">Vous n'avez pas de notification
-											</p>
-										</div>
-									</a>
-							</div>
-							<!-- /.dropdown-scroll -->
-							<a href="#" class="dropdown-footer">Tous les messages
-								<i class="fas fa-fw fa-long-arrow-alt-right"></i>
-							</a>
-						</div>
-						<!-- /.dropdown-menu -->
 					</li>
-					<!-- /.nav-item -->
-					<!-- .nav-item -->
+					<!-- /.menu-item -->
+					<!-- .menu-item -->
+						{% include('partials/_navbar.html.twig') %}
+
+					<!-- /.menu-item -->
+
+
+					<!-- /.menu-item -->
+
 				</ul>
-				<!-- .btn-account -->
-				<div class="dropdown d-none d-md-flex">
-					<button class="btn-account" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					
-							<span class="user-avatar user-avatar-md">
-								<img src="https://ui-avatars.com/api/?name=Administrateur" alt="">
-							</span>
-							<span class="account-summary pr-lg-4 d-none d-lg-block">
-								<span class="account-name">Administrateur</span>
-							</span>
-
-				
-					</button>
-					<!-- .dropdown-menu -->
-					<div class="dropdown-menu">
-						<div class="dropdown-arrow d-lg-none" x-arrow=""></div>
-						<div class="dropdown-arrow ml-3 d-none d-lg-block"></div>
-					
-							<a class="dropdown-item" href="">
-								<span class="dropdown-icon oi oi-person"></span>
-								Profile
-							</a>
-
-							<a class="dropdown-item" href="">
-								<span class="dropdown-icon oi oi-account-logout"></span>
-								Déconnexion
-							</a>
-					
-					</div>
-					<!-- /.dropdown-menu -->
-				</div>
-				<!-- /.btn-account -->
-			</div>
-			<!-- /.top-bar-item -->
+				<!-- /.menu -->
+			</nav>
+			<!-- /.stacked-menu -->
 		</div>
-		<!-- /.top-bar-list -->
+		<!-- /.aside-menu -->
+		<!-- Skin changer -->
+		<footer class="aside-footer border-top p-2">
+			<button class="btn btn-light btn-block" style="color: #232754;" data-toggle="skin">
+				<span class="d-compact-menu-none">Mode sombre</span>
+				<i class="fas fa-moon ml-1"></i>
+			</button>
+		</footer>
+		<!-- /Skin changer -->
 	</div>
-	<!-- /.top-bar -->
-</header>
-<!-- /.app-header -->
+	<!-- /.aside-content -->
+</aside>
+

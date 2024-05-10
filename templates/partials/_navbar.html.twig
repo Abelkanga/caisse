@@ -1,0 +1,32 @@
+<!-- .menu-header -->
+<li class="menu-header">Orbis Gare</li>
+<!-- /.menu-header -->
+<!-- .menu-item -->
+<!-- .menu-item -->
+{#<li class="menu-item {{ app.request.get('_route') == 'app_feature_ticket_new' ? 'has-active': '' }}"> <a href="{{ path('app_feature_ticket_new') }}" class="menu-link">#}
+{#		<span class="menu-icon fa fa-solid fa-add"></span>#}
+{#		Nouveau Ticket</a>#}
+{#</li>
+{#  <li class="menu-item"> <a href="" class="menu-link">
+		<span class="menu-icon fa fa-solid fa-add"></span>
+		Lien</a>#}
+</li>
+<li class="menu-item has-child">
+	<a href="#" class="menu-link">
+		<span class="menu-icon fa fa-solid fa-sitemap"></span>
+		<span class="menu-text">Départ</span>
+	</a>
+	<!-- child menu -->
+	<ul class="menu">
+{#		<li class="menu-item {{ app.request.get('_route') == 'app_feature_depart_new' ? 'has-active': '' }}">#}
+{#			<a href="{{ path('app_feature_depart_new') }}" class="menu-link">Créer</a>#}
+{#		</li>#}
+{#		<li class="menu-item {{ app.request.get('_route') == 'app_feature_depart_index' ? 'has-active': '' }}">#}
+{#			<a href="{{ path('app_feature_depart_index') }}" class="menu-link">Liste</a>#}
+{#		</li>#}
+		<li class="menu-item">Lien</li>
+	</ul>
+	<!-- /child menu -->
+	<!-- .menu-item -->
+</li>
+
