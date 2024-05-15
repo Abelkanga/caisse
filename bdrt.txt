@@ -1,0 +1,9 @@
+On commence avec FicheBesoinController, je rappelle brièvement les objectifs :                                                  A) Déclarer une fiche de besoin (création et modification) :                                                                                    	N° Fiche de besoin (format N°OSC/2024/97)
+	Date d’établissement de la fiche de besoin
+	Objet (description du besoin)
+	Responsable de la demande (constante : M. Wognin, M. Otron et M. Bertrand)
+	Destinataire (constante : Konan Gwladys)
+	Départements ou projets concernés
+	Signature                                                                                                                                                                B) Consultation et impression des fiches de besoin :                                                                                                  	Consulter la fiche de besoin
+	Imprimer la fiche de besoin au format PDF
+                                                                       

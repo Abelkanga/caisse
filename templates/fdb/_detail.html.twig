@@ -1,0 +1,50 @@
+
+{% block _fdb_details_entry_row %}
+    {{ form_widget(form) }}
+{% endblock %}
+
+{% block _fdb_details_widget %}
+    <div class="col-md-12">
+        <div class="form-group float-right">
+            <button type="button"
+                    data-remove-target="block_{{ id }}"
+                    data-list-selector="#fdb_details"
+                    data-target="#tablefdb_details"
+                    data-index="{{ form | length > 0 ? form | last.vars.name + 1 : 0 }}"
+                    class="btn btn-outline-primary add_item_link">
+                Nouvelle ligne
+            </button>
+        </div>
+    </div>
+    {{ form_widget(form) }}
+{% endblock %}
+
+{% block _fdb_details_entry_widget %}
+    <tr id="block_{{ id }}">
+        <td>
+            {{ form_widget(form.designationproduit,{'attr': {"class": 'form-control'}}) }}
+            {{ form_errors(form.designationproduit) }}
+        </td>
+        <td>
+            {{ form_widget(form.quantite,{'attr': {"class": 'form-control '}}) }}
+            {{ form_errors(form.quantite) }}
+        </td>
+        <td>
+            {{ form_widget(form.price,{'attr': {"class": 'form-control '}}) }}
+            {{ form_errors(form.price) }}
+        </td>
+        <td>
+            {{ form_widget(form.montant,{'attr': {"class": 'form-control separator text-right'}}) }}
+            {{ form_errors(form.montant) }}
+        </td>
+
+        <td class="text-center">
+            <button type="button"
+                    class="btn btn-sm btn-icon btn-secondary del_item_link"
+                    data-action="delete"
+                    data-target="#block_{{ id }}">
+                <i class="oi oi-trash"></i>
+            </button>
+        </td>
+    </tr>
+{% endblock %}

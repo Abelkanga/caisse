@@ -50,6 +50,8 @@ class Fdb
     public function __construct()
     {
         $this->details = new ArrayCollection();
+        $this->destinataire = 'Konan Gwladys';
+
     }
 
 
@@ -142,8 +144,6 @@ class Fdb
         return $this;
     }
 
-
-
     public function getUser(): ?User
     {
         return $this->user;
@@ -185,4 +185,5 @@ class Fdb
 
         return $this;
     }
+
 }

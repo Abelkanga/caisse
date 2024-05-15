@@ -1,26 +1,36 @@
 version: '3'
 
 services:
-###> doctrine/doctrine-bundle ###
-  database:
-    image: postgres:${POSTGRES_VERSION:-16}-alpine
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - "3000:80"
+    networks:
+      - orbis_caisse
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-app}
+      PMA_HOST: database
+  ###> doctrine/doctrine-bundle ###
+  database:
+    networks:
+      - orbis_caisse
+    image: mariadb:${POSTGRES_VERSION:-10.8.3}
+    environment:
+      MARIADB_DATABASE: ${POSTGRES_DB:-orbis_caisse}
       # You should definitely change the password in production
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
-      POSTGRES_USER: ${POSTGRES_USER:-app}
-    healthcheck:
-      test: ["CMD", "pg_isready -U ${POSTGRES_USER:-app}"]
-      timeout: 5s
-      retries: 5
-      start_period: 60s
+      MARIADB_ROOT_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
+    ports:
+      - "3307:3306"
     volumes:
-      - database_data:/var/lib/postgresql/data:rw
+      - caisse_db:/var/lib/mysql:rw
       # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
       # - ./docker/db/data:/var/lib/postgresql/data:rw
 ###< doctrine/doctrine-bundle ###
 
 volumes:
-###> doctrine/doctrine-bundle ###
-  database_data:
+  ###> doctrine/doctrine-bundle ###
+  caisse_db:
 ###< doctrine/doctrine-bundle ###
+networks:
+  orbis_caisse:
+    driver: bridge

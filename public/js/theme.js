@@ -450,7 +450,7 @@ var Theme = /*#__PURE__*/function () {
       });
     }
     /**
-     * Make input with [autofocus] attribute in modal and dropdown work as native [autofocus]
+     * Makefile input with [autofocus] attribute in modal and dropdown work as native [autofocus]
      */
 
   }, {
@@ -934,7 +934,7 @@ var Theme = /*#__PURE__*/function () {
       });
     }
     /**
-     * Make list items selectable like input[radio]
+     * Makefile list items selectable like input[radio]
      */
 
   }, {
@@ -954,7 +954,7 @@ var Theme = /*#__PURE__*/function () {
       });
     }
     /**
-     * Make list items selectable like input[checkbox]
+     * Makefile list items selectable like input[checkbox]
      */
 
   }, {

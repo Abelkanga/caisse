@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Fdb;
+use App\Entity\User;
 use App\Form\FdbType;
+use App\Service\PdfService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,13 +28,16 @@ class FdbController extends AbstractController
 public function new(Request $request, EntityManagerInterface $entityManager): Response
 {
     $fdb = new Fdb();
+
     $form = $this->createForm(FdbType::class, $fdb);
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-        // Vous pouvez ajouter ici du code pour gérer les informations spécifiques à votre cahier des charges
-        // Par exemple, pour définir le numéro de la fiche de besoin :
-        $fdb->setNumeroFicheBesoin('N°OSC/' . date('Y') . '/' . rand(1, 100));
+        /** @var User $user */
+        $user = $this->getUser();
+        $fdb->setUser($this->getUser());
+
+
 
         $entityManager->persist($fdb);
         $entityManager->flush();
@@ -72,6 +77,26 @@ public function edit(Request $request, Fdb $fdb, EntityManagerInterface $entityM
         'form' => $form->createView(),
     ]);
 }
+
+
+    #[Route('/{id}/pdf', name:'fdb_pdf', methods: ['GET', 'POST'])]
+    public function pdf($id, EntityManagerInterface $entityManager, PdfService $pdfService): \Symfony\Component\HttpFoundation\RedirectResponse
+    {
+        $fdbRepository = $entityManager->getRepository(Fdb::class);
+        $fdb = $fdbRepository->find($id);
+
+        if (!$fdb) {
+            throw $this->createNotFoundException('La fiche de besoin demandée n\'existe pas');
+        }
+
+        $pdfService->generatePdf('fdb/pdf.html.twig', [
+            'fdb' => $fdb
+        ]);
+
+        return $this->redirectToRoute('fdb_index');
+    }
+
+
 
 #[Route('/{id}/delete', name: 'fdb_delete', methods: ['GET'])]
 public function delete(EntityManagerInterface $manager, Fdb $fdb) : Response

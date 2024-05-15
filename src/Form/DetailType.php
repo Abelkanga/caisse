@@ -19,14 +19,6 @@ class DetailType extends AbstractType
             ->add('quantite')
             ->add('price')
             ->add('montant')
-            ->add('operation', EntityType::class, [
-                'class' => Operation::class,
-                'choice_label' => 'id',
-            ])
-            ->add('fdb', EntityType::class, [
-                'class' => Fdb::class,
-                'choice_label' => 'id',
-            ])
         ;
     }
 

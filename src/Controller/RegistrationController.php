@@ -20,36 +20,30 @@ class RegistrationController extends AbstractController
     {
         $user = new User();
         $user->setRoles(['ROLES_USER']);
-        $plaintextPassword = 'password';
-        
-          $hashedPassword = $passwordHasher->hashPassword(
-            $user,
-            $plaintextPassword
-        );
-        $user->setPassword($hashedPassword);
-        
-// Créer un formulaire d'inscription pour l'utilisateur
-$form = $this->createForm(RegistrationType::class, $user);
 
-// Traiter la soumission du formulaire et enregistrer l'utilisateur
-$form->handleRequest($request);
-if ($form->isSubmitted() && $form->isValid()) {
-    $user = $form->getData();
-    $this->addFlash(
-        'success',
-        'Votre compte a bien été créé.'
-    );
-    $manager->persist($user);
-    $manager->flush();
+        $form = $this->createForm(RegistrationType::class, $user);
 
-    // Rediriger vers la page de connexion après la création du compte
-    return $this->redirectToRoute('app_login');
-}
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Récupérez le mot de passe en clair saisi par l'utilisateur
+            $plaintextPassword = $form->get('password')->getData();
 
+            // Hash du mot de passe
+            $hashedPassword = $passwordHasher->hashPassword(
+                $user,
+                $plaintextPassword
+            );
+            $user->setPassword($hashedPassword);
 
+            $manager->persist($user);
+            $manager->flush();
 
-return $this->render('registration/index.html.twig', [
-    'form' => $form->createView()
-]);
+            return $this->redirectToRoute('app_login');
+        }
+
+        return $this->render('registration/index.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
+
 }

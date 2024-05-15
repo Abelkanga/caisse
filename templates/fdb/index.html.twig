@@ -3,13 +3,12 @@
 {% block title %}Fiches de Besoin{% endblock %}
 
 {% block body %}
-    <h1>Fiches de Besoin</h1>
+    <h1>Liste des Fiches de Besoins</h1>
 
     <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Numéro de Fiche de Besoin</th>
                 <th>Date d’Établissement</th>
                 <th>Objet</th>
                 <th>Responsable de la Demande</th>
@@ -23,7 +22,6 @@
         {% for fdb in fdb %}
             <tr>
                 <td>{{ fdb.id }}</td>
-                <td>{{ fdb.numero_fiche_besoin }}</td>
                 <td>{{ fdb.date ? fdb.date.format('Y-m-d') : '' }}</td>
                 <td>{{ fdb.objet }}</td>
                 <td>{{ fdb.responsable }}</td>
@@ -33,7 +31,7 @@
                 <td>
                     <a href="{{ path('fdb_show', {'id': fdb.id}) }}">Voir</a>
                     <a href="{{ path('fdb_edit', {'id': fdb.id}) }}">Modifier</a>
-                    <a href="{{ path('fdb_delete', {'id': fdb.id}) }}">Annuler</a>
+                    <a href="{{ path('fdb_delete', {'id': fdb.id}) }}">Supprimer</a>
                 </td>
             </tr>
         {% endfor %}

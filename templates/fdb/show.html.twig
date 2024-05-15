@@ -3,7 +3,7 @@
 {% block title %}Fiche de Besoin{% endblock %}
 
 {% block body %}
-    <h1>Fiche de Besoin N°{{ fdb.numero_fiche_besoin }}</h1>
+    <h1>Fiche de Besoin N°{{ fdb.id }}</h1>
 
     <table class="table">
         <tbody>
@@ -34,6 +34,10 @@
         </tbody>
     </table>
 
+    <a href="{{ path('fdb_pdf', {'id': fdb.id}) }}">Imprimer</a>
+    <hr> </hr>
     <a href="{{ path('fdb_index') }}">Retour à la liste</a>
-    <a href="{{ path('fdb_edit', {'id': fdb.id}) }}">Modifier</a>
+
+
+
 {% endblock %}

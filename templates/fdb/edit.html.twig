@@ -1,13 +1,30 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modifier Fiche de Besoin{% endblock %}
+{% block title %}Modifier Fiche de Besoin {% endblock %}
 
 {% block body %}
-    <h1>Modifier Fiche de Besoin</h1>
-
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
-    {{ form_end(form) }}
-
-    <a href="{{ path('fdb_index') }}">Retour à la liste</a>
+    <div class="col-12">
+        {{ form_start(form) }}
+        <div class="card card-fluid">
+            <div class="card-header bg-soft-custom">
+                <h6>Modifier une fiche de besoin</h6>
+            </div>
+            <div class="card-body">
+                {{ include('fdb/_form.html.twig') }}
+            </div>
+            <div class="card-footer">
+                <div class="card-footer-content">
+                    <button type="submit" class="btn btn-primary float-right ml-2">Modifier</button>
+                    <a href="{{ path('fdb_index') }}" class="btn btn-info float-right"><i class="oi oi-home"></i> Retour</a>
+                </div>
+            </div>
+        </div>
+        {{ form_end(form) }}
+    </div>
 {% endblock %}
+
+
+
+
+
+
