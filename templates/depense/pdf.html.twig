@@ -1,28 +1,27 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Impression - Fiches de Besoins{% endblock %}
+{% block title %}Impression - Depense{% endblock %}
 
 {% block body %}
-   <h1>Imprimer - Fiche de Besoin </h1>
+   <h1>Imprimer - Liste depense </h1>
 {#<div class="printable">#}
     <table>
         <thead>
         <tr>
-            <th>Responsable de la Demande</th>
-            <th>Destinataire</th>
-            <th>Date d'Établissement</th>
-            <th>Objet</th>
-            <th>Départements</th>
+            <th>date</th>
+            <th>montant</th>
+            <th>categorie</th>
+            <th>modepaie</th>
+
         </tr>
         </thead>
         <tbody>
-        {% for fiche in fdb %}
+        {% for depense in depense %}
             <tr>
-                <td>{{ fiche.responsable }}</td>
-                <td>{{ fiche.destinataire }}</td>
-                <td>{{ fiche.date|date('d-m-Y') }}</td>
-                <td>{{ fiche.objet }}</td>
-                <td>{{ fiche.departement }}
+                <td>{{ depense.date|date('d-m-Y') }}</td>
+                <td>{{ depense.montant }}</td>
+                <td>{{ depense.categorie }}</td>
+                <td>{{ depense.modepaie }}</td>
             </tr>
         {% endfor %}
         </tbody>

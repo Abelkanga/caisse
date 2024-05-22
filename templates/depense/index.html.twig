@@ -1,14 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Fiches de Besoin{% endblock %}
+{% block title %}Liste des dépenses{% endblock %}
 
 {% block body %}
-
 
     <div class="col-12 col-md-12">
         <div class="card">
             <div class="card-header bg-soft-custom">
-                Liste des Fiches de Besoins
+                Liste des dépenses
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -16,33 +15,31 @@
                         <thead class="thead-light">
                         <tr>
                             <th>Id</th>
-                            <th>Date d’Établissement</th>
-                            <th>Objet</th>
-                            <th>Responsable de la Demande</th>
-                            <th>Destinataire</th>
-                            <th>Départements ou Projets Concernés</th>
+                            <th>Date</th>
+                            <th>Montant</th>
+                            <th>Catégorie</th>
+                            <th>Mode de paiement</th>
                             <th>Actions</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {% for fdb in fdb %}
+                        {% for depense in depense %}
                             <tr>
-                                <td>{{ fdb.id }}</td>
-                                <td>{{ fdb.date ? fdb.date.format('Y-m-d') : '' }}</td>
-                                <td>{{ fdb.objet }}</td>
-                                <td>{{ fdb.responsable }}</td>
-                                <td>{{ fdb.destinataire }}</td>
-                                <td>{{ fdb.departement }}</td>
+                                <td>{{ depense.id }}</td>
+                                <td>{{ depense.date|date('Y-m-d') }}</td>
+                                <td>{{ depense.montant }}</td>
+                                <td>{{ depense.category }}</td>
+                                <td>{{ depense.modepaie }}</td>
                                 <td class="text-center">
-                                    <a class="btn btn-sm btn-icon btn-secondary" href="{{ path('fdb_edit', {'id': fdb.id}) }}">
+                                    <a class="btn btn-sm btn-icon btn-secondary" href="{{ path('depense_edit', {'id': depense.id}) }}">
                                         <i class="fa fa-pencil-alt"></i>
                                     </a>
                                     <span class="mx-1"></span>
-                                    <a class="btn btn-sm btn-icon btn-secondary" href="{{ path('fdb_show', {'id': fdb.id}) }}">
+                                    <a class="btn btn-sm btn-icon btn-secondary" href="{{ path('depense_show', {'id': depense.id}) }}">
                                         <i class="fas fa-eye"></i>
                                     </a>
                                     <span class="mx-1"></span>
-                                    <a class="btn btn-sm btn-icon btn-secondary" href="{{ path('fdb_delete', {'id': fdb.id}) }}">
+                                    <a class="btn btn-sm btn-icon btn-secondary" href="{{ path('depense_delete', {'id': depense.id}) }}">
                                         <i class="fas fa-trash-alt"></i>
                                     </a>
                                 </td>
@@ -54,7 +51,7 @@
             </div>
             <div class="card-footer">
                 <div class="card-footer-content">
-                    <a href="{{ path('fdb_new') }}" class="btn btn-primary float-right ml-2">
+                    <a href="{{ path('depense_new') }}" class="btn btn-primary float-right ml-2">
                         Nouveau</a>
                     <a href="{{ path('app_welcome') }}" class="btn btn-success float-right ml-3">
                         <i class="oi oi-home"></i>
@@ -65,4 +62,5 @@
     </div>
 
 {% endblock %}
+
 

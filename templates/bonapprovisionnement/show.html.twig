@@ -1,46 +1,46 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Fiche de Besoin{% endblock %}
+{% block title %}Bon d'approvisionnement{% endblock %}
 
 {% block body %}
+
     <div class="row">
         <div class="col-sm-12">
+
             <div class="card card-fluid">
                 <div class="card-header bg-soft-custom">
-                    <h6>Fiche de Besoin {{ fdb.id }}</h6>
+                    <h6>Bon d'approvisionnement </h6>
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-sm-2"></div>
+                        <div
+                                class="col-sm-2">{# <img style="margin-left: -2em" src="{{ asset('assets/dist/img/ews.jpg') }}" alt=""> #}
+                        </div>
                         <div class="col-sm-8">
                             <div class="text-center">
-                                <h4 class="">FICHE DE BESOIN </h4>
+                                <h4 class="">FICHE BON D'APPROVISIONNEMENT</h4>
                             </div>
                         </div>
-                        <div class="col-sm-2"></div>
+                        <div
+                                class="col-sm-2">{# <img class="float-right" src="{{ asset('assets/dist/img/stib.jpg') }}" alt=""> #}
+                        </div>
                     </div>
                     <br>
                     <table class="table table-sm bordered">
+                        <thead class="thead-light">
+                        <tr>
+                            <th class="text-center">Date enregistrement</th>
+                            <th class="text-center">Mode de paiement</th>
+                            <th class="text-center">Montant total</th>
+                            <th class="text-center">Nature</th>
+                        </tr>
+                        </thead>
                         <tbody>
                         <tr>
-                            <th>De</th>
-                            <td>{{ fdb.responsable }}</td>
-                        </tr>
-                        <tr>
-                            <th>À</th>
-                            <td>{{ fdb.destinataire }}</td>
-                        </tr>
-                        <tr>
-                            <th>Date d’Établissement</th>
-                            <td>{{ fdb.date ? fdb.date.format('Y-m-d') : '' }}</td>
-                        </tr>
-                        <tr>
-                            <th>Objet</th>
-                            <td>{{ fdb.objet }}</td>
-                        </tr>
-                        <tr>
-                            <th>Départements ou Projets Concernés</th>
-                            <td>{{ fdb.departement }}</td>
+                            <td class="text-center">{{ bonapprovisionnement.date|date('Y-m-d') }}</td>
+                            <td class="text-center">{{ bonapprovisionnement.modepaie }}</td>
+                            <td class="text-center">{{ bonapprovisionnement.montanttotal }}</td>
+                            <td class="text-center">{{ bonapprovisionnement.nature }}</td>
                         </tr>
                         </tbody>
                     </table>
@@ -55,8 +55,8 @@
                             <th>Montant TTC</th>
                         </tr>
                         </thead>
-                        <tbody id="fdb_details">
-                        {% for detail in fdb.details %}
+                        <tbody id="bonapprovisionnement_details">
+                        {% for detail in bonapprovisionnement.details %}
                             <tr>
                                 <td>{{ detail.quantite }}</td>
                                 <td>{{ detail.designationproduit }}</td>
@@ -66,15 +66,21 @@
                         {% endfor %}
                         </tbody>
                     </table>
+
                 </div>
                 <div class="card-footer">
                     <div class="card-footer-content">
-                        <a target="_blank" href="{{ path('fdb_pdf', {'id': fdb.id}) }}" class="btn btn-primary float-right ml-2">
-                            <i class="fa fa-print"></i> Imprimer Fiche de Besoin
+                        <a target="_blank"
+                           href="{{ path('bonapprovisionnement_pdf', {'id': bonapprovisionnement.id}) }}"
+
+                           class="btn btn-primary float-right ml-2">
+                            <i class="fa fa-print"></i>
+                            Imprimer Bon d'approvisionnement
                         </a>
+
                         <a href="{{ path('app_welcome') }}" class="btn btn-info float-right">
-                            <i class="oi oi-home"></i> Retour
-                        </a>
+                            <i class="oi oi-home"></i>
+                            Retour</a>
                     </div>
                 </div>
             </div>
@@ -82,3 +88,4 @@
     </div>
 
 {% endblock %}
+

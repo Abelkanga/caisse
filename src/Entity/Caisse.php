@@ -36,16 +36,25 @@ class Caisse
     private ?User $user = null;
 
     /**
-     * @var Collection<int, Operation>
+     * @var Collection<int, Depense>
      */
-    #[ORM\OneToMany(targetEntity: Operation::class, mappedBy: 'caisse')]
-    private Collection $operations;
+    #[ORM\OneToMany(targetEntity: Depense::class, mappedBy: 'caisse')]
+    private Collection $depenses;
+
+    /**
+     * @var Collection<int, Bonapprovisionnement>
+     */
+    #[ORM\OneToMany(targetEntity: Bonapprovisionnement::class, mappedBy: 'caisse')]
+    private Collection $bonapprovisionnements;
+
+    #[ORM\ManyToOne(inversedBy: 'caisses')]
+    private ?Fdb $fdb = null;
 
     public function __construct()
     {
-        $this->operations = new ArrayCollection();
+        $this->depenses = new ArrayCollection();
+        $this->bonapprovisionnements = new ArrayCollection();
     }
-
 
     public function getId(): ?int
     {
@@ -126,32 +135,75 @@ class Caisse
     }
 
     /**
-     * @return Collection<int, Operation>
+     * @return Collection<int, Depense>
      */
-    public function getOperations(): Collection
+    public function getDepenses(): Collection
     {
-        return $this->operations;
+        return $this->depenses;
     }
 
-    public function addOperation(Operation $operation): static
+    public function addDepense(Depense $depense): static
     {
-        if (!$this->operations->contains($operation)) {
-            $this->operations->add($operation);
-            $operation->setCaisse($this);
+        if (!$this->depenses->contains($depense)) {
+            $this->depenses->add($depense);
+            $depense->setCaisse($this);
         }
 
         return $this;
     }
 
-    public function removeOperation(Operation $operation): static
+    public function removeDepense(Depense $depense): static
     {
-        if ($this->operations->removeElement($operation)) {
+        if ($this->depenses->removeElement($depense)) {
             // set the owning side to null (unless already changed)
-            if ($operation->getCaisse() === $this) {
-                $operation->setCaisse(null);
+            if ($depense->getCaisse() === $this) {
+                $depense->setCaisse(null);
             }
         }
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Bonapprovisionnement>
+     */
+    public function getBonapprovisionnements(): Collection
+    {
+        return $this->bonapprovisionnements;
+    }
+
+    public function addBonapprovisionnement(Bonapprovisionnement $bonapprovisionnement): static
+    {
+        if (!$this->bonapprovisionnements->contains($bonapprovisionnement)) {
+            $this->bonapprovisionnements->add($bonapprovisionnement);
+            $bonapprovisionnement->setCaisse($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBonapprovisionnement(Bonapprovisionnement $bonapprovisionnement): static
+    {
+        if ($this->bonapprovisionnements->removeElement($bonapprovisionnement)) {
+            // set the owning side to null (unless already changed)
+            if ($bonapprovisionnement->getCaisse() === $this) {
+                $bonapprovisionnement->setCaisse(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getFdb(): ?Fdb
+    {
+        return $this->fdb;
+    }
+
+    public function setFdb(?Fdb $fdb): static
+    {
+        $this->fdb = $fdb;
+
+        return $this;
+    }
+
 }

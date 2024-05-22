@@ -26,10 +26,13 @@ class Detail
     private ?int $montant = null;
 
     #[ORM\ManyToOne(inversedBy: 'details')]
-    private ?Operation $operation = null;
+    private ?Fdb $fdb = null;
 
     #[ORM\ManyToOne(inversedBy: 'details')]
-    private ?Fdb $fdb = null;
+    private ?Depense $depense = null;
+
+    #[ORM\ManyToOne(inversedBy: 'details')]
+    private ?Bonapprovisionnement $bonapprovisionnement = null;
 
     public function getId(): ?int
     {
@@ -84,18 +87,6 @@ class Detail
         return $this;
     }
 
-    public function getOperation(): ?Operation
-    {
-        return $this->operation;
-    }
-
-    public function setOperation(?Operation $operation): static
-    {
-        $this->operation = $operation;
-
-        return $this;
-    }
-
     public function getFdb(): ?Fdb
     {
         return $this->fdb;
@@ -104,6 +95,30 @@ class Detail
     public function setFdb(?Fdb $fdb): static
     {
         $this->fdb = $fdb;
+
+        return $this;
+    }
+
+    public function getDepense(): ?Depense
+    {
+        return $this->depense;
+    }
+
+    public function setDepense(?Depense $depense): static
+    {
+        $this->depense = $depense;
+
+        return $this;
+    }
+
+    public function getBonapprovisionnement(): ?Bonapprovisionnement
+    {
+        return $this->bonapprovisionnement;
+    }
+
+    public function setBonapprovisionnement(?Bonapprovisionnement $bonapprovisionnement): static
+    {
+        $this->bonapprovisionnement = $bonapprovisionnement;
 
         return $this;
     }

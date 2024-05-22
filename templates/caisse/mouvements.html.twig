@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mouvements de la Caisse{% endblock %}
+
+{% block body %}
+    <h1>Mouvements de la Caisse: {{ caisse.intitulé }}</h1>
+    <h2>Entrées (Bon d'approvisionnement)</h2>
+    <ul>
+        {% for bonapprovisionnement in bonapprovisionnements %}
+            <li>{{ bonapprovisionnement.date }} - {{ bonapprovisionnement.montanttotal }} F - {{ bonapprovisionnement.modepaie }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Sorties (Dépenses)</h2>
+    <ul>
+        {% for depense in depenses %}
+            <li>{{ depense.date }} - {{ depense.montant }} F - {{ depense.modepaie }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

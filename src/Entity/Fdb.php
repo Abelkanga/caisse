@@ -32,10 +32,6 @@ class Fdb
 
     #[ORM\Column(length: 255)]
     private ?string $departement = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $signature = null;
-
    
     #[ORM\ManyToOne(inversedBy: 'fdb')]
     #[ORM\JoinColumn(nullable: false)]
@@ -47,13 +43,19 @@ class Fdb
     #[ORM\OneToMany(targetEntity: Detail::class, mappedBy: 'fdb')]
     private Collection $details;
 
+    /**
+     * @var Collection<int, Caisse>
+     */
+    #[ORM\OneToMany(targetEntity: Caisse::class, mappedBy: 'fdb')]
+    private Collection $caisses;
+
     public function __construct()
     {
         $this->details = new ArrayCollection();
         $this->destinataire = 'Konan Gwladys';
+        $this->caisses = new ArrayCollection();
 
     }
-
 
     public function getId(): ?int
     {
@@ -132,18 +134,6 @@ class Fdb
         return $this;
     }
 
-    public function getSignature(): ?string
-    {
-        return $this->signature;
-    }
-
-    public function setSignature(string $signature): static
-    {
-        $this->signature = $signature;
-
-        return $this;
-    }
-
     public function getUser(): ?User
     {
         return $this->user;
@@ -180,6 +170,36 @@ class Fdb
             // set the owning side to null (unless already changed)
             if ($detail->getFdb() === $this) {
                 $detail->setFdb(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Caisse>
+     */
+    public function getCaisses(): Collection
+    {
+        return $this->caisses;
+    }
+
+    public function addCaiss(Caisse $caiss): static
+    {
+        if (!$this->caisses->contains($caiss)) {
+            $this->caisses->add($caiss);
+            $caiss->setFdb($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCaiss(Caisse $caiss): static
+    {
+        if ($this->caisses->removeElement($caiss)) {
+            // set the owning side to null (unless already changed)
+            if ($caiss->getFdb() === $this) {
+                $caiss->setFdb(null);
             }
         }
 

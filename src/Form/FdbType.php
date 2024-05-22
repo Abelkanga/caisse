@@ -33,7 +33,6 @@ class FdbType extends AbstractType
               ]
             ])
             ->add('departement', TextType::class)
-            ->add('signature', TextType::class)
             ->add('details', CollectionType::class,  [
                 'entry_type' => DetailType::class,
                 'entry_options' => ['label' => false],

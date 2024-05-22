@@ -1,17 +1,15 @@
 
-{% block _fdb_details_entry_row %}
+{% block _bonapprovisionnement_details_entry_row %}
     {{ form_widget(form) }}
 {% endblock %}
 
-
-
-{% block _fdb_details_widget %}
+{% block _bonapprovisionnement_details_widget %}
     <div class="col-md-12">
         <div class="form-group float-right">
             <button type="button"
                     data-remove-target="block_{{ id }}"
-                    data-list-selector="#fdb_details"
-                    data-target="#tablefdb_details"
+                    data-list-selector="#bonapprovisionnement_details"
+                    data-target="#tablebonapprovisionnement_details"
                     data-index="{{ form | length > 0 ? form | last.vars.name + 1 : 0 }}"
                     class="btn btn-outline-primary add_item_link">
                 Nouvelle ligne
@@ -21,7 +19,7 @@
     {{ form_widget(form) }}
 {% endblock %}
 
-{% block _fdb_details_entry_widget %}
+{% block _bonapprovisionnement_details_entry_widget %}
     <tr id="block_{{ id }}">
         <td>
             {{ form_widget(form.designationproduit,{'attr': {"class": 'form-control'}}) }}

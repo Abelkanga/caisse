@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Solde de la Caisse{% endblock %}
+
+{% block body %}
+    <h1>Solde de la Caisse: {{ caisse.intitulé }}</h1>
+<p>Responsable: {{ caisse.responsable }}</p>
+    <p>Gérant(e): {{ caisse.gerant }}</p>
+    <p>Solde Disponible: {{ Soldedispo }} €</p>
+{% endblock %}

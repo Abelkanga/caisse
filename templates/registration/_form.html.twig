@@ -1,0 +1,68 @@
+<fieldset>
+    <legend>Identification</legend>
+
+    <div class="row">
+        <div class="col-3">
+            <div class="form-group">
+                <label for="numero_fiche_besoin">N° Fiche de besoin</label>
+                {{ form_widget(form.numero_fiche_besoin, {'attr' : {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="col-3">
+            <div class="form-group">
+                <label for="date_etablissement">Date d'établissement</label>
+                {{ form_widget(form.date, {'attr' : {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="col-3">
+            <div class="form-group">
+                <label for="objet">Objet</label>
+                {{ form_widget(form.objet, {'attr' : {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="col-3">
+            <div class="form-group">
+                <label for="responsable_demande">Responsable de la demande</label>
+                {{ form_widget(form.responsable, {'attr' : {'class': 'form-control select2'}}) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-3">
+            <div class="form-group">
+                <label for="destinataire">Destinataire</label>
+                {{ form_widget(form.destinataire, {'attr' : {'class': 'form-control '}}) }}
+            </div>
+        </div>
+
+        <div class="col-3">
+            <div class="form-group">
+                <label for="departements_projets_concernes">Départements</label>
+                {{ form_widget(form.departement, {'attr' : {'class': 'form-control'}}) }}
+            </div>
+        </div>
+    </div>
+</fieldset>
+{% form_theme form 'fdb/_detail.html.twig' %}
+
+<fieldset>
+    <legend>Détail Fiche de besoin</legend>
+    <table class="table table-sm bordered" id="tablefdb_details">
+        <thead>
+        <tr>
+            <th class="text-center">Désignation</th>
+            <th class="text-center">Quantité</th>
+            <th class="text-center">Prix</th>
+            <th class="text-center">Montant</th>
+            <th class="text-center">Action</th>
+        </tr>
+        </thead>
+        <tbody id="">
+        {{ form_widget(form.details) }}
+        </tbody>
+    </table>
+</fieldset>

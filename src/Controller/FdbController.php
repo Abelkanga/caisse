@@ -24,62 +24,67 @@ class FdbController extends AbstractController
         ]);
     }
 
-#[Route('/fdb/new', name: 'fdb_new', methods: ['GET', 'POST'])]
-public function new(Request $request, EntityManagerInterface $entityManager): Response
-{
-    $fdb = new Fdb();
+    #[Route('/fdb/new', name: 'fdb_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $fdb = new Fdb();
 
-    $form = $this->createForm(FdbType::class, $fdb);
-    $form->handleRequest($request);
+        $form = $this->createForm(FdbType::class, $fdb);
+        $form->handleRequest($request);
 
-    if ($form->isSubmitted() && $form->isValid()) {
-        /** @var User $user */
-        $user = $this->getUser();
-        $fdb->setUser($this->getUser());
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var User $user */
+            $user = $this->getUser();
+            $fdb->setUser($this->getUser());
+
+            $detail = $fdb->getDetails();
+            foreach ($detail as $d) {
+                $d->setFdb($fdb);
+
+                $entityManager->persist($d);
+            }
 
 
+            $entityManager->persist($fdb);
+            $entityManager->flush();
 
-        $entityManager->persist($fdb);
-        $entityManager->flush();
+            return $this->redirectToRoute('fdb_index');
+        }
 
-        return $this->redirectToRoute('fdb_index');
+        return $this->render('fdb/new.html.twig', [
+            'fdb' => $fdb,
+            'form' => $form->createView(),
+        ]);
     }
 
-    return $this->render('fdb/new.html.twig', [
-        'fdb' => $fdb,
-        'form' => $form->createView(),
-    ]);
-}
-
-#[Route("/{id}/show", name:'fdb_show', methods: ['GET', 'POST'])]
-public function show(Fdb $fdb): Response
-{
-    return $this->render('fdb/show.html.twig', [
-        'fdb' => $fdb,
-    ]);
-}
-
-
-#[Route('/{id}/edit', name:'fdb_edit', methods: ['GET', 'POST'])]
-public function edit(Request $request, Fdb $fdb, EntityManagerInterface $entityManager): Response
-{
-    $form = $this->createForm(FdbType::class, $fdb);
-    $form->handleRequest($request);
-
-    if ($form->isSubmitted() && $form->isValid()) {
-        $entityManager->flush();
-
-        return $this->redirectToRoute('fdb_index');
+    #[Route("/fdb/{id}/show", name:'fdb_show', methods: ['GET', 'POST'])]
+    public function show(Fdb $fdb, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(FdbType::class, $fdb);
+        return $this->render('fdb/show.html.twig', [
+            'fdb' => $fdb,
+            'form' => $form->createView(),
+        ]);
     }
 
-    return $this->render('fdb/edit.html.twig', [
-        'fdb' => $fdb,
-        'form' => $form->createView(),
-    ]);
-}
+    #[Route('/fdb/{id}/edit', name:'fdb_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, Fdb $fdb, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(FdbType::class, $fdb);
+        $form->handleRequest($request);
 
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
 
-    #[Route('/{id}/pdf', name:'fdb_pdf', methods: ['GET', 'POST'])]
+            return $this->redirectToRoute('fdb_index');
+        }
+
+        return $this->render('fdb/edit.html.twig', [
+            'fdb' => $fdb,
+            'form' => $form->createView(),
+        ]);
+    }
+    #[Route('/fdb/{id}/pdf', name:'fdb_pdf', methods: ['GET', 'POST'])]
     public function pdf($id, EntityManagerInterface $entityManager, PdfService $pdfService): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $fdbRepository = $entityManager->getRepository(Fdb::class);
@@ -97,14 +102,13 @@ public function edit(Request $request, Fdb $fdb, EntityManagerInterface $entityM
     }
 
 
+    #[Route('/fdb/{id}/delete', name: 'fdb_delete', methods: ['GET'])]
+    public function delete(EntityManagerInterface $manager, Fdb $fdb) : Response
+    {
+        $manager->remove($fdb);
+        $manager->flush();
 
-#[Route('/{id}/delete', name: 'fdb_delete', methods: ['GET'])]
-public function delete(EntityManagerInterface $manager, Fdb $fdb) : Response
-{
-    $manager->remove($fdb);
-    $manager->flush();
-
-    return $this->redirectToRoute('fdb_index');
-}
+        return $this->redirectToRoute('fdb_index');
+    }
 
 }

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <title>Impression {% block title %}de document {% endblock %}</title>
+    <!--=== CSS ===-->
+    {{ encore_entry_link_tags('app') }}
+    <link rel="stylesheet" href="//pro.fontawesome.com/releases/v5.10.0/css/all.css"
+          integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+    {% block stylesheets %}
+        <style>
+            table.noborder, table.noborder tr, table.noborder th, table.noborder td {
+                border: none !important;
+            }
+            table, table {
+                border: solid #808080 !important;
+                border-width: 1px 0 0 1px !important;
+            }
+
+            td {
+                font-size: 2px;
+            }
+
+            th, td {
+                border: solid #808080 !important;
+                border-width: 0 1px 1px 0 !important;
+            }
+            .container {
+                margin-top: -20px;
+            }
+        </style>
+    {% endblock %}
+</head>
+<body>
+<div class="container">
+    <!--=== Page Content ===-->
+    {% block content %}
+
+    {% endblock %}
+</div>
+<style>
+    @media print {
+        .btn-print {
+            display: none;
+        }
+
+        .btn-back {
+            display: none;
+        }
+
+        #information-right {
+            float: right !important;
+            width: 100px;
+        }
+
+        #information-left {
+            float: right !important;
+            width: 100px;
+            margin-top: 140px;
+        }
+        .extend{
+            text-overflow: ellipsis;
+            overflow: auto;
+        }
+    }
+
+    @page {
+        size: 21cm 29.7cm;
+        margin: 1.00cm 1.5cm 2.54cm 1.5cm;
+        /* change the margins as you want them to be. */
+    }
+</style>
+</body>
+</html>
