@@ -7,7 +7,10 @@ const addFormToCollection = (e) => {
     const wrapper = document.createElement('tr');
     const removeTarget = dataset.removeTarget;
     wrapper.setAttribute('id', `${removeTarget}_${dataset.index}`)
-    wrapper.setAttribute('parent-id', `${dataset.parent}_${dataset.index}`)
+    let id = `${removeTarget}_${dataset.index}`;
+    id = id.substring(6);
+
+    wrapper.setAttribute('data-id', id)
     wrapper.innerHTML = collectionHolder
         .dataset
         .prototype

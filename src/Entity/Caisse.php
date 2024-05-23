@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\CaisseRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CaisseRepository::class)]
@@ -16,24 +17,20 @@ class Caisse
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $intitulé = null;
+    private ?string $intitule = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $responsable = null;
 
-    #[ORM\Column]
-    private ?int $Soldedispo = null;
+    #[ORM\Column(type: Types::DECIMAL,precision: 10, scale: 2,nullable: true)]
+    private ?string $Soldedispo = null;
 
-    #[ORM\Column]
-    private ?bool $plafond = null;
+    #[ORM\Column(type: Types::DECIMAL,precision: 10, scale: 2,)]
+    private ?string $plafond = null;
 
     #[ORM\Column(length: 255)]
     private ?string $gerant = null;
 
-
-    #[ORM\ManyToOne(inversedBy: 'caisse')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
 
     /**
      * @var Collection<int, Depense>
@@ -47,13 +44,35 @@ class Caisse
     #[ORM\OneToMany(targetEntity: Bonapprovisionnement::class, mappedBy: 'caisse')]
     private Collection $bonapprovisionnements;
 
-    #[ORM\ManyToOne(inversedBy: 'caisses')]
-    private ?Fdb $fdb = null;
+
+    /**
+     * @var Collection<int, Journee>
+     */
+    #[ORM\OneToMany(targetEntity: Journee::class, mappedBy: 'caisse')]
+    private Collection $journees;
+
+    /**
+     * @var Collection<int, User>
+     */
+    #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'caisse')]
+    private Collection $users;
+
+    /**
+     * @var Collection<int, Fdb>
+     */
+    #[ORM\OneToMany(targetEntity: Fdb::class, mappedBy: 'caisse')]
+    private Collection $fdbs;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $code = null;
 
     public function __construct()
     {
         $this->depenses = new ArrayCollection();
         $this->bonapprovisionnements = new ArrayCollection();
+        $this->journees = new ArrayCollection();
+        $this->users = new ArrayCollection();
+        $this->fdbs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -61,14 +80,14 @@ class Caisse
         return $this->id;
     }
 
-    public function getIntitulé(): ?string
+    public function getIntitule(): ?string
     {
-        return $this->intitulé;
+        return $this->intitule;
     }
 
-    public function setIntitulé(string $intitulé): static
+    public function setIntitule(string $intitule): static
     {
-        $this->intitulé = $intitulé;
+        $this->intitule = $intitule;
 
         return $this;
     }
@@ -85,24 +104,24 @@ class Caisse
         return $this;
     }
 
-    public function getSoldedispo(): ?int
+    public function getSoldedispo(): ?string
     {
         return $this->Soldedispo;
     }
 
-    public function setSoldedispo(int $Soldedispo): static
+    public function setSoldedispo(?string $Soldedispo): static
     {
         $this->Soldedispo = $Soldedispo;
 
         return $this;
     }
 
-    public function isPlafond(): ?bool
+    public function getPlafond(): ?string
     {
         return $this->plafond;
     }
 
-    public function setPlafond(bool $plafond): static
+    public function setPlafond(?string $plafond): static
     {
         $this->plafond = $plafond;
 
@@ -121,18 +140,6 @@ class Caisse
         return $this;
     }
 
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): static
-    {
-        $this->user = $user;
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Depense>
@@ -194,16 +201,112 @@ class Caisse
         return $this;
     }
 
-    public function getFdb(): ?Fdb
+
+    /**
+     * @return Collection<int, Journee>
+     */
+    public function getJournees(): Collection
     {
-        return $this->fdb;
+        return $this->journees;
     }
 
-    public function setFdb(?Fdb $fdb): static
+    public function addJournee(Journee $journee): static
     {
-        $this->fdb = $fdb;
+        if (!$this->journees->contains($journee)) {
+            $this->journees->add($journee);
+            $journee->setCaisse($this);
+        }
 
         return $this;
+    }
+
+    public function removeJournee(Journee $journee): static
+    {
+        if ($this->journees->removeElement($journee)) {
+            // set the owning side to null (unless already changed)
+            if ($journee->getCaisse() === $this) {
+                $journee->setCaisse(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): static
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->setCaisse($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): static
+    {
+        if ($this->users->removeElement($user)) {
+            // set the owning side to null (unless already changed)
+            if ($user->getCaisse() === $this) {
+                $user->setCaisse(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Fdb>
+     */
+    public function getFdbs(): Collection
+    {
+        return $this->fdbs;
+    }
+
+    public function addFdb(Fdb $fdb): static
+    {
+        if (!$this->fdbs->contains($fdb)) {
+            $this->fdbs->add($fdb);
+            $fdb->setCaisse($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFdb(Fdb $fdb): static
+    {
+        if ($this->fdbs->removeElement($fdb)) {
+            // set the owning side to null (unless already changed)
+            if ($fdb->getCaisse() === $this) {
+                $fdb->setCaisse(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCode(): ?string
+    {
+        return $this->code;
+    }
+
+    public function setCode(?string $code): static
+    {
+        $this->code = $code;
+
+        return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->intitule;
     }
 
 }

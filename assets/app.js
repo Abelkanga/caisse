@@ -35,5 +35,6 @@ const slimscroll = require('jquery-slimscroll');
 global.slimscroll = slimscroll;
 
 require('./plugins/tagsinput/tagsinput');
+import './js/page/fdb';
 
 runInputmask();

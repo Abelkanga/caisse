@@ -1,0 +1,43 @@
+<fieldset>
+    <legend>Identification</legend>
+
+    <div class="row">
+        <div class="col-6">
+            <div class="form-group">
+                <label for="date">Nom & prénoms</label>
+                {{ form_widget(form.fullName, {'attr' : {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="col-6">
+            <div class="form-group">
+                <label for="montant">email</label>
+                {{ form_widget(form.email, {'attr' : {'class': 'form-control'}}) }}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <div class="form-group">
+                <label for="modepaie">Roles</label>
+                {{ form_widget(form.roles, {'attr' : {'class': 'form-control-sm select2 '}}) }}
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="form-group">
+                <label for="modepaie">Password</label>
+                {{ form_widget(form.password, {'attr' : {'class': 'form-control '}}) }}
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div class="col-6">
+            <div class="form-group">
+                <label for="modepaie">Caisse</label>
+                {{ form_widget(form.caisse, {'attr' : {'class': 'form-control-sm select2 '}}) }}
+            </div>
+        </div>
+    </div>
+</fieldset>
+

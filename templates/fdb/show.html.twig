@@ -7,7 +7,7 @@
         <div class="col-sm-12">
             <div class="card card-fluid">
                 <div class="card-header bg-soft-custom">
-                    <h6>Fiche de Besoin {{ fdb.id }}</h6>
+                    <h6>Fiche de Besoin {{ fdb.numeroFicheBesoin }}</h6>
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -38,15 +38,11 @@
                             <th>Objet</th>
                             <td>{{ fdb.objet }}</td>
                         </tr>
-                        <tr>
-                            <th>Départements ou Projets Concernés</th>
-                            <td>{{ fdb.departement }}</td>
-                        </tr>
                         </tbody>
                     </table>
 
                     <h3>Détails</h3>
-                    <table class="table table-bordered">
+                    <table class="table table-bordered table-sm">
                         <thead>
                         <tr>
                             <th>Qte</th>
@@ -67,16 +63,33 @@
                         </tbody>
                     </table>
                 </div>
+
+                <form method="post" action="{{ path('fdb_show', {'id': fdb.id}) }}">
                 <div class="card-footer">
+
                     <div class="card-footer-content">
+                        {% if is_granted('ROLE_MANAGER') and fdb.status == 'en attente' %}
+                            {% include '_modal.html.twig' %}
+                            <!-- Button trigger modal -->
+                        {% endif %}
+
+
+
                         <a target="_blank" href="{{ path('fdb_pdf', {'id': fdb.id}) }}" class="btn btn-primary float-right ml-2">
                             <i class="fa fa-print"></i> Imprimer Fiche de Besoin
                         </a>
                         <a href="{{ path('app_welcome') }}" class="btn btn-info float-right">
                             <i class="oi oi-home"></i> Retour
                         </a>
+
+
+
+                        <input type="hidden" name="_token" value="{{ csrf_token('validate-caisse-fdb') }}">
                     </div>
+
                 </div>
+
+                </form>
             </div>
         </div>
     </div>

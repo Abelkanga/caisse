@@ -5,9 +5,12 @@ namespace App\Entity;
 use App\Repository\FdbRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
+use Symfony\Component\Uid\Uuid;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: FdbRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Fdb
 {
     #[ORM\Id]
@@ -30,7 +33,7 @@ class Fdb
     #[ORM\Column(length: 255)]
     private ?string $destinataire = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $departement = null;
    
     #[ORM\ManyToOne(inversedBy: 'fdb')]
@@ -43,17 +46,30 @@ class Fdb
     #[ORM\OneToMany(targetEntity: Detail::class, mappedBy: 'fdb')]
     private Collection $details;
 
-    /**
-     * @var Collection<int, Caisse>
-     */
-    #[ORM\OneToMany(targetEntity: Caisse::class, mappedBy: 'fdb')]
-    private Collection $caisses;
+
+    #[ORM\Column(length: 255)]
+    private ?string $status = null;
+
+    #[ORM\ManyToOne(inversedBy: 'fdbs')]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Caisse $caisse = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $uuid = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $updatedAt = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+    private ?string $total = null;
 
     public function __construct()
     {
         $this->details = new ArrayCollection();
         $this->destinataire = 'Konan Gwladys';
-        $this->caisses = new ArrayCollection();
 
     }
 
@@ -176,32 +192,77 @@ class Fdb
         return $this;
     }
 
-    /**
-     * @return Collection<int, Caisse>
-     */
-    public function getCaisses(): Collection
+    public function getStatus(): ?string
     {
-        return $this->caisses;
+        return $this->status;
     }
 
-    public function addCaiss(Caisse $caiss): static
+    public function setStatus(string $status): static
     {
-        if (!$this->caisses->contains($caiss)) {
-            $this->caisses->add($caiss);
-            $caiss->setFdb($this);
-        }
+        $this->status = $status;
 
         return $this;
     }
 
-    public function removeCaiss(Caisse $caiss): static
+    public function getCaisse(): ?Caisse
     {
-        if ($this->caisses->removeElement($caiss)) {
-            // set the owning side to null (unless already changed)
-            if ($caiss->getFdb() === $this) {
-                $caiss->setFdb(null);
-            }
-        }
+        return $this->caisse;
+    }
+
+    public function setCaisse(?Caisse $caisse): static
+    {
+        $this->caisse = $caisse;
+
+        return $this;
+    }
+
+    public function getUuid(): ?string
+    {
+        return $this->uuid;
+    }
+
+
+    #[ORM\PrePersist]
+    public function setUuid(): static
+    {
+        $this->uuid = Uuid::v4();
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    #[ORM\PrePersist]
+    public function setCreatedAt(): static
+    {
+        $this->createdAt = new \DateTimeImmutable();
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): static
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getTotal(): ?string
+    {
+        return $this->total;
+    }
+
+    public function setTotal(?string $total): static
+    {
+        $this->total = $total;
 
         return $this;
     }

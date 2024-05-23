@@ -1,0 +1,34 @@
+<fieldset>
+    <legend>Identification</legend>
+
+    <div class="row">
+        <div class="col-6">
+            <div class="form-group">
+                <label for="date">Code</label>
+                {{ form_widget(form.code, {'attr' : {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="col-6">
+            <div class="form-group">
+                <label for="montant">Intitulé</label>
+                {{ form_widget(form.intitule, {'attr' : {'class': 'form-control'}}) }}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <div class="form-group">
+                <label for="modepaie">Gérant</label>
+                {{ form_widget(form.gerant, {'attr' : {'class': 'form-control '}}) }}
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="form-group">
+                <label for="modepaie">Plafond</label>
+                {{ form_widget(form.plafond, {'attr' : {'class': 'form-control '}}) }}
+            </div>
+        </div>
+    </div>
+
+</fieldset>

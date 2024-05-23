@@ -5,7 +5,9 @@ namespace App\Controller;
 use App\Entity\Depense;
 use App\Entity\User;
 use App\Form\DepenseType;
+use App\Repository\DepenseRepository;
 use App\Service\PdfService;
+use App\Utils\Status;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,6 +28,16 @@ class DepenseController extends AbstractController
         ]);
     }
 
+    #[Route('/depense/pending', name: 'depense_pending', methods:['GET'])]
+    public function index_pending(DepenseRepository $depenseRepository): Response
+    {
+        $depense = $depenseRepository->findDepensePending();
+
+        return $this->render('depense/index.html.twig', [
+            'depense' => $depense
+        ]);
+    }
+
     #[Route('/depense/new', name: 'depense_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -37,7 +49,7 @@ class DepenseController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var User $user */
             $user = $this->getUser();
-            $depense->setUser($this->getUser());
+            $depense->setUser($this->getUser())->setStatus(Status::EN_ATTENTE);
 
             $entityManager->persist($depense);
             $entityManager->flush();

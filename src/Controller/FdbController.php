@@ -5,7 +5,10 @@ namespace App\Controller;
 use App\Entity\Fdb;
 use App\Entity\User;
 use App\Form\FdbType;
+use App\Repository\FdbRepository;
+use App\Service\CaisseService;
 use App\Service\PdfService;
+use App\Utils\Status;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,9 +18,30 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class FdbController extends AbstractController
 {
     #[Route('/fdb', name: 'fdb_index', methods:['GET'])]
-    public function index(EntityManagerInterface $entityManager): Response
+    public function index( FdbRepository $fdbRepository): Response
     {
-        $fdb = $entityManager->getRepository(Fdb::class)->findAll();
+        $fdb = $fdbRepository->findAll();
+
+        return $this->render('fdb/index.html.twig', [
+            'fdb' => $fdb
+        ]);
+    }
+
+
+    #[Route('/fdb/pending', name: 'fdb_pending', methods:['GET'])]
+    public function index_pending(FdbRepository $fdbRepository): Response
+    {
+        $fdb = $fdbRepository->findFdbPending();
+
+        return $this->render('fdb/index.html.twig', [
+            'fdb' => $fdb
+        ]);
+    }
+
+    #[Route('/fdb/validate', name: 'fdb_validate', methods:['GET'])]
+    public function index_validated(FdbRepository $fdbRepository): Response
+    {
+        $fdb = $fdbRepository->findFdbValidate();
 
         return $this->render('fdb/index.html.twig', [
             'fdb' => $fdb
@@ -25,9 +49,10 @@ class FdbController extends AbstractController
     }
 
     #[Route('/fdb/new', name: 'fdb_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, CaisseService $service): Response
     {
-        $fdb = new Fdb();
+        $num_fdb = $service->refFdb();
+        $fdb = (new Fdb())->setNumeroFicheBesoin($num_fdb);
 
         $form = $this->createForm(FdbType::class, $fdb);
         $form->handleRequest($request);
@@ -35,7 +60,7 @@ class FdbController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var User $user */
             $user = $this->getUser();
-            $fdb->setUser($this->getUser());
+            $fdb->setUser($user)->setStatus(Status::EN_ATTENTE);
 
             $detail = $fdb->getDetails();
             foreach ($detail as $d) {
@@ -44,10 +69,9 @@ class FdbController extends AbstractController
                 $entityManager->persist($d);
             }
 
-
             $entityManager->persist($fdb);
             $entityManager->flush();
-
+            $this->addFlash('success','Fiche de besoin enregistré avec succès');
             return $this->redirectToRoute('fdb_index');
         }
 
@@ -60,12 +84,36 @@ class FdbController extends AbstractController
     #[Route("/fdb/{id}/show", name:'fdb_show', methods: ['GET', 'POST'])]
     public function show(Fdb $fdb, Request $request, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(FdbType::class, $fdb);
+
+        if ($request->isMethod('POST') &&
+            $this->isCsrfTokenValid('validate-caisse-fdb', $request->request->get('_token'))) {
+            if($request->request->has('confirm')) {
+                /** @var User $user */
+                $user = $this->getUser();
+                $caisse = $user->getCaisse();
+                $solde = $caisse->getSoldedispo();
+                $total = $fdb->getTotal();
+                $caisse->setSoldedispo($solde - $total);
+                $fdb->setStatus(Status::VALIDATED);
+
+                $entityManager->persist($fdb);
+                $entityManager->persist($caisse);
+
+                $entityManager->flush();
+                $this->addFlash('success','Fiche de besoin enregistré avec succès');
+                return $this->redirectToRoute('app_welcome');
+
+            }
+        }
+
+
         return $this->render('fdb/show.html.twig', [
             'fdb' => $fdb,
-            'form' => $form->createView(),
+
         ]);
     }
+
+
 
     #[Route('/fdb/{id}/edit', name:'fdb_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Fdb $fdb, EntityManagerInterface $entityManager): Response

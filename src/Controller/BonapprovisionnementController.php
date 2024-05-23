@@ -5,7 +5,9 @@ namespace App\Controller;
 use App\Entity\Bonapprovisionnement;
 use App\Entity\User;
 use App\Form\BonapprovisionnementType;
+use App\Repository\BonapprovisionnementRepository;
 use App\Service\PdfService;
+use App\Utils\Status;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,6 +27,17 @@ class BonapprovisionnementController extends AbstractController
             'bonapprovisionnement' => $bonapprovisionnement,
         ]);
     }
+
+    #[Route('/bonapprovisionnement/pending', name: 'bon_app_pending', methods:['GET'])]
+    public function index_pending(BonapprovisionnementRepository $bonapprovisionnementRepository): Response
+    {
+        $bonapp = $bonapprovisionnementRepository->findBonPending();
+
+        return $this->render('bonapprovisionnement/index.html.twig', [
+            'bon_app' => $bonapp
+        ]);
+    }
+
     #[IsGranted('ROLE_USER')]
     #[Route('/bonapprovisionnement/new', name: 'bonapprovisionnement_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
@@ -37,7 +50,8 @@ class BonapprovisionnementController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var User $user */
             $user = $this->getUser();
-            $bonapprovisionnement->setUser($this->getUser());
+            $bonapprovisionnement->setUser($this->getUser())->setStatus(Status::EN_ATTENTE);
+
 
             $detail = $bonapprovisionnement->getDetails();
             foreach ($detail as $d) {

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Bonapprovisionnement;
+use App\Utils\Status;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -40,4 +41,13 @@ class BonapprovisionnementRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    public function findBonPending()
+    {
+        $qb = $this->createQueryBuilder('b');
+        $qb->where('b.status = :status')
+            ->setParameter('status',Status::EN_ATTENTE);
+        return $qb->getQuery()->getResult();
+    }
+
 }

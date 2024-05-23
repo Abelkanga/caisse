@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Depense;
+use App\Utils\Status;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -40,4 +41,12 @@ class DepenseRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    public function findDepensePending()
+    {
+        $qb = $this->createQueryBuilder('d');
+        $qb->where('d.status = :status')
+            ->setParameter('status',Status::EN_ATTENTE);
+        return $qb->getQuery()->getResult();
+    }
 }

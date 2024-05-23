@@ -7,6 +7,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -32,7 +34,11 @@ class FdbType extends AbstractType
                   'readonly' => true
               ]
             ])
-            ->add('departement', TextType::class)
+//            ->add('departement', TextType::class,[
+//                'attr' => [
+//                    'required' => false
+//                ]
+//            ])
             ->add('details', CollectionType::class,  [
                 'entry_type' => DetailType::class,
                 'entry_options' => ['label' => false],
@@ -47,6 +53,16 @@ class FdbType extends AbstractType
              //   ]
           //  ]);
         ;
+        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
+            /** @var Fdb $fdb */
+            $fdb = $event->getData();
+            $total = 0;
+            foreach ($fdb->getDetails() as $d) {
+                $total += $d->getMontant();
+            }
+            $fdb->setTotal($total);
+        });
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void

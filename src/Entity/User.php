@@ -48,6 +48,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Bonapprovisionnement::class, mappedBy: 'user')]
     private Collection $bonapprovisionnements;
 
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    private ?Caisse $caisse = null;
+
     public function __construct()
     {
         $this->depenses = new ArrayCollection();
@@ -100,7 +103,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+        $roles[] = '';
 
         return array_unique($roles);
     }
@@ -195,6 +198,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $bonapprovisionnement->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCaisse(): ?Caisse
+    {
+        return $this->caisse;
+    }
+
+    public function setCaisse(?Caisse $caisse): static
+    {
+        $this->caisse = $caisse;
 
         return $this;
     }

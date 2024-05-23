@@ -7,6 +7,7 @@ use App\Entity\Fdb;
 use App\Entity\Operation;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -16,9 +17,9 @@ class DetailType extends AbstractType
     {
         $builder
             ->add('designationproduit')
-            ->add('quantite')
-            ->add('price')
-            ->add('montant')
+            ->add('quantite',TextType::class)
+            ->add('price',TextType::class)
+            ->add('montant', TextType::class)
         ;
     }
 

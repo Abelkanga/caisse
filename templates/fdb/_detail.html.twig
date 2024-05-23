@@ -22,21 +22,21 @@
 {% endblock %}
 
 {% block _fdb_details_entry_widget %}
-    <tr id="block_{{ id }}">
+    <tr id="block_{{ id }}" data-id="{{ id }}">
         <td>
             {{ form_widget(form.designationproduit,{'attr': {"class": 'form-control'}}) }}
             {{ form_errors(form.designationproduit) }}
         </td>
         <td>
-            {{ form_widget(form.quantite,{'attr': {"class": 'form-control '}}) }}
+            {{ form_widget(form.quantite,{'attr': {"class": 'form-control separator text-right qte'}}) }}
             {{ form_errors(form.quantite) }}
         </td>
         <td>
-            {{ form_widget(form.price,{'attr': {"class": 'form-control '}}) }}
+            {{ form_widget(form.price,{'attr': {"class": 'form-control separator text-right price'}}) }}
             {{ form_errors(form.price) }}
         </td>
         <td>
-            {{ form_widget(form.montant,{'attr': {"class": 'form-control separator text-right'}}) }}
+            {{ form_widget(form.montant,{'attr': {"class": 'form-control separator text-right montant'}}) }}
             {{ form_errors(form.montant) }}
         </td>
 

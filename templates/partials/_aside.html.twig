@@ -1,88 +1,92 @@
 <aside
-	class="app-aside app-aside-expand-md app-aside-light">
-	<!-- .aside-content -->
-	<div
-		class="aside-content">
-		<!-- .aside-header -->
-		<header
-			class="aside-header d-block d-md-none">
-			<!-- .btn-account -->
-			<button class="btn-account" type="button" data-toggle="collapse" data-target="#dropdown-aside">
+        class="app-aside app-aside-expand-md app-aside-light">
+    <!-- .aside-content -->
+    <div
+            class="aside-content">
+        <!-- .aside-header -->
+        <header
+                class="aside-header d-block d-md-none">
+            <!-- .btn-account -->
+            <button class="btn-account" type="button" data-toggle="collapse" data-target="#dropdown-aside">
 				<span class="account-icon">
 					<span class="fa fa-caret-down fa-lg"></span>
 				</span>
-				<span class="account-summary">
-					{% if is_granted('ROLE_SUPER_ADMIN') %}
-						<span class="account-name">
+                <span class="account-summary">
+					{% if is_granted('ROLE_ADMIN') %}
+                        <span class="account-name">
 							Administrateur</span>
-					{% else %}
-						<span class="account-name">
-{#							{{ app.user.firstName }}#}
-{#							{{ app.user.lastName }}#}
+					{% else  %}
+                        <span class="account-name">
 						</span>
-{#						<span class="account-description">{{ app.user.email }}</span>#}
-					{% endif %}
+                    {% endif %}
 				</span>
-			</button>
-			<!-- /.btn-account -->
-			<!-- .dropdown-aside -->
-			<div
-				id="dropdown-aside" class="dropdown-aside collapse">
-				<!-- dropdown-items -->
-				<div class="pb-3">
-					<a class="dropdown-item" href="">
-						<span class="dropdown-icon oi oi-person"></span>
-						Profile</a>
-					<a class="dropdown-item" href="{{ path('app_logout') }}">
-						<span class="dropdown-icon oi oi-account-logout"></span>
-						Déconnexion
-					</a>
-				</div>
-				<!-- /dropdown-items -->
-			</div>
-			<!-- /.dropdown-aside -->
-		</header>
-		<!-- /.aside-header -->
-		<!-- .aside-menu -->
-		<div
-			class="aside-menu overflow-hidden">
-			<!-- .stacked-menu -->
-			<nav
-				id="stacked-menu" class="stacked-menu">
-				<!-- .menu -->
-				<ul
-					class="menu">
-					<!-- .menu-item -->
-					<li class="menu-item has-active">
-						<a href="#" class="menu-link">
-							<span class="menu-icon fas fa-home"></span>
-							<span class="menu-text">Tableau de bord</span>
-						</a>
-					</li>
-					<!-- /.menu-item -->
-					<!-- .menu-item -->
-						{% include('partials/_navbar.html.twig') %}
+            </button>
+            <!-- /.btn-account -->
+            <!-- .dropdown-aside -->
+            <div
+                    id="dropdown-aside" class="dropdown-aside collapse">
+                <!-- dropdown-items -->
+                <div class="pb-3">
+                    <a class="dropdown-item" href="">
+                        <span class="dropdown-icon oi oi-person"></span>
+                        Profile</a>
+                    <a class="dropdown-item" href="{{ path('app_logout') }}">
+                        <span class="dropdown-icon oi oi-account-logout"></span>
+                        Déconnexion
+                    </a>
+                </div>
+                <!-- /dropdown-items -->
+            </div>
+            <!-- /.dropdown-aside -->
+        </header>
+        <!-- /.aside-header -->
+        <!-- .aside-menu -->
+        <div
+                class="aside-menu overflow-hidden">
+            <!-- .stacked-menu -->
+            <nav
+                    id="stacked-menu" class="stacked-menu">
+                <!-- .menu -->
+                <ul
+                        class="menu">
+                    <!-- .menu-item -->
+                    <li class="menu-item has-active">
+                        <a href="#" class="menu-link">
+                            <span class="menu-icon fas fa-home"></span>
+                            <span class="menu-text">Tableau de bord</span>
+                        </a>
+                    </li>
+                    <!-- /.menu-item -->
+                    <!-- .menu-item -->
+                    {% if is_granted('ROLE_USER') %}
+                        {% include('partials/_navbar.html.twig') %}
+                    {% endif %}
+                    {% if is_granted('ROLE_ADMIN') %}
 
-					<!-- /.menu-item -->
+                        {% include('partials/_navbar_admin.html.twig') %}
+                    {% endif %}
+                    <!-- /.menu-item -->
+					{% if is_granted('ROLE_MANAGER') %}
+						{% include('partials/_navbar_caisse.html.twig') %}
+					{% endif %}
 
+                    <!-- /.menu-item -->
 
-					<!-- /.menu-item -->
-
-				</ul>
-				<!-- /.menu -->
-			</nav>
-			<!-- /.stacked-menu -->
-		</div>
-		<!-- /.aside-menu -->
-		<!-- Skin changer -->
-		<footer class="aside-footer border-top p-2">
-			<button class="btn btn-light btn-block" style="color: #232754;" data-toggle="skin">
-				<span class="d-compact-menu-none">Mode sombre</span>
-				<i class="fas fa-moon ml-1"></i>
-			</button>
-		</footer>
-		<!-- /Skin changer -->
-	</div>
-	<!-- /.aside-content -->
+                </ul>
+                <!-- /.menu -->
+            </nav>
+            <!-- /.stacked-menu -->
+        </div>
+        <!-- /.aside-menu -->
+        <!-- Skin changer -->
+        <footer class="aside-footer border-top p-2">
+            <button class="btn btn-light btn-block" style="color: #232754;" data-toggle="skin">
+                <span class="d-compact-menu-none">Mode sombre</span>
+                <i class="fas fa-moon ml-1"></i>
+            </button>
+        </footer>
+        <!-- /Skin changer -->
+    </div>
+    <!-- /.aside-content -->
 </aside>
 

@@ -1,0 +1,53 @@
+<!-- .menu-header -->
+<li class="menu-header">Orbis Caisse</li>
+<!-- /.menu-header -->
+<!-- .menu-item -->
+<!-- .menu-item -->
+{#<li class="menu-item {{ app.request.get('_route') == 'app_feature_ticket_new' ? 'has-active': '' }}"> <a href="{{ path('app_feature_ticket_new') }}" class="menu-link">#}
+{#		<span class="menu-icon fa fa-solid fa-add"></span>#}
+{#		Nouveau Ticket</a>#}
+{#</li>
+{#  <li class="menu-item"> <a href="" class="menu-link">
+		<span class="menu-icon fa fa-solid fa-add"></span>
+		Lien</a>#}
+{#</li>#}
+
+{#<li class="menu-item has-child">#}
+{#	<a href="#" class="menu-link">#}
+{#		<span class="menu-icon oi oi-pencil"></span>#}
+{#		<span class="menu-text">Forms</span>#}
+{#	</a>#}
+{#	<!-- child menu -->#}
+{#	<ul class="menu">#}
+{#		<li class="menu-item">#}
+{#			<a href="" class="menu-link">Basic Elements</a>#}
+{#		</li>#}
+{#		<li class="menu-item">#}
+{#			<a href="" class="menu-link">Autocompletes</a>#}
+{#		</li>#}
+
+{#	</ul>#}
+{#	<!-- /child menu -->#}
+{#</li>#}
+
+<li class="menu-item has-child">
+    <a href="#" class="menu-link">
+        <span <i class="fa-regular fa-user""></span>
+        <span class="menu-text">Utilisateurs</span>
+    </a>
+    <!-- child menu -->
+    <ul class="menu">
+        <li class="menu-item {{ app.request.get('_route') == 'fdb_new' ? 'has-active': '' }}">
+            <a href="{{ path('app_user_new') }}" class="menu-link">Créer</a>
+        </li>
+        <li class="menu-item {{ app.request.get('_route') == 'fdb_index' ? 'has-active': '' }}">
+            <a href="{{ path('app_user_index') }}" class="menu-link">Liste</a>
+        </li>
+
+    </ul>
+    <!-- /child menu -->
+    <!-- .menu-item -->
+</li>
+
+
+
