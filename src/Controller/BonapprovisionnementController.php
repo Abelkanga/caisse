@@ -93,7 +93,7 @@ class BonapprovisionnementController extends AbstractController
                 $caisse = $user->getCaisse();
                 $solde = $caisse->getSoldedispo();
                 $total = $bonapprovisionnement->getTotal();
-                $caisse->setSoldedispo($solde - $total);
+                $caisse->setSoldedispo($solde + $total);
                 $bonapprovisionnement->setStatus(Status::VALIDATED);
 
                 $entityManager->persist($bonapprovisionnement);

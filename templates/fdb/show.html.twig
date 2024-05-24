@@ -65,30 +65,84 @@
                 </div>
 
                 <form method="post" action="{{ path('fdb_show', {'id': fdb.id}) }}">
-                <div class="card-footer">
+                    <div class="card-footer">
 
-                    <div class="card-footer-content">
-                        {% if is_granted('ROLE_MANAGER') and fdb.status == 'en attente' %}
-                            {% include '_modal.html.twig' %}
-                            <!-- Button trigger modal -->
-                        {% endif %}
+                        <div class="card-footer-content">
+                            {% if is_granted('ROLE_MANAGER') and fdb.status == 'en attente' %}
+                                {% include '_modal.html.twig' %}
+                                {% include '_modal_annulé.html.twig' %}
+                                <!-- Button trigger modal -->
+                            {% endif %}
 
 
-                        <a target="_blank" href="{{ path('fdb_pdf', {'id': fdb.id}) }}" class="btn btn-primary float-right ml-2">
-                            <i class="fa fa-print"></i> Imprimer Fiche de Besoin
-                        </a>
-                        <a href="{{ path('app_welcome') }}" class="btn btn-info float-right">
-                            <i class="oi oi-home"></i> Retour
-                        </a>
+                            <a target="_blank" href="{{ path('fdb_pdf', {'id': fdb.id}) }}" class="btn btn-primary float-right ml-2">
+                                <i class="fa fa-print"></i> Imprimer Fiche de Besoin
+                            </a>
+                            <a href="{{ path('app_welcome') }}" class="btn btn-info float-right">
+                                <i class="oi oi-home"></i> Retour
+                            </a>
 
-                        <input type="hidden" name="_token" value="{{ csrf_token('validate-caisse-fdb') }}">
+                            <input type="hidden" name="_token" value="{{ csrf_token('validate-caisse-fdb') }}">
+                        </div>
+
                     </div>
-
-                </div>
 
                 </form>
             </div>
         </div>
     </div>
+    <br><br>
+
+    <button class="print-button" onclick="window.print()"><i class="fa-solid fa-download"></i> &nbsp;&nbsp;Imprimer</button>
+
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+
+        table {
+            width: 90%;
+            margin: auto;
+            border-collapse: collapse;
+            box-shadow:20px;
+        }
+        th, td {
+            border: 2px solid #ddd;
+            padding: 20px;
+            text-align: left;
+            font-size:50px
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .total {
+            font-weight: bold;
+        }
+        .bas
+        {
+            margin-left:80%;
+            margin-top:10px;
+        }
+        .bas p
+        {
+            font-weight:bold;
+            font-size:12px;
+        }
+        .print-button {
+            display: flex;
+            background:#21244e;
+            color:white;
+            padding:15px;
+            margin-left:5%;
+            border:1px solid black;
+            border-radius:10px;
+        }
+        @media print {
+            .print-button {
+                display: none !important;
+            }
+        }
+    </style>
 
 {% endblock %}

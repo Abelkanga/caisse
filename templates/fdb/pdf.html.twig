@@ -4,8 +4,8 @@
 
 {% block body %}
    <h1>Imprimer - Fiche de Besoin </h1>
-{#<div class="printable">#}
-    <table>
+<div class="printable">
+    <table>pdf.html.twig
         <thead>
         <tr>
             <th>Responsable de la Demande</th>
@@ -28,28 +28,31 @@
         </tbody>
     </table>
 
-{#{% block stylesheets %}#}
-{#<style>#}
-
-{#    @media print {#}
-{#        body * {#}
-{#            visibility: hidden;#}
-{#        }#}
-{#        .printable, .printable * {#}
-{#            visibility: visible;#}
-{#        }#}
-{#        .printable {#}
-{#            position: absolute;#}
-{#            left: 0;#}
-{#            top: 0;#}
-{#        }#}
-{#    }#}
 
 
-{#</style>#}
-{#{% endblock %}#}
 
-{#    <button onclick="window.print()">Imprimer</button>#}
+{% block stylesheets %}
+<style>
+
+    @media print {
+        body * {
+            visibility: hidden;
+        }
+        .printable, .printable * {
+            visibility: visible;
+        }
+        .printable {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+    }
+
+
+</style>
+{% endblock %}
+
+    <button onclick="window.print()">Imprimer</button>
 
 
 {% endblock %}

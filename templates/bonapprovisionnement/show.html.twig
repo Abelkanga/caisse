@@ -73,6 +73,7 @@
                         <div class="card-footer-content">
                             {% if is_granted('ROLE_MANAGER') and bonapprovisionnement.status == 'en attente' %}
                                 {% include '_modal.html.twig' %}
+                                {% include '_modal_annulé.html.twig' %}
                                 <!-- Button trigger modal -->
                             {% endif %}
 

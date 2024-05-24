@@ -49,4 +49,12 @@ class DepenseRepository extends ServiceEntityRepository
             ->setParameter('status',Status::EN_ATTENTE);
         return $qb->getQuery()->getResult();
     }
+
+    public function findDepenseValidate()
+    {
+        $qb = $this->createQueryBuilder('d');
+        $qb->where('d.status = :status')
+            ->setParameter('status',Status::VALIDATED);
+        return $qb->getQuery()->getResult();
+    }
 }

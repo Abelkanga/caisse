@@ -51,13 +51,14 @@
                         <div class="card-footer-content">
                             {% if is_granted('ROLE_MANAGER') and depense.status == 'en attente' %}
                                 {% include '_modal.html.twig' %}
+                                {% include '_modal_annulé.html.twig' %}
                                 <!-- Button trigger modal -->
                             {% endif %}
 
 
 
                             <a target="_blank" href="{{ path('depense_pdf', {'id': depense.id}) }}" class="btn btn-primary float-right ml-2">
-                                <i class="fa fa-print"></i> Imprimer Fiche de Besoin
+                                <i class="fa fa-print"></i> Imprimer Depense
                             </a>
                             <a href="{{ path('app_welcome') }}" class="btn btn-info float-right">
                                 <i class="oi oi-home"></i> Retour
@@ -65,7 +66,7 @@
 
 
 
-                            <input type="hidden" name="_token" value="{{ csrf_token('validate-caisse-fdb') }}">
+                            <input type="hidden" name="_token" value="{{ csrf_token('validate-caisse-depense') }}">
                         </div>
 
                     </div>

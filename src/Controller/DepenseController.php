@@ -6,6 +6,7 @@ use App\Entity\Depense;
 use App\Entity\User;
 use App\Form\DepenseType;
 use App\Repository\DepenseRepository;
+use App\Service\CaisseService;
 use App\Service\PdfService;
 use App\Utils\Status;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,7 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
+
 
 class DepenseController extends AbstractController
 {
@@ -38,8 +39,19 @@ class DepenseController extends AbstractController
         ]);
     }
 
+    #[Route('/depense/validate', name: 'depense_validate', methods:['GET'])]
+    public function index_validated(DepenseRepository $depenseRepository): Response
+    {
+        $depense = $depenseRepository->findDepenseValidate();
+
+        return $this->render('depense/index.html.twig', [
+            'depense' => $depense
+        ]);
+    }
+
+
     #[Route('/depense/new', name: 'depense_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, CaisseService $service): Response
     {
         $depense = new Depense();
 
@@ -49,10 +61,11 @@ class DepenseController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var User $user */
             $user = $this->getUser();
-            $depense->setUser($this->getUser())->setStatus(Status::EN_ATTENTE);
+            $depense->setUser($user)->setStatus(Status::EN_ATTENTE);
 
             $entityManager->persist($depense);
             $entityManager->flush();
+            $this->addFlash('success','Depense enregistré avec succès');
 
             return $this->redirectToRoute('depense_index');
         }
@@ -64,11 +77,31 @@ class DepenseController extends AbstractController
     }
 
     #[Route('/depense/{id}/show', name: 'depense_show', methods: ['GET', 'POST'])]
-    public function show(Depense $depense): Response
+    public function show(Depense $depense, Request $request, EntityManagerInterface $entityManager): Response
     {
+        if ($request->isMethod('POST') && $this->isCsrfTokenValid('validate-caisse-depense', $request->request->get('_token'))) {
+            if($request->request->has('confirm')) {
+                /** @var User $user */
+                $user = $this->getUser();
+                $caisse = $user->getCaisse();
+                $solde = $caisse->getSoldedispo();
+                $total = $depense->getMontant();
+                $caisse->setSoldedispo($solde - $total);
+                $depense->setStatus(Status::VALIDATED);
+
+                $entityManager->persist($depense);
+                $entityManager->persist($caisse);
+
+                $entityManager->flush();
+                $this->addFlash('success', 'Depense enregistré avec succès');
+
+                return $this->redirectToRoute('app_welcome');
+            }
+        }
+
         return $this->render('depense/show.html.twig', [
             'depense' => $depense,
-            ]);
+        ]);
     }
 
     #[Route('/depense/{id}/edit', name:'depense_edit', methods: ['GET', 'POST'])]

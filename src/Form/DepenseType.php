@@ -7,8 +7,9 @@ use App\Entity\Depense;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DepenseType extends AbstractType
@@ -28,6 +29,16 @@ class DepenseType extends AbstractType
                 ],
             ])
         ;
+
+        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
+            /** @var Depense $depense */
+            $depense = $event->getData();
+            $total = 0;
+//            foreach ($depense->getDetails() as $d) {
+//                $total += $d->getMontant();
+//            }
+            $depense->setTotal($total);
+        });
     }
 
     public function configureOptions(OptionsResolver $resolver): void

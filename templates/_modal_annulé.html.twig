@@ -1,0 +1,28 @@
+<div id="cancelModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="cancelModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-secondary">
+                <h5 class="modal-title text-dark" id="cancelModalLabel">
+                    <span class="uil uil-question-circle"></span>
+                    Annulation d'opération
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body font-size-14">
+                Voulez-vous vraiment annuler cette opération ?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light font-weight-medium" data-dismiss="modal">Non</button>
+                <button type="submit" class="btn btn-outline-danger font-weight-medium" name="cancel" value="cancel">
+                    Oui, annuler
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+<button type="button" class="btn btn-danger float-right ml-2" data-toggle="modal" data-target="#cancelModal">
+    <i class="fa fa-times"></i> Annuler
+</button>

@@ -27,7 +27,6 @@ class FdbController extends AbstractController
         ]);
     }
 
-
     #[Route('/fdb/pending', name: 'fdb_pending', methods:['GET'])]
     public function index_pending(FdbRepository $fdbRepository): Response
     {
@@ -42,6 +41,16 @@ class FdbController extends AbstractController
     public function index_validated(FdbRepository $fdbRepository): Response
     {
         $fdb = $fdbRepository->findFdbValidate();
+
+        return $this->render('fdb/index.html.twig', [
+            'fdb' => $fdb
+        ]);
+    }
+
+    #[Route('/fdb/cancel', name: 'fdb_cancel', methods:['GET'])]
+    public function index_canceled(FdbRepository $fdbRepository): Response
+    {
+        $fdb = $fdbRepository->findFdbCancel();
 
         return $this->render('fdb/index.html.twig', [
             'fdb' => $fdb
@@ -71,7 +80,9 @@ class FdbController extends AbstractController
 
             $entityManager->persist($fdb);
             $entityManager->flush();
-            $this->addFlash('success','Fiche de besoin enregistré avec succès');
+            $this->addFlash('success','Fiche de besoin enregistré avec succès !');
+
+
             return $this->redirectToRoute('fdb_index');
         }
 
@@ -84,7 +95,6 @@ class FdbController extends AbstractController
     #[Route("/fdb/{id}/show", name:'fdb_show', methods: ['GET', 'POST'])]
     public function show(Fdb $fdb, Request $request, EntityManagerInterface $entityManager): Response
     {
-
         if ($request->isMethod('POST') && $this->isCsrfTokenValid('validate-caisse-fdb', $request->request->get('_token'))) {
             if($request->request->has('confirm')) {
                 /** @var User $user */
@@ -92,6 +102,12 @@ class FdbController extends AbstractController
                 $caisse = $user->getCaisse();
                 $solde = $caisse->getSoldedispo();
                 $total = $fdb->getTotal();
+
+                if ($solde < $total) {
+                    $this->addFlash('error', 'Pas de fond disponible pour effectuer cette opération');
+                    return $this->redirectToRoute('app_welcome');
+                }
+
                 $caisse->setSoldedispo($solde - $total);
                 $fdb->setStatus(Status::VALIDATED);
 
@@ -100,6 +116,7 @@ class FdbController extends AbstractController
 
                 $entityManager->flush();
                 $this->addFlash('success','Fiche de besoin enregistré avec succès');
+
                 return $this->redirectToRoute('app_welcome');
 
             }
@@ -147,6 +164,8 @@ class FdbController extends AbstractController
 
         return $this->redirectToRoute('fdb_index');
     }
+
+
 
 
     #[Route('/fdb/{id}/delete', name: 'fdb_delete', methods: ['GET'])]

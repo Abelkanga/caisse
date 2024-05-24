@@ -71,7 +71,7 @@
                     {% if app.user and app.user.caisse is not null %}
                     <button class="btn-account d-flex align-items-center" type="button">
                         <span class="oi oi-map-bill p-1"></span>
-                        <strong class="pt-1">SOLDE : {{ app.user.caisse.soldedispo|number_format(0, ',' , ' ') }}</strong>
+                        <strong class="pt-1">SOLDE : {{ app.user.caisse.soldedispo|number_format(0, ',' , ' ') }} F</strong>
                     </button>
                     {% endif %}
                 </div>

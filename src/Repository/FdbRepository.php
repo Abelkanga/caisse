@@ -58,6 +58,14 @@ class FdbRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
+    public function findFdbCancel()
+    {
+        $qb = $this->createQueryBuilder('f');
+        $qb->where('f.status = :status')
+            ->setParameter('status',Status::CANCELLED);
+        return $qb->getQuery()->getResult();
+    }
+
     public function findLastId()
     {
         return $this->createQueryBuilder('f')->select('f.id')
