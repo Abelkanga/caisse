@@ -31,14 +31,14 @@ class BonapprovisionnementController extends AbstractController
     #[Route('/bonapprovisionnement/pending', name: 'bon_app_pending', methods:['GET'])]
     public function index_pending(BonapprovisionnementRepository $bonapprovisionnementRepository): Response
     {
-        $bonapp = $bonapprovisionnementRepository->findBonPending();
+        $bonapprovisionnement = $bonapprovisionnementRepository->findBonPending();
 
         return $this->render('bonapprovisionnement/index.html.twig', [
-            'bon_app' => $bonapp
+            'bonapprovisionnement' => $bonapprovisionnement
         ]);
     }
 
-    #[IsGranted('ROLE_USER')]
+
     #[Route('/bonapprovisionnement/new', name: 'bonapprovisionnement_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {

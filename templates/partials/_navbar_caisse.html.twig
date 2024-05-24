@@ -55,8 +55,8 @@
 	</a>
 	<!-- child menu -->
 	<ul class="menu">
-		<li class="menu-item {{ app.request.get('_route') == 'bonapprovisionnement_new' ? 'has-active': '' }}">
-			<a href="{{ path('bonapprovisionnement_new') }}" class="menu-link">En attente</a>
+		<li class="menu-item {{ app.request.get('_route') == 'bonapprovisionnement_pending' ? 'has-active': '' }}">
+			<a href="{{ path('bon_app_pending') }}" class="menu-link">En attente</a>
 		</li>
 		<li class="menu-item {{ app.request.get('_route') == 'bonapprovisionnement_index' ? 'has-active': '' }}">
 			<a href="{{ path('bonapprovisionnement_index') }}" class="menu-link">Validé</a>
@@ -72,8 +72,8 @@
 	</a>
 	<!-- child menu -->
 	<ul class="menu">
-		<li class="menu-item {{ app.request.get('_route') == 'depense_new' ? 'has-active': '' }}">
-			<a href="{{ path('depense_new') }}" class="menu-link">En attente</a>
+		<li class="menu-item {{ app.request.get('_route') == 'depense_pending' ? 'has-active': '' }}">
+			<a href="{{ path('depense_pending') }}" class="menu-link">En attente</a>
 		</li>
 		<li class="menu-item {{ app.request.get('_route') == 'depense_index' ? 'has-active': '' }}">
 			<a href="{{ path('depense_index') }}" class="menu-link">Validée</a>

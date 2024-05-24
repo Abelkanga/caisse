@@ -1,46 +1,125 @@
-{% extends 'base.html.twig' %}
+<!doctype html>
+<html lang="fr">
+<head>
+    <title>ORBIS CAISSE</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <!-- BEGIN THEME STYLES -->
+    <link rel="stylesheet" href="{{ asset('css/theme.min.css') }}" data-skin="default">
+    <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Login : Se connecter</title>
 
+    <style>
+        header.auth-header {
+            background-color: #232754;
+        }
 
-    {% block title %}
-        Caisse - Connexion
-        
-    {% endblock %}
-    {% block body %}
-        {% if error %}
-            <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-        {% endif %}
-<section class="vh-100" style="background-color: #508bfc;">
-    <div class="container py-5 h-100">
-        <div class="row d-flex justify-content-center align-items-center h-100">
-            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-                <div class="card shadow-2-strong" style="border-radius: 1rem;">
-                    <div class="card-body p-5 text-center">
+        button.submit {
+            background-color: #232754;
+            color: #FFFFFF;
+        }
 
-                        <h3 class="mb-5">Connexion</h3>
-        <form action="{{ path('app_login') }}" method="post">
+        button.submit:hover {
+            background-color: #232754;
+            color: #FFFFFF;
+        }
 
-            <div data-mdb-input-init class="form-outline mb-4">
-                <input type="email" id="typeEmailX-2" class="form-control form-control-lg" name="_username" />
-                <label class="form-label" for="typeEmailX-2">Email</label>
+        .title {
+            text-align: center;
+            font-size: 3rem;
+            color: #232754;
+            margin-bottom: 1.5rem;
+            padding-top: 2rem; /* Increase padding to push the text down */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .title i {
+            margin-left: 0.5rem; /* Space between text and icon */
+            color: #232754; /* Blue color for the dollar icon */
+        }
+    </style>
+</head>
+
+<body class="">
+<!-- WRAPPER -->
+
+<main class="auth">
+    <header id="auth-header" class="auth-header">
+        <img src="#" height="150" alt="">
+    </header>
+    <br>
+    <!-- Title -->
+    <h1 class="title">ORBIS CAISSE<i class="fas fa-dollar-sign"></i></h1>
+    <!-- form -->
+    <form class="auth-form" method="post" action="{{ path('app_login') }}">
+        <div class="mb-4">
+            {% if error %}
+                <p class="text-danger text-center">{{ error.messageKey|trans(error.messageData, 'security') }}</p>
+            {% endif %}
+
+            {% for label, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ label }}">{{ message }}</div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+
+        <div class="form-group mb-4">
+            <label class="d-block text-left" for="inputUser">Email</label>
+            <input type="text" id="inputUser"
+                   name="_username"
+                   value="{{ last_username }}"
+                   class="form-control form-control-lg"
+                   required="" autofocus="">
+        </div>
+        <!-- /.form-group -->
+        <!-- .form-group -->
+        <div class="form-group mb-4">
+            <label class="d-block text-left" for="inputPassword">Mot de passe</label>
+            <input type="password" id="inputPassword" name="_password" autocomplete="current-password"
+                   class="form-control form-control-lg" required="">
+        </div>
+        <!-- /.form-group -->
+        <!-- .form-group -->
+        <div class="form-group mb-4">
+            <button class="btn btn-lg btn-block submit" type="submit">S'identifier</button>
+        </div><!-- /.form-group -->
+        <!-- .form-group -->
+        <div class="form-group text-center">
+            <div class="custom-control custom-control-inline custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="remember-me"> <label
+                        class="custom-control-label" for="remember-me">Se souvenir de moi</label>
             </div>
-
-            <div data-mdb-input-init class="form-outline mb-4">
-                <input type="password" id="typePasswordX-2" class="form-control form-control-lg" name="_password"/>
-                <label class="form-label" for="typePasswordX-2">Password</label>
-            </div>
-
-            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-
-            <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block" type="submit">Se connecter</button>
-        </form>
-    {% endblock %}
-
-
-
-
-
-
-
-
-
-
+        </div>
+        <input type="hidden" name="_csrf_token"
+               value="{{ csrf_token('authenticate') }}"
+        >
+        <!-- /.form-group -->
+        <!-- recovery links -->
+        <p class="py-2 text-center">
+            <a href="#" class="">Mot de passe oublié ?</a>
+        </p><!-- /recovery links -->
+        <!-- copyright -->
+        <p class="mb-0 px-3 text-muted text-center"> Copyright © {{ 'now'| date('Y') }} Designed by
+            <a href="https://www.offset-consulting.com/" target="_blank"> Offset Consulting.</a><br>
+            All right reserved.
+        </p>
+    </form>
+    <!-- /.auth-form -->
+    <!-- .auth-announcement -->
+    <div id="announcement" class="auth-announcement"
+         style="">
+        <div class="announcement-body">
+        </div>
+    </div>
+    <!-- /.auth-announcement -->
+</main>
+<script src="{{ asset('js/jquery.min.js') }}"></script>
+<script src="{{ asset('js/popper.min.js') }}"></script>
+<script src="{{ asset('js/bootstrap.min.js') }}"></script>
+</body>
+</html>

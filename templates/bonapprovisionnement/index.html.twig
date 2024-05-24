@@ -22,23 +22,23 @@
                         </tr>
                         </thead>
                         <tbody>
-                        {% for bonapprovionnement in bonapprovisionnement %}
+                        {% for bonapprovisionnement in bonapprovisionnement %}
                             <tr>
-                                <td>{{ bonapprovionnement.id }}</td>
-                                <td>{{ bonapprovionnement.date|date('Y-m-d') }}</td>
-                                <td>{{ bonapprovionnement.modepaie }}</td>
-                                <td>{{ bonapprovionnement.montanttotal }}</td>
-                                <td>{{ bonapprovionnement.nature }}</td>
+                                <td>{{ bonapprovisionnement.id }}</td>
+                                <td>{{ bonapprovisionnement.date|date('Y-m-d') }}</td>
+                                <td>{{ bonapprovisionnement.modepaie }}</td>
+                                <td>{{ bonapprovisionnement.montanttotal }}</td>
+                                <td>{{ bonapprovisionnement.nature }}</td>
                                 <td class="text-center">
-                                    <a class="btn btn-sm btn-icon btn-secondary" href="{{ path('bonapprovisionnement_edit', {'id': bonapprovionnement.id}) }}">
+                                    <a class="btn btn-sm btn-icon btn-secondary" href="{{ path('bonapprovisionnement_edit', {'id': bonapprovisionnement.id}) }}">
                                         <i class="fa fa-pencil-alt"></i>
                                     </a>
                                     <span class="mx-1"></span>
-                                    <a class="btn btn-sm btn-icon btn-secondary" href="{{ path('bonapprovisionnement_show', {'id': bonapprovionnement.id}) }}">
+                                    <a class="btn btn-sm btn-icon btn-secondary" href="{{ path('bonapprovisionnement_show', {'id': bonapprovisionnement.id}) }}">
                                         <i class="fas fa-eye"></i>
                                     </a>
                                     <span class="mx-1"></span>
-                                    <a class="btn btn-sm btn-icon btn-secondary" href="{{ path('bonapprovisionnement_delete', {'id': bonapprovionnement.id}) }}">
+                                    <a class="btn btn-sm btn-icon btn-secondary" href="{{ path('bonapprovisionnement_delete', {'id': bonapprovisionnement.id}) }}">
                                         <i class="fas fa-trash-alt"></i>
                                     </a>
                                 </td>

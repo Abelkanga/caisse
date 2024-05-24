@@ -41,22 +41,22 @@
                 <!-- .top-bar-item -->
                 <div class="top-bar-item top-bar-item-full">
                     {% if app.user %}
-                    {% if app.user.caisse is not null %}
-                        <button class="btn-account d-flex align-items-center" type="button">
-                            <span class="oi oi-map-marker p-1"></span>
-                            <strong class="pt-1">{{ app.user.caisse.intitule }}</strong>
-                        </button>
-                    {% elseif is_granted('ROLE_ADMIN') %}
-                        <button class="btn-account d-flex align-items-center" type="button">
-                            <span class="fa-solid fa-building-columns p-1"></span>
-                            <strong class="pt-1">Administration</strong>
-                        </button>
+                        {% if app.user.caisse is not null %}
+                            <button class="btn-account d-flex align-items-center" type="button">
+                                <span class="oi oi-map-marker p-1"></span>
+                                <strong class="pt-1">{{ app.user.caisse.intitule }}</strong>
+                            </button>
+                        {% elseif is_granted('ROLE_ADMIN') %}
+                            <button class="btn-account d-flex align-items-center" type="button">
+                                <span class="fa-solid fa-building-columns p-1"></span>
+                                <strong class="pt-1">Administration</strong>
+                            </button>
                         {% else %}
                             <button class="btn-account d-flex align-items-center" type="button">
                                 <span class="fa-solid fa-building-columns p-1"></span>
                                 <strong class="pt-1">{{ app.user.fullName }}</strong>
                             </button>
-                    {% endif %}
+                        {% endif %}
                     {% endif %}
 
                     {#                    <button class="btn-account d-flex align-items-center" type="button" > #}

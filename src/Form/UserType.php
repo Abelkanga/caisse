@@ -24,7 +24,8 @@ class UserType extends AbstractType
             ->add('password', PasswordType::class)
             ->add('caisse', EntityType::class,[
                 'class' => Caisse::class,
-                'placeholder' => 'Sélectionner une caisse'
+                'placeholder' => 'Sélectionner une caisse', 'required'=> false
+
             ])
             ->add('roles', ChoiceType::class, [
                 'choices' => [
