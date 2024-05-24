@@ -6,6 +6,7 @@ use App\Entity\Bonapprovisionnement;
 use App\Entity\User;
 use App\Form\BonapprovisionnementType;
 use App\Repository\BonapprovisionnementRepository;
+use App\Service\CaisseService;
 use App\Service\PdfService;
 use App\Utils\Status;
 use Doctrine\ORM\EntityManagerInterface;
@@ -13,15 +14,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
+
 
 class BonapprovisionnementController extends AbstractController
 {
 
     #[Route('/bonapprovisionnement', name: 'bonapprovisionnement_index', methods:['GET'])]
-    public function index(EntityManagerInterface $entityManager): Response
+    public function index(BonapprovisionnementRepository $bonapprovisionnementRepository): Response
     {
-        $bonapprovisionnement = $entityManager->getRepository(Bonapprovisionnement::class)->findAll();
+        $bonapprovisionnement = $bonapprovisionnementRepository->findAll();
 
         return $this->render('bonapprovisionnement/index.html.twig', [
             'bonapprovisionnement' => $bonapprovisionnement,
@@ -38,9 +39,18 @@ class BonapprovisionnementController extends AbstractController
         ]);
     }
 
+    #[Route('/bonapprovisionnement/validate', name: 'bonapprovisionnement_validate', methods:['GET'])]
+    public function index_validated(BonapprovisionnementRepository $bonapprovisionnementRepository): Response
+    {
+        $bonapprovisionnement = $bonapprovisionnementRepository->findBonValidate();
+
+        return $this->render('bonapprovisionnement/index.html.twig', [
+            'bonapprovisionnement' => $bonapprovisionnement
+        ]);
+    }
 
     #[Route('/bonapprovisionnement/new', name: 'bonapprovisionnement_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, CaisseService $service): Response
     {
         $bonapprovisionnement = new Bonapprovisionnement();
 
@@ -50,8 +60,7 @@ class BonapprovisionnementController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var User $user */
             $user = $this->getUser();
-            $bonapprovisionnement->setUser($this->getUser())->setStatus(Status::EN_ATTENTE);
-
+            $bonapprovisionnement->setUser($user)->setStatus(Status::EN_ATTENTE);
 
             $detail = $bonapprovisionnement->getDetails();
             foreach ($detail as $d) {
@@ -60,9 +69,9 @@ class BonapprovisionnementController extends AbstractController
                 $entityManager->persist($d);
             }
 
-
             $entityManager->persist($bonapprovisionnement);
             $entityManager->flush();
+            $this->addFlash('success','Bon Approvisionnement enregistré avec succès');
 
             return $this->redirectToRoute('bonapprovisionnement_index');
         }
@@ -73,13 +82,37 @@ class BonapprovisionnementController extends AbstractController
         ]);
     }
 
+
     #[Route('/bonapprovisionnement/{id}/show', name: 'bonapprovisionnement_show', methods: ['GET', 'POST'])]
-    public function show(Bonapprovisionnement $bonapprovisionnement): Response
+    public function show(Bonapprovisionnement $bonapprovisionnement, Request $request, EntityManagerInterface $entityManager): Response
     {
+        if ($request->isMethod('POST') && $this->isCsrfTokenValid('validate-caisse-bonapprovisionnement', $request->request->get('_token'))) {
+            if($request->request->has('confirm')) {
+                /** @var User $user */
+                $user = $this->getUser();
+                $caisse = $user->getCaisse();
+                $solde = $caisse->getSoldedispo();
+                $total = $bonapprovisionnement->getTotal();
+                $caisse->setSoldedispo($solde - $total);
+                $bonapprovisionnement->setStatus(Status::VALIDATED);
+
+                $entityManager->persist($bonapprovisionnement);
+                $entityManager->persist($caisse);
+
+                $entityManager->flush();
+                $this->addFlash('success','Bon Approvisionnement enregistré avec succès');
+                return $this->redirectToRoute('app_welcome');
+
+            }
+        }
+
+
         return $this->render('bonapprovisionnement/show.html.twig', [
             'bonapprovisionnement' => $bonapprovisionnement,
+
         ]);
     }
+
 
     #[Route('/bonapprovisionnement/{id}/edit', name: 'bonapprovisionnement_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Bonapprovisionnement $bonapprovisionnement, EntityManagerInterface $entityManager): Response

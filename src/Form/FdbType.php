@@ -12,7 +12,7 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
 
 class FdbType extends AbstractType
 {
@@ -47,12 +47,6 @@ class FdbType extends AbstractType
             ]);
 
 
-            //->add('submit', SubmitType::class, [
-               // 'attr' => [
-                //    'class' => 'btn btn-primary mt-4'
-             //   ]
-          //  ]);
-        ;
         $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
             /** @var Fdb $fdb */
             $fdb = $event->getData();

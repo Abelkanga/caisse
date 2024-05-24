@@ -50,4 +50,12 @@ class BonapprovisionnementRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
+    public function findBonValidate()
+    {
+        $qb = $this->createQueryBuilder('b');
+        $qb->where('b.status = :status')
+            ->setParameter('status',Status::VALIDATED);
+        return $qb->getQuery()->getResult();
+    }
+
 }

@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\Caisse;
 use App\Entity\Fdb;
+use App\Repository\DepenseRepository;
 use App\Repository\FdbRepository;
 
 class CaisseService
@@ -14,28 +15,30 @@ class CaisseService
         $this->fdbRepository = $fdbRepository;
     }
 
-    public function calculerSolde(Caisse $caisse): float
-    {
-        $totalEntrees = 0;
-        foreach ($caisse->getBonapprovisionnements() as $bonapprovisionnement) {
-            $totalEntrees += $bonapprovisionnement->getMontanttotal();
-        }
 
-        $totalSorties = 0;
-        foreach ($caisse->getDepenses() as $depense) {
-            $totalSorties += $depense->getMontant();
-        }
-
-        return $totalEntrees - $totalSorties;
-    }
-
-    public function obtenirMouvements(Caisse $caisse): array
-    {
-        return [
-            'depense' => $caisse->getDepenses(),
-            'bonapprovisionnement' => $caisse->getBonapprovisionnements(),
-        ];
-    }
+    private DepenseRepository $depenseRepository;
+//    public function calculerSolde(Caisse $caisse): float
+//    {
+//        $totalEntrees = 0;
+//        foreach ($caisse->getBonapprovisionnements() as $bonapprovisionnement) {
+//            $totalEntrees += $bonapprovisionnement->getMontanttotal();
+//        }
+//
+//        $totalSorties = 0;
+//        foreach ($caisse->getDepenses() as $depense) {
+//            $totalSorties += $depense->getMontant();
+//        }
+//
+//        return $totalEntrees - $totalSorties;
+//    }
+//
+//    public function obtenirMouvements(Caisse $caisse): array
+//    {
+//        return [
+//            'depense' => $caisse->getDepenses(),
+//            'bonapprovisionnement' => $caisse->getBonapprovisionnements(),
+//        ];
+//    }
 
     public function refFdb(): string
     {

@@ -7,8 +7,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: BonapprovisionnementRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Bonapprovisionnement
 {
     #[ORM\Id]
@@ -29,6 +31,7 @@ class Bonapprovisionnement
     private ?string $nature = null;
 
     #[ORM\ManyToOne(inversedBy: 'bonapprovisionnements')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'bonapprovisionnements')]
@@ -51,6 +54,9 @@ class Bonapprovisionnement
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $updatedAt = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+    private ?string $total = null;
 
     public function __construct()
     {
@@ -181,9 +187,10 @@ class Bonapprovisionnement
         return $this->uuid;
     }
 
-    public function setUuid(string $uuid): static
+    #[ORM\PrePersist]
+    public function setUuid(): static
     {
-        $this->uuid = $uuid;
+        $this->uuid = Uuid::v4();
 
         return $this;
     }
@@ -193,9 +200,10 @@ class Bonapprovisionnement
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    #[ORM\PrePersist]
+    public function setCreatedAt(): static
     {
-        $this->createdAt = $createdAt;
+        $this->createdAt = new \DateTimeImmutable;
 
         return $this;
     }
@@ -211,4 +219,18 @@ class Bonapprovisionnement
 
         return $this;
     }
+
+    public function getTotal(): ?string
+    {
+        return $this->total;
+    }
+
+    public function setTotal(?string $total): static
+    {
+        $this->total = $total;
+
+        return $this;
+    }
+
+
 }

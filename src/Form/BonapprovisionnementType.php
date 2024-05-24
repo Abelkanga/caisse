@@ -9,6 +9,8 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class BonapprovisionnementType extends AbstractType
@@ -33,6 +35,18 @@ class BonapprovisionnementType extends AbstractType
                 'allow_add' => true,
                 'allow_delete' => true,
             ]);
+
+
+        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
+            /** @var Bonapprovisionnement $bonapprovisionnement */
+            $bonapprovisionnement = $event->getData();
+            $total = 0;
+            foreach ($bonapprovisionnement->getDetails() as $d) {
+                $total += $d->getMontant();
+            }
+            $bonapprovisionnement->setTotal($total);
+        });
+
 
 
     }

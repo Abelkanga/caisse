@@ -85,8 +85,7 @@ class FdbController extends AbstractController
     public function show(Fdb $fdb, Request $request, EntityManagerInterface $entityManager): Response
     {
 
-        if ($request->isMethod('POST') &&
-            $this->isCsrfTokenValid('validate-caisse-fdb', $request->request->get('_token'))) {
+        if ($request->isMethod('POST') && $this->isCsrfTokenValid('validate-caisse-fdb', $request->request->get('_token'))) {
             if($request->request->has('confirm')) {
                 /** @var User $user */
                 $user = $this->getUser();

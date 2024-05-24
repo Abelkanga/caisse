@@ -14,22 +14,24 @@
                     <table class="table table-striped table-hover bordered table-sm basic-datatable">
                         <thead class="thead-light">
                         <tr>
-                            <th>Id</th>
+
                             <th>Date</th>
                             <th>Montant</th>
                             <th>Catégorie</th>
                             <th>Mode de paiement</th>
+                            <th>Statut</th>
                             <th>Actions</th>
                         </tr>
                         </thead>
                         <tbody>
                         {% for depense in depense %}
                             <tr>
-                                <td>{{ depense.id }}</td>
-                                <td>{{ depense.date|date('Y-m-d') }}</td>
+
+                                <td class="text-center">{{ depense.date|date('Y-m-d') }}</td>
                                 <td>{{ depense.montant }}</td>
                                 <td>{{ depense.category }}</td>
                                 <td>{{ depense.modepaie }}</td>
+                                <td class="text-center">{{ depense.status }}</td>
                                 <td class="text-center">
                                     <a class="btn btn-sm btn-icon btn-secondary" href="{{ path('depense_edit', {'id': depense.id}) }}">
                                         <i class="fa fa-pencil-alt"></i>

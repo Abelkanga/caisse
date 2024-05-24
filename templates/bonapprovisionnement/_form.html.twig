@@ -19,7 +19,7 @@
         <div class="col-3">
             <div class="form-group">
                 <label for="montanttotal">Montant Total</label>
-                {{ form_widget(form.montanttotal, {'attr' : {'class': 'form-control'}}) }}
+                {{ form_widget(form.montanttotal, {'attr' : {'class': 'form-control separator text-right'}}) }}
             </div>
         </div>
 
@@ -50,5 +50,13 @@
         <tbody id="">
         {{ form_widget(form.details) }}
         </tbody>
+        <tfoot>
+        <tr>
+            <th colspan="2">Total</th>
+            <th class="text-right"><span id="total_price"></span></th>
+            <th class="text-right"><span id="total_montant"></span></th>
+            <th></th>
+        </tr>
+        </tfoot>
     </table>
 </fieldset>

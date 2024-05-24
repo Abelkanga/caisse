@@ -7,8 +7,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: DepenseRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Depense
 {
     #[ORM\Id]
@@ -180,10 +182,10 @@ class Depense
     {
         return $this->uuid;
     }
-
-    public function setUuid(string $uuid): static
+    #[ORM\PrePersist]
+    public function setUuid(): static
     {
-        $this->uuid = $uuid;
+        $this->uuid = Uuid::v4();
 
         return $this;
     }
@@ -193,9 +195,10 @@ class Depense
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    #[ORM\PrePersist]
+    public function setCreatedAt(): static
     {
-        $this->createdAt = $createdAt;
+        $this->createdAt = new \DateTimeImmutable;
 
         return $this;
     }
