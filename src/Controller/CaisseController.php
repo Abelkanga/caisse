@@ -5,9 +5,7 @@ namespace App\Controller;
 use App\Entity\Caisse;
 use App\Form\CaisseType;
 use App\Repository\CaisseRepository;
-use App\Service\CaisseService;
 use Doctrine\ORM\EntityManagerInterface;
-use Mpdf\Mpdf;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -66,9 +64,9 @@ class CaisseController extends AbstractController
         $type = $request->query->get('type');
 
         $queryBuilder = $caisseRepository->createQueryBuilder('c')
-            ->leftJoin('c.fdb', 'f')
-            ->leftJoin('c.depense', 'd')
-            ->leftJoin('c.bonapprovisionnement', 'b')
+            ->leftJoin('c.fdbs', 'f')
+            ->leftJoin('c.depenses', 'd')
+            ->leftJoin('c.bonapprovisionnements', 'b')
             ->addSelect( 'f', 'd', 'b');
 
         if ($dateDebut) {
@@ -107,17 +105,15 @@ class CaisseController extends AbstractController
                     'type' => 'entree',
                     'date' => $bon->getDate()->format('Y-m-d'),
                     'montant' => $bon->getMontant(),
-                    'caisseIntitule' => $caisse->getIntitule(),
+                    'intitule' => $caisse->getIntitule(),
                 ];
             }
         }
 
         return $this->render('caisse/etat.html.twig', [
             'caisse' => $data,
-            'solde' => $caisse ? $caisse[0]->calculateSolde() : 0,
+//            'solde' => $caisse ? $caisse[0]->calculateSolde() : 0,
         ]);
     }
-
-
 
 }

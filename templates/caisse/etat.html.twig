@@ -3,8 +3,10 @@
 {% block title %}État de la Caisse{% endblock %}
 
 {% block body %}
-    <h1>État de la Caisse</h1>
 
+<fieldset>
+    <legend>État de la Caisse</legend>
+</fieldset>
     <div class="col-12">
         <div class="card card-fluid">
             <div class="card-header bg-soft-custom" id="bg">
@@ -58,7 +60,7 @@
                     </table>
                 </div>
                 <div>
-                    <p>Solde Disponible: {{ Soldedispo }}</p>
+{#                    <p>Solde Disponible: {{ caisse.Soldedispo }}</p>#}
                 </div>
             </div>
         </div>

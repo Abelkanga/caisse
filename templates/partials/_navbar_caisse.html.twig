@@ -50,6 +50,24 @@
 	<!-- /child menu -->
 	<!-- .menu-item -->
 </li>
+<li class="menu-item has-child">
+	<a href="#" class="menu-link">
+		<span class="menu-icon fas fa-file-alt"></span>
+		<span class="menu-text">Etat de caisse</span>
+	</a>
+	<!-- child menu -->
+	<ul class="menu">
+		<li class="menu-item {{ app.request.get('_route') == 'app_etat_caisse' ? 'has-active': '' }}">
+			<a href="{{ path('app_etat_caisse') }}" class="menu-link">Créer</a>
+		</li>
+		<li class="menu-item {{ app.request.get('_route') == '' ? 'has-active': '' }}">
+			<a href="" class="menu-link">Liste</a>
+		</li>
+
+	</ul>
+	<!-- /child menu -->
+	<!-- .menu-item -->
+</li>
 <hr>
 <li class="menu-item has-child">
 	<a href="#" class="menu-link">
@@ -103,9 +121,6 @@
 	<!-- /child menu -->
 	<!-- .menu-item -->
 </li>
-
-
-
 
 {#<li class="menu-item has-child">#}
 {#	<a href="#" class="menu-link">#}
