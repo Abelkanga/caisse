@@ -9,63 +9,64 @@
 
             <div class="card card-fluid">
                 <div class="card-header bg-soft-custom">
-                    <h6>Bon d'approvisionnement </h6>
+                    <h6>Bon d'approvisionnement N°{{ bonapprovisionnement.id }}</h6>
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <div
                                 class="col-sm-2">{# <img style="margin-left: -2em" src="{{ asset('assets/dist/img/ews.jpg') }}" alt=""> #}
                         </div>
-                        <div class="col-sm-8">
-                            <div class="text-center">
-                                <h4 class="">FICHE BON D'APPROVISIONNEMENT</h4>
-                            </div>
-                        </div>
+
                         <div
                                 class="col-sm-2">{# <img class="float-right" src="{{ asset('assets/dist/img/stib.jpg') }}" alt=""> #}
                         </div>
                     </div>
                     <br>
-                    <table class="table table-sm bordered">
-                        <thead class="thead-light">
-                        <tr>
-                            <th class="text-center">Date enregistrement</th>
-                            <th class="text-center">Mode de paiement</th>
-                            <th class="text-center">Montant total</th>
-                            <th class="text-center">Nature</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td class="text-center">{{ bonapprovisionnement.date|date('Y-m-d') }}</td>
-                            <td class="text-center">{{ bonapprovisionnement.modepaie }}</td>
-                            <td class="text-center">{{ bonapprovisionnement.montanttotal }}</td>
-                            <td class="text-center">{{ bonapprovisionnement.nature }}</td>
-                        </tr>
-                        </tbody>
-                    </table>
-
-                    <h3>Détails</h3>
-                    <table class="table table-bordered">
-                        <thead>
-                        <tr>
-                            <th>Qte</th>
-                            <th>Désignation</th>
-                            <th>Prix unitaire</th>
-                            <th>Montant TTC</th>
-                        </tr>
-                        </thead>
-                        <tbody id="bonapprovisionnement_details">
-                        {% for detail in bonapprovisionnement.details %}
+                    <fieldset>
+                        <legend>Information du bon d'approvisionnement</legend>
+                        <table class="table table-sm bordered">
+                            <thead class="thead-light">
                             <tr>
-                                <td>{{ detail.quantite }}</td>
-                                <td>{{ detail.designationproduit }}</td>
-                                <td>{{ detail.price }}</td>
-                                <td>{{ detail.montant }}</td>
+                                <th class="text-center">Date enregistrement</th>
+                                <th class="text-center">Mode de paiement</th>
+                                <th class="text-center">Montant total</th>
+                                <th class="text-center">Nature</th>
                             </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="text-center">{{ bonapprovisionnement.date|date('Y-m-d') }}</td>
+                                <td class="text-center">{{ bonapprovisionnement.modepaie }}</td>
+                                <td class="text-center">{{ bonapprovisionnement.montanttotal }}</td>
+                                <td class="text-center">{{ bonapprovisionnement.nature }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <fieldset>
+                            <legend> Détail du bon d'approvisionnement</legend>
+                            <table class="table bordered table-sm">
+                                <thead>
+                                <tr>
+                                    <th>Qte</th>
+                                    <th>Désignation</th>
+                                    <th>Prix unitaire</th>
+                                    <th>Montant TTC</th>
+                                </tr>
+                                </thead>
+                                <tbody id="bonapprovisionnement_details">
+                                {% for detail in bonapprovisionnement.details %}
+                                    <tr>
+                                        <td>{{ detail.quantite }}</td>
+                                        <td>{{ detail.designationproduit }}</td>
+                                        <td>{{ detail.price }}</td>
+                                        <td>{{ detail.montant }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+
+                            </table>
+                        </fieldset>
                 </div>
                 <form method="post" action="{{ path('bonapprovisionnement_show', {'id': bonapprovisionnement.id}) }}">
                     <div class="card-footer">
@@ -77,37 +78,16 @@
                                 <!-- Button trigger modal -->
                             {% endif %}
 
-
-
-                            <a target="_blank" href="{{ path('bonapprovisionnement_pdf', {'id': bonapprovisionnement.id}) }}" class="btn btn-primary float-right ml-2">
-                                <i class="fa fa-print"></i> Imprimer Fiche de Besoin
+                            <a target="_blank" href="{{ path('print_bon', {'uuid': bonapprovisionnement.uuid}) }}" class="btn btn-primary float-right ml-2">
+                                <i class="fa fa-print"></i> Imprimer Bon d'approvisionnement
                             </a>
                             <a href="{{ path('app_welcome') }}" class="btn btn-info float-right">
                                 <i class="oi oi-home"></i> Retour
                             </a>
-
                             <input type="hidden" name="_token" value="{{ csrf_token('validate-caisse-bonapprovisionnement') }}">
                         </div>
-
                     </div>
-
                 </form>
-
-{#                <div class="card-footer">#}
-{#                    <div class="card-footer-content">#}
-{#                        <a target="_blank"#}
-{#                           href="{{ path('bonapprovisionnement_pdf', {'id': bonapprovisionnement.id}) }}"#}
-
-{#                           class="btn btn-primary float-right ml-2">#}
-{#                            <i class="fa fa-print"></i>#}
-{#                            Imprimer Bon d'approvisionnement#}
-{#                        </a>#}
-
-{#                        <a href="{{ path('app_welcome') }}" class="btn btn-info float-right">#}
-{#                            <i class="oi oi-home"></i>#}
-{#                            Retour</a>#}
-{#                    </div>#}
-{#                </div>#}
             </div>
         </div>
     </div>

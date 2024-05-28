@@ -7,7 +7,6 @@ use App\Entity\User;
 use App\Form\BonapprovisionnementType;
 use App\Repository\BonapprovisionnementRepository;
 use App\Service\CaisseService;
-use App\Service\PdfService;
 use App\Utils\Status;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -71,8 +70,7 @@ class BonapprovisionnementController extends AbstractController
 
             $entityManager->persist($bonapprovisionnement);
             $entityManager->flush();
-            $this->addFlash('success','Bon Approvisionnement enregistré avec succès');
-
+            flash()->success('Bon d approvisionnement créé avec succès !');
             return $this->redirectToRoute('bonapprovisionnement_index');
         }
 
@@ -100,7 +98,7 @@ class BonapprovisionnementController extends AbstractController
                 $entityManager->persist($caisse);
 
                 $entityManager->flush();
-                $this->addFlash('success','Bon Approvisionnement enregistré avec succès');
+
                 return $this->redirectToRoute('app_welcome');
 
             }
@@ -122,7 +120,7 @@ class BonapprovisionnementController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
-
+            flash()->success('Bon d approvisionnement modifié avec succès !');
             return $this->redirectToRoute('bonapprovisionnement_index');
         }
 
@@ -132,29 +130,21 @@ class BonapprovisionnementController extends AbstractController
         ]);
     }
 
-    #[Route('/bonapprovisionnement/{id}/pdf', name: 'bonapprovisionnement_pdf', methods: ['GET', 'POST'])]
-    public function pdf($id, EntityManagerInterface $entityManager, PdfService $pdfService,): \Symfony\Component\HttpFoundation\RedirectResponse
+    #[Route('/bonapprovisionnement/{uuid}/print', name: 'print_bon', methods: ['GET'])]
+    public function print(Bonapprovisionnement $bonapprovisionnement ): Response
     {
-        $bonapprovisionnementRepository = $entityManager->getRepository(Bonapprovisionnement::class);
-        $bonapprovisionnement = $bonapprovisionnementRepository->find($id);
-
-        if (!$bonapprovisionnement) {
-            throw $this->createNotFoundException('Le bon d\'approvisionnement demandé n\'existe pas');
-        }
-
-        $pdfService->generatePdf('bonapprovisionnement/pdf.html.twig', [
-            'bonapprovisionnement' => $bonapprovisionnement
+        return $this->render('bonapprovisionnement/print.html.twig', [
+            'bonapprovisionnement' => $bonapprovisionnement,
         ]);
-
-        return $this->redirectToRoute('bonapprovisionnement_index');
     }
+
 
     #[Route('/bonapprovisionnement/{id}/delete', name: 'bonapprovisionnement_delete', methods: ['GET'])]
     public function delete(EntityManagerInterface $entityManager, Bonapprovisionnement $bonapprovisionnement, ): Response
     {
         $entityManager->remove($bonapprovisionnement);
         $entityManager->flush();
-
+        flash()->success('Bon d approvisionnement supprimé avec succès !');
         return $this->redirectToRoute('bonapprovisionnement_index');
     }
 

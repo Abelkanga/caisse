@@ -1,0 +1,68 @@
+{% extends 'imprimer.html.twig' %}
+{% block body %}
+    <div content=" ">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card card-fluid">
+                    <div class="card-header bg-soft-custom">
+                        <h6>Fiche de Besoin {{ fdb.numeroFicheBesoin }}</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-2"></div>
+                            <div class="col-sm-2"></div>
+                        </div>
+                        <br>
+                        <fieldset>
+                            <legend>Information de la fiche de besoin</legend>
+                            <table class="table table-sm bordered">
+                                <tbody>
+                                <tr>
+                                    <th>De</th>
+                                    <td>{{ fdb.responsable }}</td>
+                                </tr>
+                                <tr>
+                                    <th>À</th>
+                                    <td>{{ fdb.destinataire }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Date d’Établissement</th>
+                                    <td>{{ fdb.date ? fdb.date.format('Y-m-d') : '' }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Objet</th>
+                                    <td>{{ fdb.objet }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                            <fieldset>
+                                <legend> Détail de la fiche de besoin</legend>
+                                <table class="table bordered table-sm">
+                                    <thead>
+                                    <tr>
+                                        <th>Qte</th>
+                                        <th>Désignation</th>
+                                        <th>Prix unitaire</th>
+                                        <th>Montant TTC</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="fdb_details">
+                                    {% for detail in fdb.details %}
+                                        <tr>
+                                            <td>{{ detail.quantite }}</td>
+                                            <td>{{ detail.designationproduit }}</td>
+                                            <td>{{ detail.price }}</td>
+                                            <td>{{ detail.montant }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </fieldset>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

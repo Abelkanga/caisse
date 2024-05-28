@@ -5,13 +5,6 @@
 {% block body %}
 
     <div class="col-12">
-
-        {% for message in app.flashes('success') %}
-            <div class="alert alert-success">
-                {{ message }}
-            </div>
-        {% endfor %}
-
         {{ form_start(form) }}
         <div class="card card-fluid">
             <div class="card-header bg-soft-custom">

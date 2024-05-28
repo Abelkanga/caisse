@@ -37,7 +37,7 @@ class DepenseType extends AbstractType
 //            foreach ($depense->getDetails() as $d) {
 //                $total += $d->getMontant();
 //            }
-            $depense->setTotal($total);
+            $depense->setMontant($total);
         });
     }
 

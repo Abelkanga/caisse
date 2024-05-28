@@ -7,6 +7,7 @@ use App\Form\CaisseType;
 use App\Repository\CaisseRepository;
 use App\Service\CaisseService;
 use Doctrine\ORM\EntityManagerInterface;
+use Mpdf\Mpdf;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,7 +34,7 @@ class CaisseController extends AbstractController
         if($form->isSubmitted() && $form->isValid()) {
             $manager->persist($caisse);
             $manager->flush();
-            $this->addFlash('success','Caisse crée avec succès');
+            flash()->success('Caisse créée avec succès !');
             return $this->redirectToRoute('caisse_index');
         }
         return $this->render('caisse/new.html.twig', [
@@ -48,12 +49,75 @@ class CaisseController extends AbstractController
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
             $manager->flush();
-            $this->addFlash('success','Caisse modifiée avec succès');
+            flash()->success('Caisse modifiée avec succès !');
             return  $this->redirectToRoute('caisse_index');
         }
         return $this->render('caisse/edit.html.twig', [
             'form' => $form ,
         ]);
     }
+
+
+    #[Route('/etat', name: 'app_etat_caisse', methods: ['GET'])]
+    public function etatCaisse(Request $request, CaisseRepository $caisseRepository): Response
+    {
+        $dateDebut = $request->query->get('dateDebut');
+        $dateFin = $request->query->get('dateFin');
+        $type = $request->query->get('type');
+
+        $queryBuilder = $caisseRepository->createQueryBuilder('c')
+            ->leftJoin('c.fdb', 'f')
+            ->leftJoin('c.depense', 'd')
+            ->leftJoin('c.bonapprovisionnement', 'b')
+            ->addSelect( 'f', 'd', 'b');
+
+        if ($dateDebut) {
+            $queryBuilder->andWhere('f.date >= :dateDebut OR d.date >= :dateDebut OR b.date >= :dateDebut')
+                ->setParameter('dateDebut', $dateDebut);
+        }
+
+        if ($dateFin) {
+            $queryBuilder->andWhere('f.date <= :dateFin OR d.date <= :dateFin OR b.date <= :dateFin')
+                ->setParameter('dateFin', $dateFin);
+        }
+
+        if ($type) {
+            if ($type === 'entree') {
+                $queryBuilder->andWhere('b.id IS NOT NULL');
+            } elseif ($type === 'sortie') {
+                $queryBuilder->andWhere('f.id IS NOT NULL');
+                $queryBuilder->andWhere('d.id IS NOT NULL');
+            }
+        }
+
+        $caisse = $queryBuilder->getQuery()->getResult();
+
+        $data = [];
+        foreach ($caisse as $caisse) {
+            foreach ($caisse->getDepenses() as $depense) {
+                $data[] = [
+                    'type' => 'sortie',
+                    'date' => $depense->getDate()->format('Y-m-d'),
+                    'montant' => $depense->getMontant(),
+                    'intitule' => $caisse->getIntitule(),
+                ];
+            }
+            foreach ($caisse->getBonApprovisionnements() as $bon) {
+                $data[] = [
+                    'type' => 'entree',
+                    'date' => $bon->getDate()->format('Y-m-d'),
+                    'montant' => $bon->getMontant(),
+                    'caisseIntitule' => $caisse->getIntitule(),
+                ];
+            }
+        }
+
+        return $this->render('caisse/etat.html.twig', [
+            'caisse' => $data,
+            'solde' => $caisse ? $caisse[0]->calculateSolde() : 0,
+        ]);
+    }
+
+
 
 }

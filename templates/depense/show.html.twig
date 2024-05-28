@@ -8,41 +8,37 @@
         <div class="col-sm-12">
             <div class="card card-fluid">
                 <div class="card-header bg-soft-custom">
-                    <h6>Dépense</h6>
+                    <h6>Dépense N° {{ depense.id }}</h6>
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <div
                                 class="col-sm-2">{# <img style="margin-left: -2em" src="{{ asset('assets/dist/img/ews.jpg') }}" alt=""> #}
                         </div>
-                        <div class="col-sm-8">
-                            <div class="text-center">
-                                <h4 class="">FICHE D'ENREGISTREMENT DE DEPENSE</h4>
-                            </div>
-                        </div>
                         <div
                                 class="col-sm-2">{# <img class="float-right" src="{{ asset('assets/dist/img/stib.jpg') }}" alt=""> #}
                         </div>
                     </div>
-                    <br>
-                    <table class="table table-sm bordered">
-                        <thead class="thead-light">
-                        <tr>
-                            <th class="text-center">Date enregistrement</th>
-                            <th class="text-center">Montant</th>
-                            <th class="text-center">Catégorie</th>
-                            <th class="text-center">Mode de paiement</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td class="text-center">{{ depense.date|date('Y-m-d') }}</td>
-                            <td class="text-center">{{ depense.montant }}</td>
-                            <td class="text-center">{{ depense.category }}</td>
-                            <td class="text-center">{{ depense.modepaie }}</td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <br><fieldset>
+                        <legend> Information de la dépense</legend>
+                        <table class="table bordered table-sm">
+                            <thead class="thead-light">
+                            <tr>
+                                <th class="text-center">Date enregistrement</th>
+                                <th class="text-center">Montant</th>
+                                <th class="text-center">Catégorie</th>
+                                <th class="text-center">Mode de paiement</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="text-center">{{ depense.date|date('Y-m-d') }}</td>
+                                <td class="text-center">{{ depense.montant }}</td>
+                                <td class="text-center">{{ depense.category }}</td>
+                                <td class="text-center">{{ depense.modepaie }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
                 </div>
 
                 <form method="post" action="{{ path('depense_show', {'id': depense.id}) }}">
@@ -55,39 +51,16 @@
                                 <!-- Button trigger modal -->
                             {% endif %}
 
-
-
-                            <a target="_blank" href="{{ path('depense_pdf', {'id': depense.id}) }}" class="btn btn-primary float-right ml-2">
+                            <a target="_blank" href="{{ path('print_depense', {'uuid': depense.uuid}) }}" class="btn btn-primary float-right ml-2">
                                 <i class="fa fa-print"></i> Imprimer Depense
                             </a>
                             <a href="{{ path('app_welcome') }}" class="btn btn-info float-right">
                                 <i class="oi oi-home"></i> Retour
                             </a>
-
-
-
                             <input type="hidden" name="_token" value="{{ csrf_token('validate-caisse-depense') }}">
                         </div>
-
                     </div>
-
                 </form>
-
-{#                <div class="card-footer">#}
-{#                    <div class="card-footer-content">#}
-{#                        <a target="_blank"#}
-{#                           href="{{ path('depense_pdf', {'id': depense.id}) }}"#}
-
-{#                           class="btn btn-primary float-right ml-2">#}
-{#                            <i class="fa fa-print"></i>#}
-{#                            Imprimer Dépense#}
-{#                        </a>#}
-
-{#                        <a href="{{ path('app_welcome') }}" class="btn btn-info float-right">#}
-{#                            <i class="oi oi-home"></i>#}
-{#                            Retour</a>#}
-{#                    </div>#}
-{#                </div>#}
             </div>
         </div>
     </div>

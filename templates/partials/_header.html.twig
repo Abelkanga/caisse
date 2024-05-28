@@ -43,26 +43,21 @@
                     {% if app.user %}
                         {% if app.user.caisse is not null %}
                             <button class="btn-account d-flex align-items-center" type="button">
-                                <span class="oi oi-map-marker p-1"></span>
+                                <span class="fas fa-cash-register p-1"> </span>
                                 <strong class="pt-1">{{ app.user.caisse.intitule }}</strong>
                             </button>
                         {% elseif is_granted('ROLE_ADMIN') %}
                             <button class="btn-account d-flex align-items-center" type="button">
-                                <span class="fa-solid fa-building-columns p-1"></span>
+                                <span class="fa-solid fa-building-columns p-1"> </span>
                                 <strong class="pt-1">Administration</strong>
                             </button>
                         {% else %}
                             <button class="btn-account d-flex align-items-center" type="button">
-                                <span class="fa-solid fa-building-columns p-1"></span>
+                                <span class="fa-regular fa-user"> </span>
                                 <strong class="pt-1">{{ app.user.fullName }}</strong>
                             </button>
                         {% endif %}
                     {% endif %}
-
-                    {#                    <button class="btn-account d-flex align-items-center" type="button" > #}
-                    {#                        <span class="fa-solid fa-building-columns p-1"></span> #}
-                    {#                        <strong class="pt-1">Fiche de besoin</strong> #}
-                    {#                    </button> #}
 
                     <button class="btn-account d-flex align-items-center" type="button">
                         <span class="oi oi-clock p-1"></span>

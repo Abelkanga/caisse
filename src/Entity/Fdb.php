@@ -66,6 +66,9 @@ class Fdb
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
     private ?string $total = null;
 
+    #[ORM\ManyToOne(inversedBy: 'fdb')]
+    private ?BonCaisse $bonCaisse = null;
+
     public function __construct()
     {
         $this->details = new ArrayCollection();
@@ -263,6 +266,18 @@ class Fdb
     public function setTotal(?string $total): static
     {
         $this->total = $total;
+
+        return $this;
+    }
+
+    public function getBonCaisse(): ?BonCaisse
+    {
+        return $this->bonCaisse;
+    }
+
+    public function setBonCaisse(?BonCaisse $bonCaisse): static
+    {
+        $this->bonCaisse = $bonCaisse;
 
         return $this;
     }

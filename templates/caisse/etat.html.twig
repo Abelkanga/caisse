@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}État de la Caisse{% endblock %}
+
+{% block body %}
+    <h1>État de la Caisse</h1>
+
+    <div class="col-12">
+        <div class="card card-fluid">
+            <div class="card-header bg-soft-custom" id="bg">
+                <h6><i class="fa-solid fa-list" style="font-size:20px;"></i> Recherche d'État</h6>
+            </div>
+            <div class="card-body">
+                <div class="row justify-content-center">
+                    <div class="col-8">
+                        <form method="get" action="{{ path('app_etat_caisse') }}" class="formDate d-flex justify-content-center align-items-center">
+                            <input type="date" name="dateDebut" class="form-control input-large mx-2">
+                            <input type="date" name="dateFin" class="form-control input-large mx-2">
+                            <select name="type" class="form-control input-large mx-2">
+                                <option value="">Tous</option>
+                                <option value="entree">Entrée</option>
+                                <option value="sortie">Sortie</option>
+                            </select>
+                            <i class="fa-solid fa-magnifying-glass"></i> <input type="submit" value="Rechercher" class="btn btn-success float-right ml-3">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-12">
+        <div class="card">
+            <div class="card-header bg-soft-custom" style="background:#21244e; color:white;">
+                <i class="fa-solid fa-list" style="font-size:30px;"></i> &nbsp;État de la Caisse
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover bordered table-sm">
+                        <thead class="thead-light">
+                        <tr>
+                            <th class="text-center">Type</th>
+                            <th class="text-center">Date</th>
+                            <th class="text-center">Montant</th>
+                            <th class="text-center">Intitulé Caisse</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for caisse in caisse %}
+                            <tr>
+                                <td class="text-center">{{ caisse.type }}</td>
+                                <td class="text-center">{{ caisse.date }}</td>
+                                <td class="text-center">{{ caisse.montant }}</td>
+                                <td class="text-center">{{ caisse.intitule }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <p>Solde Disponible: {{ Soldedispo }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

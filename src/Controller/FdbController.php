@@ -7,13 +7,13 @@ use App\Entity\User;
 use App\Form\FdbType;
 use App\Repository\FdbRepository;
 use App\Service\CaisseService;
-use App\Service\PdfService;
 use App\Utils\Status;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
 
 class FdbController extends AbstractController
 {
@@ -80,8 +80,7 @@ class FdbController extends AbstractController
 
             $entityManager->persist($fdb);
             $entityManager->flush();
-            $this->addFlash('success','Fiche de besoin enregistré avec succès !');
-
+            flash()->success('Fiche de besoin enregistré avec succès !');
 
             return $this->redirectToRoute('fdb_index');
         }
@@ -104,32 +103,37 @@ class FdbController extends AbstractController
                 $total = $fdb->getTotal();
 
                 if ($solde < $total) {
-                    $this->addFlash('error', 'Pas de fond disponible pour effectuer cette opération');
+                    flash()->error('Pas de fond disponible pour effectuer cette opération');
+
                     return $this->redirectToRoute('app_welcome');
                 }
 
                 $caisse->setSoldedispo($solde - $total);
                 $fdb->setStatus(Status::VALIDATED);
+//
+//                $bonCaisse = new BonCaisse();
+//                $bonCaisse->setStatut('validé');
+//                $bonCaisse->setDate(new \DateTime());
+//                $bonCaisse->setMontant($fdb->getTotal());
+//                $bonCaisse->setCaisse('Caisse principale');
+
 
                 $entityManager->persist($fdb);
                 $entityManager->persist($caisse);
 
                 $entityManager->flush();
-                $this->addFlash('success','Fiche de besoin enregistré avec succès');
+                $this->addFlash('success','Fiche de besoin enregistrée avec succès');
 
                 return $this->redirectToRoute('app_welcome');
 
             }
         }
 
-
         return $this->render('fdb/show.html.twig', [
             'fdb' => $fdb,
 
         ]);
     }
-
-
 
     #[Route('/fdb/{id}/edit', name:'fdb_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Fdb $fdb, EntityManagerInterface $entityManager): Response
@@ -139,7 +143,7 @@ class FdbController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
-
+            flash()->success('Fiche de besoin modifiée avec succès !');
             return $this->redirectToRoute('fdb_index');
         }
 
@@ -148,31 +152,21 @@ class FdbController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-    #[Route('/fdb/{id}/pdf', name:'fdb_pdf', methods: ['GET', 'POST'])]
-    public function pdf($id, EntityManagerInterface $entityManager, PdfService $pdfService): \Symfony\Component\HttpFoundation\RedirectResponse
+
+    #[Route('/fdb/{uuid}/print', name: 'print_fdb', methods: ['GET'])]
+    public function print(Fdb $fdb): Response
     {
-        $fdbRepository = $entityManager->getRepository(Fdb::class);
-        $fdb = $fdbRepository->find($id);
-
-        if (!$fdb) {
-            throw $this->createNotFoundException('La fiche de besoin demandée n\'existe pas');
-        }
-
-        $pdfService->generatePdf('fdb/pdf.html.twig', [
+        return $this->render('fdb/print.html.twig', [
             'fdb' => $fdb
         ]);
-
-        return $this->redirectToRoute('fdb_index');
     }
-
-
-
 
     #[Route('/fdb/{id}/delete', name: 'fdb_delete', methods: ['GET'])]
     public function delete(EntityManagerInterface $manager, Fdb $fdb) : Response
     {
         $manager->remove($fdb);
         $manager->flush();
+        flash()->success('Fiche de besoin supprimée avec succès !');
 
         return $this->redirectToRoute('fdb_index');
     }

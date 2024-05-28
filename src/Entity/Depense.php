@@ -54,8 +54,8 @@ class Depense
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $updatedAt = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
-    private ?string $total = null;
+    #[ORM\ManyToOne(inversedBy: 'depense')]
+    private ?BonCaisse $bonCaisse = null;
 
     public function __construct()
     {
@@ -218,14 +218,14 @@ class Depense
         return $this;
     }
 
-    public function getTotal(): ?string
+    public function getBonCaisse(): ?BonCaisse
     {
-        return $this->total;
+        return $this->bonCaisse;
     }
 
-    public function setTotal(?string $total): static
+    public function setBonCaisse(?BonCaisse $bonCaisse): static
     {
-        $this->total = $total;
+        $this->bonCaisse = $bonCaisse;
 
         return $this;
     }

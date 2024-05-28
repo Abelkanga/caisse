@@ -38,6 +38,9 @@
             "config/packages/knp_snappy.yaml"
         ]
     },
+    "php-flasher/flasher-symfony": {
+        "version": "v2.0.1"
+    },
     "phpunit/phpunit": {
         "version": "9.6",
         "recipe": {

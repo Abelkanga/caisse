@@ -7,7 +7,6 @@ use App\Entity\User;
 use App\Form\DepenseType;
 use App\Repository\DepenseRepository;
 use App\Service\CaisseService;
-use App\Service\PdfService;
 use App\Utils\Status;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -65,7 +64,7 @@ class DepenseController extends AbstractController
 
             $entityManager->persist($depense);
             $entityManager->flush();
-            $this->addFlash('success','Depense enregistré avec succès');
+            flash()->success('Dépense enregistrée avec succès !');
 
             return $this->redirectToRoute('depense_index');
         }
@@ -86,6 +85,13 @@ class DepenseController extends AbstractController
                 $caisse = $user->getCaisse();
                 $solde = $caisse->getSoldedispo();
                 $total = $depense->getMontant();
+
+                if ($solde < $total) {
+                    flash()->error('Pas de fond disponible pour effectuer cette opération');
+
+                    return $this->redirectToRoute('app_welcome');
+                }
+
                 $caisse->setSoldedispo($solde - $total);
                 $depense->setStatus(Status::VALIDATED);
 
@@ -93,7 +99,7 @@ class DepenseController extends AbstractController
                 $entityManager->persist($caisse);
 
                 $entityManager->flush();
-                $this->addFlash('success', 'Depense enregistré avec succès');
+
 
                 return $this->redirectToRoute('app_welcome');
             }
@@ -113,6 +119,7 @@ class DepenseController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
+            flash()->success('Dépense modifiée avec succès !');
             return $this->redirectToRoute('depense_index');
         }
 
@@ -122,21 +129,13 @@ class DepenseController extends AbstractController
         ]);
     }
 
-    #[Route('/depense/{id}/pdf', name:'depense_pdf', methods: ['GET', 'POST'])]
-    public function pdf($id, EntityManagerInterface $entityManager, PdfService $pdfService,): \Symfony\Component\HttpFoundation\RedirectResponse
+
+    #[Route('/depense/{uuid}/print', name: 'print_depense', methods: ['GET'])]
+    public function print(Depense $depense): Response
     {
-        $depenseRepository = $entityManager->getRepository(Depense::class);
-        $depense = $depenseRepository->find($id);
-
-        if (!$depense) {
-            throw $this->createNotFoundException('La depense demandée n\'existe pas');
-        }
-
-        $pdfService->generatePdf('depense/pdf.html.twig', [
+        return $this->render('depense/print.html.twig', [
             'depense' => $depense
         ]);
-
-        return $this->redirectToRoute('depense_index');
     }
 
     #[Route('/depense/{id}/delete', name: 'depense_delete', methods: ['GET'])]
@@ -144,6 +143,8 @@ class DepenseController extends AbstractController
     {
         $manager->remove($depense);
         $manager->flush();
+
+        flash()->success('Dépense supprimée avec succès !');
 
         return $this->redirectToRoute('depense_index');
     }

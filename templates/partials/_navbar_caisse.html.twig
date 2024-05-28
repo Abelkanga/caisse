@@ -30,6 +30,27 @@
 {#	<!-- /child menu -->#}
 {#</li>#}
 
+
+
+<li class="menu-item has-child">
+	<a href="#" class="menu-link">
+		<span class="menu-icon fas fa-file-alt"></span>
+		<span class="menu-text">Caisse</span>
+	</a>
+	<!-- child menu -->
+	<ul class="menu">
+		<li class="menu-item {{ app.request.get('_route') == 'caisse_new' ? 'has-active': '' }}">
+			<a href="{{ path('caisse_new') }}" class="menu-link">Créer</a>
+		</li>
+		<li class="menu-item {{ app.request.get('_route') == 'caisse_index' ? 'has-active': '' }}">
+			<a href="{{ path('caisse_index') }}" class="menu-link">Liste</a>
+		</li>
+
+	</ul>
+	<!-- /child menu -->
+	<!-- .menu-item -->
+</li>
+<hr>
 <li class="menu-item has-child">
 	<a href="#" class="menu-link">
 		<span class="menu-icon fas fa-file-alt"></span>

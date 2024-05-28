@@ -1,0 +1,73 @@
+{% extends 'imprimer.html.twig' %}
+{% block body %}
+<div content=" ">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card card-fluid">
+                <div class="card-header bg-soft-custom">
+                    <h6>Bon d'approvisionnement N°{{ bonapprovisionnement.id }}</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div
+                                class="col-sm-2">{# <img style="margin-left: -2em" src="{{ asset('assets/dist/img/ews.jpg') }}" alt=""> #}
+                        </div>
+
+                        <div
+                                class="col-sm-2">{# <img class="float-right" src="{{ asset('assets/dist/img/stib.jpg') }}" alt=""> #}
+                        </div>
+                    </div>
+                    <br>
+                    <fieldset>
+                        <legend>Information du bon d'approvisionnement</legend>
+                        <table class="table table-sm bordered">
+                            <thead class="thead-light">
+                            <tr>
+                                <th class="text-center">Date enregistrement</th>
+                                <th class="text-center">Mode de paiement</th>
+                                <th class="text-center">Montant total</th>
+                                <th class="text-center">Nature</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="text-center">{{ bonapprovisionnement.date|date('Y-m-d') }}</td>
+                                <td class="text-center">{{ bonapprovisionnement.modepaie }}</td>
+                                <td class="text-center">{{ bonapprovisionnement.montanttotal }}</td>
+                                <td class="text-center">{{ bonapprovisionnement.nature }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <fieldset>
+                            <legend> Détail du bon d'approvisionnement</legend>
+                            <table class="table bordered table-sm">
+                                <thead>
+                                <tr>
+                                    <th>Qte</th>
+                                    <th>Désignation</th>
+                                    <th>Prix unitaire</th>
+                                    <th>Montant TTC</th>
+                                </tr>
+                                </thead>
+                                <tbody id="bonapprovisionnement_details">
+                                {% for detail in bonapprovisionnement.details %}
+                                    <tr>
+                                        <td>{{ detail.quantite }}</td>
+                                        <td>{{ detail.designationproduit }}</td>
+                                        <td>{{ detail.price }}</td>
+                                        <td>{{ detail.montant }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+
+                            </table>
+                        </fieldset>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

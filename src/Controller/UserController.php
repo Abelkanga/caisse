@@ -43,7 +43,7 @@ class UserController extends AbstractController
             $user->setPassword($hashedPassword);
             $entityManager->persist($user);
             $entityManager->flush();
-
+            flash()->success('Utilisateur créé avec succès !');
             return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -71,7 +71,7 @@ class UserController extends AbstractController
             );
             $user->setPassword($hashedPassword);
             $entityManager->flush();
-
+            flash()->success('Utilisateur modifié avec succès !');
             return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -80,6 +80,35 @@ class UserController extends AbstractController
             'user' => $user
         ]);
     }
+
+//    #[Route('/{id}/reset-password', name: 'app_user_reset_password', methods: ['GET', 'POST'])]
+//    public function resetPassword(Request $request, User $user, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
+//    {
+//        $form = $this->createForm(UserPasswordType::class);
+//        $form->handleRequest($request);
+//
+//        if ($form->isSubmitted() && $form->isValid()) {
+//            // Récupérez le nouveau mot de passe en clair saisi par l'utilisateur
+//            $plaintextPassword = $form->get('password')->getData();
+//
+//            // Hash du nouveau mot de passe
+//            $hashedPassword = $passwordHasher->hashPassword(
+//                $user,
+//                $plaintextPassword
+//            );
+//            $user->setPassword($hashedPassword);
+//            $entityManager->flush();
+//            flash()->success('Mot de passe réinitialisé avec succès !');
+//            return $this->redirectToRoute('app_user_index');
+//        }
+//
+//        return $this->render('user/reset_password.html.twig', [
+//            'form' => $form->createView(),
+//        ]);
+//    }
+
+
+
 
 //    #[Route('/{id}', name: 'app_user_delete', methods: ['POST'])]
 //    public function delete(Request $request, User $user, EntityManagerInterface $entityManager): Response
