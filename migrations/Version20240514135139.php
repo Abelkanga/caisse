@@ -37,17 +37,17 @@ final class Version20240514135139 extends AbstractMigration
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE caisse DROP FOREIGN KEY FK_B2A353C8A76ED395');
-        $this->addSql('ALTER TABLE detail DROP FOREIGN KEY FK_2E067F9344AC3583');
-        $this->addSql('ALTER TABLE detail DROP FOREIGN KEY FK_2E067F93BF2BFC3');
-        $this->addSql('ALTER TABLE fdb DROP FOREIGN KEY FK_1136C057A76ED395');
-        $this->addSql('ALTER TABLE operation DROP FOREIGN KEY FK_1981A66DA76ED395');
-        $this->addSql('ALTER TABLE operation DROP FOREIGN KEY FK_1981A66D27B4FEBF');
-        $this->addSql('DROP TABLE caisse');
-        $this->addSql('DROP TABLE detail');
-        $this->addSql('DROP TABLE fdb');
-        $this->addSql('DROP TABLE operation');
-        $this->addSql('DROP TABLE user');
-        $this->addSql('DROP TABLE messenger_messages');
+//        $this->addSql('ALTER TABLE caisse DROP FOREIGN KEY FK_B2A353C8A76ED395');
+//        $this->addSql('ALTER TABLE detail DROP FOREIGN KEY FK_2E067F9344AC3583');
+//        $this->addSql('ALTER TABLE detail DROP FOREIGN KEY FK_2E067F93BF2BFC3');
+//        $this->addSql('ALTER TABLE fdb DROP FOREIGN KEY FK_1136C057A76ED395');
+//        $this->addSql('ALTER TABLE operation DROP FOREIGN KEY FK_1981A66DA76ED395');
+//        $this->addSql('ALTER TABLE operation DROP FOREIGN KEY FK_1981A66D27B4FEBF');
+//        $this->addSql('DROP TABLE caisse');
+//        $this->addSql('DROP TABLE detail');
+//        $this->addSql('DROP TABLE fdb');
+//        $this->addSql('DROP TABLE operation');
+//        $this->addSql('DROP TABLE user');
+//        $this->addSql('DROP TABLE messenger_messages');
     }
 }

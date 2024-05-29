@@ -12,14 +12,20 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class BonCaisseController extends AbstractController
 {
-    #[Route('/bon/caisse', name: 'app_bon_caisse')]
-    public function index(BonCaisseRepository $bonCaisseRepository): Response
+    #[Route('/bon/encaisse', name: 'app_bon_encaisse')]
+    public function index_encaissement(BonCaisseRepository $bonCaisseRepository): Response
     {
-        $boncaisse = $bonCaisseRepository->findAll();
 
-        return $this->render('bon_caisse/index.html.twig', [
-            'boncaisse' => $boncaisse
-        ]);
+
+        return $this->render('bon_caisse/index_encaissement.html.twig');
     }
 
+    #[Route('/bon/decaisse', name: 'app_bon_decaisse')]
+    public function index_decaissement(BonCaisseRepository $bonCaisseRepository): Response
+    {
+
+
+        return $this->render('bon_caisse/index_decaissement.html.twig');
+
+    }
 }

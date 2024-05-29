@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Bonapprovisionnement;
+use App\Entity\BonCaisse;
 use App\Entity\User;
 use App\Form\BonapprovisionnementType;
 use App\Repository\BonapprovisionnementRepository;
@@ -17,7 +18,6 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class BonapprovisionnementController extends AbstractController
 {
-
     #[Route('/bonapprovisionnement', name: 'bonapprovisionnement_index', methods:['GET'])]
     public function index(BonapprovisionnementRepository $bonapprovisionnementRepository): Response
     {
@@ -93,6 +93,16 @@ class BonapprovisionnementController extends AbstractController
                 $total = $bonapprovisionnement->getTotal();
                 $caisse->setSoldedispo($solde + $total);
                 $bonapprovisionnement->setStatus(Status::VALIDATED);
+
+                $bonCaisse = new BonCaisse();
+                $bonCaisse->setStatus(Status::VALIDATED);
+                $bonCaisse->setDate(new \DateTime());
+                $bonCaisse->setMontant($bonapprovisionnement->getTotal());
+                $bonCaisse->setCaisse($caisse);
+                $bonCaisse->setBonapprovisionnement($bonapprovisionnement);
+                $entityManager->persist($bonCaisse);
+
+
 
                 $entityManager->persist($bonapprovisionnement);
                 $entityManager->persist($caisse);

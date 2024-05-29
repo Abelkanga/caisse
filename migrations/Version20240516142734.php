@@ -32,12 +32,12 @@ final class Version20240516142734 extends AbstractMigration
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE detail DROP FOREIGN KEY FK_2E067F931715AECD');
-        $this->addSql('ALTER TABLE bonapprovisionnement DROP FOREIGN KEY FK_A4690520A76ED395');
-        $this->addSql('ALTER TABLE bonapprovisionnement DROP FOREIGN KEY FK_A469052027B4FEBF');
-        $this->addSql('DROP TABLE bonapprovisionnement');
-        $this->addSql('ALTER TABLE messenger_messages CHANGE delivered_at delivered_at DATETIME DEFAULT \'NULL\' COMMENT \'(DC2Type:datetime_immutable)\'');
-        $this->addSql('DROP INDEX IDX_2E067F931715AECD ON detail');
-        $this->addSql('ALTER TABLE detail DROP bonapprovisionnement_id');
+//        $this->addSql('ALTER TABLE detail DROP FOREIGN KEY FK_2E067F931715AECD');
+//        $this->addSql('ALTER TABLE bonapprovisionnement DROP FOREIGN KEY FK_A4690520A76ED395');
+//        $this->addSql('ALTER TABLE bonapprovisionnement DROP FOREIGN KEY FK_A469052027B4FEBF');
+//        $this->addSql('DROP TABLE bonapprovisionnement');
+//        $this->addSql('ALTER TABLE messenger_messages CHANGE delivered_at delivered_at DATETIME DEFAULT \'NULL\' COMMENT \'(DC2Type:datetime_immutable)\'');
+//        $this->addSql('DROP INDEX IDX_2E067F931715AECD ON detail');
+//        $this->addSql('ALTER TABLE detail DROP bonapprovisionnement_id');
     }
 }

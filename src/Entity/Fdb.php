@@ -46,7 +46,6 @@ class Fdb
     #[ORM\OneToMany(targetEntity: Detail::class, mappedBy: 'fdb')]
     private Collection $details;
 
-
     #[ORM\Column(length: 255)]
     private ?string $status = null;
 
@@ -66,13 +65,18 @@ class Fdb
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
     private ?string $total = null;
 
-    #[ORM\ManyToOne(inversedBy: 'fdb')]
-    private ?BonCaisse $bonCaisse = null;
+    /**
+     * @var Collection<int, BonCaisse>
+     */
+    #[ORM\OneToMany(targetEntity: BonCaisse::class, mappedBy: 'fdb')]
+    private Collection $bonCaisses;
+
 
     public function __construct()
     {
         $this->details = new ArrayCollection();
         $this->destinataire = 'Konan Gwladys';
+        $this->bonCaisses = new ArrayCollection();
 
     }
 
@@ -270,16 +274,36 @@ class Fdb
         return $this;
     }
 
-    public function getBonCaisse(): ?BonCaisse
+    /**
+     * @return Collection<int, BonCaisse>
+     */
+    public function getBonCaisses(): Collection
     {
-        return $this->bonCaisse;
+        return $this->bonCaisses;
     }
 
-    public function setBonCaisse(?BonCaisse $bonCaisse): static
+    public function addBonCaiss(BonCaisse $bonCaiss): static
     {
-        $this->bonCaisse = $bonCaisse;
+        if (!$this->bonCaisses->contains($bonCaiss)) {
+            $this->bonCaisses->add($bonCaiss);
+            $bonCaiss->setFdb($this);
+        }
 
         return $this;
     }
+
+    public function removeBonCaiss(BonCaisse $bonCaiss): static
+    {
+        if ($this->bonCaisses->removeElement($bonCaiss)) {
+            // set the owning side to null (unless already changed)
+            if ($bonCaiss->getFdb() === $this) {
+                $bonCaiss->setFdb(null);
+            }
+        }
+
+        return $this;
+    }
+
+
 
 }

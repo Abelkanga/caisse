@@ -20,12 +20,12 @@ final class Version20240524165516 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE bonapprovisionnement ADD total NUMERIC(10, 2) DEFAULT NULL, CHANGE user_id user_id INT NOT NULL');
+//        $this->addSql('ALTER TABLE bonapprovisionnement ADD total NUMERIC(10, 2) DEFAULT NULL, CHANGE user_id user_id INT NOT NULL');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE bonapprovisionnement DROP total, CHANGE user_id user_id INT DEFAULT NULL');
+//        $this->addSql('ALTER TABLE bonapprovisionnement DROP total, CHANGE user_id user_id INT DEFAULT NULL');
     }
 }

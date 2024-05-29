@@ -26,6 +26,6 @@ final class Version20240523140141 extends AbstractMigration
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE caisse CHANGE intitule intitulé VARCHAR(255) NOT NULL');
+//        $this->addSql('ALTER TABLE caisse CHANGE intitule intitulé VARCHAR(255) NOT NULL');
     }
 }

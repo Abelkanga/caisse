@@ -28,30 +28,21 @@ class BonCaisse
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $reference = null;
 
-    /**
-     * @var Collection<int, Fdb>
-     */
-    #[ORM\OneToMany(targetEntity: Fdb::class, mappedBy: 'bonCaisse')]
-    private Collection $fdb;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $status = null;
 
-    /**
-     * @var Collection<int, Depense>
-     */
-    #[ORM\OneToMany(targetEntity: Depense::class, mappedBy: 'bonCaisse')]
-    private Collection $depense;
+    #[ORM\ManyToOne(inversedBy: 'bonCaisses')]
+    private ?Caisse $caisse = null;
 
-    /**
-     * @var Collection<int, Bonapprovisionnement>
-     */
-    #[ORM\OneToMany(targetEntity: Bonapprovisionnement::class, mappedBy: 'bonCaisse')]
-    private Collection $bonapprovisionnement;
+    #[ORM\ManyToOne(inversedBy: 'bonCaisses')]
+    private ?Fdb $fdb = null;
 
-    public function __construct()
-    {
-        $this->fdb = new ArrayCollection();
-        $this->depense = new ArrayCollection();
-        $this->bonapprovisionnement = new ArrayCollection();
-    }
+    #[ORM\ManyToOne(inversedBy: 'bonCaisses')]
+    private ?Depense $depense = null;
+
+    #[ORM\ManyToOne(inversedBy: 'bonCaisses')]
+    private ?Bonapprovisionnement $bonapprovisionnement = null;
+
 
     public function getId(): ?int
     {
@@ -106,93 +97,65 @@ class BonCaisse
         return $this;
     }
 
-    /**
-     * @return Collection<int, Fdb>
-     */
-    public function getFdb(): Collection
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?string $status): static
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getCaisse(): ?Caisse
+    {
+        return $this->caisse;
+    }
+
+    public function setCaisse(?Caisse $caisse): static
+    {
+        $this->caisse = $caisse;
+
+        return $this;
+    }
+
+    public function getFdb(): ?Fdb
     {
         return $this->fdb;
     }
 
-    public function addFdb(Fdb $fdb): static
+    public function setFdb(?Fdb $fdb): static
     {
-        if (!$this->fdb->contains($fdb)) {
-            $this->fdb->add($fdb);
-            $fdb->setBonCaisse($this);
-        }
+        $this->fdb = $fdb;
 
         return $this;
     }
 
-    public function removeFdb(Fdb $fdb): static
-    {
-        if ($this->fdb->removeElement($fdb)) {
-            // set the owning side to null (unless already changed)
-            if ($fdb->getBonCaisse() === $this) {
-                $fdb->setBonCaisse(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Depense>
-     */
-    public function getDepense(): Collection
+    public function getDepense(): ?Depense
     {
         return $this->depense;
     }
 
-    public function addDepense(Depense $depense): static
+    public function setDepense(?Depense $depense): static
     {
-        if (!$this->depense->contains($depense)) {
-            $this->depense->add($depense);
-            $depense->setBonCaisse($this);
-        }
+        $this->depense = $depense;
 
         return $this;
     }
 
-    public function removeDepense(Depense $depense): static
-    {
-        if ($this->depense->removeElement($depense)) {
-            // set the owning side to null (unless already changed)
-            if ($depense->getBonCaisse() === $this) {
-                $depense->setBonCaisse(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Bonapprovisionnement>
-     */
-    public function getBonapprovisionnement(): Collection
+    public function getBonapprovisionnement(): ?Bonapprovisionnement
     {
         return $this->bonapprovisionnement;
     }
 
-    public function addBonapprovisionnement(Bonapprovisionnement $bonapprovisionnement): static
+    public function setBonapprovisionnement(?Bonapprovisionnement $bonapprovisionnement): static
     {
-        if (!$this->bonapprovisionnement->contains($bonapprovisionnement)) {
-            $this->bonapprovisionnement->add($bonapprovisionnement);
-            $bonapprovisionnement->setBonCaisse($this);
-        }
+        $this->bonapprovisionnement = $bonapprovisionnement;
 
         return $this;
     }
 
-    public function removeBonapprovisionnement(Bonapprovisionnement $bonapprovisionnement): static
-    {
-        if ($this->bonapprovisionnement->removeElement($bonapprovisionnement)) {
-            // set the owning side to null (unless already changed)
-            if ($bonapprovisionnement->getBonCaisse() === $this) {
-                $bonapprovisionnement->setBonCaisse(null);
-            }
-        }
-
-        return $this;
-    }
 }

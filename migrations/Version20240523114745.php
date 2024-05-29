@@ -20,11 +20,11 @@ final class Version20240523114745 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE caisse DROP FOREIGN KEY FK_B2A353C8A76ED395');
-        $this->addSql('ALTER TABLE caisse DROP FOREIGN KEY FK_B2A353C8BF2BFC3');
-        $this->addSql('DROP INDEX IDX_B2A353C8A76ED395 ON caisse');
-        $this->addSql('DROP INDEX IDX_B2A353C8BF2BFC3 ON caisse');
-        $this->addSql('ALTER TABLE caisse DROP user_id, DROP fdb_id, CHANGE plafond plafond VARCHAR(255) NOT NULL');
+//        $this->addSql('ALTER TABLE caisse DROP FOREIGN KEY FK_B2A353C8A76ED395');
+//        $this->addSql('ALTER TABLE caisse DROP FOREIGN KEY FK_B2A353C8BF2BFC3');
+//        $this->addSql('DROP INDEX IDX_B2A353C8A76ED395 ON caisse');
+//        $this->addSql('DROP INDEX IDX_B2A353C8BF2BFC3 ON caisse');
+//        $this->addSql('ALTER TABLE caisse DROP user_id, DROP fdb_id, CHANGE plafond plafond VARCHAR(255) NOT NULL');
     }
 
     public function down(Schema $schema): void

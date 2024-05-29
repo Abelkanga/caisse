@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\BonCaisse;
 use App\Entity\Depense;
 use App\Entity\User;
 use App\Form\DepenseType;
@@ -94,6 +95,15 @@ class DepenseController extends AbstractController
 
                 $caisse->setSoldedispo($solde - $total);
                 $depense->setStatus(Status::VALIDATED);
+
+                $bonCaisse = new BonCaisse();
+                $bonCaisse->setStatus(Status::VALIDATED);
+                $bonCaisse->setDate(new \DateTime());
+                $bonCaisse->setMontant($depense->getMontant());
+                $bonCaisse->setCaisse($caisse);
+                $bonCaisse->setDepense($depense);
+                $entityManager->persist($bonCaisse);
+
 
                 $entityManager->persist($depense);
                 $entityManager->persist($caisse);

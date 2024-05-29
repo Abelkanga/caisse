@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\BonCaisse;
 use App\Entity\Fdb;
 use App\Entity\User;
 use App\Form\FdbType;
@@ -110,12 +111,15 @@ class FdbController extends AbstractController
 
                 $caisse->setSoldedispo($solde - $total);
                 $fdb->setStatus(Status::VALIDATED);
-//
-//                $bonCaisse = new BonCaisse();
-//                $bonCaisse->setStatut('validé');
-//                $bonCaisse->setDate(new \DateTime());
-//                $bonCaisse->setMontant($fdb->getTotal());
-//                $bonCaisse->setCaisse('Caisse principale');
+
+                $bonCaisse = new BonCaisse();
+                $bonCaisse->setStatus(Status::VALIDATED);
+                $bonCaisse->setDate(new \DateTime());
+                $bonCaisse->setMontant($fdb->getTotal());
+                $bonCaisse->setCaisse($caisse);
+                $bonCaisse->setFdb($fdb);
+
+                $entityManager->persist($bonCaisse);
 
 
                 $entityManager->persist($fdb);

@@ -19,13 +19,13 @@ final class Version20240523141502 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE caisse CHANGE soldedispo soldedispo NUMERIC(10, 2) DEFAULT NULL, CHANGE plafond plafond NUMERIC(10, 2) NOT NULL');
+//        // this up() migration is auto-generated, please modify it to your needs
+//        $this->addSql('ALTER TABLE caisse CHANGE soldedispo soldedispo NUMERIC(10, 2) DEFAULT NULL, CHANGE plafond plafond NUMERIC(10, 2) NOT NULL');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE caisse CHANGE soldedispo soldedispo INT NOT NULL, CHANGE plafond plafond VARCHAR(255) NOT NULL');
+//        $this->addSql('ALTER TABLE caisse CHANGE soldedispo soldedispo INT NOT NULL, CHANGE plafond plafond VARCHAR(255) NOT NULL');
     }
 }

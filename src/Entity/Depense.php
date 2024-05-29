@@ -54,12 +54,17 @@ class Depense
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $updatedAt = null;
 
-    #[ORM\ManyToOne(inversedBy: 'depense')]
-    private ?BonCaisse $bonCaisse = null;
+    /**
+     * @var Collection<int, BonCaisse>
+     */
+    #[ORM\OneToMany(targetEntity: BonCaisse::class, mappedBy: 'depense')]
+    private Collection $bonCaisses;
+
 
     public function __construct()
     {
         $this->details = new ArrayCollection();
+        $this->bonCaisses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -218,15 +223,36 @@ class Depense
         return $this;
     }
 
-    public function getBonCaisse(): ?BonCaisse
+    /**
+     * @return Collection<int, BonCaisse>
+     */
+    public function getBonCaisses(): Collection
     {
-        return $this->bonCaisse;
+        return $this->bonCaisses;
     }
 
-    public function setBonCaisse(?BonCaisse $bonCaisse): static
+    public function addBonCaiss(BonCaisse $bonCaiss): static
     {
-        $this->bonCaisse = $bonCaisse;
+        if (!$this->bonCaisses->contains($bonCaiss)) {
+            $this->bonCaisses->add($bonCaiss);
+            $bonCaiss->setDepense($this);
+        }
 
         return $this;
     }
+
+    public function removeBonCaiss(BonCaisse $bonCaiss): static
+    {
+        if ($this->bonCaisses->removeElement($bonCaiss)) {
+            // set the owning side to null (unless already changed)
+            if ($bonCaiss->getDepense() === $this) {
+                $bonCaiss->setDepense(null);
+            }
+        }
+
+        return $this;
+    }
+
+
+
 }

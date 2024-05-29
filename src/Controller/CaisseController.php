@@ -55,13 +55,13 @@ class CaisseController extends AbstractController
         ]);
     }
 
-
     #[Route('/etat', name: 'app_etat_caisse', methods: ['GET'])]
     public function etatCaisse(Request $request, CaisseRepository $caisseRepository): Response
     {
         $dateDebut = $request->query->get('dateDebut');
         $dateFin = $request->query->get('dateFin');
         $type = $request->query->get('type');
+
 
         $queryBuilder = $caisseRepository->createQueryBuilder('c')
             ->leftJoin('c.fdbs', 'f')
@@ -115,5 +115,6 @@ class CaisseController extends AbstractController
 //            'solde' => $caisse ? $caisse[0]->calculateSolde() : 0,
         ]);
     }
+
 
 }

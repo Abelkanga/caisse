@@ -60,8 +60,11 @@
 		<li class="menu-item {{ app.request.get('_route') == 'app_etat_caisse' ? 'has-active': '' }}">
 			<a href="{{ path('app_etat_caisse') }}" class="menu-link">Créer</a>
 		</li>
-		<li class="menu-item {{ app.request.get('_route') == '' ? 'has-active': '' }}">
-			<a href="" class="menu-link">Liste</a>
+		<li class="menu-item {{ app.request.get('_route') == 'app_bon_encaisse' ? 'has-active': '' }}">
+			<a href="{{ path('app_bon_encaisse') }}" class="menu-link">Liste des encaissements</a>
+		</li>
+		<li class="menu-item {{ app.request.get('_route') == 'app_bon_decaisse' ? 'has-active': '' }}">
+			<a href="{{ path('app_bon_decaisse') }}" class="menu-link">Liste des decaissements</a>
 		</li>
 
 	</ul>

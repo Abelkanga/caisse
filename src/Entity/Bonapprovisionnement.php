@@ -58,12 +58,17 @@ class Bonapprovisionnement
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
     private ?string $total = null;
 
-    #[ORM\ManyToOne(inversedBy: 'bonapprovisionnement')]
-    private ?BonCaisse $bonCaisse = null;
+    /**
+     * @var Collection<int, BonCaisse>
+     */
+    #[ORM\OneToMany(targetEntity: BonCaisse::class, mappedBy: 'bonapprovisionnement')]
+    private Collection $bonCaisses;
+
 
     public function __construct()
     {
         $this->details = new ArrayCollection();
+        $this->bonCaisses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -235,17 +240,34 @@ class Bonapprovisionnement
         return $this;
     }
 
-    public function getBonCaisse(): ?BonCaisse
+    /**
+     * @return Collection<int, BonCaisse>
+     */
+    public function getBonCaisses(): Collection
     {
-        return $this->bonCaisse;
+        return $this->bonCaisses;
     }
 
-    public function setBonCaisse(?BonCaisse $bonCaisse): static
+    public function addBonCaiss(BonCaisse $bonCaiss): static
     {
-        $this->bonCaisse = $bonCaisse;
+        if (!$this->bonCaisses->contains($bonCaiss)) {
+            $this->bonCaisses->add($bonCaiss);
+            $bonCaiss->setBonapprovisionnement($this);
+        }
 
         return $this;
     }
 
+    public function removeBonCaiss(BonCaisse $bonCaiss): static
+    {
+        if ($this->bonCaisses->removeElement($bonCaiss)) {
+            // set the owning side to null (unless already changed)
+            if ($bonCaiss->getBonapprovisionnement() === $this) {
+                $bonCaiss->setBonapprovisionnement(null);
+            }
+        }
+
+        return $this;
+    }
 
 }

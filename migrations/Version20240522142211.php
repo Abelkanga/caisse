@@ -29,9 +29,9 @@ final class Version20240522142211 extends AbstractMigration
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE messenger_messages CHANGE delivered_at delivered_at DATETIME DEFAULT \'NULL\' COMMENT \'(DC2Type:datetime_immutable)\'');
-        $this->addSql('ALTER TABLE caisse DROP FOREIGN KEY FK_B2A353C8BF2BFC3');
-        $this->addSql('DROP INDEX IDX_B2A353C8BF2BFC3 ON caisse');
-        $this->addSql('ALTER TABLE caisse DROP fdb_id');
+//        $this->addSql('ALTER TABLE messenger_messages CHANGE delivered_at delivered_at DATETIME DEFAULT \'NULL\' COMMENT \'(DC2Type:datetime_immutable)\'');
+//        $this->addSql('ALTER TABLE caisse DROP FOREIGN KEY FK_B2A353C8BF2BFC3');
+//        $this->addSql('DROP INDEX IDX_B2A353C8BF2BFC3 ON caisse');
+//        $this->addSql('ALTER TABLE caisse DROP fdb_id');
     }
 }
