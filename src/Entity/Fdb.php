@@ -71,12 +71,15 @@ class Fdb
     #[ORM\OneToMany(targetEntity: BonCaisse::class, mappedBy: 'fdb')]
     private Collection $bonCaisses;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $beneficiaire = null;
 
     public function __construct()
     {
         $this->details = new ArrayCollection();
         $this->destinataire = 'Konan Gwladys';
         $this->bonCaisses = new ArrayCollection();
+        $this->date = new \DateTimeImmutable();
 
     }
 
@@ -228,7 +231,6 @@ class Fdb
         return $this->uuid;
     }
 
-
     #[ORM\PrePersist]
     public function setUuid(): static
     {
@@ -300,6 +302,18 @@ class Fdb
                 $bonCaiss->setFdb(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getBeneficiaire(): ?string
+    {
+        return $this->beneficiaire;
+    }
+
+    public function setBeneficiaire(?string $beneficiaire): static
+    {
+        $this->beneficiaire = $beneficiaire;
 
         return $this;
     }

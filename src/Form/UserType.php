@@ -6,6 +6,7 @@ use App\Entity\Caisse;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -20,17 +21,31 @@ class UserType extends AbstractType
     {
         $builder
             ->add('fullName', TextType::class)
+            ->add('pseudo', TextType::class)
+            ->add('contact', TextType::class)
             ->add('email', EmailType::class)
             ->add('password', PasswordType::class)
             ->add('caisse', EntityType::class,[
                 'class' => Caisse::class,
-                'placeholder' => 'Sélectionner une caisse', 'required'=> false
+                'placeholder' => 'Sélectionnez une caisse', 'required'=> false
 
             ])
+            ->add('isActive', CheckboxType::class, [
+                'attr' => [
+                    'class' => 'form-check-input',
+                ],
+                'required' => false,
+                'label' => 'Actif ',
+                'label_attr' => [
+                    'class' => 'form-check-label'
+                ],
+                'data' => true
+                    ])
+
             ->add('roles', ChoiceType::class, [
                 'choices' => [
                     'Administrateur' => 'ROLE_ADMIN',
-                    'Gérant de caisse' => 'ROLE_MANAGER',
+                    'Caissier' => 'ROLE_MANAGER',
                     'Responsable' => 'ROLE_USER'
                 ],
                 'multiple' => true,

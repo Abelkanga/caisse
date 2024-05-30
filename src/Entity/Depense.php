@@ -65,6 +65,7 @@ class Depense
     {
         $this->details = new ArrayCollection();
         $this->bonCaisses = new ArrayCollection();
+        $this->date = new \DateTimeImmutable();
     }
 
     public function getId(): ?int

@@ -51,6 +51,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToOne(inversedBy: 'users')]
     private ?Caisse $caisse = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $isActive = true;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $contact = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $pseudo = null;
+
+    #[ORM\OneToMany(targetEntity: Fdb::class, mappedBy: 'user')]
+    private Collection $fdb;
+
     public function __construct()
     {
         $this->depenses = new ArrayCollection();
@@ -213,4 +225,40 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function getContact(): ?string
+    {
+        return $this->contact;
+    }
+
+    public function setContact(?string $contact): static
+    {
+        $this->contact = $contact;
+
+        return $this;
+    }
+
+    public function getPseudo(): ?string
+    {
+        return $this->pseudo;
+    }
+
+    public function setPseudo(?string $pseudo): static
+    {
+        $this->pseudo = $pseudo;
+
+        return $this;
+    }
+
+public function isActive(): ?bool
+{
+    return $this->isActive;
+}
+
+public function setIsActive(?bool $isActive): static
+{
+    $this->isActive = $isActive;
+
+    return $this;
+}
 }

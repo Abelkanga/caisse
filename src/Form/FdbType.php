@@ -19,13 +19,14 @@ class FdbType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('numero_fiche_besoin', TextType::class)
             ->add('date', DateType::class)
+            ->add('numero_fiche_besoin', TextType::class)
             ->add('objet', TextType::class)
             ->add('responsable', ChoiceType::class, [
                 'choices'  => [
-                    'Otron André' => 'Otron André',
                     'Konan Bertrand' => 'Konan Bertrand',
+                    'Mahile Emmanuel' => 'Mahile Emmanuel',
+                    'Otron André' => 'Otron André',
                     'Wognin' => 'Wognin',
                 ]
             ])
@@ -34,11 +35,11 @@ class FdbType extends AbstractType
                   'readonly' => true
               ]
             ])
-//            ->add('departement', TextType::class,[
+            ->add('beneficiaire', TextType::class,[
 //                'attr' => [
 //                    'required' => false
 //                ]
-//            ])
+            ])
             ->add('details', CollectionType::class,  [
                 'entry_type' => DetailType::class,
                 'entry_options' => ['label' => false],

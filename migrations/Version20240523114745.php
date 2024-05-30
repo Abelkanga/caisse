@@ -30,11 +30,11 @@ final class Version20240523114745 extends AbstractMigration
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE caisse ADD user_id INT NOT NULL, ADD fdb_id INT DEFAULT NULL, CHANGE plafond plafond TINYINT(1) NOT NULL');
-        $this->addSql('ALTER TABLE caisse ADD CONSTRAINT FK_B2A353C8A76ED395 FOREIGN KEY (user_id) REFERENCES user (id)');
-        $this->addSql('ALTER TABLE caisse ADD CONSTRAINT FK_B2A353C8BF2BFC3 FOREIGN KEY (fdb_id) REFERENCES fdb (id)');
-        $this->addSql('CREATE INDEX IDX_B2A353C8A76ED395 ON caisse (user_id)');
-        $this->addSql('CREATE INDEX IDX_B2A353C8BF2BFC3 ON caisse (fdb_id)');
-        $this->addSql('ALTER TABLE user CHANGE roles roles JSON NOT NULL COMMENT \'(DC2Type:json)\'');
+//        $this->addSql('ALTER TABLE caisse ADD user_id INT NOT NULL, ADD fdb_id INT DEFAULT NULL, CHANGE plafond plafond TINYINT(1) NOT NULL');
+//        $this->addSql('ALTER TABLE caisse ADD CONSTRAINT FK_B2A353C8A76ED395 FOREIGN KEY (user_id) REFERENCES user (id)');
+//        $this->addSql('ALTER TABLE caisse ADD CONSTRAINT FK_B2A353C8BF2BFC3 FOREIGN KEY (fdb_id) REFERENCES fdb (id)');
+//        $this->addSql('CREATE INDEX IDX_B2A353C8A76ED395 ON caisse (user_id)');
+//        $this->addSql('CREATE INDEX IDX_B2A353C8BF2BFC3 ON caisse (fdb_id)');
+//        $this->addSql('ALTER TABLE user CHANGE roles roles JSON NOT NULL COMMENT \'(DC2Type:json)\'');
     }
 }

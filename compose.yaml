@@ -14,7 +14,7 @@ services:
   database:
     networks:
       - orbis_caisse
-    image: mariadb:${POSTGRES_VERSION:-10.8.3}
+    image: 'mariadb:latest'
     environment:
       MARIADB_DATABASE: ${POSTGRES_DB:-orbis_caisse}
       # You should definitely change the password in production

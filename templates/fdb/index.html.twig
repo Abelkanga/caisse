@@ -16,9 +16,10 @@
                         <thead class="thead-light">
                         <tr>
                             <th>Date d’Établissement</th>
-                            <th>Objet</th>
-                            <th>Responsable de la Demande</th>
+                            <th>Type Opération</th>
+                            <th>Emetteur</th>
                             <th>Destinataire</th>
+                            <th>Bénéficiaire</th>
                             <th>Statut</th>
                             <th>Actions</th>
                         </tr>
@@ -30,6 +31,7 @@
                                 <td>{{ fdb.objet }}</td>
                                 <td>{{ fdb.responsable }}</td>
                                 <td>{{ fdb.destinataire }}</td>
+                                <td>{{ fdb.beneficiaire }}</td>
                                 <td class="text-center">{{ fdb.status }}</td>
                                 <td class="text-center">
                                     <a class="btn btn-sm btn-icon btn-secondary" href="{{ path('fdb_edit', {'id': fdb.id}) }}">

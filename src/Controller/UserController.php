@@ -81,6 +81,7 @@ class UserController extends AbstractController
         ]);
     }
 
+
 //    #[Route('/{id}/reset-password', name: 'app_user_reset_password', methods: ['GET', 'POST'])]
 //    public function resetPassword(Request $request, User $user, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
 //    {
