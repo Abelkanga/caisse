@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Symfony\Component\Uid\Uuid;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 #[ORM\Entity(repositoryClass: FdbRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -21,8 +22,9 @@ class Fdb
     #[ORM\Column(length: 20)]
     private ?string $numero_fiche_besoin = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $date = null;
+    #[ORM\Column(nullable: true)]
+    #[NotBlank]
+    private \DateTimeInterface|null $date = null;
 
     #[ORM\Column(length: 255)]
     private ?string $objet = null;
@@ -74,12 +76,16 @@ class Fdb
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $beneficiaire = null;
 
+    #[ORM\ManyToOne(inversedBy: 'fdbs')]
+    private ?Expense $expense = null;
+
+    #[ORM\ManyToOne(inversedBy: 'fdbs')]
+    private ?TypeExpense $typeExpense = null;
+
     public function __construct()
     {
         $this->details = new ArrayCollection();
-        $this->destinataire = 'Konan Gwladys';
         $this->bonCaisses = new ArrayCollection();
-        $this->date = new \DateTimeImmutable();
 
     }
 
@@ -100,12 +106,12 @@ class Fdb
         return $this;
     }
 
-    public function getDate(): ?\DateTimeImmutable
+    public function getDate(): ?\DateTimeInterface
     {
         return $this->date;
     }
 
-    public function setDate(\DateTimeImmutable $date): static
+    public function setDate(\DateTimeInterface $date): static
     {
         $this->date = $date;
 
@@ -314,6 +320,30 @@ class Fdb
     public function setBeneficiaire(?string $beneficiaire): static
     {
         $this->beneficiaire = $beneficiaire;
+
+        return $this;
+    }
+
+    public function getExpense(): ?Expense
+    {
+        return $this->expense;
+    }
+
+    public function setExpense(?Expense $expense): static
+    {
+        $this->expense = $expense;
+
+        return $this;
+    }
+
+    public function getTypeExpense(): ?TypeExpense
+    {
+        return $this->typeExpense;
+    }
+
+    public function setTypeExpense(?TypeExpense $typeExpense): static
+    {
+        $this->typeExpense = $typeExpense;
 
         return $this;
     }

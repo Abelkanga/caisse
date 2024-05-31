@@ -60,6 +60,15 @@ class Depense
     #[ORM\OneToMany(targetEntity: BonCaisse::class, mappedBy: 'depense')]
     private Collection $bonCaisses;
 
+    #[ORM\ManyToOne(inversedBy: 'depenses')]
+    private ?Expense $expense = null;
+
+    #[ORM\ManyToOne(inversedBy: 'depenses')]
+    private ?TypeExpense $typeExpense = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+    private ?string $total = null;
+
 
     public function __construct()
     {
@@ -254,6 +263,40 @@ class Depense
         return $this;
     }
 
+    public function getExpense(): ?Expense
+    {
+        return $this->expense;
+    }
 
+    public function setExpense(?Expense $expense): static
+    {
+        $this->expense = $expense;
 
+        return $this;
+    }
+
+    public function getTypeExpense(): ?TypeExpense
+    {
+        return $this->typeExpense;
+    }
+
+    public function setTypeExpense(?TypeExpense $typeExpense): static
+    {
+        $this->typeExpense = $typeExpense;
+
+        return $this;
+    }
+
+    public function getTotal(): ?string
+    {
+        return $this->total;
+    }
+
+    public function setTotal(?string $total): static
+    {
+        $this->total = $total;
+
+        return $this;
+    }
+    
 }

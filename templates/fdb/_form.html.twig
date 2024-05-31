@@ -16,12 +16,12 @@
             </div>
         </div>
 
-        <div class="col-3">
-            <div class="form-group">
-                <label for="objet">Type Opération</label>
-                {{ form_widget(form.objet, {'attr' : {'class': 'form-control'}}) }}
-            </div>
-        </div>
+{#        <div class="col-3">#}
+{#            <div class="form-group">#}
+{#                <label for="objet">Type Opération</label>#}
+{#                {{ form_widget(form.objet, {'attr' : {'class': 'form-control'}}) }}#}
+{#            </div>#}
+{#        </div>#}
 
         <div class="col-3">
             <div class="form-group">
@@ -45,6 +45,21 @@
                 {{ form_widget(form.beneficiaire, {'attr' : {'class': 'form-control'}}) }}
             </div>
         </div>
+
+        <div class="col-3">
+            <div class="form-group">
+                <label for="typeExpense">Type Dépense</label>
+                {{ form_widget(form.typeExpense, {'attr' : {'class': 'form-control select2'}}) }}
+            </div>
+        </div>
+
+        <div class="col-3">
+            <div class="form-group">
+                <label for="expense">Dépense</label>
+                {{ form_widget(form.expense, {'attr' : {'class': 'form-control select2'}}) }}
+            </div>
+        </div>
+
     </div>
 </fieldset>
 {% form_theme form 'fdb/_detail.html.twig' %}
@@ -74,3 +89,27 @@
         </tfoot>
     </table>
 </fieldset>
+
+{#{% block javascripts %}#}
+
+{#    const typeExpense$ = $('#bank_expense_typeExpense');#}
+{#    const typePaiement$ = $('#bank_expense_typePaiement');#}
+
+{#    typeExpense$.change(function () {#}
+{#    const form$ = typeExpense$.closest('form');#}
+{#    const data$ = {};#}
+{#    data$[typeExpense$.attr('name')] = typeExpense$.val();#}
+{#    $.ajax({#}
+{#    url: form$.attr('action'),#}
+{#    type: form$.attr('method'),#}
+{#    method: 'POST',#}
+{#    data: data$,#}
+{#    complete: function (html) {#}
+{#    $('#bank_expense_expense').remove();#}
+{#    $('#s2id_bank_expense_expense').replaceWith($(html.responseText).find('#bank_expense_expense'))#}
+{#    $('#bank_expense_expense').select2({width: '100%', theme: 'bootstrap'});#}
+{#    }#}
+{#    });#}
+{#    })#}
+
+{#{% endblock %}#}

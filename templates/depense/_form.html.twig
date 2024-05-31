@@ -31,24 +31,26 @@
         </div>
     </div>
 
+
+    <div class="row">
+        <div class="col-3">
+            <div class="form-group">
+                <label for="typeExpense">Type Dépense</label>
+                {{ form_widget(form.typeExpense, {'attr' : {'class': 'form-control select2'}}) }}
+            </div>
+        </div>
+
+        <div class="col-3">
+            <div class="form-group">
+                <label for="expense">Dépense</label>
+                {{ form_widget(form.expense, {'attr' : {'class': 'form-control select2'}}) }}
+            </div>
+        </div>
+
+
+
+    </div>
 </fieldset>
 
-{#{% form_theme form 'fdb/_detail.html.twig' %}#}
 
-{#<fieldset>#}
-{#    <legend>Détail Fiche de besoin</legend>#}
-{#    <table class="table table-sm bordered" id="tablefdb_details">#}
-{#        <thead>#}
-{#        <tr>#}
-{#            <th class="text-center">Désignation</th>#}
-{#            <th class="text-center">Quantité</th>#}
-{#            <th class="text-center">Prix</th>#}
-{#            <th class="text-center">Montant</th>#}
-{#            <th class="text-center">Action</th>#}
-{#        </tr>#}
-{#        </thead>#}
-{#        <tbody id="">#}
-{#        {{ form_widget(form.details) }}#}
-{#        </tbody>#}
-{#    </table>#}
-{#</fieldset>#}
+

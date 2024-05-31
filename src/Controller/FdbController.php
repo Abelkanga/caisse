@@ -62,7 +62,7 @@ class FdbController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager, CaisseService $service): Response
     {
         $num_fdb = $service->refFdb();
-        $fdb = (new Fdb())->setNumeroFicheBesoin($num_fdb);
+        $fdb = (new Fdb())->setDate(new \DateTime())->setDestinataire('Konan Gwladys')->setNumeroFicheBesoin($num_fdb);
 
         $form = $this->createForm(FdbType::class, $fdb);
         $form->handleRequest($request);
