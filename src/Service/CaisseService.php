@@ -16,7 +16,6 @@ class CaisseService
     }
 
 
-    private DepenseRepository $depenseRepository;
 
     public function refFdb(): string
     {
@@ -26,6 +25,7 @@ class CaisseService
         $suffix = 'N°OSC/'.$year.'/';
         $id = $this->countOp($lastId);
         return $suffix.$id;
+
     }
 
     public function countOp($val): string

@@ -30,17 +30,17 @@ class UserType extends AbstractType
                 'placeholder' => 'Sélectionnez une caisse', 'required'=> false
 
             ])
-            ->add('isActive', CheckboxType::class, [
-                'attr' => [
-                    'class' => 'form-check-input',
-                ],
-                'required' => false,
-                'label' => 'Actif ',
-                'label_attr' => [
-                    'class' => 'form-check-label'
-                ],
-                'data' => true
-                    ])
+//            ->add('isActive', CheckboxType::class, [
+//                'attr' => [
+//                    'class' => 'form-check-input',
+//                ],
+//                'required' => false,
+//                'label' => 'Actif ',
+//                'label_attr' => [
+//                    'class' => 'form-check-label'
+//                ],
+//                'data' => true
+//                    ])
 
             ->add('roles', ChoiceType::class, [
                 'choices' => [

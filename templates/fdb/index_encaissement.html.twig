@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bons de Caisse{% endblock %}
+
+{% block body %}
+
+    <div class="col-12 col-md-12">
+        <div class="card">
+            <div class="card-header bg-soft-custom">
+                Liste des Bons de Caisse
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover bordered table-sm basic-datatable">
+                        <thead class="thead-light">
+                        <tr>
+                            <th>Date</th>
+                            <th>Montant</th>
+                            <th>UUID</th>
+                            <th>Référence</th>
+                            <th>Statut</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for bonCaisse in bonCaisse %}
+                            <tr>
+                                <td class="text-center">{{ bonCaisse.date ? bonCaisse.date.format('Y-m-d') : '' }}</td>
+                                <td>{{ bonCaisse.montant }}</td>
+                                <td>{{ bonCaisse.uuid }}</td>
+                                <td>{{ bonCaisse.reference }}</td>
+                                <td class="text-center">{{ bonCaisse.status }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="card-footer-content">
+
+                        <a href="{{ path('app_welcome') }}" class="btn btn-success float-right ml-3">
+                            <i class="oi oi-home"></i>
+                            Accueil</a>
+                    <a href="{{ path('app_welcome') }}" class="btn btn-success float-right ml-3">
+                        <i class="oi oi-home"></i>
+                        Accueil</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

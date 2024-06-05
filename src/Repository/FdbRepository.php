@@ -68,8 +68,9 @@ class FdbRepository extends ServiceEntityRepository
 
     public function findLastId()
     {
-        return $this->createQueryBuilder('f')->select('f.id')
-                    ->orderBy('f.id','DESC')
-                    ->setMaxResults(1)->getQuery()->getOneOrNullResult();
+        return $this->createQueryBuilder('f')
+            ->select('MAX(f.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 }

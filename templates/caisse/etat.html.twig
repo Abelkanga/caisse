@@ -4,9 +4,8 @@
 
 {% block body %}
 
-<fieldset>
-    <legend>État de la Caisse</legend>
-</fieldset>
+    <fieldset>
+
     <div class="col-12">
         <div class="card card-fluid">
             <div class="card-header bg-soft-custom" id="bg">
@@ -16,10 +15,10 @@
                 <div class="row justify-content-center">
                     <div class="col-8">
                         <form method="get" action="{{ path('app_etat_caisse') }}" class="formDate d-flex justify-content-center align-items-center">
-                            <input type="date" name="dateDebut" class="form-control input-large mx-2">
-                            <input type="date" name="dateFin" class="form-control input-large mx-2">
-                            <select name="type" class="form-control input-large mx-2">
-                                <option value="">Tous</option>
+                            <input type="date" name="date_debut" class="form-control input-large mx-1">
+                            <input type="date" name="date_fin" class="form-control input-large mx-1">
+                            <select name="type" class="form-control input-large mx-1">
+                                <option value="tous">Tous</option>
                                 <option value="entree">Entrée</option>
                                 <option value="sortie">Sortie</option>
                             </select>
@@ -30,41 +29,49 @@
             </div>
         </div>
     </div>
+    </fieldset>
 
+<fieldset>
     <div class="col-12 col-md-12">
         <div class="card">
             <div class="card-header bg-soft-custom" style="background:#21244e; color:white;">
-                <i class="fa-solid fa-list" style="font-size:30px;"></i> &nbsp;État de la Caisse
+                <i class="fa-solid fa-list" style="font-size:20px;"></i> &nbsp;État de la Caisse
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-striped table-hover bordered table-sm">
+                    <table class="table table-striped table-hover bordered table-sm basic-datatable">
                         <thead class="thead-light">
                         <tr>
-                            <th class="text-center">Type</th>
                             <th class="text-center">Date</th>
+                            <th class="text-center">Type</th>
+                            <th class="text-center">Description</th>
                             <th class="text-center">Montant</th>
                             <th class="text-center">Intitulé Caisse</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {% for caisse in caisse %}
+                        {% for mouvement in mouvements %}
                             <tr>
-                                <td class="text-center">{{ caisse.type }}</td>
-                                <td class="text-center">{{ caisse.date }}</td>
-                                <td class="text-center">{{ caisse.montant }}</td>
-                                <td class="text-center">{{ caisse.intitule }}</td>
+                                <td class="text-center">{{ mouvement.date|date('Y-m-d') }}</td>
+                                <td class="text">{{ mouvement.type }}</td>
+                                <td class="text">{{ mouvement.description }}</td>
+                                <td class="text-right separator">{{ mouvement.montant }}</td>
+                                <td class="text">{{ mouvement.caisse_intitule }}</td>
                             </tr>
                         {% endfor %}
                         </tbody>
                     </table>
                 </div>
-                <div>
-{#                    <p>Solde Disponible: {{ caisse.Soldedispo }}</p>#}
-
+            </div>
+            <div class="card-footer">
+                <div class="card-footer-content">
+                    <a href="{{ path('export_excel') }}" class="btn btn-primary float-right ml-2">
+                        Exporter Excel</a>
+                    <a href="{{ path('export_pdf') }}" class="btn btn-primary float-right ml-2">
+                        Exporter Pdf</a>
                 </div>
             </div>
         </div>
     </div>
-
+</fieldset>
 {% endblock %}

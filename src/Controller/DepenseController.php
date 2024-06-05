@@ -85,15 +85,9 @@ class DepenseController extends AbstractController
                 $user = $this->getUser();
                 $caisse = $user->getCaisse();
                 $solde = $caisse->getSoldedispo();
-                $total = $depense->getMontant();
+                $montant = $depense->getMontant();
 
-                if ($solde < $total) {
-                    flash()->error('Pas de fond disponible pour effectuer cette opération');
-
-                    return $this->redirectToRoute('app_welcome');
-                }
-
-                $caisse->setSoldedispo($solde - $total);
+                $caisse->setSoldedispo($solde - $montant);
                 $depense->setStatus(Status::VALIDATED);
 
                 $bonCaisse = new BonCaisse();
@@ -103,7 +97,6 @@ class DepenseController extends AbstractController
                 $bonCaisse->setCaisse($caisse);
                 $bonCaisse->setDepense($depense);
                 $entityManager->persist($bonCaisse);
-
 
                 $entityManager->persist($depense);
                 $entityManager->persist($caisse);

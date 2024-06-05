@@ -6,6 +6,7 @@ use App\Entity\BonCaisse;
 use App\Entity\Fdb;
 use App\Entity\User;
 use App\Form\FdbType;
+use App\Repository\BonCaisseRepository;
 use App\Repository\FdbRepository;
 use App\Service\CaisseService;
 use App\Utils\Status;
@@ -27,6 +28,17 @@ class FdbController extends AbstractController
             'fdb' => $fdb
         ]);
     }
+
+    #[Route('/fdb/bonCaisse', name: 'fdb_indexBonCaisse', methods:['GET'])]
+    public function indexBonCaisse( BonCaisseRepository $bonCaisseRepository): Response
+    {
+        $boncaisse = $bonCaisseRepository->findAll();
+
+        return $this->render('fdb/index_encaissement.html.twig', [
+            'bonCaisse' => $boncaisse
+        ]);
+    }
+
 
     #[Route('/fdb/pending', name: 'fdb_pending', methods:['GET'])]
     public function index_pending(FdbRepository $fdbRepository): Response
@@ -62,7 +74,7 @@ class FdbController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager, CaisseService $service): Response
     {
         $num_fdb = $service->refFdb();
-        $fdb = (new Fdb())->setDate(new \DateTime())->setDestinataire('Konan Gwladys')->setNumeroFicheBesoin($num_fdb);
+        $fdb = (new Fdb())->setDate(new \DateTimeImmutable())->setDestinataire('Konan Gwladys')->setNumeroFicheBesoin($num_fdb);
 
         $form = $this->createForm(FdbType::class, $fdb);
         $form->handleRequest($request);

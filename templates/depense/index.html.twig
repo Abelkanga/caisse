@@ -26,7 +26,7 @@
                         {% for depense in depense %}
                             <tr>
                                 <td class="text-center">{{ depense.date|date('Y-m-d') }}</td>
-                                <td>{{ depense.montant }}</td>
+                                <td class="separator">{{ depense.montant }}</td>
                                 <td>{{ depense.category }}</td>
                                 <td>{{ depense.modepaie }}</td>
                                 <td class="text-center">{{ depense.status }}</td>

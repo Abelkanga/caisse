@@ -37,7 +37,7 @@
                             <tr>
                                 <td class="text-center">{{ bonapprovisionnement.date|date('Y-m-d') }}</td>
                                 <td class="text-center">{{ bonapprovisionnement.modepaie }}</td>
-                                <td class="text-center">{{ bonapprovisionnement.montanttotal }}</td>
+                                <td class="text-center separator">{{ bonapprovisionnement.montanttotal }}</td>
                                 <td class="text-center">{{ bonapprovisionnement.nature }}</td>
                             </tr>
                             </tbody>
@@ -59,8 +59,8 @@
                                     <tr>
                                         <td>{{ detail.quantite }}</td>
                                         <td>{{ detail.designationproduit }}</td>
-                                        <td>{{ detail.price }}</td>
-                                        <td>{{ detail.montant }}</td>
+                                        <td class="separator">{{ detail.price }}</td>
+                                        <td class="separator">{{ detail.montant }}</td>
                                     </tr>
                                 {% endfor %}
                                 </tbody>

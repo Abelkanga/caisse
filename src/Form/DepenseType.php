@@ -24,13 +24,7 @@ class DepenseType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('date', DateTimeType::class, [
-                'required' => true,
-                'constraints' => [
-                    new NotBlank()
-                ],
-                'empty_data' => ''
-            ])
+            ->add('date', DateType::class)
             ->add('montant', )
             ->add('category')
             ->add('modepaie', ChoiceType::class, [
@@ -40,57 +34,52 @@ class DepenseType extends AbstractType
                     'Carte' => 'Carte',
                     'Chèque' => 'Chèque',
                 ],
-                'required' => true,'empty_data' => ''
+//                'required' => true,'empty_data' => ''
             ])
 
-            ->add('typeExpense', EntityType::class, [
-                'class' => TypeExpense::class,
-                'placeholder' => 'Sélectionner un type de dépense',
+//
 
-            ])
 
         ;
 
-        $formUpdate = static function (FormInterface $form, ?TypeExpense $typeExpense) {
-            $form->add("expense", EntityType::class, [
-                "class" => Expense::class,
-                "choice_label" => "name",
-                "placeholder" => "",
-                "query_builder" => function (EntityRepository $er) use ($typeExpense) {
-                    return $er
-                        ->createQueryBuilder('e')
-                        ->where("e.typeExpense = :type")
-                        ->setParameter("type", $typeExpense);
-                },
-            ]);
-        };
+//        $formUpdate = static function (FormInterface $form, ?TypeExpense $typeExpense) {
+//            $form->add("expense", EntityType::class, [
+//                "class" => Expense::class,
+//                "choice_label" => "name",
+//                "placeholder" => "",
+//                "query_builder" => function (EntityRepository $er) use ($typeExpense) {
+//                    return $er
+//                        ->createQueryBuilder('e')
+//                        ->where("e.typeExpense = :type")
+//                        ->setParameter("type", $typeExpense);
+//                },
+//            ]);
+//        };
+//
+//        $builder->addEventListener(FormEvents::PRE_SET_DATA,
+//            function (FormEvent $event) use ($formUpdate) {
+//                /** @var Depense $data */
+//                $data = $event->getData();
+//                $formUpdate($event->getForm(), $data?->getTypeExpense());
+//            });
+//
+//
+//        $builder->get('typeExpense')->addEventListener(FormEvents::POST_SUBMIT,
+//            function (FormEvent $event) use ($formUpdate) {
+//                $typeExpense = $event->getForm()->getData();
+//                $form = $event->getForm()->getParent();
+//                $formUpdate($form, $typeExpense);
+//            });
 
-        $builder->addEventListener(FormEvents::PRE_SET_DATA,
-            function (FormEvent $event) use ($formUpdate) {
-                /** @var Depense $data */
-                $data = $event->getData();
-                $formUpdate($event->getForm(), $data?->getTypeExpense());
-            });
-
-
-        $builder->get('typeExpense')->addEventListener(FormEvents::POST_SUBMIT,
-            function (FormEvent $event) use ($formUpdate) {
-                $typeExpense = $event->getForm()->getData();
-                $form = $event->getForm()->getParent();
-                $formUpdate($form, $typeExpense);
-            });
-
-
-        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
-            /** @var Depense $depense */
-            $depense = $event->getData();
-            $total = 0;
-            foreach ($depense->getDetails() as $d) {
-                $total += $d->getMontant();
-            }
-            $depense->setMontant($total);
-        });
-    }
+//
+//        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
+//            /** @var Depense $depense */
+//            $depense = $event->getData();
+//            $montant = 0;
+//
+//            $depense->setMontant($montant);
+//        });
+   }
 
     public function configureOptions(OptionsResolver $resolver): void
     {

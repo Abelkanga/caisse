@@ -55,14 +55,17 @@ class Bonapprovisionnement
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $updatedAt = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
-    private ?string $total = null;
+//    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+//    private ?string $total = null;
 
     /**
      * @var Collection<int, BonCaisse>
      */
     #[ORM\OneToMany(targetEntity: BonCaisse::class, mappedBy: 'bonapprovisionnement')]
     private Collection $bonCaisses;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+    private ?string $total = null;
 
 
     public function __construct()
@@ -229,17 +232,17 @@ class Bonapprovisionnement
         return $this;
     }
 
-    public function getTotal(): ?string
-    {
-        return $this->total;
-    }
-
-    public function setTotal(?string $total): static
-    {
-        $this->total = $total;
-
-        return $this;
-    }
+//    public function getTotal(): ?string
+//    {
+//        return $this->total;
+//    }
+//
+//    public function setTotal(?string $total): static
+//    {
+//        $this->total = $total;
+//
+//        return $this;
+//    }
 
     /**
      * @return Collection<int, BonCaisse>
@@ -267,6 +270,18 @@ class Bonapprovisionnement
                 $bonCaiss->setBonapprovisionnement(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTotal(): ?string
+    {
+        return $this->total;
+    }
+
+    public function setTotal(?string $total): static
+    {
+        $this->total = $total;
 
         return $this;
     }

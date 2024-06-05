@@ -4,7 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Caisse;
 use App\Form\CaisseType;
+use App\Repository\BonapprovisionnementRepository;
 use App\Repository\CaisseRepository;
+use App\Repository\DepenseRepository;
+use App\Repository\FdbRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -55,104 +58,88 @@ class CaisseController extends AbstractController
         ]);
     }
 
+
     #[Route('/etat', name: 'app_etat_caisse', methods: ['GET'])]
-    public function etatCaisse(Request $request, CaisseRepository $caisseRepository): Response
-    {
-        $dateDebut = $request->query->get('dateDebut');
-        $dateFin = $request->query->get('dateFin');
+    public function getMouvementsCaisse(FdbRepository $fdbRepository, BonapprovisionnementRepository $bonapprovisionnementRepository, DepenseRepository $depenseRepository, Request $request): Response {
+        $dateDebut = $request->query->get('date_debut') ? new \DateTimeImmutable($request->query->get('date_debut')) : null;
+        $dateFin = $request->query->get('date_fin') ? new \DateTimeImmutable($request->query->get('date_fin')) : null;
         $type = $request->query->get('type');
 
-        $queryBuilder = $caisseRepository->createQueryBuilder('c')
-            ->leftJoin('c.fdbs', 'f')
-            ->leftJoin('c.depenses', 'd')
-            ->leftJoin('c.bonapprovisionnements', 'b')
+        $mouvements = [];
 
-            ->addSelect( 'f', 'd', 'b');
+        if ($dateDebut && $dateFin) {
+            if ($type === 'sortie' || $type === 'tous') {
+                $fdbQuery = $fdbRepository->createQueryBuilder('fdb')
+                    ->leftJoin('fdb.caisse', 'caisse')
+                    ->addSelect('caisse')
+                    ->where('fdb.date BETWEEN :date_debut AND :date_fin')
+                    ->setParameter('date_debut', $dateDebut)
+                    ->setParameter('date_fin', $dateFin)
+                    ->getQuery()
+                    ->getResult();
 
-        if ($dateDebut) {
-            $queryBuilder->andWhere('f.date >= :dateDebut OR d.date >= :dateDebut OR b.date >= :dateDebut')
-                ->setParameter('dateDebut', $dateDebut);
-        }
+                foreach ($fdbQuery as $fdb) {
+                    $mouvements[] = [
+                        'type' => 'Fiche de besoin',
+                        'date' => $fdb->getDate(),
+                        'description' => $fdb->getObjet(),
+                        'montant' => $fdb->getTotal(),
+                        'caisse_intitule' => $fdb->getCaisse()->getIntitule(),
+                    ];
+                }
 
-        if ($dateFin) {
-            $queryBuilder->andWhere('f.date <= :dateFin OR d.date <= :dateFin OR b.date <= :dateFin')
-                ->setParameter('dateFin', $dateFin);
-        }
+                $depenseQuery = $depenseRepository->createQueryBuilder('d')
+                    ->leftJoin('d.caisse', 'caisse')
+                    ->addSelect('caisse')
+                    ->where('d.date BETWEEN :date_debut AND :date_fin')
+                    ->setParameter('date_debut', $dateDebut)
+                    ->setParameter('date_fin', $dateFin)
+                    ->getQuery()
+                    ->getResult();
 
-        if ($type) {
-            if ($type === 'entree') {
-                $queryBuilder->andWhere('b.id IS NOT NULL');
-            } elseif ($type === 'sortie') {
-                $queryBuilder->andWhere('f.id IS NOT NULL');
-                $queryBuilder->andWhere('d.id IS NOT NULL');
+                foreach ($depenseQuery as $depense) {
+                    $mouvements[] = [
+                        'type' => 'Depense',
+                        'date' => $depense->getDate(),
+                        'description' => $depense->getCategory(),
+                        'montant' => $depense->getMontant(),
+                        'caisse_intitule' => $depense->getCaisse()->getIntitule(),
+                    ];
+                }
             }
-        }
 
-        $caisse = $queryBuilder->getQuery()->getResult();
+            if ($type === 'entree' || $type === 'tous') {
+                $bonapprovisionnementQuery = $bonapprovisionnementRepository->createQueryBuilder('ba')
+                    ->leftJoin('ba.caisse', 'caisse')
+                    ->addSelect('caisse')
+                    ->where('ba.date BETWEEN :date_debut AND :date_fin')
+                    ->setParameter('date_debut', $dateDebut)
+                    ->setParameter('date_fin', $dateFin)
+                    ->getQuery()
+                    ->getResult();
 
-        $data = [];
-        foreach ($caisse as $caisse) {
-            foreach ($caisse->getDepenses() as $depense) {
-                $data[] = [
-                    'type' => 'sortie',
-                    'date' => $depense->getDate()->format('Y-m-d'),
-                    'montant' => $depense->getMontant(),
-                    'intitule' => $caisse->getIntitule(),
-                ];
+                foreach ($bonapprovisionnementQuery as $bonapprovisionnement) {
+                    $mouvements[] = [
+                        'type' => 'Bon Approvisionnement',
+                        'date' => $bonapprovisionnement->getDate(),
+                        'description' => $bonapprovisionnement->getNature(),
+                        'montant' => $bonapprovisionnement->getMontanttotal(),
+                        'caisse_intitule' => $bonapprovisionnement->getCaisse()->getIntitule(),
+                    ];
+                }
             }
-            foreach ($caisse->getBonApprovisionnements() as $bon) {
-                $data[] = [
-                    'type' => 'entree',
-                    'date' => $bon->getDate()->format('Y-m-d'),
-                    'montant' => $bon->getMontant(),
-                    'intitule' => $caisse->getIntitule(),
-                ];
-            }
+
+            usort($mouvements, function ($a, $b) {
+                return $a['date'] <=> $b['date'];
+            });
         }
 
         return $this->render('caisse/etat.html.twig', [
-            'caisse' => $data,
-//            'solde' => $caisse ? $caisse[0]->calculateSolde() : 0,
+            'mouvements' => $mouvements,
         ]);
     }
 
 
-//    #[Route('/liste/etat', name: 'app_list_etat', methods: ['GET'])]
-//    public function allFactureInfo(FactureRepository $factureRepository): Response
-//    {
-//        // Obtenir toutes les factures avec les détails et les clients associés
-//        $factures = $factureRepository->createQueryBuilder('f')
-//            ->leftJoin('f.IdClient', 'c')
-//            ->leftJoin('f.detailFactures', 'df')
-//            ->leftJoin('df.produit', 'p')
-//            ->addSelect('c', 'df', 'p')
-//            ->getQuery()
-//            ->getResult();
-//
-//        // Préparer les données pour la vue
-//        $data = [];
-//        foreach ($factures as $facture) {
-//            foreach ($facture->getDetailFactures() as $detail) {
-//                $data[] = [
-//                    'idFacture' => $facture->getId(),
-//                    'clientNom' => $facture->getIdClient()->getNom(),
-//                    'clientPrenom' => $facture->getIdClient()->getPrenom(),
-//                    'codeFacture' => $facture->getCodeFacture(),
-//                    'dateFacture' => $facture->getDate()->format('Y-m-d'),
-//                    'produit' => $detail->getProduit()->getLibelle(),
-//                    'quantite' => $detail->getQuantite(),
-//                    'prix' => $detail->getPrix(),
-//                    'montantTTC' => $detail->getMontantTTC(),
-//                    'montantHT' => $detail->getMontantHT(),
-//                    'montantTVA' => $detail->getMontantTVA(),
-//                    'remise' => $detail->getRemise(),
-//                ];
-//            }
-//        }
-//
-//        return $this->render('etat/index.html.twig', [
-//            'factures' => $data,
-//        ]);
-//    }
-//}
+
+
 }
