@@ -17,10 +17,11 @@ class PdfService
                     <thead>
                         <tr>
                             <th class="text-center">Date</th>
+                            <th class="text-center">Intitulé Caisse</th>
                             <th class="text-center">Type</th>
                             <th class="text-center">Description</th>
                             <th class="text-center">Montant</th>
-                            <th class="text-center">Intitulé Caisse</th>
+                            
                         </tr>
                     </thead>
                     <tbody>';
@@ -28,10 +29,10 @@ class PdfService
         foreach ($data as $item) {
             $html .= '<tr>
                         <td class="text-center">' . $item['date']->format('Y-m-d') . '</td>
+                          <td class="text">' . $item['caisse'] . '</td>
                         <td class="text">' . $item['type'] . '</td>
                         <td class="text">' . $item['description'] . '</td>
                         <td class="text">' . $item['montant'] . '</td>
-                        <td class="text">' . $item['caisse'] . '</td>
                       </tr>';
         }
 

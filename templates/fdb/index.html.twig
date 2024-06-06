@@ -14,8 +14,9 @@
                     <table class="table table-striped table-hover bordered table-sm basic-datatable">
                         <thead class="thead-light">
                         <tr>
-                            <th>Date d’Établissement</th>
+                            <th>Date</th>
                             <th>Type Opération</th>
+                            <th>Montant Total</th>
                             <th>Emetteur</th>
                             <th>Destinataire</th>
                             <th>Bénéficiaire</th>
@@ -26,9 +27,11 @@
                         <tbody>
                         {% for fdb in fdb %}
                             <tr>
-                                <td class="text-center">{{ fdb.date ? fdb.date.format('Y-m-d') : '' }}</td>
+                                <td class="text-center">{{ fdb.date ? fdb.date|date('d-m-Y') : '' }}</td>
+
                                 <td>{{ fdb.objet }}</td>
-                                <td>{{ fdb.responsable }}</td>
+                                <td class="text-right">{{ fdb.total }}</td>
+                                <td>{{ fdb.emeteur }}</td>
                                 <td>{{ fdb.destinataire }}</td>
                                 <td>{{ fdb.beneficiaire }}</td>
                                 <td class="text-center">{{ fdb.status }}</td>

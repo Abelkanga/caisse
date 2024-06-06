@@ -19,15 +19,19 @@
                                 <tbody>
                                 <tr>
                                     <th>De</th>
-                                    <td>{{ fdb.responsable }}</td>
+                                    <td>{{ fdb.emeteur }}</td>
                                 </tr>
                                 <tr>
                                     <th>À</th>
                                     <td>{{ fdb.destinataire }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Date d’Établissement</th>
-                                    <td>{{ fdb.date ? fdb.date.format('Y-m-d') : '' }}</td>
+                                    <th>Pour</th>
+                                    <td>{{ fdb.beneficiaire }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Date</th>
+                                    <td>{{ fdb.date ? fdb.date|date('d-m-Y') : '' }}</td>
                                 </tr>
                                 <tr>
                                     <th>Objet</th>
@@ -43,8 +47,8 @@
                                     <tr>
                                         <th>Qte</th>
                                         <th>Désignation</th>
-                                        <th>Prix unitaire</th>
-                                        <th>Montant TTC</th>
+                                        <th>Prix unitaire (F cfa)</th>
+                                        <th>Montant TTC (F cfa)</th>
                                     </tr>
                                     </thead>
                                     <tbody id="fdb_details">
@@ -52,8 +56,8 @@
                                         <tr>
                                             <td>{{ detail.quantite }}</td>
                                             <td>{{ detail.designationproduit }}</td>
-                                            <td>{{ detail.price }}</td>
-                                            <td>{{ detail.montant }}</td>
+                                            <td class="text-right">{{ detail.price }} (F cfa)</td>
+                                            <td class="text-right">{{ detail.montant }} (F cfa)</td>
                                         </tr>
                                     {% endfor %}
                                     </tbody>

@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Caisse;
+use App\Entity\Emeteur;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -30,6 +31,7 @@ class UserType extends AbstractType
                 'placeholder' => 'Sélectionnez une caisse', 'required'=> false
 
             ])
+
 //            ->add('isActive', CheckboxType::class, [
 //                'attr' => [
 //                    'class' => 'form-check-input',

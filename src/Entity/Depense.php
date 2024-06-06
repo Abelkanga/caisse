@@ -66,6 +66,9 @@ class Depense
     #[ORM\ManyToOne(inversedBy: 'depenses')]
     private ?TypeExpense $typeExpense = null;
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+    private ?string $total = null;
+
 
     public function __construct()
     {
@@ -280,6 +283,18 @@ class Depense
     public function setTypeExpense(?TypeExpense $typeExpense): static
     {
         $this->typeExpense = $typeExpense;
+
+        return $this;
+    }
+
+    public function getTotal(): ?string
+    {
+        return $this->total;
+    }
+
+    public function setTotal(?string $total): static
+    {
+        $this->total = $total;
 
         return $this;
     }

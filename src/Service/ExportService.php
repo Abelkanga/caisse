@@ -14,20 +14,21 @@ class ExportService
         $sheet = $spreadsheet->getActiveSheet();
 
         // Set header values
-        $sheet->setCellValue('A1', 'Type');
         $sheet->setCellValue('B1', 'Date');
+        $sheet->setCellValue('E1', 'Intitulé Caisse');
+        $sheet->setCellValue('A1', 'Type');
         $sheet->setCellValue('C1', 'Description');
         $sheet->setCellValue('D1', 'Montant');
-        $sheet->setCellValue('E1', 'Intitulé Caisse');
+
 
         // Fill data
         $row = 2;
         foreach ($data as $item) {
-            $sheet->setCellValue('A' . $row, $item['type']);
             $sheet->setCellValue('B' . $row, $item['date']->format('Y-m-d'));
+            $sheet->setCellValue('E' . $row, $item['caisse']);
+            $sheet->setCellValue('A' . $row, $item['type']);
             $sheet->setCellValue('C' . $row, $item['description']);
             $sheet->setCellValue('D' . $row, $item['montant']);
-            $sheet->setCellValue('E' . $row, $item['caisse']);
             $row++;
         }
 

@@ -63,6 +63,14 @@ class DepenseController extends AbstractController
             $user = $this->getUser();
             $depense->setUser($user)->setStatus(Status::EN_ATTENTE);
 
+            $detail = $depense->getDetails();
+            foreach ($detail as $d) {
+                $d->setDepense($depense);
+
+                $entityManager->persist($d);
+            }
+
+
             $entityManager->persist($depense);
             $entityManager->flush();
             flash()->success('Dépense enregistrée avec succès !');
@@ -85,9 +93,9 @@ class DepenseController extends AbstractController
                 $user = $this->getUser();
                 $caisse = $user->getCaisse();
                 $solde = $caisse->getSoldedispo();
-                $montant = $depense->getMontant();
+                $total = $depense->getTotal();
 
-                $caisse->setSoldedispo($solde - $montant);
+                $caisse->setSoldedispo($solde - $total);
                 $depense->setStatus(Status::VALIDATED);
 
                 $bonCaisse = new BonCaisse();
@@ -96,6 +104,7 @@ class DepenseController extends AbstractController
                 $bonCaisse->setMontant($depense->getMontant());
                 $bonCaisse->setCaisse($caisse);
                 $bonCaisse->setDepense($depense);
+
                 $entityManager->persist($bonCaisse);
 
                 $entityManager->persist($depense);
@@ -105,6 +114,7 @@ class DepenseController extends AbstractController
 
 
                 return $this->redirectToRoute('app_welcome');
+
             }
         }
 

@@ -43,20 +43,20 @@
                         <thead class="thead-light">
                         <tr>
                             <th class="text-center">Date</th>
+                            <th class="text-center">Intitulé Caisse</th>
                             <th class="text-center">Type</th>
                             <th class="text-center">Description</th>
-                            <th class="text-center">Montant</th>
-                            <th class="text-center">Intitulé Caisse</th>
+                            <th class="text-center">Montant (F cfa)</th>
                         </tr>
                         </thead>
                         <tbody>
                         {% for mouvement in mouvements %}
                             <tr>
-                                <td class="text-center">{{ mouvement.date|date('Y-m-d') }}</td>
+                                <td class="text-center">{{ mouvement.date ? mouvement.date|date('d-m-Y') : '' }}</td>
+                                <td class="text">{{ mouvement.caisse_intitule }}</td>
                                 <td class="text">{{ mouvement.type }}</td>
                                 <td class="text">{{ mouvement.description }}</td>
                                 <td class="text-right separator">{{ mouvement.montant }}</td>
-                                <td class="text">{{ mouvement.caisse_intitule }}</td>
                             </tr>
                         {% endfor %}
                         </tbody>
@@ -69,6 +69,9 @@
                         Exporter Excel</a>
                     <a href="{{ path('export_pdf') }}" class="btn btn-primary float-right ml-2">
                         Exporter Pdf</a>
+                    <a href="{{ path('app_welcome') }}" class="btn btn-info float-right">
+                        <i class="oi oi-home"></i> Retour
+                    </a>
                 </div>
             </div>
         </div>

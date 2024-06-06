@@ -45,21 +45,24 @@
 		<li class="menu-item {{ app.request.get('_route') == 'caisse_index' ? 'has-active': '' }}">
 			<a href="{{ path('caisse_index') }}" class="menu-link">Liste</a>
 		</li>
+		<li class="menu-item {{ app.request.get('_route') == 'app_etat_caisse' ? 'has-active': '' }}">
+			<a href="{{ path('app_etat_caisse') }}" class="menu-link">Etat</a>
+		</li>
 
 	</ul>
 	<!-- /child menu -->
 	<!-- .menu-item -->
 </li>
-<li class="menu-item has-child">
-	<a href="#" class="menu-link">
-		<i class="fa-solid fa-list" style="font-size:17px;"></i>
-		<span class="menu-text">Etat de caisse</span>
-	</a>
-	<!-- child menu -->
-	<ul class="menu">
-		<li class="menu-item {{ app.request.get('_route') == 'app_etat_caisse' ? 'has-active': '' }}">
-			<a href="{{ path('app_etat_caisse') }}" class="menu-link">Créer</a>
-		</li>
+{#<li class="menu-item has-child">#}
+{#	<a href="#" class="menu-link">#}
+{#		<i class="fa-solid fa-list" style="font-size:17px;"></i>#}
+{#		<span class="menu-text">Etat de caisse</span>#}
+{#	</a>#}
+{#	<!-- child menu -->#}
+{#	<ul class="menu">#}
+{#		<li class="menu-item {{ app.request.get('_route') == 'app_etat_caisse' ? 'has-active': '' }}">#}
+{#			<a href="{{ path('app_etat_caisse') }}" class="menu-link">Créer</a>#}
+{#		</li>#}
 {#		<li class="menu-item {{ app.request.get('_route') == 'fdb_indexBonCaisse' ? 'has-active': '' }}">#}
 {#			<a href="{{ path('fdb_indexBonCaisse') }}" class="menu-link">Liste des encaissements</a>#}
 {#		</li>#}
@@ -67,10 +70,10 @@
 {#			<a href="{{ path('app_bon_decaisse') }}" class="menu-link">Liste des decaissements</a>#}
 {#		</li>#}
 
-	</ul>
-	<!-- /child menu -->
-	<!-- .menu-item -->
-</li>
+{#	</ul>#}
+{#	<!-- /child menu -->#}
+{#	<!-- .menu-item -->#}
+{#</li>#}
 <hr>
 <li class="menu-item has-child">
 	<a href="#" class="menu-link">

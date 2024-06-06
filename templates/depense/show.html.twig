@@ -2,6 +2,19 @@
 
 {% block title %}Dépense{% endblock %}
 
+{% block stylesheets %}
+
+    <style>
+        td{
+            font-size: 13px !important;
+        }
+
+        th{
+            font-size: 13px !important;
+        }
+    </style>
+{% endblock %}
+
 {% block body %}
 
     <div class="row">
@@ -24,22 +37,53 @@
                         <table class="table bordered table-sm">
                             <thead class="thead-light">
                             <tr>
-                                <th class="text-center">Date enregistrement</th>
-                                <th class="text-center">Montant</th>
+                                <th class="text-center">Date</th>
                                 <th class="text-center">Catégorie</th>
                                 <th class="text-center">Mode de paiement</th>
+                                <th class="text-center">Montant (F cfa)</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr>
-                                <td class="text-center">{{ depense.date|date('Y-m-d') }}</td>
-                                <td class="text-center separator">{{ depense.montant }}</td>
-                                <td class="text-center">{{ depense.category }}</td>
-                                <td class="text-center">{{ depense.modepaie }}</td>
+                                <td class="text-center">{{ depense.date ? depense.date|date('d-m-Y') : '' }}</td>
+                                <td class="text-left">{{ depense.category }}</td>
+                                <td class="text-left">{{ depense.modepaie }}</td>
+                                <td class="text-right separator">{{ depense.montant }} (F cfa)</td>
                             </tr>
                             </tbody>
                         </table>
-                </div>
+
+
+                <fieldset>
+                    <legend> Détail de la dépense</legend>
+                    <table class="table bordered table-sm">
+                        <thead>
+                        <tr>
+                            <th>Désignation</th>
+                            <th>Qte</th>
+                            <th>Prix unitaire (F cfa)</th>
+                            <th>Montant TTC (F cfa)</th>
+                        </tr>
+                        </thead>
+                        <tbody id="depense_details">
+                        {% for detail in depense.details %}
+                            <tr>
+                                <td>{{ detail.designationproduit }}</td>
+                                <td>{{ detail.quantite }}</td>
+                                <td class="separator text-right">{{ detail.price }} (F cfa)</td>
+                                <td class="separator text-right">{{ detail.montant }} (F cfa)</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                        {#                                <tfoot>#}
+                        {#                                <tr>#}
+                        {#                                    <th colspan="3">Total</th>#}
+                        {#                                    <th class="text-right"><span id="total_montant"></span></th>#}
+
+                        {#                                </tr>#}
+                        {#                                </tfoot>#}
+                    </table>
+                </fieldset>
 
                 <form method="post" action="{{ path('depense_show', {'id': depense.id}) }}">
                     <div class="card-footer">

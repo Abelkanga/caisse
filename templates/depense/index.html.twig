@@ -15,8 +15,8 @@
                         <thead class="thead-light">
                         <tr>
                             <th>Date</th>
-                            <th>Montant</th>
                             <th>Catégorie</th>
+                            <th>Montant (F cfa)</th>
                             <th>Mode de paiement</th>
                             <th>Statut</th>
                             <th>Actions</th>
@@ -25,9 +25,9 @@
                         <tbody>
                         {% for depense in depense %}
                             <tr>
-                                <td class="text-center">{{ depense.date|date('Y-m-d') }}</td>
-                                <td class="separator">{{ depense.montant }}</td>
+                                <td class="text-center">{{ depense.date ? depense.date|date('d-m-Y') : '' }}</td>
                                 <td>{{ depense.category }}</td>
+                                <td class="separator text-right">{{ depense.montant }} (F cfa)</td>
                                 <td>{{ depense.modepaie }}</td>
                                 <td class="text-center">{{ depense.status }}</td>
                                 <td class="text-center">

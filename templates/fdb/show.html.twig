@@ -2,6 +2,19 @@
 
 {% block title %}Fiche de Besoin{% endblock %}
 
+{% block stylesheets %}
+
+    <style>
+        td{
+            font-size: 13px !important;
+        }
+
+        th{
+            font-size: 13px !important;
+        }
+    </style>
+{% endblock %}
+
 {% block body %}
     <div class="row">
         <div class="col-sm-12">
@@ -19,15 +32,19 @@
                             <tbody>
                             <tr>
                                 <th>De</th>
-                                <td>{{ fdb.responsable }}</td>
+                                <td>{{ fdb.emeteur }}</td>
                             </tr>
                             <tr>
                                 <th>À</th>
                                 <td>{{ fdb.destinataire }}</td>
                             </tr>
                             <tr>
-                                <th>Date d’Établissement</th>
-                                <td>{{ fdb.date ? fdb.date.format('Y-m-d') : '' }}</td>
+                                <th>Pour</th>
+                                <td>{{ fdb.beneficiaire }}</td>
+                            </tr>
+                            <tr>
+                                <th>Date</th>
+                                <td>{{ fdb.date ? fdb.date|date('d-m-Y') : '' }}</td>
                             </tr>
                             <tr>
                                 <th>Objet</th>
@@ -41,25 +58,31 @@
                             <table class="table bordered table-sm">
                                 <thead>
                                 <tr>
-                                    <th>Qte</th>
                                     <th>Désignation</th>
-                                    <th>Prix unitaire</th>
-                                    <th>Montant TTC</th>
+                                    <th>Qte</th>
+                                    <th>Prix unitaire (F cfa)</th>
+                                    <th>Montant TTC (F cfa)</th>
                                 </tr>
                                 </thead>
                                 <tbody id="fdb_details">
                                 {% for detail in fdb.details %}
                                     <tr>
-                                        <td>{{ detail.quantite }}</td>
                                         <td>{{ detail.designationproduit }}</td>
-                                        <td class="separator">{{ detail.price }}</td>
-                                        <td class="separator">{{ detail.montant }}</td>
+                                        <td>{{ detail.quantite }}</td>
+                                        <td class="separator text-right">{{ detail.price }} (F cfa)</td>
+                                        <td class="separator text-right">{{ detail.montant }} (F cfa)</td>
                                     </tr>
                                 {% endfor %}
                                 </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th colspan="3">Total</th>
+                                    <th class="text-right"><span id="total_montant"> {{ fdb.total }}</span></th>
+                                </tr>
+                                </tfoot>
                             </table>
                         </fieldset>
-                </div>
+
 
                 <form method="post" action="{{ path('fdb_show', {'id': fdb.id}) }}">
                     <div class="card-footer">

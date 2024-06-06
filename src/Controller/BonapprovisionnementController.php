@@ -61,12 +61,12 @@ class BonapprovisionnementController extends AbstractController
             $user = $this->getUser();
             $bonapprovisionnement->setUser($user)->setStatus(Status::EN_ATTENTE);
 
-            $detail = $bonapprovisionnement->getDetails();
-            foreach ($detail as $d) {
-                $d->setBonapprovisionnement($bonapprovisionnement);
-
-                $entityManager->persist($d);
-            }
+//            $detail = $bonapprovisionnement->getDetails();
+//            foreach ($detail as $d) {
+//                $d->setBonapprovisionnement($bonapprovisionnement);
+//
+//                $entityManager->persist($d);
+//            }
 
             $entityManager->persist($bonapprovisionnement);
             $entityManager->flush();
@@ -90,14 +90,14 @@ class BonapprovisionnementController extends AbstractController
                 $user = $this->getUser();
                 $caisse = $user->getCaisse();
                 $solde = $caisse->getSoldedispo();
-                $total = $bonapprovisionnement->getTotal();
-                $caisse->setSoldedispo($solde + $total);
+                $montanttotal = $bonapprovisionnement->getMontanttotal();
+                $caisse->setSoldedispo($solde + $montanttotal);
                 $bonapprovisionnement->setStatus(Status::VALIDATED);
 
                 $bonCaisse = new BonCaisse();
                 $bonCaisse->setStatus(Status::VALIDATED);
                 $bonCaisse->setDate(new \DateTime());
-                $bonCaisse->setMontant($bonapprovisionnement->getTotal());
+                $bonCaisse->setMontant($bonapprovisionnement->getMontanttotal());
                 $bonCaisse->setCaisse($caisse);
                 $bonCaisse->setBonapprovisionnement($bonapprovisionnement);
                 $entityManager->persist($bonCaisse);

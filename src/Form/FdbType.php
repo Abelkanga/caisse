@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Emeteur;
 use App\Entity\Expense;
 use App\Entity\Fdb;
 use App\Entity\TypeExpense;
@@ -32,17 +33,14 @@ class FdbType extends AbstractType
 //                'required' => true,'empty_data' => ''
             ])
             ->add('objet', TextType::class)
-            ->add('responsable', ChoiceType::class, [
-                'choices' => [
-                    'Konan Bertrand' => 'Konan Bertrand',
-                    'Mahile Emmanuel' => 'Mahile Emmanuel',
-                    'Otron André' => 'Otron André',
-                    'Wognin' => 'Wognin',
-                ]
+            ->add('emeteur', EntityType::class, [
+                'class' => Emeteur::class,
+                'placeholder' => 'Sélectionnez un émetteur', 'required' => false
             ])
+
             ->add('destinataire', TextType::class, [
                 'attr' => [
-                    'readonly' => true
+                    'readonly' => false
                 ],
 //                'required' => true,'empty_data' => ''
             ])

@@ -29,9 +29,6 @@ class Fdb
     private ?string $objet = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $responsable = null;
-
-    #[ORM\Column(length: 255)]
     private ?string $destinataire = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -80,6 +77,9 @@ class Fdb
 
     #[ORM\ManyToOne(inversedBy: 'fdbs')]
     private ?TypeExpense $typeExpense = null;
+
+    #[ORM\ManyToOne(inversedBy: 'fdb')]
+    private ?Emeteur $emeteur = null;
 
     public function __construct()
     {
@@ -130,17 +130,6 @@ class Fdb
         return $this;
     }
 
-    public function getResponsable(): ?string
-    {
-        return $this->responsable;
-    }
-
-    public function setResponsable(string $responsable): static
-    {
-        $this->responsable = $responsable;
-
-        return $this;
-    }
 
     public function getDestinataire(): ?string
     {
@@ -348,6 +337,16 @@ class Fdb
         return $this;
     }
 
+    public function getEmeteur(): ?Emeteur
+    {
+        return $this->emeteur;
+    }
 
+    public function setEmeteur(?Emeteur $emeteur): static
+    {
+        $this->emeteur = $emeteur;
+
+        return $this;
+    }
 
 }

@@ -24,7 +24,7 @@
                         <tbody>
                         {% for bonCaisse in bonCaisse %}
                             <tr>
-                                <td class="text-center">{{ bonCaisse.date ? bonCaisse.date.format('Y-m-d') : '' }}</td>
+                                <td class="text-center">{{ bonCaisse.date ? bonCaisse.date|date('d-m-Y') : '' }}</td>
                                 <td>{{ bonCaisse.montant }}</td>
                                 <td>{{ bonCaisse.uuid }}</td>
                                 <td>{{ bonCaisse.reference }}</td>

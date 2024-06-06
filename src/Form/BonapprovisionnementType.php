@@ -23,30 +23,29 @@ class BonapprovisionnementType extends AbstractType
                 'label' => 'Mode de paiement',
                 'choices'  => [
                     'Espèce' => 'Espèce',
-                    'Carte' => 'Carte',
+//                    'Carte' => 'Carte',
                     'Chèque' => 'Chèque',
                 ],
             ])
             ->add('montanttotal', NumberType::class)
-            ->add('nature')
-            ->add('details', CollectionType::class,  [
-                'entry_type' => DetailType::class,
-                'entry_options' => ['label' => false],
-                'allow_add' => true,
-                'allow_delete' => true,
-            ]);
+            ->add('nature');
+//            ->add('details', CollectionType::class,  [
+//                'entry_type' => DetailType::class,
+//                'entry_options' => ['label' => false],
+//                'allow_add' => true,
+//                'allow_delete' => true,
+//            ]);
 
 
-        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
-            /** @var Bonapprovisionnement $bonapprovisionnement */
-            $bonapprovisionnement = $event->getData();
-            $total = 0;
-            foreach ($bonapprovisionnement->getDetails() as $d) {
-                $total += $d->getMontant();
-            }
-            $bonapprovisionnement->setTotal($total);
-        });
-
+//        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
+//            /** @var Bonapprovisionnement $bonapprovisionnement */
+//            $bonapprovisionnement = $event->getData();
+//            $montanttotal = 0;
+////            foreach ($bonapprovisionnement->getDetails() as $d) {
+////                $total += $d->getMontant();
+////            }
+//            $bonapprovisionnement->setMontanttotal($montanttotal);
+//        });
 
 
     }

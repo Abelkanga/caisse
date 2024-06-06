@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -31,11 +32,17 @@ class DepenseType extends AbstractType
                 'label' => 'Mode de paiement',
                 'choices'  => [
                     'Espèce' => 'Espèce',
-                    'Carte' => 'Carte',
+//                    'Carte' => 'Carte',
                     'Chèque' => 'Chèque',
                 ],
 //                'required' => true,'empty_data' => ''
             ])
+            ->add('details', CollectionType::class, [
+                'entry_type' => DetailType::class,
+                'entry_options' => ['label' => false],
+                'allow_add' => true,
+                'allow_delete' => true,
+            ]);
 
 //
 
@@ -72,13 +79,15 @@ class DepenseType extends AbstractType
 //            });
 
 //
-//        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
-//            /** @var Depense $depense */
-//            $depense = $event->getData();
-//            $montant = 0;
-//
-//            $depense->setMontant($montant);
-//        });
+        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
+            /** @var Depense $depense */
+            $depense = $event->getData();
+            $total = 0;
+            foreach ($depense->getDetails() as $d) {
+                $total += $d->getMontant();
+            }
+            $depense->setTotal($total);
+        });
    }
 
     public function configureOptions(OptionsResolver $resolver): void

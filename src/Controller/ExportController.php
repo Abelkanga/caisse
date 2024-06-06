@@ -66,31 +66,31 @@ class ExportController extends AbstractController
 
         foreach ($fdbData as $fdb) {
             $data[] = [
-                'type' => 'Fiche de besoin',
                 'date' => $fdb->getDate(),
+                'caisse' => $fdb->getCaisse()->getIntitule(),
+                'type' => 'Fiche de besoin',
                 'description' => $fdb->getObjet(),
                 'montant' => $fdb->getTotal(),
-                'caisse' => $fdb->getCaisse()->getIntitule(),
             ];
         }
 
         foreach ($bonApprovisionnementData as $bonapprovisionnement) {
             $data[] = [
-                'type' => 'Bon Approvisionnement',
                 'date' => $bonapprovisionnement->getDate(),
+                'caisse' => $bonapprovisionnement->getCaisse()->getIntitule(),
+                'type' => 'Bon Approvisionnement',
                 'description' => $bonapprovisionnement->getNature(),
                 'montant' => $bonapprovisionnement->getMontanttotal(),
-                'caisse' => $bonapprovisionnement->getCaisse()->getIntitule(),
             ];
         }
 
         foreach ($depenseData as $depense) {
             $data[] = [
-                'type' => 'Depense',
                 'date' => $depense->getDate(),
+                'caisse' => $depense->getCaisse()->getIntitule(),
+                'type' => 'Depense',
                 'description' => $depense->getCategory(),
                 'montant' => $depense->getMontant(),
-                'caisse' => $depense->getCaisse()->getIntitule(),
             ];
         }
 
@@ -135,31 +135,31 @@ class ExportController extends AbstractController
 
         foreach ($fdbData as $fdb) {
             $data[] = [
-                'type' => 'Fiche de besoin',
                 'date' => $fdb->getDate(),
+                'caisse' => $fdb->getCaisse()->getIntitule(),
+                'type' => 'Fiche de besoin',
                 'description' => $fdb->getObjet(),
                 'montant' => $fdb->getTotal(),
-                'caisse' => $fdb->getCaisse()->getIntitule(),
             ];
         }
 
         foreach ($bonApprovisionnementData as $bonapprovisionnement) {
             $data[] = [
-                'type' => 'Bon Approvisionnement',
                 'date' => $bonapprovisionnement->getDate(),
+                'caisse' => $bonapprovisionnement->getCaisse()->getIntitule(),
+                'type' => 'Bon Approvisionnement',
                 'description' => $bonapprovisionnement->getNature(),
                 'montant' => $bonapprovisionnement->getMontanttotal(),
-                'caisse' => $bonapprovisionnement->getCaisse()->getIntitule(),
             ];
         }
 
         foreach ($depenseData as $depense) {
             $data[] = [
-                'type' => 'Depense',
                 'date' => $depense->getDate(),
+                'caisse' => $depense->getCaisse()->getIntitule(),
+                'type' => 'Depense',
                 'description' => $depense->getCategory(),
                 'montant' => $depense->getMontant(),
-                'caisse' => $depense->getCaisse()->getIntitule(),
             ];
         }
 

@@ -261,4 +261,5 @@ public function setIsActive(?bool $isActive): static
 
     return $this;
 }
+
 }

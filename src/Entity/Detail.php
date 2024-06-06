@@ -31,8 +31,8 @@ class Detail
     #[ORM\ManyToOne(inversedBy: 'details')]
     private ?Depense $depense = null;
 
-    #[ORM\ManyToOne(inversedBy: 'details')]
-    private ?Bonapprovisionnement $bonapprovisionnement = null;
+//    #[ORM\ManyToOne(inversedBy: 'details')]
+//    private ?Bonapprovisionnement $bonapprovisionnement = null;
 
     public function getId(): ?int
     {
@@ -111,15 +111,15 @@ class Detail
         return $this;
     }
 
-    public function getBonapprovisionnement(): ?Bonapprovisionnement
-    {
-        return $this->bonapprovisionnement;
-    }
-
-    public function setBonapprovisionnement(?Bonapprovisionnement $bonapprovisionnement): static
-    {
-        $this->bonapprovisionnement = $bonapprovisionnement;
-
-        return $this;
-    }
+//    public function getBonapprovisionnement(): ?Bonapprovisionnement
+//    {
+//        return $this->bonapprovisionnement;
+//    }
+//
+//    public function setBonapprovisionnement(?Bonapprovisionnement $bonapprovisionnement): static
+//    {
+//        $this->bonapprovisionnement = $bonapprovisionnement;
+//
+//        return $this;
+//    }
 }

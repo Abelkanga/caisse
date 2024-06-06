@@ -4,14 +4,14 @@
     <div class="row">
         <div class="col-3">
             <div class="form-group">
-                <label for="date">Date d'établissement</label>
+                <label for="date">Date</label>
                 {{ form_widget(form.date, {'attr' : {'class': 'form-control'}}) }}
             </div>
         </div>
 
         <div class="col-3">
             <div class="form-group">
-                <label for="montant">Montant</label>
+                <label for="montant">Montant (F cfa)</label>
                 {{ form_widget(form.montant, {'attr' : {'class': 'form-control separator text-right' }}) }}
             </div>
         </div>
@@ -32,25 +32,51 @@
     </div>
 
 
-{#    <div class="row">#}
-{#        <div class="col-3">#}
-{#            <div class="form-group">#}
-{#                <label for="typeExpense">Type Dépense</label>#}
-{#                {{ form_widget(form.typeExpense, {'attr' : {'class': 'form-control select2'}}) }}#}
-{#            </div>#}
-{#        </div>#}
+    {#    <div class="row">#}
+    {#        <div class="col-3">#}
+    {#            <div class="form-group">#}
+    {#                <label for="typeExpense">Type Dépense</label>#}
+    {#                {{ form_widget(form.typeExpense, {'attr' : {'class': 'form-control select2'}}) }}#}
+    {#            </div>#}
+    {#        </div>#}
 
-{#        <div class="col-3">#}
-{#            <div class="form-group">#}
-{#                <label for="expense">Dépense</label>#}
-{#                {{ form_widget(form.expense, {'attr' : {'class': 'form-control select2'}}) }}#}
-{#            </div>#}
-{#        </div>#}
+    {#        <div class="col-3">#}
+    {#            <div class="form-group">#}
+    {#                <label for="expense">Dépense</label>#}
+    {#                {{ form_widget(form.expense, {'attr' : {'class': 'form-control select2'}}) }}#}
+    {#            </div>#}
+    {#        </div>#}
 
 
 
-    </div>
+
 </fieldset>
+{% form_theme form 'depense/_detail.html.twig' %}
 
+<fieldset>
+    <legend>Détail Dépense</legend>
+    <table class="table table-sm bordered" id="">
+        <thead>
+        <tr>
+            <th class="text-center">Désignation</th>
+            <th class="text-center">Quantité</th>
+            <th class="text-center">Prix</th>
+            <th class="text-center">Montant</th>
+            <th class="text-center">Action</th>
+        </tr>
+        </thead>
+        <tbody id="tabledepense_details">
+        {{ form_widget(form.details) }}
+        </tbody>
+        <tfoot>
+        <tr>
+            <th colspan="2">Total</th>
+            <th class="text-right"><span id="total_price"></span></th>
+            <th class="text-right"><span id="total_montant"></span></th>
+            <th></th>
+        </tr>
+        </tfoot>
+    </table>
+</fieldset>
 
 

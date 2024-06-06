@@ -14,9 +14,9 @@
                         <thead class="thead-light">
                         <tr>
                             <th>Date</th>
-                            <th>Mode de paiement</th>
-                            <th>Montant total</th>
                             <th>Nature</th>
+                            <th>Montant Total (F cfa)</th>
+                            <th>Mode de paiement</th>
                             <th>Statut</th>
                             <th>Actions</th>
                         </tr>
@@ -24,10 +24,10 @@
                         <tbody>
                         {% for bonapprovisionnement in bonapprovisionnement %}
                             <tr>
-                                <td class="text-center">{{ bonapprovisionnement.date|date('Y-m-d') }}</td>
-                                <td>{{ bonapprovisionnement.modepaie }}</td>
-                                <td class="separator">{{ bonapprovisionnement.montanttotal }}</td>
+                                <td class="text-center">{{ bonapprovisionnement.date ? bonapprovisionnement.date|date('d-m-Y') : '' }}</td>
                                 <td>{{ bonapprovisionnement.nature }}</td>
+                                <td class="separator text-right">{{ bonapprovisionnement.montanttotal }} (F cfa)</td>
+                                <td>{{ bonapprovisionnement.modepaie }}</td>
                                 <td class="text-center">{{ bonapprovisionnement.status }}</td>
                                 <td class="text-center">
                                     <a class="btn btn-sm btn-icon btn-secondary" href="{{ path('bonapprovisionnement_edit', {'id': bonapprovisionnement.id}) }}">
