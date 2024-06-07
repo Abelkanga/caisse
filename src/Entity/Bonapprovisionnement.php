@@ -37,11 +37,6 @@ class Bonapprovisionnement
     #[ORM\ManyToOne(inversedBy: 'bonapprovisionnements')]
     private ?Caisse $caisse = null;
 
-    /**
-     * @var Collection<int, Detail>
-     */
-//    #[ORM\OneToMany(targetEntity: Detail::class, mappedBy: 'bonapprovisionnement')]
-//    private Collection $details;
 
     #[ORM\Column(length: 255)]
     private ?string $status = null;
@@ -55,22 +50,15 @@ class Bonapprovisionnement
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $updatedAt = null;
 
-//    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
-//    private ?string $total = null;
-
     /**
      * @var Collection<int, BonCaisse>
      */
     #[ORM\OneToMany(targetEntity: BonCaisse::class, mappedBy: 'bonapprovisionnement')]
     private Collection $bonCaisses;
 
-//    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
-//    private ?string $total = null;
-
 
     public function __construct()
     {
-        $this->details = new ArrayCollection();
         $this->bonCaisses = new ArrayCollection();
         $this->date = new \DateTimeImmutable();
     }
@@ -151,37 +139,6 @@ class Bonapprovisionnement
 
         return $this;
     }
-
-//    /**
-//     * @return Collection<int, Detail>
-//     */
-//    public function getDetails(): Collection
-//    {
-//        return $this->details;
-//    }
-//
-//    public function addDetail(Detail $detail): static
-//    {
-//        if (!$this->details->contains($detail)) {
-//            $this->details->add($detail);
-//            $detail->setBonapprovisionnement($this);
-//        }
-//
-//        return $this;
-//    }
-//
-//    public function removeDetail(Detail $detail): static
-//    {
-//        if ($this->details->removeElement($detail)) {
-//            // set the owning side to null (unless already changed)
-//            if ($detail->getBonapprovisionnement() === $this) {
-//                $detail->setBonapprovisionnement(null);
-//            }
-//        }
-//
-//        return $this;
-//    }
-
     public function getStatus(): ?string
     {
         return $this->status;
@@ -232,17 +189,6 @@ class Bonapprovisionnement
         return $this;
     }
 
-//    public function getTotal(): ?string
-//    {
-//        return $this->total;
-//    }
-//
-//    public function setTotal(?string $total): static
-//    {
-//        $this->total = $total;
-//
-//        return $this;
-//    }
 
     /**
      * @return Collection<int, BonCaisse>
@@ -274,16 +220,5 @@ class Bonapprovisionnement
         return $this;
     }
 
-//    public function getTotal(): ?string
-//    {
-//        return $this->total;
-//    }
-//
-//    public function setTotal(?string $total): static
-//    {
-//        $this->total = $total;
-//
-//        return $this;
-//    }
 
 }
