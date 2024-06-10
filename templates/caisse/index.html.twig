@@ -25,7 +25,7 @@
                             <tr>
                                 <td>{{ c.code }}</td>
                                 <td>{{ c.intitule }}</td>
-                                <td class="text-center">{{ c.soldedispo ?? 'Aucune information' }}</td>
+                                <td class="text-right separator">{{ c.soldedispo ?? 'Aucune information' }}</td>
                                 <td class="text-right">{{ c.plafond|number_format(0, ',', ' ') }}</td>
                                 <td class="text-center">
                                     <a class="btn btn-sm btn-icon btn-secondary" href="{{ path('caisse_edit', {'id': c.id}) }}">

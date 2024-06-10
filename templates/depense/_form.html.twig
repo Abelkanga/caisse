@@ -16,12 +16,12 @@
             </div>
         </div>
 
-        <div class="col-3">
-            <div class="form-group">
-                <label for="category">Catégorie</label>
-                {{ form_widget(form.category, {'attr' : {'class': 'form-control'}}) }}
-            </div>
-        </div>
+{#        <div class="col-3">#}
+{#            <div class="form-group">#}
+{#                <label for="category">Catégorie</label>#}
+{#                {{ form_widget(form.category, {'attr' : {'class': 'form-control'}}) }}#}
+{#            </div>#}
+{#        </div>#}
 
         <div class="col-3">
             <div class="form-group">
@@ -32,23 +32,20 @@
     </div>
 
 
-    {#    <div class="row">#}
-    {#        <div class="col-3">#}
-    {#            <div class="form-group">#}
-    {#                <label for="typeExpense">Type Dépense</label>#}
-    {#                {{ form_widget(form.typeExpense, {'attr' : {'class': 'form-control select2'}}) }}#}
-    {#            </div>#}
-    {#        </div>#}
+        <div class="row">
+            <div class="col-3">
+                <div class="form-group">
+                    <label for="typeExpense">Type Dépense</label>
+                    {{ form_widget(form.typeExpense, {'attr' : {'class': 'form-control select2', 'data-dependent-element' : '#depense_expense'}}) }}
+                </div>
+            </div>
 
-    {#        <div class="col-3">#}
-    {#            <div class="form-group">#}
-    {#                <label for="expense">Dépense</label>#}
-    {#                {{ form_widget(form.expense, {'attr' : {'class': 'form-control select2'}}) }}#}
-    {#            </div>#}
-    {#        </div>#}
-
-
-
+            <div class="col-3">
+                <div class="form-group">
+                    <label for="expense">Dépense</label>
+                    {{ form_widget(form.expense, {'attr' : {'class': 'form-control select2'}}) }}
+                </div>
+            </div>
 
 </fieldset>
 {% form_theme form 'depense/_detail.html.twig' %}

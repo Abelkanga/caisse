@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\BonCaisse;
+use App\Entity\Expense;
 use App\Entity\Fdb;
 use App\Entity\User;
 use App\Form\FdbType;
@@ -11,6 +12,7 @@ use App\Repository\FdbRepository;
 use App\Service\CaisseService;
 use App\Utils\Status;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -19,6 +21,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class FdbController extends AbstractController
 {
+
+    private $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
     #[Route('/fdb', name: 'fdb_index', methods:['GET'])]
     public function index( FdbRepository $fdbRepository): Response
     {
@@ -70,12 +80,14 @@ class FdbController extends AbstractController
         ]);
     }
 
+
+
     #[Route('/fdb/new', name: 'fdb_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, CaisseService $service): Response
     {
         $num_fdb = $service->refFdb();
-        $fdb = (new Fdb())->setDate(new \DateTimeImmutable())->setDestinataire('Konan Gwladys')->setNumeroFicheBesoin($num_fdb);
-
+        $fdb = (new Fdb())->setDate(new \DateTime())->setDestinataire('Konan Gwladys')->setNumeroFicheBesoin($num_fdb);
+//        setDate(new \DateTimeImmutable())->
         $form = $this->createForm(FdbType::class, $fdb);
         $form->handleRequest($request);
 
@@ -104,9 +116,44 @@ class FdbController extends AbstractController
         ]);
     }
 
+    #[Route('/fdb/expenses', name: 'f_expenses_by_type', methods:['POST'])]
+    public function getExpensesByType(Request $request): JsonResponse
+    {
+        $typeExpenseId = $request->request->get('typeExpense');
+
+        if ($typeExpenseId) {
+            $expenses = $this->entityManager
+                ->getRepository(Expense::class)
+                ->findBy(['typeExpense' => $typeExpenseId]);
+
+            $responseArray = [];
+            foreach ($expenses as $expense) {
+                $responseArray[] = [
+                    'id' => $expense->getId(),
+                    'name' => $expense->getName(),
+                ];
+            }
+
+            return new JsonResponse($responseArray);
+        }
+
+        return new JsonResponse([]);
+    }
+
+
+
     #[Route("/fdb/{id}/show", name:'fdb_show', methods: ['GET', 'POST'])]
     public function show(Fdb $fdb, Request $request, EntityManagerInterface $entityManager): Response
     {
+
+        $total = 0;
+        foreach ($fdb->getDetails() as $detail) {
+            $montant = $detail->getMontant();
+            if ($montant) {
+                $total += $montant;
+            }
+        }
+
         if ($request->isMethod('POST') && $this->isCsrfTokenValid('validate-caisse-fdb', $request->request->get('_token'))) {
             if($request->request->has('confirm')) {
                 /** @var User $user */
@@ -147,6 +194,7 @@ class FdbController extends AbstractController
 
         return $this->render('fdb/show.html.twig', [
             'fdb' => $fdb,
+            'total' => $total
 
         ]);
     }
@@ -186,5 +234,6 @@ class FdbController extends AbstractController
 
         return $this->redirectToRoute('fdb_index');
     }
+
 
 }

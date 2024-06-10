@@ -26,7 +26,7 @@
                         {% for depense in depense %}
                             <tr>
                                 <td class="text-center">{{ depense.date ? depense.date|date('d-m-Y') : '' }}</td>
-                                <td>{{ depense.category }}</td>
+                                <td>{{ depense.typeExpense }}</td>
                                 <td class="separator text-right">{{ depense.montant }} (F cfa)</td>
                                 <td>{{ depense.modepaie }}</td>
                                 <td class="text-center">{{ depense.status }}</td>

@@ -19,13 +19,10 @@ class Depense
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $date = null;
-
-    #[ORM\Column]
     private ?float $montant = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $category = null;
+//
+//    #[ORM\Column(length: 255)]
+//    private ?string $category = null;
 
     #[ORM\Column(length: 255)]
     private ?string $modepaie = null;
@@ -48,8 +45,8 @@ class Depense
     #[ORM\Column(length: 255)]
     private ?string $uuid = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
+//    #[ORM\Column]
+//    private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $updatedAt = null;
@@ -69,29 +66,23 @@ class Depense
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
     private ?string $total = null;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $date = null;
+
+//    #[ORM\Column(length: 255, nullable: true)]
+//    private ?string $category = null;
 
     public function __construct()
     {
         $this->details = new ArrayCollection();
         $this->bonCaisses = new ArrayCollection();
-        $this->date = new \DateTimeImmutable();
+//        $this->date = new \DateTimeImmutable();
+        $this->date = new \DateTime();
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getDate(): ?\DateTimeImmutable
-    {
-        return $this->date;
-    }
-
-    public function setDate(\DateTimeImmutable $date): static
-    {
-        $this->date = $date;
-
-        return $this;
     }
 
     public function getMontant(): ?float
@@ -106,17 +97,17 @@ class Depense
         return $this;
     }
 
-    public function getCategory(): ?string
-    {
-        return $this->category;
-    }
-
-    public function setCategory(string $category): static
-    {
-        $this->category = $category;
-
-        return $this;
-    }
+//    public function getCategory(): ?string
+//    {
+//        return $this->category;
+//    }
+//
+//    public function setCategory(string $category): static
+//    {
+//        $this->category = $category;
+//
+//        return $this;
+//    }
 
     public function getModepaie(): ?string
     {
@@ -208,18 +199,18 @@ class Depense
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    #[ORM\PrePersist]
-    public function setCreatedAt(): static
-    {
-        $this->createdAt = new \DateTimeImmutable;
-
-        return $this;
-    }
+//    public function getCreatedAt(): ?\DateTimeImmutable
+//    {
+//        return $this->createdAt;
+//    }
+//
+//    #[ORM\PrePersist]
+//    public function setCreatedAt(): static
+//    {
+//        $this->createdAt = new \DateTimeImmutable;
+//
+//        return $this;
+//    }
 
     public function getUpdatedAt(): ?\DateTimeInterface
     {
@@ -298,6 +289,30 @@ class Depense
 
         return $this;
     }
+
+    public function getDate(): ?\DateTimeInterface
+    {
+        return $this->date;
+    }
+
+    public function setDate(?\DateTimeInterface $date): static
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+//    public function getCategory(): ?string
+//    {
+//        return $this->category;
+//    }
+//
+//    public function setCategory(?string $category): static
+//    {
+//        $this->category = $category;
+//
+//        return $this;
+//    }
 
 
     

@@ -2,6 +2,19 @@
 
 {% block title %}État de la Caisse{% endblock %}
 
+{#{% block stylesheets %}#}
+
+{#    <style>#}
+
+{#        .custom-input, .custom-select {#}
+{#            width: 800px; /* Ajustez la largeur selon vos besoins */#}
+
+{#        }#}
+
+{#    </style>#}
+
+{#{% endblock %}#}
+
 {% block body %}
 
     <fieldset>
@@ -15,9 +28,9 @@
                 <div class="row justify-content-center">
                     <div class="col-8">
                         <form method="get" action="{{ path('app_etat_caisse') }}" class="formDate d-flex justify-content-center align-items-center">
-                            <input type="date" name="date_debut" class="form-control input-large mx-1">
-                            <input type="date" name="date_fin" class="form-control input-large mx-1">
-                            <select name="type" class="form-control input-large mx-1">
+                            <input type="date" name="date_debut" class="input-large mx-2" style="padding: 5px; margin: 5px; border: 1px solid #ced4da; border-radius: 10px; width: 500px; height: 40px; ">
+                            <input type="date" name="date_fin" class="input-large mx-2" style="padding: 5px; margin: 5px; border: 1px solid #ced4da;border-radius: 10px; width: 500px; height: 40px;">
+                            <select name="type" class="input-large mx-2" style="padding: 5px; margin: 5px; border: 1px solid #ced4da;border-radius: 10px; width: 500px; height: 40px;">
                                 <option value="tous">Tous</option>
                                 <option value="entree">Entrée</option>
                                 <option value="sortie">Sortie</option>
@@ -29,6 +42,10 @@
             </div>
         </div>
     </div>
+
+
+
+
     </fieldset>
 
 <fieldset>
@@ -78,3 +95,4 @@
     </div>
 </fieldset>
 {% endblock %}
+

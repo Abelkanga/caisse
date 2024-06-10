@@ -28,27 +28,33 @@ class FdbType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('date', DateType::class)
-            ->add('numero_fiche_besoin', TextType::class,[
-//                'required' => true,'empty_data' => ''
+            ->add('date', DateType::class, [
+                'widget' => 'single_text',
+                'html5' => true,
+                'attr' => [
+                    'class' => 'js-datepicker form-control',
+                ],
+                'required' => false,
+
             ])
-            ->add('objet', TextType::class)
+            ->add('numero_fiche_besoin', TextType::class, [
+                'required' => true, 'empty_data' => ''
+            ])
             ->add('emeteur', EntityType::class, [
                 'class' => Emeteur::class,
                 'placeholder' => 'Sélectionnez un émetteur', 'required' => false
             ])
-
             ->add('destinataire', TextType::class, [
                 'attr' => [
                     'readonly' => false
                 ],
-//                'required' => true,'empty_data' => ''
+                'required' => true, 'empty_data' => ''
             ])
             ->add('beneficiaire', TextType::class)
-//            ->add('typeExpense', EntityType::class, [
-//                'class' => TypeExpense::class,
-//                'placeholder' => 'Sélectionner un type de dépense',
-//            ])
+            ->add('typeExpense', EntityType::class, [
+                'class' => TypeExpense::class,
+                'placeholder' => 'Sélectionner un type de dépense',
+            ])
             ->add('details', CollectionType::class, [
                 'entry_type' => DetailType::class,
                 'entry_options' => ['label' => false],
@@ -56,35 +62,33 @@ class FdbType extends AbstractType
                 'allow_delete' => true,
             ]);
 
-//        $formUpdate = static function (FormInterface $form, ?TypeExpense $typeExpense) {
-//            $form->add("expense", EntityType::class, [
-//                "class" => Expense::class,
-//                "choice_label" => "name",
-//                "placeholder" => "",
-//                "query_builder" => function (ExpenseRepository $er) use ($typeExpense) {
-//                    return $er
-//                        ->createQueryBuilder('e')
-//                        ->where("e.typeExpense = :type")
-//                        ->setParameter("type", $typeExpense);
-//                },
-//            ]);
-//        };
-//
-//        $builder->addEventListener(FormEvents::PRE_SET_DATA,
-//            function (FormEvent $event) use ($formUpdate) {
-//                /** @var Fdb $data */
-//                $data = $event->getData();
-//                $formUpdate($event->getForm(), $data->getTypeExpense());
-//            });
-//
-//
-//        $builder->get('typeExpense')->addEventListener(FormEvents::POST_SUBMIT,
-//            function (FormEvent $event) use ($formUpdate) {
-//                $typeExpense = $event->getForm()->getData();
-//                $form = $event->getForm()->getParent();
-//                $formUpdate($form, $typeExpense);
-//            });
+        $formUpdate = static function (FormInterface $form, ?TypeExpense $typeExpense) {
+            $form->add("expense", EntityType::class, [
+                "class" => Expense::class,
+                "choice_label" => "name",
+                "placeholder" => "",
+                "query_builder" => function (ExpenseRepository $er) use ($typeExpense) {
+                    return $er
+                        ->createQueryBuilder('e')
+                        ->where("e.typeExpense = :type")
+                        ->setParameter("type", $typeExpense);
+                },
+            ]);
+        };
 
+        $builder->addEventListener(FormEvents::PRE_SET_DATA,
+            function (FormEvent $event) use ($formUpdate) {
+                /** @var Fdb $data */
+                $data = $event->getData();
+                $formUpdate($event->getForm(), $data->getTypeExpense());
+            });
+
+        $builder->get('typeExpense')->addEventListener(FormEvents::POST_SUBMIT,
+            function (FormEvent $event) use ($formUpdate) {
+                $typeExpense = $event->getForm()->getData();
+                $form = $event->getForm()->getParent();
+                $formUpdate($form, $typeExpense);
+            });
 
         $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
             /** @var Fdb $fdb */
@@ -95,7 +99,6 @@ class FdbType extends AbstractType
             }
             $fdb->setTotal($total);
         });
-
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -105,4 +108,3 @@ class FdbType extends AbstractType
         ]);
     }
 }
-

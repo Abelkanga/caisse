@@ -3,6 +3,8 @@
  * We recommend including the built version of this JavaScript file * (and its CSS file) in your base layout (base.html.twig).
  */
 // any CSS you import will output into a single css file (app.css in this case)
+
+import $ from 'jquery';
 import './css/app.css';
 import './js/dataTables.bootstrap';
 import 'select2/dist/js/select2.min'
@@ -13,7 +15,8 @@ import './js/select2-demo';
 import './js/add-form-collection';
 import './js/delete.form.collection'
 import './css/custom.min.css';
-// import './js/fdb/form-expense'
+import './js/fdb/form-expense'
+import './js/depense/form-expense'
 
 
 import {runInputmask} from "./js/inputMark";

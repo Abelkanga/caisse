@@ -61,8 +61,8 @@ class CaisseController extends AbstractController
 
     #[Route('/etat', name: 'app_etat_caisse', methods: ['GET'])]
     public function getMouvementsCaisse(FdbRepository $fdbRepository, BonapprovisionnementRepository $bonapprovisionnementRepository, DepenseRepository $depenseRepository, Request $request): Response {
-        $dateDebut = $request->query->get('date_debut') ? new \DateTimeImmutable($request->query->get('date_debut')) : null;
-        $dateFin = $request->query->get('date_fin') ? new \DateTimeImmutable($request->query->get('date_fin')) : null;
+        $dateDebut = $request->query->get('date_debut') ? new \DateTime($request->query->get('date_debut')) : null;
+        $dateFin = $request->query->get('date_fin') ? new \DateTime($request->query->get('date_fin')) : null;
         $type = $request->query->get('type');
 
         $mouvements = [];
@@ -101,7 +101,7 @@ class CaisseController extends AbstractController
                     $mouvements[] = [
                         'type' => 'Depense',
                         'date' => $depense->getDate(),
-                        'description' => $depense->getCategory(),
+                        'description' => $depense->getTypeExpense(),
                         'montant' => $depense->getMontant(),
                         'caisse_intitule' => $depense->getCaisse()->getIntitule(),
                     ];

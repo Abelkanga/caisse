@@ -12,17 +12,9 @@
         <div class="col-3">
             <div class="form-group">
                 <label for="numero_fiche_besoin">N° Fiche de besoin</label>
-                {{ form_widget(form.numero_fiche_besoin, {'attr' : {'class': 'form-control'}}) }}
+                {{ form_widget(form.numero_fiche_besoin, {'attr' : {'class': 'form-control js-datepicker'}}) }}
             </div>
         </div>
-
-        <div class="col-3">
-            <div class="form-group">
-                <label for="objet">Type Opération</label>
-                {{ form_widget(form.objet, {'attr' : {'class': 'form-control'}}) }}
-            </div>
-        </div>
-
         <div class="col-3">
             <div class="form-group">
                 <label for="emetteur">Emetteur</label>
@@ -46,22 +38,23 @@
             </div>
         </div>
 
-{#        <div class="col-3">#}
-{#            <div class="form-group">#}
-{#                <label for="typeExpense">Type Dépense</label>#}
-{#                {{ form_widget(form.typeExpense, {'attr' : {'class': 'form-control select2'}}) }}#}
-{#            </div>#}
-{#        </div>#}
+        <div class="col-3">
+            <div class="form-group">
+                <label for="typeExpense">Type Dépense</label>
+                {{ form_widget(form.typeExpense, {'attr' : {'class': 'form-control select2', 'data-dependent-element' : '#fdb_expense'}}) }}
+            </div>
+        </div>
 
-{#        <div class="col-3">#}
-{#            <div class="form-group">#}
-{#                <label for="expense">Dépense</label>#}
-{#                {{ form_widget(form.expense, {'attr' : {'class': 'form-control select2'}}) }}#}
-{#            </div>#}
-{#        </div>#}
+        <div class="col-3">
+            <div class="form-group">
+                <label for="expense">Dépense</label>
+                {{ form_widget(form.expense, {'attr' : {'class': 'form-control select2'}}) }}
+            </div>
+        </div>
 
     </div>
 </fieldset>
+
 {% form_theme form 'fdb/_detail.html.twig' %}
 
 <fieldset>
@@ -89,4 +82,6 @@
         </tfoot>
     </table>
 </fieldset>
+
+
 

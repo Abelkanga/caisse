@@ -22,8 +22,8 @@ class Fdb
     #[ORM\Column(length: 20)]
     private ?string $numero_fiche_besoin = null;
 
-    #[ORM\Column(type: Types::DATE_IMMUTABLE)]
-    private ?\DateTimeImmutable $date = null;
+//    #[ORM\Column(type: Types::DATE_IMMUTABLE)]
+//    private ?\DateTimeImmutable $date = null;
 
     #[ORM\Column(length: 255)]
     private ?string $objet = null;
@@ -54,8 +54,8 @@ class Fdb
     #[ORM\Column(length: 255)]
     private ?string $uuid = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
+//    #[ORM\Column]
+//    private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $updatedAt = null;
@@ -81,6 +81,9 @@ class Fdb
     #[ORM\ManyToOne(inversedBy: 'fdb')]
     private ?Emeteur $emeteur = null;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $date = null;
+
     public function __construct()
     {
         $this->details = new ArrayCollection();
@@ -105,17 +108,17 @@ class Fdb
         return $this;
     }
 
-    public function getDate(): ?\DateTimeImmutable
-    {
-        return $this->date;
-    }
-
-    public function setDate(\DateTimeImmutable $date): static
-    {
-        $this->date = $date;
-
-        return $this;
-    }
+//    public function getDate(): ?\DateTimeImmutable
+//    {
+//        return $this->date;
+//    }
+//
+//    public function setDate(\DateTimeImmutable $date): self
+//    {
+//        $this->date = $date;
+//
+//        return $this;
+//    }
 
 
     public function getObjet(): ?string
@@ -234,18 +237,18 @@ class Fdb
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    #[ORM\PrePersist]
-    public function setCreatedAt(): static
-    {
-        $this->createdAt = new \DateTimeImmutable();
-
-        return $this;
-    }
+//    public function getCreatedAt(): ?\DateTimeImmutable
+//    {
+//        return $this->createdAt;
+//    }
+//
+//    #[ORM\PrePersist]
+//    public function setCreatedAt(): static
+//    {
+//        $this->createdAt = new \DateTimeImmutable();
+//
+//        return $this;
+//    }
 
     public function getUpdatedAt(): ?\DateTimeInterface
     {
@@ -345,6 +348,18 @@ class Fdb
     public function setEmeteur(?Emeteur $emeteur): static
     {
         $this->emeteur = $emeteur;
+
+        return $this;
+    }
+
+    public function getDate(): ?\DateTimeInterface
+    {
+        return $this->date;
+    }
+
+    public function setDate(?\DateTimeInterface $date): static
+    {
+        $this->date = $date;
 
         return $this;
     }
