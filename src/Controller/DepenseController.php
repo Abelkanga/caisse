@@ -82,7 +82,7 @@ class DepenseController extends AbstractController
 
             $entityManager->persist($depense);
             $entityManager->flush();
-            flash()->success('Dépense enregistrée avec succès !');
+//            flash()->success('Dépense enregistrée avec succès !');
 
             return $this->redirectToRoute('depense_index');
         }
@@ -178,7 +178,7 @@ class DepenseController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            flash()->success('Dépense modifiée avec succès !');
+//            flash()->success('Dépense modifiée avec succès !');
             return $this->redirectToRoute('depense_index');
         }
 
@@ -187,7 +187,6 @@ class DepenseController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-
 
     #[Route('/depense/{uuid}/print', name: 'print_depense', methods: ['GET'])]
     public function print(Depense $depense): Response
@@ -203,12 +202,10 @@ class DepenseController extends AbstractController
         $manager->remove($depense);
         $manager->flush();
 
-        flash()->success('Dépense supprimée avec succès !');
+//        flash()->success('Dépense supprimée avec succès !');
 
         return $this->redirectToRoute('depense_index');
     }
-
-
 
 }
 

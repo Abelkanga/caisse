@@ -70,7 +70,7 @@ class BonapprovisionnementController extends AbstractController
 
             $entityManager->persist($bonapprovisionnement);
             $entityManager->flush();
-            flash()->success('Bon d approvisionnement créé avec succès !');
+//            flash()->success('Bon d approvisionnement créé avec succès !');
             return $this->redirectToRoute('bonapprovisionnement_index');
         }
 
@@ -130,7 +130,7 @@ class BonapprovisionnementController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
-            flash()->success('Bon d approvisionnement modifié avec succès !');
+//            flash()->success('Bon d approvisionnement modifié avec succès !');
             return $this->redirectToRoute('bonapprovisionnement_index');
         }
 
@@ -148,13 +148,12 @@ class BonapprovisionnementController extends AbstractController
         ]);
     }
 
-
     #[Route('/bonapprovisionnement/{id}/delete', name: 'bonapprovisionnement_delete', methods: ['GET'])]
     public function delete(EntityManagerInterface $entityManager, Bonapprovisionnement $bonapprovisionnement, ): Response
     {
         $entityManager->remove($bonapprovisionnement);
         $entityManager->flush();
-        flash()->success('Bon d approvisionnement supprimé avec succès !');
+//        flash()->success('Bon d approvisionnement supprimé avec succès !');
         return $this->redirectToRoute('bonapprovisionnement_index');
     }
 

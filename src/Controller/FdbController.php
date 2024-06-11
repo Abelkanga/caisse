@@ -49,7 +49,6 @@ class FdbController extends AbstractController
         ]);
     }
 
-
     #[Route('/fdb/pending', name: 'fdb_pending', methods:['GET'])]
     public function index_pending(FdbRepository $fdbRepository): Response
     {
@@ -80,14 +79,12 @@ class FdbController extends AbstractController
         ]);
     }
 
-
-
     #[Route('/fdb/new', name: 'fdb_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, CaisseService $service): Response
     {
         $num_fdb = $service->refFdb();
         $fdb = (new Fdb())->setDate(new \DateTime())->setDestinataire('Konan Gwladys')->setNumeroFicheBesoin($num_fdb);
-//        setDate(new \DateTimeImmutable())->
+
         $form = $this->createForm(FdbType::class, $fdb);
         $form->handleRequest($request);
 
@@ -105,7 +102,7 @@ class FdbController extends AbstractController
 
             $entityManager->persist($fdb);
             $entityManager->flush();
-            flash()->success('Fiche de besoin enregistré avec succès !');
+//            flash()->success('Fiche de besoin enregistré avec succès !');
 
             return $this->redirectToRoute('fdb_index');
         }
@@ -139,8 +136,6 @@ class FdbController extends AbstractController
 
         return new JsonResponse([]);
     }
-
-
 
     #[Route("/fdb/{id}/show", name:'fdb_show', methods: ['GET', 'POST'])]
     public function show(Fdb $fdb, Request $request, EntityManagerInterface $entityManager): Response
@@ -185,7 +180,7 @@ class FdbController extends AbstractController
                 $entityManager->persist($caisse);
 
                 $entityManager->flush();
-                $this->addFlash('success','Fiche de besoin enregistrée avec succès');
+//                $this->addFlash('success','Fiche de besoin enregistrée avec succès');
 
                 return $this->redirectToRoute('app_welcome');
 
@@ -207,7 +202,7 @@ class FdbController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
-            flash()->success('Fiche de besoin modifiée avec succès !');
+//            flash()->success('Fiche de besoin modifiée avec succès !');
             return $this->redirectToRoute('fdb_index');
         }
 
@@ -230,7 +225,7 @@ class FdbController extends AbstractController
     {
         $manager->remove($fdb);
         $manager->flush();
-        flash()->success('Fiche de besoin supprimée avec succès !');
+//        flash()->success('Fiche de besoin supprimée avec succès !');
 
         return $this->redirectToRoute('fdb_index');
     }

@@ -89,7 +89,7 @@ class ExportController extends AbstractController
                 'date' => $depense->getDate(),
                 'caisse' => $depense->getCaisse()->getIntitule(),
                 'type' => 'Depense',
-                'description' => $depense->getCategory(),
+                'description' => $depense->getTypeExpense(),
                 'montant' => $depense->getMontant(),
             ];
         }
@@ -158,7 +158,7 @@ class ExportController extends AbstractController
                 'date' => $depense->getDate(),
                 'caisse' => $depense->getCaisse()->getIntitule(),
                 'type' => 'Depense',
-                'description' => $depense->getCategory(),
+                'description' => $depense->getTypeExpense(),
                 'montant' => $depense->getMontant(),
             ];
         }

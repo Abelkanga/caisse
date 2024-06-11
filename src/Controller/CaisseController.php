@@ -35,7 +35,7 @@ class CaisseController extends AbstractController
         if($form->isSubmitted() && $form->isValid()) {
             $manager->persist($caisse);
             $manager->flush();
-            flash()->success('Caisse créée avec succès !');
+//            flash()->success('Caisse créée avec succès !');
             return $this->redirectToRoute('caisse_index');
         }
         return $this->render('caisse/new.html.twig', [
@@ -50,7 +50,7 @@ class CaisseController extends AbstractController
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
             $manager->flush();
-            flash()->success('Caisse modifiée avec succès !');
+//            flash()->success('Caisse modifiée avec succès !');
             return  $this->redirectToRoute('caisse_index');
         }
         return $this->render('caisse/edit.html.twig', [
