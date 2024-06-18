@@ -28,7 +28,7 @@
                                 <td class="text-right separator">{{ c.soldedispo ?? 'Aucune information' }}</td>
                                 <td class="text-right">{{ c.plafond|number_format(0, ',', ' ') }}</td>
                                 <td class="text-center">
-                                    <a class="btn btn-sm btn-icon btn-secondary" href="{{ path('caisse_edit', {'id': c.id}) }}">
+                                    <a class="btn btn-sm btn-icon btn-secondary" data-toggle="tooltip" data-html="true" title="<em>Modifier</em>" href="{{ path('caisse_edit', {'id': c.id}) }}">
                                         <i class="fa fa-pencil-alt"></i>
                                     </a>
                                     <span class="mx-1"></span>

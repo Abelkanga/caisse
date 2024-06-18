@@ -27,8 +27,8 @@ class Bonapprovisionnement
     #[ORM\Column]
     private ?float $montanttotal = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $nature = null;
+//    #[ORM\Column(length: 255)]
+//    private ?string $nature = null;
 
     #[ORM\ManyToOne(inversedBy: 'bonapprovisionnements')]
     #[ORM\JoinColumn(nullable: false)]
@@ -55,6 +55,9 @@ class Bonapprovisionnement
      */
     #[ORM\OneToMany(targetEntity: BonCaisse::class, mappedBy: 'bonapprovisionnement')]
     private Collection $bonCaisses;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $reference = null;
 
 
     public function __construct()
@@ -104,17 +107,17 @@ class Bonapprovisionnement
         return $this;
     }
 
-    public function getNature(): ?string
-    {
-        return $this->nature;
-    }
-
-    public function setNature(string $nature): static
-    {
-        $this->nature = $nature;
-
-        return $this;
-    }
+//    public function getNature(): ?string
+//    {
+//        return $this->nature;
+//    }
+//
+//    public function setNature(string $nature): static
+//    {
+//        $this->nature = $nature;
+//
+//        return $this;
+//    }
 
     public function getUser(): ?User
     {
@@ -216,6 +219,18 @@ class Bonapprovisionnement
                 $bonCaiss->setBonapprovisionnement(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getReference(): ?string
+    {
+        return $this->reference;
+    }
+
+    public function setReference(?string $reference): static
+    {
+        $this->reference = $reference;
 
         return $this;
     }

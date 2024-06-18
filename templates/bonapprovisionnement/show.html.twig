@@ -41,7 +41,7 @@
                             <thead class="thead-light">
                             <tr>
                                 <th class="text-center">Date</th>
-                                <th class="text-center">Nature</th>
+                                {#                                <th class="text-center">Nature</th>#}
                                 <th class="text-center">Mode de paiement</th>
                                 <th class="text-center">Montant Total (F cfa)</th>
                             </tr>
@@ -49,38 +49,14 @@
                             <tbody>
                             <tr>
                                 <td class="text-center">{{ bonapprovisionnement.date ? bonapprovisionnement.date|date('d-m-Y') : ''  }}</td>
-                                <td class="text-left">{{ bonapprovisionnement.nature }}</td>
+                                {#                                <td class="text-left">{{ bonapprovisionnement.nature }}</td>#}
                                 <td class="text-left">{{ bonapprovisionnement.modepaie }}</td>
                                 <td class="text-right separator">{{ bonapprovisionnement.montanttotal }} (F cfa)</td>
                             </tr>
                             </tbody>
                         </table>
 
-{#                        <fieldset>#}
-{#                            <legend> Détail du bon d'approvisionnement</legend>#}
-{#                            <table class="table bordered table-sm">#}
-{#                                <thead>#}
-{#                                <tr>#}
-{#                                    <th>Désignation</th>#}
-{#                                    <th>Qte</th>#}
-{#                                    <th>Prix unitaire (F cfa)</th>#}
-{#                                    <th>Montant TTC (F cfa)</th>#}
-{#                                </tr>#}
-{#                                </thead>#}
-{#                                <tbody id="bonapprovisionnement_details">#}
-{#                                {% for detail in bonapprovisionnement.details %}#}
-{#                                    <tr>#}
-{#                                        <td>{{ detail.designationproduit }}</td>#}
-{#                                        <td>{{ detail.quantite }}</td>#}
-{#                                        <td class="separator text-right">{{ detail.price }} (F cfa)</td>#}
-{#                                        <td class="separator text-right">{{ detail.montant }} (F cfa)</td>#}
-{#                                    </tr>#}
-{#                                {% endfor %}#}
-{#                                </tbody>#}
 
-{#                            </table>#}
-{#                        </fieldset>#}
-                </div>
                 <form method="post" action="{{ path('bonapprovisionnement_show', {'id': bonapprovisionnement.id}) }}">
                     <div class="card-footer">
 

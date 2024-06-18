@@ -14,6 +14,7 @@
     <style>
         header.auth-header {
             background-color: #232754;
+            padding-bottom: 7.5%;
         }
 
         button.submit {
@@ -29,9 +30,10 @@
         .title {
             text-align: center;
             font-size: 3rem;
-            color: #232754;
-            margin-bottom: 1.5rem;
-            padding-top: 2rem; /* Increase padding to push the text down */
+            color: #ffffff;
+            margin-bottom: -5rem;
+            margin-top: 7rem;
+            padding-top: -5rem; /* Increase padding to push the text down */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -45,11 +47,12 @@
 
 <main class="auth">
     <header id="auth-header" class="auth-header">
+        <h3 class="title">ORBIS CAISSE</h3>
         <img src="#" height="150" alt="">
     </header>
     <br>
     <!-- Title -->
-    <h1 class="title">ORBIS CAISSE</h1>
+
     <!-- form -->
     <form class="auth-form" method="post" action="{{ path('app_login') }}">
         <div class="mb-4">
@@ -65,13 +68,14 @@
         </div>
 
         <div class="form-group mb-4">
-            <label class="d-block text-left" for="inputUser">Email</label>
+            <label class="d-block text-left" for="inputUser">Nom d'utilisateur</label>
             <input type="text" id="inputUser"
                    name="_username"
                    value="{{ last_username }}"
                    class="form-control form-control-lg"
                    required="" autofocus="">
         </div>
+
         <!-- /.form-group -->
         <!-- .form-group -->
         <div class="form-group mb-4">
@@ -88,7 +92,7 @@
         <div class="form-group text-center">
             <div class="custom-control custom-control-inline custom-checkbox">
                 <input type="checkbox" class="custom-control-input" id="remember-me"> <label
-                        class="custom-control-label" for="remember-me">Se souvenir de moi</label>
+                        class="custom-control-label small" for="remember-me">Se souvenir de moi</label>
             </div>
         </div>
         <input type="hidden" name="_csrf_token"
@@ -97,8 +101,9 @@
         <!-- /.form-group -->
         <!-- recovery links -->
         <p class="py-2 text-center">
-            <a href=" " class="">Mot de passe oublié ?</a>
-        </p><!-- /recovery links -->
+            <a href="{{ path('app_forgot_password_request') }}" class="small">Mot de passe oublié ?</a>
+        </p>
+        <!-- /recovery links -->
         <!-- copyright -->
         <p class="mb-0 px-3 text-muted text-center"> Copyright © {{ 'now'| date('Y') }} Designed by
             <a href="https://www.offset-consulting.com/" target="_blank"> Offset Consulting.</a><br>

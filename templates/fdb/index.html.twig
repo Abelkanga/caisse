@@ -36,11 +36,11 @@
                                 <td>{{ fdb.beneficiaire }}</td>
                                 <td class="text-center">{{ fdb.status }}</td>
                                 <td class="text-center">
-                                    <a class="btn btn-sm btn-icon btn-secondary" href="{{ path('fdb_edit', {'id': fdb.id}) }}">
+                                    <a class="btn btn-sm btn-icon btn-secondary" data-toggle="tooltip" data-html="true" title="<em>Modifier</em>" href="{{ path('fdb_edit', {'id': fdb.id}) }}">
                                         <i class="fa fa-pencil-alt"></i>
                                     </a>
                                     <span class="mx-1"></span>
-                                    <a class="btn btn-sm btn-icon btn-secondary" href="{{ path('fdb_show', {'id': fdb.id}) }}">
+                                    <a class="btn btn-sm btn-icon btn-secondary" data-toggle="tooltip" data-html="true" title="<em>Voir</em>" href="{{ path('fdb_show', {'id': fdb.id}) }}">
                                         <i class="fas fa-eye"></i>
                                     </a>
 

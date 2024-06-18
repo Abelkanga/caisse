@@ -51,7 +51,8 @@ class BonapprovisionnementController extends AbstractController
     #[Route('/bonapprovisionnement/new', name: 'bonapprovisionnement_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, CaisseService $service): Response
     {
-        $bonapprovisionnement = new Bonapprovisionnement();
+        $num_bonapprovisionnement = $service->refBonApprovisionnement();
+        $bonapprovisionnement = (new Bonapprovisionnement())->setReference($num_bonapprovisionnement)->setModepaie('Chèque');
 
         $form = $this->createForm(BonapprovisionnementType::class, $bonapprovisionnement);
         $form->handleRequest($request);
@@ -61,12 +62,6 @@ class BonapprovisionnementController extends AbstractController
             $user = $this->getUser();
             $bonapprovisionnement->setUser($user)->setStatus(Status::EN_ATTENTE);
 
-//            $detail = $bonapprovisionnement->getDetails();
-//            foreach ($detail as $d) {
-//                $d->setBonapprovisionnement($bonapprovisionnement);
-//
-//                $entityManager->persist($d);
-//            }
 
             $entityManager->persist($bonapprovisionnement);
             $entityManager->flush();

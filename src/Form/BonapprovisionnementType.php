@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -19,33 +20,14 @@ class BonapprovisionnementType extends AbstractType
     {
         $builder
             ->add('date', DateType::class)
-            ->add('modepaie', ChoiceType::class, [
-                'label' => 'Mode de paiement',
-                'choices'  => [
-                    'Espèce' => 'Espèce',
-//                    'Carte' => 'Carte',
-                    'Chèque' => 'Chèque',
-                ],
+            ->add('reference', TextType::class)
+            ->add('modepaie', TextType::class, [
+                'attr' => [
+                    'readonly' => false
+                ]
             ])
-            ->add('montanttotal', NumberType::class)
-            ->add('nature');
-//            ->add('details', CollectionType::class,  [
-//                'entry_type' => DetailType::class,
-//                'entry_options' => ['label' => false],
-//                'allow_add' => true,
-//                'allow_delete' => true,
-//            ]);
+            ->add('montanttotal', NumberType::class);
 
-
-//        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
-//            /** @var Bonapprovisionnement $bonapprovisionnement */
-//            $bonapprovisionnement = $event->getData();
-//            $montanttotal = 0;
-////            foreach ($bonapprovisionnement->getDetails() as $d) {
-////                $total += $d->getMontant();
-////            }
-//            $bonapprovisionnement->setMontanttotal($montanttotal);
-//        });
 
 
     }

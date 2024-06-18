@@ -8,6 +8,7 @@ use App\Form\UserType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -54,7 +55,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, User $user, EntityManagerInterface $entityManager,UserPasswordHasherInterface $passwordHasher): Response
+    public function edit(Request $request, User $user, EntityManagerInterface $entityManager,UserPasswordHasherInterface $passwordHasher, Security $security): Response
     {
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
@@ -71,7 +72,12 @@ class UserController extends AbstractController
             $user->setPassword($hashedPassword);
             $entityManager->flush();
 //            flash()->success('Utilisateur modifié avec succès !');
-            return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+
+            if ($security->isGranted('ROLE_ADMIN')) {
+                return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+            } else {
+                return $this->redirectToRoute('app_welcome', [], Response::HTTP_SEE_OTHER);
+            }
         }
 
         return $this->render('user/edit.html.twig', [
@@ -80,24 +86,5 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/reset-password', name: 'app_user_reset_password', methods: ['GET', 'POST'])]
-    public function resetPassword(Request $request, User $user, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
-    {
-        $form = $this->createForm(UserPasswordType::class);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $plaintextPassword = $form->get('password')->getData();
-            $hashedPassword = $passwordHasher->hashPassword($user, $plaintextPassword);
-            $user->setPassword($hashedPassword);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_user_index');
-        }
-
-        return $this->render('user/reset_password.html.twig', [
-            'form' => $form->createView(),
-        ]);
-    }
 
 }

@@ -2,12 +2,29 @@
     <legend>Information Bon d'Approvisionnement</legend>
 
     <div class="row">
-            <div class="col-3">
-                <div class="form-group">
-                    <label for="date">Date</label>
-                    {{ form_widget(form.date, {'attr' : {'class': 'form-control'}}) }}
-                </div>
+        <div class="col-3">
+            <div class="form-group">
+                <label for="date">Date</label>
+                {{ form_widget(form.date, {'attr' : {'class': 'form-control'}}) }}
             </div>
+        </div>
+
+
+    <div class="col-3">
+        <div class="form-group">
+            <label for="reference">Reférence</label>
+            {{ form_widget(form.reference, {'attr' : {'class': 'form-control'}}) }}
+        </div>
+    </div>
+    </div>
+    <div class="row">
+
+        <div class="col-3">
+            <div class="form-group">
+                <label for="modepaie">Moyen d'approvisionnement</label>
+                {{ form_widget(form.modepaie, {'attr' : {'class': 'form-control'}}) }}
+            </div>
+        </div>
 
         <div class="col-3">
             <div class="form-group">
@@ -15,52 +32,7 @@
                 {{ form_widget(form.montanttotal, {'attr' : {'class': 'form-control separator text-right'}}) }}
             </div>
         </div>
-
-
-        <div class="col-3">
-            <div class="form-group">
-                <label for="nature">Nature</label>
-                {{ form_widget(form.nature, {'attr' : {'class': 'form-control'}}) }}
-            </div>
-        </div>
-
-
-
-    <div class="col-3">
-            <div class="form-group">
-                <label for="modepaie">Mode de paiement</label>
-                {{ form_widget(form.modepaie, {'attr' : {'class': 'form-control'}}) }}
-            </div>
-        </div>
-
-
     </div>
 
 </fieldset>
-{% form_theme form 'bonapprovisionnement/_detail.html.twig' %}
 
-{#<fieldset>#}
-{#    <legend>Détail Approvisionnement</legend>#}
-{#    <table class="table table-sm bordered" id="tablebonapprovisionnement_details">#}
-{#        <thead>#}
-{#        <tr>#}
-{#            <th class="text-center">Désignation</th>#}
-{#            <th class="text-center">Quantité</th>#}
-{#            <th class="text-center">Prix (F cfa)</th>#}
-{#            <th class="text-center">Montant (F cfa)</th>#}
-{#            <th class="text-center">Action</th>#}
-{#        </tr>#}
-{#        </thead>#}
-{#        <tbody id="">#}
-{#        {{ form_widget(form.details) }}#}
-{#        </tbody>#}
-{#        <tfoot>#}
-{#        <tr>#}
-{#            <th colspan="2">Total</th>#}
-{#            <th class="text-right"><span id="total_price"></span></th>#}
-{#            <th class="text-right"><span id="total_montant"></span></th>#}
-{#            <th></th>#}
-{#        </tr>#}
-{#        </tfoot>#}
-{#    </table>#}
-{#</fieldset>#}

@@ -14,7 +14,7 @@
                         <thead class="thead-light">
                         <tr>
                             <th>Date</th>
-                            <th>Nature</th>
+{#                            <th>Nature</th>#}
                             <th>Montant Total (F cfa)</th>
                             <th>Mode de paiement</th>
                             <th>Statut</th>
@@ -25,16 +25,16 @@
                         {% for bonapprovisionnement in bonapprovisionnement %}
                             <tr>
                                 <td class="text-center">{{ bonapprovisionnement.date ? bonapprovisionnement.date|date('d-m-Y') : '' }}</td>
-                                <td>{{ bonapprovisionnement.nature }}</td>
+{#                                <td>{{ bonapprovisionnement.nature }}</td>#}
                                 <td class="separator text-right">{{ bonapprovisionnement.montanttotal }} (F cfa)</td>
                                 <td>{{ bonapprovisionnement.modepaie }}</td>
                                 <td class="text-center">{{ bonapprovisionnement.status }}</td>
                                 <td class="text-center">
-                                    <a class="btn btn-sm btn-icon btn-secondary" href="{{ path('bonapprovisionnement_edit', {'id': bonapprovisionnement.id}) }}">
+                                    <a class="btn btn-sm btn-icon btn-secondary" data-toggle="tooltip" data-html="true" title="<em>Modifier</em>" href="{{ path('bonapprovisionnement_edit', {'id': bonapprovisionnement.id}) }}">
                                         <i class="fa fa-pencil-alt"></i>
                                     </a>
                                     <span class="mx-1"></span>
-                                    <a class="btn btn-sm btn-icon btn-secondary" href="{{ path('bonapprovisionnement_show', {'id': bonapprovisionnement.id}) }}">
+                                    <a class="btn btn-sm btn-icon btn-secondary" data-toggle="tooltip" data-html="true" title="<em>Voir</em>" href="{{ path('bonapprovisionnement_show', {'id': bonapprovisionnement.id}) }}">
                                         <i class="fas fa-eye"></i>
                                     </a>
                                     <span class="mx-1"></span>

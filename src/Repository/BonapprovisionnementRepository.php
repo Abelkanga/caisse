@@ -58,4 +58,12 @@ class BonapprovisionnementRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
+    public function findLastId()
+    {
+        return $this->createQueryBuilder('b')
+            ->select('MAX(b.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
 }

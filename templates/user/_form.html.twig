@@ -37,7 +37,7 @@
                 {{ form_widget(form.password, {'attr' : {'class': 'form-control '}}) }}
             </div>
         </div>
-
+{% if is_granted('ROLE_ADMIN') %}
         <div class="col-3">
             <div class="form-group">
                 <label for="caisse">Caisse</label>
@@ -58,18 +58,8 @@
 {#            {{ form_widget(form.isActive, {'attr' : {'class': 'form-control-sm select2 '}}) }}#}
 {#        </div>#}
 {#    </div>#}
-
+{% endif %}
     </div>
 </fieldset>
 
-{#{% block stylesheets %}#}
-
-{#   <style>#}
-{#       .select2-role {#}
-{#           width: 100% !important; /* ou toute autre largeur qui convient à vos besoins */#}
-{#       }#}
-
-
-{#   </style>#}
-{#{% endblock %}#}
 
