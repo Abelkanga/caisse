@@ -1,5 +1,5 @@
 <!-- .menu-header -->
-<li class="menu-header">Menu gérant</li>
+<li class="menu-header">GESTION CAISSE</li>
 <!-- /.menu-header -->
 <!-- .menu-item -->
 <!-- .menu-item -->
@@ -34,7 +34,7 @@
 
 <li class="menu-item has-child">
 	<a href="#" class="menu-link">
-		<span class="fas fa-cash-register p-1"> </span>
+		<span class="menu-icon fas fa-file-alt"> </span>
 		<span class="menu-text">Caisse</span>
 	</a>
 	<!-- child menu -->
@@ -45,9 +45,67 @@
 		<li class="menu-item {{ app.request.get('_route') == 'caisse_index' ? 'has-active': '' }}">
 			<a href="{{ path('caisse_index') }}" class="menu-link">Liste</a>
 		</li>
+
+	</ul>
+	<!-- /child menu -->
+	<!-- .menu-item -->
+</li>
+
+<li class="menu-header">ENCAISSEMENT</li>
+<li class="menu-item has-child">
+	<a href="#" class="menu-link">
+		<span class="menu-icon fas fa-clipboard-check"></span>
+		<span class="menu-text">Approvisionnement</span>
+	</a>
+	<!-- child menu -->
+	<ul class="menu">
+		<li class="menu-item {{ app.request.get('_route') == 'bonapprovisionnement_new' ? 'has-active': '' }}">
+			<a href="{{ path('bonapprovisionnement_new') }}" class="menu-link">Créer</a>
+		</li>
+		<li class="menu-item {{ app.request.get('_route') == 'bonapprovisionnement_index' ? 'has-active': '' }}">
+			<a href="{{ path('bonapprovisionnement_index') }}" class="menu-link">Liste</a>
+		</li>
+		<hr>
+		<li class="menu-item {{ app.request.get('_route') == 'billetage_form' ? 'has-active': '' }}">
+			<a href="{{ path('billetage_form') }}" class="menu-link">Billetage</a>
+		</li>
+	</ul>
+	<!-- /child menu -->
+	<!-- .menu-item -->
+</li>
+<li class="menu-header">DECAISSEMENT</li>
+<li class="menu-item has-child">
+	<a href="#" class="menu-link">
+		<span class="menu-icon fas fa-file-alt"></span>
+		<span class="menu-text">Dépense</span>
+	</a>
+	<!-- child menu -->
+	<ul class="menu">
+		<li class="menu-item {{ app.request.get('_route') == 'fdb_pending' ? 'has-active': '' }}">
+			<a href="{{ path('fdb_pending') }}" class="menu-link">En attente</a>
+		</li>
+		<li class="menu-item {{ app.request.get('_route') == 'fdb_index' ? 'has-active': '' }}">
+			<a href="{{ path('fdb_validate') }}" class="menu-link">Validée</a>
+		</li>
+
+	</ul>
+	<!-- /child menu -->
+	<!-- .menu-item -->
+</li>
+
+
+<li class="menu-header">REPORTING</li>
+<li class="menu-item has-child">
+	<a href="#" class="menu-link">
+		<span class="menu-icon fas fa-file-alt"> </span>
+		<span class="menu-text">Reporting</span>
+	</a>
+	<!-- child menu -->
+	<ul class="menu">
 		<li class="menu-item {{ app.request.get('_route') == 'app_etat_caisse' ? 'has-active': '' }}">
 			<a href="{{ path('app_etat_caisse') }}" class="menu-link">Etat</a>
 		</li>
+
 
 	</ul>
 	<!-- /child menu -->
@@ -74,56 +132,37 @@
 {#	<!-- /child menu -->#}
 {#	<!-- .menu-item -->#}
 {#</li>#}
-<hr>
-<li class="menu-item has-child">
-	<a href="#" class="menu-link">
-		<span class="menu-icon fas fa-file-alt"></span>
-		<span class="menu-text">Fiche de besoin</span>
-	</a>
-	<!-- child menu -->
-	<ul class="menu">
-		<li class="menu-item {{ app.request.get('_route') == 'fdb_pending' ? 'has-active': '' }}">
-			<a href="{{ path('fdb_pending') }}" class="menu-link">En attente</a>
-		</li>
-		<li class="menu-item {{ app.request.get('_route') == 'fdb_index' ? 'has-active': '' }}">
-			<a href="{{ path('fdb_validate') }}" class="menu-link">Validée</a>
-		</li>
 
-	</ul>
-	<!-- /child menu -->
-	<!-- .menu-item -->
-</li>
-<li class="menu-item has-child">
-	<a href="#" class="menu-link">
-		<span class="menu-icon fas fa-clipboard-check"></span>
-		<span class="menu-text">Bon d'approvisionnement</span>
-	</a>
-	<!-- child menu -->
-	<ul class="menu">
-		<li class="menu-item {{ app.request.get('_route') == 'bonapprovisionnement_pending' ? 'has-active': '' }}">
-			<a href="{{ path('bon_app_pending') }}" class="menu-link">En attente</a>
-		</li>
-		<li class="menu-item {{ app.request.get('_route') == 'bonapprovisionnement_index' ? 'has-active': '' }}">
-			<a href="{{ path('bonapprovisionnement_index') }}" class="menu-link">Validé</a>
-		</li>
-	</ul>
-	<!-- /child menu -->
-	<!-- .menu-item -->
-</li>
-<li class="menu-item has-child">
-	<a href="#" class="menu-link">
-		<span class="menu-icon fas fa-credit-card"></span>
-		<span class="menu-text">Dépense</span>
-	</a>
-	<!-- child menu -->
-	<ul class="menu">
-		<li class="menu-item {{ app.request.get('_route') == 'depense_pending' ? 'has-active': '' }}">
-			<a href="{{ path('depense_pending') }}" class="menu-link">En attente</a>
-		</li>
-		<li class="menu-item {{ app.request.get('_route') == 'depense_index' ? 'has-active': '' }}">
-			<a href="{{ path('depense_index') }}" class="menu-link">Validée</a>
-		</li>
-	</ul>
-	<!-- /child menu -->
-	<!-- .menu-item -->
-</li>
+
+
+{#<li class="menu-item has-child">#}
+{#	<a href="#" class="menu-link">#}
+{#		<span class="menu-icon fas fa-credit-card"></span>#}
+{#		<span class="menu-text">Dépense</span>#}
+{#	</a>#}
+{#	<!-- child menu -->#}
+{#	<ul class="menu">#}
+{#		<li class="menu-item {{ app.request.get('_route') == 'depense_pending' ? 'has-active': '' }}">#}
+{#			<a href="{{ path('depense_pending') }}" class="menu-link">En attente</a>#}
+{#		</li>#}
+{#		<li class="menu-item {{ app.request.get('_route') == 'depense_index' ? 'has-active': '' }}">#}
+{#			<a href="{{ path('depense_index') }}" class="menu-link">Validée</a>#}
+{#		</li>#}
+{#	</ul>#}
+{#	<!-- /child menu -->#}
+{#	<!-- .menu-item -->#}
+{#</li>#}
+{#<li class="menu-item has-child">#}
+{#	<a href="#" class="menu-link">#}
+{#		<span class="menu-icon fas fa-credit-card"></span>#}
+{#		<span class="menu-text">Billetage</span>#}
+{#	</a>#}
+{#	<!-- child menu -->#}
+{#	<ul class="menu">#}
+{#		<li class="menu-item {{ app.request.get('_route') == 'billetage_form' ? 'has-active': '' }}">#}
+{#			<a href="{{ path('billetage_form') }}" class="menu-link">Enregistrer</a>#}
+{#		</li>#}
+{#	</ul>#}
+{#	<!-- /child menu -->#}
+{#	<!-- .menu-item -->#}
+{#</li>#}

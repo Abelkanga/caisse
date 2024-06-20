@@ -72,6 +72,12 @@ class Caisse
     #[ORM\OneToMany(targetEntity: BonCaisse::class, mappedBy: 'caisse')]
     private Collection $bonCaisses;
 
+    /**
+     * @var Collection<int, Billetage>
+     */
+    #[ORM\OneToMany(targetEntity: Billetage::class, mappedBy: 'caisse')]
+    private Collection $billetages;
+
     public function __construct()
     {
         $this->depenses = new ArrayCollection();
@@ -80,6 +86,7 @@ class Caisse
         $this->users = new ArrayCollection();
         $this->fdbs = new ArrayCollection();
         $this->bonCaisses = new ArrayCollection();
+        $this->billetages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -340,6 +347,36 @@ class Caisse
             // set the owning side to null (unless already changed)
             if ($bonCaiss->getCaisse() === $this) {
                 $bonCaiss->setCaisse(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Billetage>
+     */
+    public function getBilletages(): Collection
+    {
+        return $this->billetages;
+    }
+
+    public function addBilletage(Billetage $billetage): static
+    {
+        if (!$this->billetages->contains($billetage)) {
+            $this->billetages->add($billetage);
+            $billetage->setCaisse($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBilletage(Billetage $billetage): static
+    {
+        if ($this->billetages->removeElement($billetage)) {
+            // set the owning side to null (unless already changed)
+            if ($billetage->getCaisse() === $this) {
+                $billetage->setCaisse(null);
             }
         }
 

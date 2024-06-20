@@ -34,7 +34,9 @@
                                 <td>{{ fdb.emeteur }}</td>
                                 <td>{{ fdb.destinataire }}</td>
                                 <td>{{ fdb.beneficiaire }}</td>
-                                <td class="text-center">{{ fdb.status }}</td>
+                                <td class="text-center">
+                                    <span class="badge badge-success">  {{ fdb.status }}</span>
+                                   </td>
                                 <td class="text-center">
                                     <a class="btn btn-sm btn-icon btn-secondary" data-toggle="tooltip" data-html="true" title="<em>Modifier</em>" href="{{ path('fdb_edit', {'id': fdb.id}) }}">
                                         <i class="fa fa-pencil-alt"></i>

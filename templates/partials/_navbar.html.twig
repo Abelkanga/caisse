@@ -49,40 +49,40 @@
 	<!-- /child menu -->
 	<!-- .menu-item -->
 </li>
-<li class="menu-item has-child">
-	<a href="#" class="menu-link">
-		<span class="menu-icon fas fa-clipboard-check"></span>
-		<span class="menu-text">Bon d'approvisionnement</span>
-	</a>
-	<!-- child menu -->
-	<ul class="menu">
-		<li class="menu-item {{ app.request.get('_route') == 'bonapprovisionnement_new' ? 'has-active': '' }}">
-			<a href="{{ path('bonapprovisionnement_new') }}" class="menu-link">Créer</a>
-		</li>
-		<li class="menu-item {{ app.request.get('_route') == 'bonapprovisionnement_index' ? 'has-active': '' }}">
-			<a href="{{ path('bonapprovisionnement_index') }}" class="menu-link">Liste</a>
-		</li>
-	</ul>
-	<!-- /child menu -->
-	<!-- .menu-item -->
-</li>
-<li class="menu-item has-child">
-	<a href="#" class="menu-link">
-		<span class="menu-icon fas fa-credit-card"></span>
-		<span class="menu-text">Dépense</span>
-	</a>
-	<!-- child menu -->
-	<ul class="menu">
-		<li class="menu-item {{ app.request.get('_route') == 'depense_new' ? 'has-active': '' }}">
-			<a href="{{ path('depense_new') }}" class="menu-link">Créer</a>
-		</li>
-		<li class="menu-item {{ app.request.get('_route') == 'depense_index' ? 'has-active': '' }}">
-			<a href="{{ path('depense_index') }}" class="menu-link">Liste</a>
-		</li>
-	</ul>
-	<!-- /child menu -->
-	<!-- .menu-item -->
-</li>
+{#<li class="menu-item has-child">#}
+{#	<a href="#" class="menu-link">#}
+{#		<span class="menu-icon fas fa-clipboard-check"></span>#}
+{#		<span class="menu-text">Approvisionnement</span>#}
+{#	</a>#}
+{#	<!-- child menu -->#}
+{#	<ul class="menu">#}
+{#		<li class="menu-item {{ app.request.get('_route') == 'bonapprovisionnement_new' ? 'has-active': '' }}">#}
+{#			<a href="{{ path('bonapprovisionnement_new') }}" class="menu-link">Créer</a>#}
+{#		</li>#}
+{#		<li class="menu-item {{ app.request.get('_route') == 'bonapprovisionnement_index' ? 'has-active': '' }}">#}
+{#			<a href="{{ path('bonapprovisionnement_index') }}" class="menu-link">Liste</a>#}
+{#		</li>#}
+{#	</ul>#}
+{#	<!-- /child menu -->#}
+{#	<!-- .menu-item -->#}
+{#</li>#}
+{#<li class="menu-item has-child">#}
+{#	<a href="#" class="menu-link">#}
+{#		<span class="menu-icon fas fa-credit-card"></span>#}
+{#		<span class="menu-text">Dépense</span>#}
+{#	</a>#}
+{#	<!-- child menu -->#}
+{#	<ul class="menu">#}
+{#		<li class="menu-item {{ app.request.get('_route') == 'depense_new' ? 'has-active': '' }}">#}
+{#			<a href="{{ path('depense_new') }}" class="menu-link">Créer</a>#}
+{#		</li>#}
+{#		<li class="menu-item {{ app.request.get('_route') == 'depense_index' ? 'has-active': '' }}">#}
+{#			<a href="{{ path('depense_index') }}" class="menu-link">Liste</a>#}
+{#		</li>#}
+{#	</ul>#}
+{#	<!-- /child menu -->#}
+{#	<!-- .menu-item -->#}
+{#</li>#}
 
 
 

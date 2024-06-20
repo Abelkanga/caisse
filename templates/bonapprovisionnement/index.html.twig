@@ -28,7 +28,7 @@
 {#                                <td>{{ bonapprovisionnement.nature }}</td>#}
                                 <td class="separator text-right">{{ bonapprovisionnement.montanttotal }} (F cfa)</td>
                                 <td>{{ bonapprovisionnement.modepaie }}</td>
-                                <td class="text-center">{{ bonapprovisionnement.status }}</td>
+                                <td class="text-center"> <span class="badge badge-success">{{ bonapprovisionnement.status }}</span></td>
                                 <td class="text-center">
                                     <a class="btn btn-sm btn-icon btn-secondary" data-toggle="tooltip" data-html="true" title="<em>Modifier</em>" href="{{ path('bonapprovisionnement_edit', {'id': bonapprovisionnement.id}) }}">
                                         <i class="fa fa-pencil-alt"></i>

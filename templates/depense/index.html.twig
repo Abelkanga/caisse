@@ -29,7 +29,7 @@
                                 <td>{{ depense.typeExpense }}</td>
                                 <td class="separator text-right">{{ depense.montant }}</td>
                                 <td>{{ depense.modepaie }}</td>
-                                <td class="text-center">{{ depense.status }}</td>
+                                <td class="text-center"><span class="badge badge-success">{{ depense.status }}</span></td>
                                 <td class="text-center">
                                     <a class="btn btn-sm btn-icon btn-secondary" data-toggle="tooltip" data-html="true" title="<em>Modifier</em>" href="{{ path('depense_edit', {'id': depense.id}) }}">
                                         <i class="fa fa-pencil-alt"></i>

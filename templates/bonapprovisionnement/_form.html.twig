@@ -2,7 +2,7 @@
     <legend>Information Bon d'Approvisionnement</legend>
 
     <div class="row">
-        <div class="col-3">
+        <div class="col-6">
             <div class="form-group">
                 <label for="date">Date</label>
                 {{ form_widget(form.date, {'attr' : {'class': 'form-control'}}) }}
@@ -10,7 +10,7 @@
         </div>
 
 
-    <div class="col-3">
+    <div class="col-6">
         <div class="form-group">
             <label for="reference">Reférence</label>
             {{ form_widget(form.reference, {'attr' : {'class': 'form-control'}}) }}
@@ -19,16 +19,16 @@
     </div>
     <div class="row">
 
-        <div class="col-3">
+        <div class="col-6">
             <div class="form-group">
                 <label for="modepaie">Moyen d'approvisionnement</label>
                 {{ form_widget(form.modepaie, {'attr' : {'class': 'form-control'}}) }}
             </div>
         </div>
 
-        <div class="col-3">
+        <div class="col-6">
             <div class="form-group">
-                <label for="montanttotal">Montant Total (F cfa)</label>
+                <label for="montanttotal">Montant Total (F cfa)<span class="text-danger">*</span></label>
                 {{ form_widget(form.montanttotal, {'attr' : {'class': 'form-control separator text-right'}}) }}
             </div>
         </div>
