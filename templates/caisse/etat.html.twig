@@ -2,97 +2,82 @@
 
 {% block title %}État de la Caisse{% endblock %}
 
-{#{% block stylesheets %}#}
-
-{#    <style>#}
-
-{#        .custom-input, .custom-select {#}
-{#            width: 800px; /* Ajustez la largeur selon vos besoins */#}
-
-{#        }#}
-
-{#    </style>#}
-
-{#{% endblock %}#}
-
 {% block body %}
 
     <fieldset>
 
-    <div class="col-12">
-        <div class="card card-fluid">
-            <div class="card-header bg-soft-custom" id="bg">
-                <h6><i class="fa-solid fa-list" style="font-size:20px;"></i> Recherche d'État</h6>
-            </div>
-            <div class="card-body">
-                <div class="row justify-content-center">
-                    <div class="col-8">
-                        <form method="get" action="{{ path('app_etat_caisse') }}" class="formDate d-flex justify-content-center align-items-center">
-                            <input type="date" name="date_debut" class="input-large mx-2" style="padding: 5px; margin: 5px; border: 1px solid #ced4da; border-radius: 10px; width: 500px; height: 40px; ">
-                            <input type="date" name="date_fin" class="input-large mx-2" style="padding: 5px; margin: 5px; border: 1px solid #ced4da;border-radius: 10px; width: 500px; height: 40px;">
-                            <select name="type" class="input-large mx-2" style="padding: 5px; margin: 5px; border: 1px solid #ced4da;border-radius: 10px; width: 500px; height: 40px;">
-                                <option value="tous">Tous</option>
-                                <option value="entree">Entrée</option>
-                                <option value="sortie">Sortie</option>
-                            </select>
-                            <i class="fa-solid fa-magnifying-glass"></i> <input type="submit" value="Rechercher" class="btn btn-success float-right ml-3">
-                        </form>
+        <div class="col-12">
+            <div class="card card-fluid">
+                <div class="card-header bg-soft-custom" id="bg">
+                    <h6><i class="fa-solid fa-list" style="font-size:20px;"></i>Recherche d'État</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row justify-content-center">
+                        <div class="col-8">
+                            <form method="get" action="{{ path('app_etat_caisse') }}" class="formDate d-flex justify-content-center align-items-center">
+                                <input type="date" name="date_debut" class="input-large mx-2" style="padding: 5px; margin: 5px; border: 1px solid #ced4da; border-radius: 10px; width: 500px; height: 40px; ">
+                                <input type="date" name="date_fin" class="input-large mx-2" style="padding: 5px; margin: 5px; border: 1px solid #ced4da;border-radius: 10px; width: 500px; height: 40px;">
+                                <select name="type" class="input-large mx-2" style="padding: 5px; margin: 5px; border: 1px solid #ced4da;border-radius: 10px; width: 500px; height: 40px;">
+                                    <option value="tous">Tous</option>
+                                    <option value="entree">Entrée</option>
+                                    <option value="sortie">Sortie</option>
+                                </select>
+                                <i class="fa-solid fa-magnifying-glass"></i> <input type="submit" value="Rechercher" class="btn btn-success float-right ml-3">
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-
-
 
 
     </fieldset>
 
-<fieldset>
-    <div class="col-12 col-md-12">
-        <div class="card">
-            <div class="card-header bg-soft-custom" style="background:#21244e; color:white;">
-                <i class="fa-solid fa-list" style="font-size:20px;"></i> &nbsp;État de la Caisse
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-striped table-hover bordered table-sm basic-datatable">
-                        <thead class="thead-light">
-                        <tr>
-                            <th class="text-center">Date</th>
-                            <th class="text-center">Intitulé Caisse</th>
-                            <th class="text-center">Type</th>
-                            <th class="text-center">Description</th>
-                            <th class="text-center">Montant (F cfa)</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for mouvement in mouvements %}
-                            <tr>
-                                <td class="text-center">{{ mouvement.date ? mouvement.date|date('d-m-Y') : '' }}</td>
-                                <td class="text">{{ mouvement.caisse_intitule }}</td>
-                                <td class="text">{{ mouvement.type }}</td>
-                                <td class="text">{{ mouvement.description }}</td>
-                                <td class="text-right separator">{{ mouvement.montant }}</td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
+    <fieldset>
+        <div class="col-12 col-md-12">
+            <div class="card">
+                <div class="card-header bg-soft-custom" style="background:#21244e; color:white;">
+                    <i class="fa-solid fa-list" style="font-size:20px;"></i> &nbsp;État de la Caisse
                 </div>
-            </div>
-            <div class="card-footer">
-                <div class="card-footer-content">
-                    <a href="{{ path('export_excel') }}" class="btn btn-primary float-right ml-2">
-                        Exporter Excel</a>
-                    <a href="{{ path('export_pdf') }}" class="btn btn-primary float-right ml-2">
-                        Exporter Pdf</a>
-                    <a href="{{ path('app_welcome') }}" class="btn btn-info float-right">
-                        <i class="oi oi-home"></i> Retour
-                    </a>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover bordered table-sm basic-datatable">
+                            <thead class="thead-light">
+                            <tr>
+                                <th class="text-center">Date</th>
+                                <th class="text-center">Intitulé Caisse</th>
+                                <th class="text-center">Type</th>
+                                <th class="text-center">Description</th>
+                                <th class="text-center">Montant (F cfa)</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for mouvement in mouvements %}
+                                <tr>
+                                    <td class="text-center">{{ mouvement.date ? mouvement.date|date('d-m-Y') : '' }}</td>
+                                    <td class="text">{{ mouvement.caisse_intitule }}</td>
+                                    <td class="text">{{ mouvement.type }}</td>
+                                    <td class="text">{{ mouvement.description }}</td>
+                                    <td class="text-right separator">{{ mouvement.montant }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="card-footer-content">
+                        <a href="{{ path('export_excel') }}" class="btn btn-primary float-right ml-2">
+                            Exporter Excel</a>
+                        <a href="{{ path('export_pdf') }}" class="btn btn-primary float-right ml-2">
+                            Exporter Pdf</a>
+                        <a href="{{ path('app_welcome') }}" class="btn btn-info float-right">
+                            <i class="oi oi-home"></i> Retour
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</fieldset>
+    </fieldset>
 {% endblock %}
 

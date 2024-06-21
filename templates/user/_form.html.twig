@@ -2,26 +2,28 @@
     <legend>Information Compte Utilisateur</legend>
 
     <div class="row">
-        <div class="col-3">
+        <div class="col-6">
             <div class="form-group">
                 <label for="name">Nom & prénoms</label>
                 {{ form_widget(form.fullName, {'attr' : {'class': 'form-control'}}) }}
             </div>
         </div>
 
-        <div class="col-3">
+        <div class="col-6">
             <div class="form-group">
                 <label for="pseudo">Pseudo</label>
                 {{ form_widget(form.pseudo, {'attr' : {'class': 'form-control'}}) }}
             </div>
         </div>
-
-        <div class="col-3">
+    </div>
+    <div class="row">
+        <div class="col-6">
             <div class="form-group">
                 <label for="contact">Contact</label>
                 {{ form_widget(form.contact, {'attr' : {'class': 'form-control'}}) }}
             </div>
         </div>
+
 
         <div class="col-3">
             <div class="form-group">
@@ -29,37 +31,41 @@
                 {{ form_widget(form.email, {'attr' : {'class': 'form-control'}}) }}
             </div>
         </div>
-    </div>
-    <div class="row">
+
+
         <div class="col-3">
             <div class="form-group">
                 <label for="password">Password</label>
                 {{ form_widget(form.password, {'attr' : {'class': 'form-control '}}) }}
             </div>
         </div>
-{% if is_granted('ROLE_ADMIN') %}
-        <div class="col-3">
-            <div class="form-group">
-                <label for="caisse">Caisse</label>
-                {{ form_widget(form.caisse, {'attr' : {'class': ' select2 '}}) }}
+    </div>
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="caisse">Caisse</label>
+                    {{ form_widget(form.caisse, {'attr' : {'class': ' select2 '}}) }}
+                </div>
+            </div>
+
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="role">Roles</label>
+                    {{ form_widget(form.roles, {'attr' : {'class': 'form-control-sm select2 '}}) }}
+                </div>
             </div>
         </div>
 
-    <div class="col-3">
-        <div class="form-group">
-            <label for="role">Roles</label>
-            {{ form_widget(form.roles, {'attr' : {'class': 'form-control-sm select2 '}}) }}
-        </div>
-    </div>
+        {#    <div class="col-3">#}
+        {#        <div class="form-group">#}
+        {#            <label for="isActive">Etat</label>#}
+        {#            {{ form_widget(form.isActive, {'attr' : {'class': 'form-control-sm select2 '}}) }}#}
+        {#        </div>#}
+        {#    </div>#}
+    {% endif %}
 
-{#    <div class="col-3">#}
-{#        <div class="form-group">#}
-{#            <label for="isActive">Etat</label>#}
-{#            {{ form_widget(form.isActive, {'attr' : {'class': 'form-control-sm select2 '}}) }}#}
-{#        </div>#}
-{#    </div>#}
-{% endif %}
-    </div>
 </fieldset>
 
 

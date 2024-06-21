@@ -1,68 +1,92 @@
 {% extends 'imprimer.html.twig' %}
+
 {% block body %}
     <div content=" ">
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="card card-fluid">
-                    <div class="card-header bg-soft-custom">
-                        <h6>Fiche de Besoin {{ fdb.numeroFicheBesoin }}</h6>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-sm-2"></div>
-                            <div class="col-sm-2"></div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card card-fluid">
+                <div class="card-header bg-soft-custom">
+                    <h6>Bon de caisse {{ fdb.numeroFicheBesoin }}</h6>
+                </div>
+                <div class="card-body">
+                    <div class="receipt-container">
+                        <div class="header">
+                            <div class="text text-center small">
+                                <img src="{{ asset('images/offset.png') }}" alt="Offset Consulting" style="max-width: 170px;">
+                            </div>
+                            <div class="small">
+                                <p class="small line-height text-center"><b><i>Cabinet Offset Consulting</i></b></p>
+                                <p class="small line-height text-center"><b><i>Audit et Conseil en Organisation Management</i></b></p>
+                                <p class="small line-height text-center"><b><i>08 BP 2941 Abidjan 08, République de Côte d'Ivoire</i></b></p>
+                                <p class="small line-height text-center"><b><i>Tél: (225) 27 22 01 59 71  Cél: (225) 07 78 63 63 06</i></b></p>
+                                <p class="small line-height text-center"><b><i>Email: info@offset-consulting.com</i></b></p>
+                                <p class="small line-height text-center"><b><i>www.offset-consulting.com</i></b></p>
+                            </div>
                         </div>
-                        <br>
                         <fieldset>
-                            <legend>Information de la fiche de besoin</legend>
+                            <legend>Information du bon de caisse</legend>
                             <table class="table table-sm bordered">
-                                <tbody>
-                                <tr>
-                                    <th>De</th>
-                                    <td>{{ fdb.emeteur }}</td>
-                                </tr>
-                                <tr>
-                                    <th>À</th>
-                                    <td>{{ fdb.destinataire }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Pour</th>
-                                    <td>{{ fdb.beneficiaire }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Date</th>
-                                    <td>{{ fdb.date ? fdb.date|date('d-m-Y') : '' }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Objet</th>
-                                    <td>{{ fdb.objet }}</td>
-                                </tr>
-                                </tbody>
+                                <div class="main-content">
+                                    <div>
+                                        <span>Date :</span> {{ fdb.date ? fdb.date|date('d-m-Y') : '' }}
+                                    </div>
+                                    <div>
+                                        <span>Bénéficiaire :</span> {{ fdb.beneficiaire }}
+                                    </div>
+                                    <div>
+                                        <span>Libellé :</span> {{ fdb.typeExpense }}
+                                    </div>
+                                    <div>
+                                        <span>Montant :</span> {{ fdb.total }}
+                                    </div>
+                                </div>
                             </table>
+                        </fieldset>
 
-                            <fieldset>
-                                <legend> Détail de la fiche de besoin</legend>
-                                <table class="table bordered table-sm">
-                                    <thead>
+                        <fieldset>
+                            <legend> Détail du bon de caisse</legend>
+                            <table class="table bordered table-sm">
+                                <thead>
+                                <tr>
+                                    <th>Désignation</th>
+                                    <th>Quantité</th>
+                                    <th>Prix unitaire (F cfa)</th>
+                                    <th>Montant TTC (F cfa)</th>
+                                </tr>
+                                </thead>
+                                <tbody id="fdb_details">
+                                {% for detail in fdb.details %}
                                     <tr>
-                                        <th>Qte</th>
-                                        <th>Désignation</th>
-                                        <th>Prix unitaire (F cfa)</th>
-                                        <th>Montant TTC (F cfa)</th>
+                                        <td>{{ detail.designationproduit }}</td>
+                                        <td>{{ detail.quantite }}</td>
+                                        <td class="text-right">{{ detail.price }} </td>
+                                        <td class="text-right">{{ detail.montant }} </td>
                                     </tr>
-                                    </thead>
-                                    <tbody id="fdb_details">
-                                    {% for detail in fdb.details %}
-                                        <tr>
-                                            <td>{{ detail.quantite }}</td>
-                                            <td>{{ detail.designationproduit }}</td>
-                                            <td class="text-right">{{ detail.price }} (F cfa)</td>
-                                            <td class="text-right">{{ detail.montant }} (F cfa)</td>
-                                        </tr>
-                                    {% endfor %}
-                                    </tbody>
-                                </table>
-                            </fieldset>
+                                {% endfor %}
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th colspan="3">Total</th>
+                                    <th class=" separator text-right">{{ fdb.total }}</th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                            <div class="row approved-by">
+                                <div class="col-3">
+                                    <p>Approbation</p>
+                                    <p>__________________</p>
+                                </div>
+                                <div class="col-3">
+                                    <p>Caisse:</p>
+                                    <p>__________________</p>
+                                </div>
+                                <div class="col-3">
+                                    <p>Bénéficiaire</p>
+                                    <p>__________________</p>
+                                </div>
+                            </div>
+
+                        </fieldset>
                     </div>
 
                 </div>

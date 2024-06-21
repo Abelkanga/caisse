@@ -70,8 +70,9 @@ class Billetage
     #[ORM\ManyToOne(inversedBy: 'billetages')]
     private ?Caisse $caisse = null;
 
-//    #[ORM\Column(nullable: true)]
-//    private ?int $m25 = null;
+    #[ORM\ManyToOne(inversedBy: 'billetages')]
+    private ?Bonapprovisionnement $bonapprovisionnement = null;
+
 
     public function getId(): ?int
     {
@@ -234,17 +235,6 @@ class Billetage
         return $this;
     }
 
-    public function getAmount(): ?int
-    {
-        return $this->amount;
-    }
-
-    public function setAmount(?int $amount): static
-    {
-        $this->amount = $amount;
-
-        return $this;
-    }
 
     public function getEcart(): ?int
     {
@@ -254,42 +244,6 @@ class Billetage
     public function setEcart(?int $ecart): static
     {
         $this->ecart = $ecart;
-
-        return $this;
-    }
-
-    public function getCheckBalance(): ?int
-    {
-        return $this->checkBalance;
-    }
-
-    public function setCheckBalance(?int $checkBalance): static
-    {
-        $this->checkBalance = $checkBalance;
-
-        return $this;
-    }
-
-    public function getCheckAmount(): ?int
-    {
-        return $this->checkAmount;
-    }
-
-    public function setCheckAmount(?int $checkAmount): static
-    {
-        $this->checkAmount = $checkAmount;
-
-        return $this;
-    }
-
-    public function getCheckEcart(): ?int
-    {
-        return $this->checkEcart;
-    }
-
-    public function setCheckEcart(?int $checkEcart): static
-    {
-        $this->checkEcart = $checkEcart;
 
         return $this;
     }
@@ -306,15 +260,17 @@ class Billetage
         return $this;
     }
 
-//    public function getM25(): ?int
-//    {
-//        return $this->m25;
-//    }
-//
-//    public function setM25(?int $m25): static
-//    {
-//        $this->m25 = $m25;
-//
-//        return $this;
-//    }
+
+    public function getBonapprovisionnement(): ?Bonapprovisionnement
+    {
+        return $this->bonapprovisionnement;
+    }
+
+    public function setBonapprovisionnement(?Bonapprovisionnement $bonapprovisionnement): static
+    {
+        $this->bonapprovisionnement = $bonapprovisionnement;
+
+        return $this;
+    }
+
 }

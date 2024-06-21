@@ -113,26 +113,9 @@ class BilletageType extends AbstractType
                     'tabindex' => 12
                 ]
             ])
-//            ->add('m1', IntegerType::class, [
-//                'attr' => [
-//                    'min' => 0,
-//                    'data-id' => 1,
-//                    'class' => 'text-right montant monnaie form-control form-control-sm',
-//                    'tabindex' => 13
-//                ]
-//            ])
             ->add('balance')
-            ->add('ecart', TextType::class)
-            ->add('checkBalance', TextType::class)
-            ->add('checkAmount', TextType::class)
-            ->add('checkEcart', TextType::class);
-//            ->add('endAt', DateCustomType::class, [
-//                'required' => true,
-//                'constraints' => [
-//                    new NotBlank()
-//                ],
-//                'mapped' => false,
-//            ]);
+            ->add('ecart', TextType::class);
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void

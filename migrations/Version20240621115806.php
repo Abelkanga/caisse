@@ -10,7 +10,7 @@
 ///**
 // * Auto-generated Migration: Please modify to your needs!
 // */
-//final class Version20240620112848 extends AbstractMigration
+//final class Version20240621115806 extends AbstractMigration
 //{
 //    public function getDescription(): string
 //    {
@@ -20,7 +20,6 @@
 //    public function up(Schema $schema): void
 //    {
 //        // this up() migration is auto-generated, please modify it to your needs
-//        $this->addSql('ALTER TABLE billetage ADD m25 INT DEFAULT NULL');
 //        $this->addSql('ALTER TABLE fdb CHANGE objet objet VARCHAR(255) NOT NULL, CHANGE date date DATETIME DEFAULT NULL');
 //        $this->addSql('ALTER TABLE user CHANGE roles roles JSON NOT NULL COMMENT \'(DC2Type:json)\'');
 //    }
@@ -28,7 +27,6 @@
 //    public function down(Schema $schema): void
 //    {
 //        // this down() migration is auto-generated, please modify it to your needs
-//        $this->addSql('ALTER TABLE billetage DROP m25');
 //        $this->addSql('ALTER TABLE fdb CHANGE objet objet VARCHAR(255) DEFAULT NULL, CHANGE date date DATETIME DEFAULT NULL COMMENT \'(DC2Type:datetime_immutable)\'');
 //        $this->addSql('ALTER TABLE user CHANGE roles roles JSON NOT NULL COMMENT \'(DC2Type:json)\'');
 //    }

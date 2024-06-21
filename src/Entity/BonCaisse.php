@@ -43,6 +43,12 @@ class BonCaisse
     #[ORM\ManyToOne(inversedBy: 'bonCaisses')]
     private ?Bonapprovisionnement $bonapprovisionnement = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $beneficiaire = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $type = null;
+
 
     public function getId(): ?int
     {
@@ -154,6 +160,30 @@ class BonCaisse
     public function setBonapprovisionnement(?Bonapprovisionnement $bonapprovisionnement): static
     {
         $this->bonapprovisionnement = $bonapprovisionnement;
+
+        return $this;
+    }
+
+    public function getBeneficiaire(): ?string
+    {
+        return $this->beneficiaire;
+    }
+
+    public function setBeneficiaire(?string $beneficiaire): static
+    {
+        $this->beneficiaire = $beneficiaire;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(?string $type): static
+    {
+        $this->type = $type;
 
         return $this;
     }

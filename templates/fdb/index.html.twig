@@ -28,19 +28,25 @@
                         {% for fdb in fdb %}
                             <tr>
                                 <td class="text-center">{{ fdb.date ? fdb.date|date('d-m-Y') : '' }}</td>
-
                                 <td>{{ fdb.typeExpense }}</td>
                                 <td class="separator text-right ">{{ fdb.total }}</td>
                                 <td>{{ fdb.emeteur }}</td>
                                 <td>{{ fdb.destinataire }}</td>
                                 <td>{{ fdb.beneficiaire }}</td>
                                 <td class="text-center">
-                                    <span class="badge badge-success">  {{ fdb.status }}</span>
-                                   </td>
+                                    {% if fdb.status == 'validée' %}
+                                        <span class="badge badge-success">{{ fdb.status }}</span>
+                                    {% elseif fdb.status == 'en attente' %}
+                                        <span class="badge badge-danger">{{ fdb.status }}</span>
+                                    {% else %}
+                                        <span class="badge">{{ fdb.status }}</span>
+                                    {% endif %}
+                                </td>
+
                                 <td class="text-center">
-                                    <a class="btn btn-sm btn-icon btn-secondary" data-toggle="tooltip" data-html="true" title="<em>Modifier</em>" href="{{ path('fdb_edit', {'id': fdb.id}) }}">
-                                        <i class="fa fa-pencil-alt"></i>
-                                    </a>
+{#                                    <a class="btn btn-sm btn-icon btn-secondary" data-toggle="tooltip" data-html="true" title="<em>Modifier</em>" href="{{ path('fdb_edit', {'id': fdb.id}) }}">#}
+{#                                        <i class="fa fa-pencil-alt"></i>#}
+{#                                    </a>#}
                                     <span class="mx-1"></span>
                                     <a class="btn btn-sm btn-icon btn-secondary" data-toggle="tooltip" data-html="true" title="<em>Voir</em>" href="{{ path('fdb_show', {'id': fdb.id}) }}">
                                         <i class="fas fa-eye"></i>

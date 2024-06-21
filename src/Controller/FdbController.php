@@ -220,6 +220,14 @@ class FdbController extends AbstractController
         ]);
     }
 
+    #[Route('/fdb/{uuid}/printA', name: 'printA_fdb', methods: ['GET'])]
+    public function printA(Fdb $fdb): Response
+    {
+        return $this->render('fdb/printA.html.twig', [
+            'fdb' => $fdb
+        ]);
+    }
+
     #[Route('/fdb/{id}/delete', name: 'fdb_delete', methods: ['GET'])]
     public function delete(EntityManagerInterface $manager, Fdb $fdb) : Response
     {

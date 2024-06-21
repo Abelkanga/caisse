@@ -28,7 +28,16 @@
 {#                                <td>{{ bonapprovisionnement.nature }}</td>#}
                                 <td class="separator text-right">{{ bonapprovisionnement.montanttotal }} (F cfa)</td>
                                 <td>{{ bonapprovisionnement.modepaie }}</td>
-                                <td class="text-center"> <span class="badge badge-success">{{ bonapprovisionnement.status }}</span></td>
+                                <td class="text-center">
+                                    {% if bonapprovisionnement.status == 'validée' %}
+                                        <span class="badge badge-success">{{ bonapprovisionnement.status }}</span>
+                                    {% elseif bonapprovisionnement.status == 'en attente' %}
+                                        <span class="badge badge-danger">{{ bonapprovisionnement.status }}</span>
+                                    {% else %}
+                                        <span class="badge">{{ bonapprovisionnement.status }}</span>
+                                    {% endif %}
+                                </td>
+
                                 <td class="text-center">
                                     <a class="btn btn-sm btn-icon btn-secondary" data-toggle="tooltip" data-html="true" title="<em>Modifier</em>" href="{{ path('bonapprovisionnement_edit', {'id': bonapprovisionnement.id}) }}">
                                         <i class="fa fa-pencil-alt"></i>

@@ -24,7 +24,7 @@
                             <thead class="thead-light">
                             <tr>
                                 <th class="text-center">Date</th>
-                                <th class="text-left">Nature</th>
+
                                 <th class="text-left">Mode de paiement</th>
                                 <th class="text-right">Montant Total (F cfa)</th>
 
@@ -33,37 +33,14 @@
                             <tbody>
                             <tr>
                                 <td class="text-center">{{ bonapprovisionnement.date ? bonapprovisionnement.date|date('d-m-Y') : ''  }}</td>
-                                <td class="text-left">{{ bonapprovisionnement.nature }}</td>
+
                                 <td class="text-left">{{ bonapprovisionnement.modepaie }}</td>
-                                <td class="text-right">{{ bonapprovisionnement.montanttotal }} (F cfa)</td>
+                                <td class="text-right">{{ bonapprovisionnement.montanttotal }}</td>
                             </tr>
                             </tbody>
                         </table>
 
-{#                        <fieldset>#}
-{#                            <legend> Détail du bon d'approvisionnement</legend>#}
-{#                            <table class="table bordered table-sm">#}
-{#                                <thead>#}
-{#                                <tr>#}
-{#                                    <th>Désignation</th>#}
-{#                                    <th>Qte</th>#}
-{#                                    <th>Prix unitaire (F cfa)</th>#}
-{#                                    <th>Montant TTC (F cfa)</th>#}
-{#                                </tr>#}
-{#                                </thead>#}
-{#                                <tbody id="bonapprovisionnement_details">#}
-{#                                {% for detail in bonapprovisionnement.details %}#}
-{#                                    <tr>#}
-{#                                        <td class="text-left">{{ detail.designationproduit }}</td>#}
-{#                                        <td class="text-left">{{ detail.quantite }}</td>#}
-{#                                        <td class="text-right">{{ detail.price }} (F cfa)</td>#}
-{#                                        <td class="text-right">{{ detail.montant }} (F cfa)</td>#}
-{#                                    </tr>#}
-{#                                {% endfor %}#}
-{#                                </tbody>#}
 
-{#                            </table>#}
-{#                        </fieldset>#}
                 </div>
 
             </div>

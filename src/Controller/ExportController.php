@@ -68,8 +68,8 @@ class ExportController extends AbstractController
             $data[] = [
                 'date' => $fdb->getDate(),
                 'caisse' => $fdb->getCaisse()->getIntitule(),
-                'type' => 'Fiche de besoin',
-                'description' => $fdb->getObjet(),
+                'type' => 'Depense',
+                'description' => $fdb->getTypeExpense(),
                 'montant' => $fdb->getTotal(),
             ];
         }
@@ -78,7 +78,7 @@ class ExportController extends AbstractController
             $data[] = [
                 'date' => $bonapprovisionnement->getDate(),
                 'caisse' => $bonapprovisionnement->getCaisse()->getIntitule(),
-                'type' => 'Bon Approvisionnement',
+                'type' => 'Approvisionnement',
                 'description' => $bonapprovisionnement->getNature(),
                 'montant' => $bonapprovisionnement->getMontanttotal(),
             ];
@@ -137,8 +137,8 @@ class ExportController extends AbstractController
             $data[] = [
                 'date' => $fdb->getDate(),
                 'caisse' => $fdb->getCaisse()->getIntitule(),
-                'type' => 'Fiche de besoin',
-                'description' => $fdb->getObjet(),
+                'type' => 'Depense',
+                'description' => $fdb->getTypeExpense(),
                 'montant' => $fdb->getTotal(),
             ];
         }
@@ -147,7 +147,7 @@ class ExportController extends AbstractController
             $data[] = [
                 'date' => $bonapprovisionnement->getDate(),
                 'caisse' => $bonapprovisionnement->getCaisse()->getIntitule(),
-                'type' => 'Bon Approvisionnement',
+                'type' => 'Approvisionnement',
                 'description' => $bonapprovisionnement->getNature(),
                 'montant' => $bonapprovisionnement->getMontanttotal(),
             ];

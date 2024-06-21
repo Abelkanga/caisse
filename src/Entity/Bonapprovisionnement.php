@@ -59,11 +59,18 @@ class Bonapprovisionnement
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $reference = null;
 
+    /**
+     * @var Collection<int, Billetage>
+     */
+    #[ORM\OneToMany(targetEntity: Billetage::class, mappedBy: 'bonapprovisionnement')]
+    private Collection $billetages;
+
 
     public function __construct()
     {
         $this->bonCaisses = new ArrayCollection();
         $this->date = new \DateTimeImmutable();
+        $this->billetages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -231,6 +238,36 @@ class Bonapprovisionnement
     public function setReference(?string $reference): static
     {
         $this->reference = $reference;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Billetage>
+     */
+    public function getBilletages(): Collection
+    {
+        return $this->billetages;
+    }
+
+    public function addBilletage(Billetage $billetage): static
+    {
+        if (!$this->billetages->contains($billetage)) {
+            $this->billetages->add($billetage);
+            $billetage->setBonapprovisionnement($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBilletage(Billetage $billetage): static
+    {
+        if ($this->billetages->removeElement($billetage)) {
+            // set the owning side to null (unless already changed)
+            if ($billetage->getBonapprovisionnement() === $this) {
+                $billetage->setBonapprovisionnement(null);
+            }
+        }
 
         return $this;
     }

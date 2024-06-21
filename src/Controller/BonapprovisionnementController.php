@@ -66,7 +66,7 @@ class BonapprovisionnementController extends AbstractController
             $entityManager->persist($bonapprovisionnement);
             $entityManager->flush();
 //            flash()->success('Bon d approvisionnement créé avec succès !');
-            return $this->redirectToRoute('bonapprovisionnement_index');
+            return $this->redirectToRoute('billetage_form');
         }
 
         return $this->render('bonapprovisionnement/new.html.twig', [

@@ -80,9 +80,9 @@ class CaisseController extends AbstractController
 
                 foreach ($fdbQuery as $fdb) {
                     $mouvements[] = [
-                        'type' => 'Fiche de besoin',
+                        'type' => 'Depense',
                         'date' => $fdb->getDate(),
-                        'description' => $fdb->getObjet(),
+                        'description' => $fdb->getTypeExpense(),
                         'montant' => $fdb->getTotal(),
                         'caisse_intitule' => $fdb->getCaisse()->getIntitule(),
                     ];
@@ -120,9 +120,9 @@ class CaisseController extends AbstractController
 
                 foreach ($bonapprovisionnementQuery as $bonapprovisionnement) {
                     $mouvements[] = [
-                        'type' => 'Bon Approvisionnement',
+                        'type' => 'Approvisionnement',
                         'date' => $bonapprovisionnement->getDate(),
-                        'description' => $bonapprovisionnement->getNature(),
+                        'description' => 'Approvisionnement de la caisse',
                         'montant' => $bonapprovisionnement->getMontanttotal(),
                         'caisse_intitule' => $bonapprovisionnement->getCaisse()->getIntitule(),
                     ];
@@ -138,8 +138,5 @@ class CaisseController extends AbstractController
             'mouvements' => $mouvements,
         ]);
     }
-
-
-
 
 }
