@@ -44,6 +44,7 @@ class BilletageController extends AbstractController
         ]);
     }
 
+
     private function calculateTotalAmount(Billetage $billetage): int
     {
         return ($billetage->getB10000() * 10000) +

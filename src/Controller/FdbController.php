@@ -182,7 +182,7 @@ class FdbController extends AbstractController
                 $entityManager->flush();
 //                $this->addFlash('success','Fiche de besoin enregistrée avec succès');
 
-                return $this->redirectToRoute('app_welcome');
+                return $this->redirectToRoute('bon_caisse_show', ['id' => $bonCaisse->getId()]);
 
             }
         }

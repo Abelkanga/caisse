@@ -255,25 +255,7 @@
                                        name="value5">
                             </td>
                         </tr>
-{#                        <tr>#}
-{#                            <td>#}
-{#                                <output>1</output>#}
-{#                            </td>#}
-{#                            <td>#}
-{#                                <div class="custom-number">#}
-{#                                    {{ form_widget(form.m1) }}#}
-{#                                    <div class="custom-number-controls">#}
-{#                                        <div class="custom-number-btn custom-number-up">+</div>#}
-{#                                        <div class="custom-number-btn custom-number-down">-</div>#}
-{#                                    </div>#}
-{#                                </div>#}
-{#                            </td>#}
-{#                            <td class="output">#}
-{#                                <input type="text" readonly class="form-control total text-right form-control-sm"#}
-{#                                       id="r{{ form.m1.vars.id }}"#}
-{#                                       name="value1">#}
-{#                            </td>#}
-{#                        </tr>#}
+
                         <tr style="font-weight: 600">
                             <td colspan="2">Sous Total</td>
                             <td class="output text-right">
@@ -325,33 +307,6 @@
                         </tbody>
                     </table>
 
-{#                    <div class="modal modal-alert fade" id="exampleModalAlertWarning" data-backdrop="static"#}
-{#                         tabindex="-1"#}
-{#                         role="dialog" aria-labelledby="exampleModalAlertWarningLabel" aria-hidden="true">#}
-{#                        <!-- .modal-dialog -->#}
-{#                        <div class="modal-dialog" role="document">#}
-{#                            <!-- .modal-content -->#}
-{#                            <div class="modal-content">#}
-{#                                <!-- .modal-header -->#}
-{#                                <div class="modal-header bg-danger">#}
-{#                                    <h6 id="exampleModalAlertWarningLabel" class="modal-title">#}
-{#                                        <i class="fa fa-bullhorn text-warning mr-1"></i> Cloture de la journée </h6>#}
-{#                                </div><!-- /.modal-header -->#}
-{#                                <!-- .modal-body -->#}
-{#                                <div class="modal-body">#}
-{#                                    <div class="form-group mt-3">#}
-{#                                        <label for="{{ form.endAt.vars.id }}">Date de clôture</label>#}
-{#                                        {{ form_widget(form.endAt, {'attr': {'class': 'form-control'}}) }}#}
-{#                                    </div>#}
-{#                                </div><!-- /.modal-body -->#}
-{#                                <!-- .modal-footer -->#}
-{#                                <div class="modal-footer">#}
-{#                                    <button type="button" class="btn btn-light" data-dismiss="modal">Annuler</button>#}
-{#                                    <button type="submit" class="btn btn-danger">Clôturer</button>#}
-{#                                </div><!-- /.modal-footer -->#}
-{#                            </div><!-- /.modal-content -->#}
-{#                        </div><!-- /.modal-dialog -->#}
-{#                    </div>#}
 
                 </div>
                 <div class="card-footer">
@@ -372,69 +327,69 @@
 {% block javascripts %}
     <script>
         /**
-         /**
-         *  billetage billet
-         * */
+         * billetage billet
+         */
         $('.billet').on('input', function () {
-            var MontantBillets = 0;
-
-            var billets = document.getElementsByClassName('billet');
+            let MontantBillets = 0;
+            const billets = document.getElementsByClassName('billet');
             $.each(billets, function () {
-                var multiplicateur = $(this).attr('data-id');
-                Montant = multiplicateur * Number($(this).val());
-                MontantBillets = Number(MontantBillets) + Montant;
+                const multiplicateur = Number($(this).attr('data-id'));
+                const Montant = multiplicateur * Number($(this).val());
+                MontantBillets += Montant;
             });
-            $('#resualtTotal1').empty();
             $('#resualtTotal1').val(new Intl.NumberFormat().format(MontantBillets));
         });
+
         /**
          * billetage monnaie
          */
         $('.monnaie').on('input', function () {
-            var MontantMonnaie = 0;
-            var Monnaie = document.getElementsByClassName('monnaie');
+            let MontantMonnaie = 0;
+            const Monnaie = document.getElementsByClassName('monnaie');
             $.each(Monnaie, function () {
-                var multiplicateur = $(this).attr('data-id');
-                Montant2 = multiplicateur * Number($(this).val());
-                MontantMonnaie = Number(MontantMonnaie) + Montant2;
+                const multiplicateur = Number($(this).attr('data-id'));
+                const Montant2 = multiplicateur * Number($(this).val());
+                MontantMonnaie += Montant2;
             });
-            $('#resualtTotal2').empty();
             $('#resualtTotal2').val(new Intl.NumberFormat().format(MontantMonnaie));
         });
+
         /**
-         * */
+         * montant général
+         */
         $('.montant').on('input', function () {
-            var MontantTotal = 0;
-            var Monnaie = document.getElementsByClassName('montant');
-            var id = $(this).attr('id');
-            var values = $(this).val();
-            var multiplicateur = $(this).attr('data-id');
-            var total = values * multiplicateur;
-            var orbis = $('#billetage_balance').val();
-            var ecart = $('#ecart').val();
-            console.log(id);
+            let MontantTotal = 0;
+            const Monnaie = document.getElementsByClassName('montant');
+            const id = $(this).attr('id');
+            const values = Number($(this).val());
+            const multiplicateur = Number($(this).attr('data-id'));
+            const total = values * multiplicateur;
+            const orbis = Number($('#billetage_balance').val());
+            let ecart = Number($('#ecart').val());
+
             $('#r' + id).val(new Intl.NumberFormat().format(total));
             $.each(Monnaie, function () {
-                var multiplicateur = $(this).attr('data-id');
-                Montant3 = multiplicateur * Number($(this).val());
-                MontantTotal = Number(MontantTotal) + Montant3;
-                ecart = Number(MontantTotal - orbis);
+                const multiplicateur = Number($(this).attr('data-id'));
+                const Montant3 = multiplicateur * Number($(this).val());
+                MontantTotal += Montant3;
             });
-            $('#resualtTotal3').empty();
+
+            ecart = MontantTotal - orbis;
             $('#resualtTotal3').val(new Intl.NumberFormat().format(MontantTotal));
             $('#billetage_ecart').val(ecart);
         });
 
         /**
-         * builletage cheque
+         * billetage cheque
          */
         $('#billetage_checkBalance').on('input', function () {
-            const checkBalance = +$('#billetage_checkBalance').val()
-            const checkAmount = +$('#billetage_checkAmount').val();
+            const checkBalance = Number($('#billetage_checkBalance').val());
+            const checkAmount = Number($('#billetage_checkAmount').val());
             const $ecart = checkBalance - checkAmount;
             $('#billetage_checkEcart').val($ecart);
         });
     </script>
+
 
 
 {% endblock %}

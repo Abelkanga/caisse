@@ -1,0 +1,161 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bon de Caisse{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+        }
+        .receipt-container {
+            width: 600px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .header img {
+            width: 150px;
+        }
+        .header p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+        .main-content {
+            margin-bottom: 20px;
+        }
+        .main-content div {
+            margin-bottom: 10px;
+        }
+        .main-content div span {
+            display: inline-block;
+            width: 150px;
+            font-weight: bold;
+        }
+        .amount-in-words {
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        .total {
+            text-align: right;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .approved-by {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .approved-by div {
+            width: 45%;
+            text-align: center;
+        }
+        .stamp {
+            position: relative;
+        }
+        .stamp::after {
+            content: url('stamp.png');
+            position: absolute;
+            top: -30px;
+            right: -30px;
+            width: 150px;
+            opacity: 0.5;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card card-fluid">
+                <div class="card-header bg-soft-custom">
+                    <h6>Bon de Caisse</h6>
+                </div>
+                <div class="card-body">
+                    <div class="receipt-container">
+                        <div class="header">
+                            <img src="{{ asset('images/offset.png') }}" alt="Offset Consulting">
+                            <p>Audit et Conseil en Organisation Management</p>
+                            <p>08 BP 2941 Abidjan 08, République de Côte d'Ivoire</p>
+                            <p>Tél: (225) 22 01 59 71  Cél: (225) 07 78 63 63 06</p>
+                            <p>Email: info@offset-consulting.com</p>
+                            <p>www.offset-consulting.com</p>
+                        </div>
+                        <fieldset>
+                            <legend>Information du bon de caisse</legend>
+                            <table class="table table-sm bordered">
+                            <div class="main-content">
+                                <div>
+                                    <span>Bénéficiaire:</span> Koffi Amélia
+                                </div>
+                                <div>
+                                    <span>Date:</span> 30/04/2024
+                                </div>
+                                <div>
+                                    <span>Libellé:</span> Trp à la SEGH, dépôt de facture
+                                </div>
+                                <div>
+                                    <span>Montant en lettre:</span> Cinq mille
+                                </div>
+                            </div>
+                            </table>
+                        </fieldset>
+                        <fieldset>
+                            <legend>Détail du bon de caisse</legend>
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th>Désignation</th>
+                                    <th>Quantité</th>
+                                    <th>Prix Unitaire (F cfa)</th>
+                                    <th>Montant (F cfa)</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>Trp à la SEGH, dépôt de facture</td>
+                                    <td>1</td>
+                                    <td>5000</td>
+                                    <td>5000</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <div class="total">
+                                TOTAL: 5000
+                            </div>
+                            <div class="approved-by">
+                                <div>
+                                    <p>Approuvé par:</p>
+                                    <p>__________________</p>
+                                </div>
+                                <div>
+                                    <p>Caisse:</p>
+                                    <p>__________________</p>
+                                </div>
+                            </div>
+                            <div class="stamp"></div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
