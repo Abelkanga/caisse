@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Caisse;
 use App\Entity\Emeteur;
+use App\Entity\Fonction;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -32,41 +33,34 @@ class UserType extends AbstractType
             ->add('fullName', TextType::class)
             ->add('pseudo', TextType::class)
             ->add('contact', TextType::class)
+            ->add('fonction', EntityType::class, [
+                'class' => Fonction::class,
+                'choice_label' => 'name',
+                'placeholder' => 'Sélectionnez une fonction', 'required' => false,
+                'choice_value' => 'id',
+            ])
             ->add('email', EmailType::class)
             ->add('password', PasswordType::class);
 
 
         if ($this->security->isGranted('ROLE_ADMIN')) {
             $builder
-                ->add('caisse', EntityType::class, [
-                    'class' => Caisse::class,
-                    'placeholder' => 'Sélectionnez une caisse', 'required' => false
-
-                ])
-
-//            ->add('isActive', CheckboxType::class, [
-//                'attr' => [
-//                    'class' => 'form-check-input',
-//                ],
-//                'required' => false,
-//                'label' => 'Actif ',
-//                'label_attr' => [
-//                    'class' => 'form-check-label'
-//                ],
-//                'data' => true
-//                    ])
 
                 ->add('roles', ChoiceType::class, [
                     'choices' => [
                         'Administrateur' => 'ROLE_ADMIN',
                         'Caissier' => 'ROLE_MANAGER',
-                        'Responsable' => 'ROLE_USER'
+                        'Responsable' => 'ROLE_RESPONSABLE',
+                        'Collaborateur' => 'ROLE_USER'
                     ],
                     'multiple' => true,
                     'expanded' => false,
                 ]);
+
+
         }
     }
+
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

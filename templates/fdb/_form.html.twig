@@ -2,14 +2,14 @@
     <legend>Information Fiche de besoin</legend>
 
     <div class="row ">
-        <div class="col-6">
+        <div class="col-3">
             <div class="form-group">
                 <label for="date_etablissement">Date</label>
                 {{ form_widget(form.date, {'attr' : {'class': 'form-control'}}) }}
             </div>
         </div>
 
-        <div class="col-6">
+        <div class="col-3">
             <div class="form-group">
                 <label for="numero_fiche_besoin">N° Fiche de besoin</label>
                 {{ form_widget(form.numero_fiche_besoin, {'attr' : {'class': 'form-control js-datepicker'}}) }}
@@ -18,7 +18,7 @@
     </div>
 
     <div class="row">
-            <div class="col-6">
+            <div class="col-3">
                 <div class="form-group">
                     <label for="emetteur" >Emetteur<span class="text-danger">*</span></label>
                     {{ form_widget(form.emeteur, {'attr' : {'class': ' select2'}}) }}
@@ -42,16 +42,16 @@
     </div>
 
     <div class="row">
-                <div class="col-6">
+                <div class="col-3">
                     <div class="form-group">
-                        <label for="typeExpense">Type Dépense<span class="text-danger">*</span></label>
+                        <label for="typeExpense">Nature<span class="text-danger">*</span></label>
                         {{ form_widget(form.typeExpense, {'attr' : {'class': 'form-control select2', 'data-dependent-element' : '#fdb_expense'}}) }}
                     </div>
                 </div>
 
-                <div class="col-6">
+                <div class="col-3">
                     <div class="form-group">
-                        <label for="expense">Dépense</label>
+                        <label for="expense">Libellé</label>
                         {{ form_widget(form.expense, {'attr' : {'class': 'form-control select2'}}) }}
                     </div>
                 </div>
@@ -63,7 +63,7 @@
 {% form_theme form 'fdb/_detail.html.twig' %}
 
 <fieldset>
-    <legend>Détail Fiche de besoin</legend>
+    <legend>Détail Opération</legend>
     <table class="table table-sm bordered" id="">
         <thead>
         <tr>

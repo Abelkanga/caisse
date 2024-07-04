@@ -9,16 +9,39 @@
             </div>
         </div>
 
-
-    <div class="col-6">
-        <div class="form-group">
-            <label for="reference">Reférence</label>
-            {{ form_widget(form.reference, {'attr' : {'class': 'form-control'}}) }}
+        <div class="col-6">
+            <div class="form-group">
+                <label for="reference">Reférence</label>
+                {{ form_widget(form.reference, {'attr' : {'class': 'form-control'}}) }}
+            </div>
         </div>
     </div>
-    </div>
-    <div class="row">
 
+    <div class="row">
+        <div class="col-3">
+            <div class="form-group">
+                <label for="emetteur">Emetteur<span class="text-danger">*</span></label>
+                {{ form_widget(form.emeteur, {'attr' : {'class': ' select2'}}) }}
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="form-group">
+                <label for="modepaie">Destinataire</label>
+                {{ form_widget(form.destinataire, {'attr' : {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="col-3">
+            <div class="form-group">
+                <label for="modepaie">Porteur de chèque</label>
+                {{ form_widget(form.porteur, {'attr' : {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="row">
         <div class="col-6">
             <div class="form-group">
                 <label for="modepaie">Moyen d'approvisionnement</label>
@@ -28,7 +51,7 @@
 
         <div class="col-6">
             <div class="form-group">
-                <label for="montanttotal">Montant Total (F cfa)<span class="text-danger">*</span></label>
+                <label for="montanttotal">Montant (F cfa)<span class="text-danger">*</span></label>
                 {{ form_widget(form.montanttotal, {'attr' : {'class': 'form-control separator text-right'}}) }}
             </div>
         </div>

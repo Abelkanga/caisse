@@ -1,6 +1,13 @@
 twig:
     file_name_pattern: '*.twig'
+    form_themes: [ 'bootstrap_5_layout.html.twig' ]
+    globals:
+        societe_info: '@App\Service\SocieteService'
+
 
 when@test:
     twig:
         strict_variables: true
+
+
+

@@ -3,3 +3,8 @@
     background-color: #f3f3f4 !important
 }
 
+/* public/css/styles.css */
+.small-checkbox {
+    width: 20px;
+    height: 20px;
+}

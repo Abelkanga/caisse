@@ -1,5 +1,46 @@
 <!-- .menu-header -->
-<li class="menu-header">Menu administrateur</li>
+<li class="menu-header">GESTION SOCIETE</li>
+<li class="menu-item has-child">
+    <a href="#" class="menu-link">
+        <span class="menu-icon fas fa-file-alt"> </span>
+        <span class="menu-text">Société</span>
+    </a>
+    <!-- child menu -->
+    <ul class="menu">
+        <li class="menu-item {{ app.request.get('_route') == 'app_societe_new' ? 'has-active': '' }}">
+            <a href="{{ path('app_societe_new') }}" class="menu-link">Créer</a>
+        </li>
+        <li class="menu-item {{ app.request.get('_route') == 'app_societe_index' ? 'has-active': '' }}">
+            <a href="{{ path('app_societe_index') }}" class="menu-link">Liste</a>
+        </li>
+
+    </ul>
+    <!-- /child menu -->
+    <!-- .menu-item -->
+</li>
+
+
+<li class="menu-header">GESTION CAISSE</li>
+<li class="menu-item has-child">
+    <a href="#" class="menu-link">
+        <span class="menu-icon fas fa-file-alt"> </span>
+        <span class="menu-text">Caisse</span>
+    </a>
+    <!-- child menu -->
+    <ul class="menu">
+        <li class="menu-item {{ app.request.get('_route') == 'caisse_new' ? 'has-active': '' }}">
+            <a href="{{ path('caisse_new') }}" class="menu-link">Créer</a>
+        </li>
+        <li class="menu-item {{ app.request.get('_route') == 'caisse_index' ? 'has-active': '' }}">
+            <a href="{{ path('caisse_index') }}" class="menu-link">Liste</a>
+        </li>
+
+    </ul>
+    <!-- /child menu -->
+    <!-- .menu-item -->
+</li>
+
+<li class="menu-header">GESTION UTILISATEUR</li>
 <!-- /.menu-header -->
 <!-- .menu-item -->
 <!-- .menu-item -->
@@ -48,6 +89,5 @@
     <!-- /child menu -->
     <!-- .menu-item -->
 </li>
-
 
 

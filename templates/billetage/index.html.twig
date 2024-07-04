@@ -255,7 +255,25 @@
                                        name="value5">
                             </td>
                         </tr>
-
+{#                        <tr>#}
+{#                            <td>#}
+{#                                <output>1</output>#}
+{#                            </td>#}
+{#                            <td>#}
+{#                                <div class="custom-number">#}
+{#                                    {{ form_widget(form.m1) }}#}
+{#                                    <div class="custom-number-controls">#}
+{#                                        <div class="custom-number-btn custom-number-up">+</div>#}
+{#                                        <div class="custom-number-btn custom-number-down">-</div>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                            </td>#}
+{#                            <td class="output">#}
+{#                                <input type="text" readonly class="form-control total text-right form-control-sm"#}
+{#                                       id="r{{ form.m1.vars.id }}"#}
+{#                                       name="value1">#}
+{#                            </td>#}
+{#                        </tr>#}
                         <tr style="font-weight: 600">
                             <td colspan="2">Sous Total</td>
                             <td class="output text-right">
@@ -263,7 +281,7 @@
                             </td>
                         </tr>
                         <tr style="font-weight: 900">
-                            <td colspan="2">Total</td>
+                            <td colspan="2"> Total</td>
                             <td class="output text-right">
                                 <output id="resualtTotal3"></output>
                             </td>
@@ -280,16 +298,65 @@
                                 {{ form_widget(form.ecart, {'attr': {'class': 'form-control form-control-sm text-right', 'readonly': 'readyonly'}}) }}
                             </td>
                         </tr>
-
-
+                        <tr>
+                            <td colspan="3">Chèques</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <output>Montant chèque restant physique</output>
+                            </td>
+                            <td></td>
+                            <td class="output">
+                                {{ form_widget(form.checkBalance, {'attr': {'class': 'form-control form-control-sm text-right', 'readyonly': 'readyonly'}}) }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><strong>Montant chèque restant théorique</strong></td>
+                            <td class="output">
+                                {{ form_widget(form.checkAmount, {'attr': {'class': 'form-control form-control-sm text-right'}}) }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">Ecart chèque</td>
+                            <td class="output">
+                                {{ form_widget(form.checkEcart, {'attr': {'class': 'form-control form-control-sm text-right'}}) }}
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
 
+{#                    <div class="modal modal-alert fade" id="exampleModalAlertWarning" data-backdrop="static"#}
+{#                         tabindex="-1"#}
+{#                         role="dialog" aria-labelledby="exampleModalAlertWarningLabel" aria-hidden="true">#}
+{#                        <!-- .modal-dialog -->#}
+{#                        <div class="modal-dialog" role="document">#}
+{#                            <!-- .modal-content -->#}
+{#                            <div class="modal-content">#}
+{#                                <!-- .modal-header -->#}
+{#                                <div class="modal-header bg-danger">#}
+{#                                    <h6 id="exampleModalAlertWarningLabel" class="modal-title">#}
+{#                                        <i class="fa fa-bullhorn text-warning mr-1"></i> Cloture de la journée </h6>#}
+{#                                </div><!-- /.modal-header -->#}
+{#                                <!-- .modal-body -->#}
+{#                                <div class="modal-body">#}
+{#                                    <div class="form-group mt-3">#}
+{#                                        <label for="{{ form.endAt.vars.id }}">Date de clôture</label>#}
+{#                                        {{ form_widget(form.endAt, {'attr': {'class': 'form-control'}}) }}#}
+{#                                    </div>#}
+{#                                </div><!-- /.modal-body -->#}
+{#                                <!-- .modal-footer -->#}
+{#                                <div class="modal-footer">#}
+{#                                    <button type="button" class="btn btn-light" data-dismiss="modal">Annuler</button>#}
+{#                                    <button type="submit" class="btn btn-danger">Clôturer</button>#}
+{#                                </div><!-- /.modal-footer -->#}
+{#                            </div><!-- /.modal-content -->#}
+{#                        </div><!-- /.modal-dialog -->#}
+{#                    </div>#}
 
                 </div>
                 <div class="card-footer">
                     <div class="card-footer-content">
-                        <button type="submit" class="btn btn-primary float-right ml-2" data-toggle="modal"
+                        <button type="button" class="btn btn-primary float-right ml-2" data-toggle="modal"
                                 data-target="#exampleModalAlertWarning">Enregistrer
                         </button>
                         <a href="{{ path('app_welcome') }}" class="btn btn-success float-right"><i
@@ -305,60 +372,69 @@
 {% block javascripts %}
     <script>
         /**
-         * billetage billet
-         */
+         /**
+         *  billetage billet
+         * */
         $('.billet').on('input', function () {
-            let MontantBillets = 0;
-            const billets = document.getElementsByClassName('billet');
+            var MontantBillets = 0;
+
+            var billets = document.getElementsByClassName('billet');
             $.each(billets, function () {
-                const multiplicateur = Number($(this).attr('data-id'));
-                const Montant = multiplicateur * Number($(this).val());
-                MontantBillets += Montant;
+                var multiplicateur = $(this).attr('data-id');
+                Montant = multiplicateur * Number($(this).val());
+                MontantBillets = Number(MontantBillets) + Montant;
             });
+            $('#resualtTotal1').empty();
             $('#resualtTotal1').val(new Intl.NumberFormat().format(MontantBillets));
         });
-
         /**
          * billetage monnaie
          */
         $('.monnaie').on('input', function () {
-            let MontantMonnaie = 0;
-            const Monnaie = document.getElementsByClassName('monnaie');
+            var MontantMonnaie = 0;
+            var Monnaie = document.getElementsByClassName('monnaie');
             $.each(Monnaie, function () {
-                const multiplicateur = Number($(this).attr('data-id'));
-                const Montant2 = multiplicateur * Number($(this).val());
-                MontantMonnaie += Montant2;
+                var multiplicateur = $(this).attr('data-id');
+                Montant2 = multiplicateur * Number($(this).val());
+                MontantMonnaie = Number(MontantMonnaie) + Montant2;
             });
+            $('#resualtTotal2').empty();
             $('#resualtTotal2').val(new Intl.NumberFormat().format(MontantMonnaie));
         });
-
         /**
-         * montant général
-         */
+         * */
         $('.montant').on('input', function () {
-            let MontantTotal = 0;
-            const Monnaie = document.getElementsByClassName('montant');
-            const id = $(this).attr('id');
-            const values = Number($(this).val());
-            const multiplicateur = Number($(this).attr('data-id'));
-            const total = values * multiplicateur;
-            const orbis = Number($('#billetage_balance').val());
-            let ecart = Number($('#ecart').val());
-
+            var MontantTotal = 0;
+            var Monnaie = document.getElementsByClassName('montant');
+            var id = $(this).attr('id');
+            var values = $(this).val();
+            var multiplicateur = $(this).attr('data-id');
+            var total = values * multiplicateur;
+            var orbis = $('#billetage_balance').val();
+            var ecart = $('#ecart').val();
+            console.log(id);
             $('#r' + id).val(new Intl.NumberFormat().format(total));
             $.each(Monnaie, function () {
-                const multiplicateur = Number($(this).attr('data-id'));
-                const Montant3 = multiplicateur * Number($(this).val());
-                MontantTotal += Montant3;
+                var multiplicateur = $(this).attr('data-id');
+                Montant3 = multiplicateur * Number($(this).val());
+                MontantTotal = Number(MontantTotal) + Montant3;
+                ecart = Number(MontantTotal - orbis);
             });
-
-            ecart = MontantTotal - orbis;
+            $('#resualtTotal3').empty();
             $('#resualtTotal3').val(new Intl.NumberFormat().format(MontantTotal));
             $('#billetage_ecart').val(ecart);
         });
 
+        /**
+         * builletage cheque
+         */
+        $('#billetage_checkBalance').on('input', function () {
+            const checkBalance = +$('#billetage_checkBalance').val()
+            const checkAmount = +$('#billetage_checkAmount').val();
+            const $ecart = checkBalance - checkAmount;
+            $('#billetage_checkEcart').val($ecart);
+        });
     </script>
-
 
 
 {% endblock %}

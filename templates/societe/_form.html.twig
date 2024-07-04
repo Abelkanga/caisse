@@ -1,0 +1,129 @@
+<fieldset class="form-container">
+    <legend>Organisation de la société</legend>
+
+    <div class="row ">
+        <div class="col-3">
+            <div class="form-group">
+                <label for="date_etablissement">Date</label>
+                {{ form_widget(form.date, {'attr' : {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="col-3">
+            <div class="form-group">
+                <label for="raison_sociale">Raison sociale</label>
+                {{ form_widget(form.RaisonSociale, {'attr' : {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="col-3">
+            <div class="form-group">
+                <label for="forme" >Forme juridique</label>
+                {{ form_widget(form.forme, {'attr' : {'class': 'form-control-sm select2 '}}) }}
+            </div>
+        </div>
+
+        <div class="col-3">
+            <div class="form-group">
+                <label for="activite">Activité</label>
+                {{ form_widget(form.Activite, {'attr' : {'class': 'form-control '}}) }}
+            </div>
+        </div>
+    </div>
+
+    <legend>Coordonnée géographique</legend>
+
+    <div class="row">
+
+        <div class="col-3">
+            <div class="form-group">
+                <label for="siege">Siège social</label>
+                {{ form_widget(form.siegeSocial, {'attr' : {'class': 'form-control '}}) }}
+            </div>
+        </div>
+
+        <div class="col-3">
+            <div class="form-group">
+                <label for="destinataire">Adresse postale</label>
+                {{ form_widget(form.AdressePostale, {'attr' : {'class': 'form-control '}}) }}
+            </div>
+        </div>
+
+        <div class="col-3">
+            <div class="form-group">
+                <label for="ville">Ville</label>
+                {{ form_widget(form.Ville, {'attr' : {'class': 'form-control '}}) }}
+            </div>
+        </div>
+
+        <div class="col-3">
+            <div class="form-group">
+                <label for="pays">Pays</label>
+                {{ form_widget(form.Pays, {'attr' : {'class': 'form-control '}}) }}
+            </div>
+        </div>
+
+    </div>
+
+    <legend>Contact de la société</legend>
+
+    <div class="row">
+        <div class="col-3">
+            <div class="form-group">
+                <label for="telephone" >Téléphone</label>
+                {{ form_widget(form.Telephone, {'attr' : {'class': 'form-control '}}) }}
+            </div>
+        </div>
+
+        <div class="col-3">
+            <div class="form-group">
+                <label for="email">Email</label>
+                {{ form_widget(form.Email, {'attr' : {'class': 'form-control '}}) }}
+            </div>
+        </div>
+
+        <div class="col-3">
+            <div class="form-group">
+                <label for="site_internet">Site internet</label>
+                {{ form_widget(form.SiteInternet, {'attr' : {'class': 'form-control '}}) }}
+            </div>
+        </div>
+
+    </div>
+
+    <legend>Immatriculation de la société</legend>
+
+    <div class="row">
+        <div class="col-3">
+            <div class="form-group">
+                <label for="code_commerce" >Code commerce</label>
+                {{ form_widget(form.CodeCommerce, {'attr' : {'class': 'form-control '}}) }}
+            </div>
+        </div>
+
+        <div class="col-3">
+            <div class="form-group">
+                <label for="numero_compte_contribuable">Numéro compte contribuable</label>
+                {{ form_widget(form.NumeroCompteContribuable, {'attr' : {'class': 'form-control '}}) }}
+            </div>
+        </div>
+
+        <div class="col-3">
+            <div class="form-group">
+                <label for="regime_fiscale">Régime Fiscal</label>
+                {{ form_widget(form.RegimeFiscale, {'attr' : {'class': 'form-control '}}) }}
+            </div>
+        </div>
+
+        <div class="col-3">
+            <div class="form-group">
+                <label for="numero_tele_declarant">Numéro télé déclarant</label>
+                {{ form_widget(form.NumeroTeleDeclarant, {'attr' : {'class': 'form-control '}}) }}
+            </div>
+        </div>
+
+    </div>
+</fieldset>
+
+
+

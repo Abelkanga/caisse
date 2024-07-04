@@ -39,24 +39,19 @@
             <div
                     class="top-bar-item px-0 d-none d-sm-flex">
                 <!-- .top-bar-item -->
+
                 <div class="top-bar-item top-bar-item-full">
-                    {% if app.user %}
-{#                        {% if app.user.caisse is not null %}#}
-{#                            <button class="btn-account d-flex align-items-center" type="button">#}
-{#                                <span class="fas fa-cash-register p-1"> </span>#}
-{#                                <strong class="pt-1">{{ app.user.caisse.intitule }}</strong>#}
-{#                            </button>#}
-                        {% if is_granted('ROLE_ADMIN') %}
-                            <button class="btn-account d-flex align-items-center" type="button">
-                                <span class="fa-solid fa-building-columns p-1"> </span>
-                                <strong class="pt-1">Administration</strong>
-                            </button>
-                        {% else %}
-                            <button class="btn-account d-flex align-items-center" type="button">
-                                <span class="fa-regular fa-user"> </span>
-                                <strong class="pt-1">{{ app.user.pseudo }}</strong>
-                            </button>
-                        {% endif %}
+                    {% set societe = societe_info.info() %}
+                    {% if societe %}
+                        <button class="btn-account d-flex align-items-center" type="button">
+                            <span  class=" fa-solid fa-landmark p-2"></span>
+                            <strong class="pt-1">{{ societe.RaisonSociale }}</strong>
+                        </button>
+
+                        <button class="btn-account d-flex align-items-center" type="button">
+                            <span class="oi oi-map-marker p-2"></span>
+                            <strong class="pt-1">{{ societe.SiegeSocial }}</strong>
+                        </button>
                     {% endif %}
 
                     <button class="btn-account d-flex align-items-center" type="button">
@@ -64,10 +59,10 @@
                         <strong class="pt-1">Date du jour : {{ "now"|date('d-m-Y') }}</strong>
                     </button>
                     {% if app.user and app.user.caisse is not null and is_granted('ROLE_MANAGER')%}
-                    <button class="btn-account d-flex align-items-center" type="button">
-                        <span class="oi oi-map-bill p-1"></span>
-                        <strong class="pt-1">SOLDE : {{ app.user.caisse.soldedispo|number_format(0, ',' , ' ') }} F</strong>
-                    </button>
+                        <button class="btn-account d-flex align-items-center" type="button">
+                            <span class="oi oi-map-bill p-1"></span>
+                            <strong class="pt-1">SOLDE : {{ app.user.caisse.soldedispo|number_format(0, ',' , ' ') }} F</strong>
+                        </button>
                     {% endif %}
                 </div>
                 <!-- /.top-bar-item -->
@@ -90,16 +85,16 @@
                             <!-- .dropdown-scroll -->
                             <div class="dropdown-scroll has-scrollable" id="notification-body">
                                 <!-- .dropdown-item -->
-                                	<a href="" class="dropdown-item unread">
-                                        <div class="user-avatar">
-                                            <img src="https://ui-avatars.com/api/?name=" alt="Notification">
-                                        </div>
-                                        <div class="dropdown-item-body">
-                                            <p class="subject">Notification</p>
-                                            <p class="text text-truncate"></p>
-                                            <span class="date"></span>
-                                        </div>
-                                    </a>
+                                <a href="" class="dropdown-item unread">
+                                    <div class="user-avatar">
+                                        <img src="https://ui-avatars.com/api/?name=" alt="Notification">
+                                    </div>
+                                    <div class="dropdown-item-body">
+                                        <p class="subject">Notification</p>
+                                        <p class="text text-truncate"></p>
+                                        <span class="date"></span>
+                                    </div>
+                                </a>
                                 <!-- /.dropdown-item -->
                                 <!-- .dropdown-item -->
                                 <a href="#" class="dropdown-item unread">
@@ -129,15 +124,25 @@
                             <span class="user-avatar user-avatar-md">
 								<img src="{{ asset('images/belo.png') }}" alt="">
 							</span>
-                        <span class="account-summary pr-lg-4 d-none d-lg-block">
-								<span class="account-name">Administrateur</span>
+                            <span class="account-summary pr-lg-4 d-none d-lg-block">
+								<span class="account-name">{{ app.user.fullName }}</span>
+                                <span class="account-name">{{ app.user.fonction }}</span>
 							</span>
-                        {% else %}
+                        {% elseif is_granted('ROLE_RESPONSABLE')%}
+                            <span class="user-avatar user-avatar-md">
+								<img src="{{ asset('images/andre.jpg') }}" alt="">
+							</span>
+                            <span class="account-summary pr-lg-4 d-none d-lg-block">
+								<span class="account-name">{{ app.user.fullName }}</span>
+                                <span class="account-name">{{ app.user.fonction }}</span>
+							</span>
+                            {% else %}
                             <span class="user-avatar user-avatar-md">
 								<img src="https://ui-avatars.com/api/?name=Administrateur" alt="">
 							</span>
-                        <span class="account-summary pr-lg-4 d-none d-lg-block">
-								<span class="account-name">{{ app.user.pseudo }}</span>
+                            <span class="account-summary pr-lg-4 d-none d-lg-block">
+								<span class="account-name">{{ app.user.fullName }}</span>
+                                <span class="account-name">{{ app.user.fonction }}</span>
 							</span>
                         {% endif %}
 
@@ -147,11 +152,11 @@
                         <div class="dropdown-arrow d-lg-none" x-arrow=""></div>
                         <div class="dropdown-arrow ml-3 d-none d-lg-block"></div>
                         {% if is_granted('ROLE_ADMIN') %}
-{#                            <a class="dropdown-item" href=" ">#}
-{#                                <span class="dropdown-icon oi oi-person"></span>#}
-{#                                Profile#}
+                            {#                            <a class="dropdown-item" href=" ">#}
+                            {#                                <span class="dropdown-icon oi oi-person"></span>#}
+                            {#                                Profile#}
 
-{#                            </a>#}
+                            {#                            </a>#}
                             <a class="dropdown-item" href="{{ path('app_logout') }}">
                                 <span class="dropdown-icon oi oi-account-logout"></span>
                                 Déconnexion

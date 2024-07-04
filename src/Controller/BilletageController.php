@@ -3,11 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Billetage;
-use App\Entity\User;
-use App\Entity\Bonapprovisionnement;
 use App\Form\BilletageType;
-use App\Repository\BilletageRepository;
-use App\Repository\BonapprovisionnementRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,50 +13,51 @@ use Symfony\Component\Routing\Annotation\Route;
 class BilletageController extends AbstractController
 {
     #[Route('/billetage', name: 'billetage_form')]
-    public function index(
-        Request                        $request,
-        BonapprovisionnementRepository $bonapprovisionnementRepository,
-        BilletageRepository            $billetageRepository,
-        EntityManagerInterface         $entityManager
-    ): Response
+    public function showForm(Request $request, EntityManagerInterface $entityManager): Response
     {
-        // Récupérer l'utilisateur connecté
-        /** @var User $user */
-        $user = $this->getUser();
-
-        // Récupérer l'approvisionnement associé à l'utilisateur
-        $bonapprovisionnement = $bonapprovisionnementRepository->findOneBy(['user' => $user]);
-        if (!$bonapprovisionnement) {
-            $this->addFlash('error', 'Aucun approvisionnement trouvé pour cet utilisateur.');
-            return $this->redirectToRoute('app_welcome');
-        }
-
-        // Créer ou récupérer le billetage associé à l'approvisionnement
-        $billetage = $billetageRepository->findOneBy(['bonapprovisionnement' => $bonapprovisionnement]);
-        if (!$billetage) {
-            $billetage = new Billetage();
-            $billetage->setBonapprovisionnement($bonapprovisionnement);
-        }
-
-        // Calculer l'écart entre le montant total de l'approvisionnement et le montant total du billetage
-        $balance = $billetage->getBalance();
-        // Pour l'instant, nous supposons que $billetage->getMontantTotal() retourne 0 si non défini
-        $billetage->setEcart($balance - $billetage->getBalance());
-
-        // Créer et gérer le formulaire pour le billetage
+        $billetage = new Billetage();
         $form = $this->createForm(BilletageType::class, $billetage);
-        $form->handleRequest($request);
 
+        $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $totalAmount = $this->calculateTotalAmount($billetage);
+            $billetage->setBalance($totalAmount);
             $entityManager->persist($billetage);
             $entityManager->flush();
-            $this->addFlash('success', 'Billetage enregistré avec succès.');
-            return $this->redirectToRoute('app_welcome');
+
+            return $this->redirectToRoute('billetage_result', ['id' => $billetage->getId()]);
         }
 
-        // Afficher le formulaire dans la vue
         return $this->render('billetage/index.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+    #[Route('/billetage/result/{id}', name: 'billetage_result')]
+    public function showResult(Billetage $billetage): Response
+    {
+        $totalAmount = $this->calculateTotalAmount($billetage);
+
+        return $this->render('billetage/index.html.twig', [
+            'billetage' => $billetage,
+            'totalAmount' => $totalAmount,
+        ]);
+    }
+
+
+    private function calculateTotalAmount(Billetage $billetage): int
+    {
+        return ($billetage->getB10000() * 10000) +
+            ($billetage->getB5000() * 5000) +
+            ($billetage->getB2000() * 2000) +
+            ($billetage->getB1000() * 1000) +
+            ($billetage->getB500() * 500) +
+            ($billetage->getM500() * 500) +
+            ($billetage->getM250() * 250) +
+            ($billetage->getM200() * 200) +
+            ($billetage->getM100() * 100) +
+            ($billetage->getM50() * 50) +
+            ($billetage->getM10() * 10) +
+            ($billetage->getM5() * 5);
     }
 }

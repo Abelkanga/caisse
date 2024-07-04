@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Bonapprovisionnement;
+use App\Entity\Emeteur;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -21,6 +23,12 @@ class BonapprovisionnementType extends AbstractType
         $builder
             ->add('date', DateType::class)
             ->add('reference', TextType::class)
+            ->add('destinataire', TextType::class)
+            ->add('emeteur', EntityType::class, [
+                'class' => Emeteur::class,
+                'placeholder' => 'Sélectionnez un émetteur', 'required' => false
+            ])
+            ->add('porteur', TextType::class)
             ->add('modepaie', TextType::class, [
                 'attr' => [
                     'readonly' => false

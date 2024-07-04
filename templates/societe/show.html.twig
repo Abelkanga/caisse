@@ -1,0 +1,114 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Société{% endblock %}
+
+{% block stylesheets %}
+
+    <style>
+        td{
+            font-size: 13px !important;
+        }
+
+        th{
+            font-size: 13px !important;
+        }
+    </style>
+
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+    <div class="col-sm-12">
+        <div class="card card-fluid">
+            <div class="card-header bg-soft-custom">
+                <h6>Société N°{{ societe.id }}</h6>
+            </div>
+            <div class="card-body">
+                <div class="row"></div>
+                <br>
+                <fieldset>
+                    <legend>Information de la société</legend>
+                    <table class="table table-sm bordered">
+                        <tbody>
+                        <tr>
+                            <th>Date</th>
+                            <td>{{ societe.date }}</td>
+                        </tr>
+                        <tr>
+                            <th>RaisonSociale</th>
+                            <td>{{ societe.RaisonSociale }}</td>
+                        </tr>
+                        <tr>
+                            <th>FormeJuridique</th>
+                            <td>{{ societe.forme }}</td>
+                        </tr>
+                        <tr>
+                            <th>Activite</th>
+                            <td>{{ societe.Activite }}</td>
+                        </tr>
+                        <tr>
+                            <th>SiegeSociale</th>
+                            <td>{{ societe.siegeSocial }}</td>
+                        </tr>
+                        <tr>
+                            <th>AdressePostale</th>
+                            <td>{{ societe.AdressePostale }}</td>
+                        </tr>
+                        <tr>
+                            <th>Ville</th>
+                            <td>{{ societe.Ville }}</td>
+                        </tr>
+                        <tr>
+                            <th>Pays</th>
+                            <td>{{ societe.Pays }}</td>
+                        </tr>
+                        <tr>
+                            <th>Telephone</th>
+                            <td>{{ societe.Telephone }}</td>
+                        </tr>
+                        <tr>
+                            <th>Email</th>
+                            <td>{{ societe.Email }}</td>
+                        </tr>
+                        <tr>
+                            <th>SiteInternet</th>
+                            <td>{{ societe.SiteInternet }}</td>
+                        </tr>
+                        <tr>
+                            <th>CodeCommerce</th>
+                            <td>{{ societe.CodeCommerce }}</td>
+                        </tr>
+                        <tr>
+                            <th>NumeroCompteContribuable</th>
+                            <td>{{ societe.NumeroCompteContribuable }}</td>
+                        </tr>
+                        <tr>
+                            <th>RegimeFiscale</th>
+                            <td>{{ societe.RegimeFiscale }}</td>
+                        </tr>
+                        <tr>
+                            <th>NumeroTeleDeclarant</th>
+                            <td>{{ societe.NumeroTeleDeclarant }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </fieldset>
+
+                <form method="post" action="{{ path('app_societe_show', {'id': societe.id}) }}">
+                    <div class="card-footer">
+                        <div class="card-footer-content">
+                            <a target="_blank" href="" class="btn btn-primary float-right ml-2">
+                                <i class="fa fa-print"></i> Imprimer Société
+                            </a>
+                            <a href="{{ path('app_welcome') }}" class="btn btn-info float-right">
+                                <i class="oi oi-home"></i> Retour
+                            </a>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

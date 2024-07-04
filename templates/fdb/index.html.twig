@@ -15,11 +15,13 @@
                         <thead class="thead-light">
                         <tr>
                             <th>Date</th>
-                            <th>Type Opération</th>
-                            <th>Montant Total</th>
+                            <th>Référence</th>
                             <th>Emetteur</th>
                             <th>Destinataire</th>
                             <th>Bénéficiaire</th>
+                            <th>Nature</th>
+                            <th>Libellé</th>
+                            <th>Montant (F Cfa)</th>
                             <th>Statut</th>
                             <th>Actions</th>
                         </tr>
@@ -27,23 +29,29 @@
                         <tbody>
                         {% for fdb in fdb %}
                             <tr>
-                                <td class="text-center">{{ fdb.date ? fdb.date|date('d-m-Y') : '' }}</td>
-                                <td>{{ fdb.typeExpense }}</td>
-                                <td class="separator text-right ">{{ fdb.total }}</td>
-                                <td>{{ fdb.emeteur }}</td>
-                                <td>{{ fdb.destinataire }}</td>
-                                <td>{{ fdb.beneficiaire }}</td>
-                                <td class="text-center">
+                                <td class="text-center align-middle">{{ fdb.date ? fdb.date|date('d-m-Y') : '' }}</td>
+                                <td class="align-middle">{{ fdb.numeroFicheBesoin }}</td>
+                                <td class="align-middle">{{ fdb.emeteur }}</td>
+                                <td class="align-middle">{{ fdb.destinataire }}</td>
+                                <td class="align-middle">{{ fdb.beneficiaire }}</td>
+                                <td class="align-middle">{{ fdb.typeExpense }}</td>
+                                <td class="align-middle">{{ fdb.Expense }}</td>
+                                <td class="separator text-right align-middle">{{ fdb.total }}</td>
+                                <td class="text-center align-middle">
                                     {% if fdb.status == 'validée' %}
-                                        <span class="badge badge-success">{{ fdb.status }}</span>
+                                        <span class="badge badge-info">{{ fdb.status }}</span>
                                     {% elseif fdb.status == 'en attente' %}
                                         <span class="badge badge-danger">{{ fdb.status }}</span>
+                                    {% elseif fdb.status == 'annulée' %}
+                                        <span class="badge badge-warning">{{ fdb.status }}</span>
+                                    {% elseif fdb.status == 'approuvée' %}
+                                        <span class="badge badge-success">{{ fdb.status }}</span>
                                     {% else %}
                                         <span class="badge">{{ fdb.status }}</span>
                                     {% endif %}
                                 </td>
 
-                                <td class="text-center">
+                                <td class="text-center align-middle">
 {#                                    <a class="btn btn-sm btn-icon btn-secondary" data-toggle="tooltip" data-html="true" title="<em>Modifier</em>" href="{{ path('fdb_edit', {'id': fdb.id}) }}">#}
 {#                                        <i class="fa fa-pencil-alt"></i>#}
 {#                                    </a>#}
@@ -61,7 +69,7 @@
             </div>
             <div class="card-footer">
                 <div class="card-footer-content">
-                    {% if is_granted('ROLE_USER') %}
+                    {% if is_granted('ROLE_USER') or is_granted('ROLE_RESPONSABLE') %}
                         <a href="{{ path('fdb_new') }}" class="btn btn-primary float-right ml-2">
                             Nouveau</a>
                         <a href="{{ path('app_welcome') }}" class="btn btn-success float-right ml-3">

@@ -41,6 +41,7 @@ class Fdb
     /**
      * @var Collection<int, Detail>
      */
+
     #[ORM\OneToMany(targetEntity: Detail::class, mappedBy: 'fdb')]
     private Collection $details;
 
@@ -66,6 +67,7 @@ class Fdb
     /**
      * @var Collection<int, BonCaisse>
      */
+
     #[ORM\OneToMany(targetEntity: BonCaisse::class, mappedBy: 'fdb')]
     private Collection $bonCaisses;
 

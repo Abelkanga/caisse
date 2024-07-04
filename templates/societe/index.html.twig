@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Société{% endblock %}
+
+{% block body %}
+
+    <div class="col-12 col-md-12">
+        <div class="card">
+            <div class="card-header bg-soft-custom">
+                Liste des sociétés
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover bordered table-sm basic-datatable">
+                        <thead class="thead-light">
+                        <tr>
+                            <th>Date</th>
+                            <th>Raison Sociale</th>
+                            <th>Forme Juridique</th>
+                            <th>Activite</th>
+                            <th>Siege Sociale</th>
+                            <th>Adresse Postale</th>
+                            <th>Ville</th>
+                            <th>Pays</th>
+                            <th>Telephone</th>
+                            <th>Email</th>
+                            <th>Site Internet</th>
+                            <th>Code Commerce</th>
+                            <th>Numéro Compte Contribuable</th>
+                            <th>Regime Fiscal</th>
+                            <th>Numéro Tele Declarant</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for societe in societe %}
+                            <tr>
+                                <td class="align-middle text-center">{{ societe.date ? societe.date|date('d-m-Y') : '' }}</td>
+                                <td class="align-middle">{{ societe.RaisonSociale }}</td>
+                                <td class="align-middle">{{ societe.forme ? societe.forme|join(', ') : '' }}</td>
+                                <td class="align-middle">{{ societe.Activite }}</td>
+                                <td class="align-middle">{{ societe.siegeSocial }}</td>
+                                <td class="align-middle">{{ societe.AdressePostale }}</td>
+                                <td class="align-middle">{{ societe.Ville }}</td>
+                                <td class="align-middle">{{ societe.Pays }}</td>
+                                <td class="align-middle">{{ societe.Telephone }}</td>
+                                <td class="align-middle">{{ societe.Email }}</td>
+                                <td class="align-middle">{{ societe.SiteInternet }}</td>
+                                <td class="align-middle">{{ societe.CodeCommerce }}</td>
+                                <td class="align-middle">{{ societe.NumeroCompteContribuable }}</td>
+                                <td class="align-middle">{{ societe.RegimeFiscale }}</td>
+                                <td class="align-middle">{{ societe.NumeroTeleDeclarant }}</td>
+                                <td class="text-center align-middle">
+                                    <a class="btn btn-sm btn-icon btn-secondary" data-toggle="tooltip" data-html="true" title="<em>Modifier</em>" href="{{ path('app_societe_edit', {'id': societe.id}) }}">
+                                        <i class="fa fa-pencil-alt"></i>
+                                    </a>
+                                    <span class="mx-1"></span>
+
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="card-footer-content">
+
+                        <a href="{{ path('app_societe_new') }}" class="btn btn-primary float-right ml-2">
+                            Nouveau</a>
+                        <a href="{{ path('app_welcome') }}" class="btn btn-success float-right ml-3">
+                            <i class="oi oi-home"></i>
+                            Accueil</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

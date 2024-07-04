@@ -68,6 +68,9 @@
 					{% if is_granted('ROLE_MANAGER') %}
 						{% include('partials/_navbar_caisse.html.twig') %}
 					{% endif %}
+                    {% if is_granted('ROLE_RESPONSABLE') %}
+                        {% include('partials/_navbar_responsable.html.twig') %}
+                    {% endif %}
 
                     <!-- /.menu-item -->
 

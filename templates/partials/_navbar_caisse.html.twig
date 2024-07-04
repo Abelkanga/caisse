@@ -1,5 +1,5 @@
 <!-- .menu-header -->
-<li class="menu-header">GESTION CAISSE</li>
+
 <!-- /.menu-header -->
 <!-- .menu-item -->
 <!-- .menu-item -->
@@ -29,27 +29,6 @@
 {#	</ul>#}
 {#	<!-- /child menu -->#}
 {#</li>#}
-
-
-
-<li class="menu-item has-child">
-	<a href="#" class="menu-link">
-		<span class="menu-icon fas fa-file-alt"> </span>
-		<span class="menu-text">Caisse</span>
-	</a>
-	<!-- child menu -->
-	<ul class="menu">
-		<li class="menu-item {{ app.request.get('_route') == 'caisse_new' ? 'has-active': '' }}">
-			<a href="{{ path('caisse_new') }}" class="menu-link">Créer</a>
-		</li>
-		<li class="menu-item {{ app.request.get('_route') == 'caisse_index' ? 'has-active': '' }}">
-			<a href="{{ path('caisse_index') }}" class="menu-link">Liste</a>
-		</li>
-
-	</ul>
-	<!-- /child menu -->
-	<!-- .menu-item -->
-</li>
 
 <li class="menu-header">ENCAISSEMENT</li>
 <li class="menu-item has-child">
@@ -81,11 +60,11 @@
 	</a>
 	<!-- child menu -->
 	<ul class="menu">
-		<li class="menu-item {{ app.request.get('_route') == 'fdb_pending' ? 'has-active': '' }}">
-			<a href="{{ path('fdb_pending') }}" class="menu-link">En attente</a>
-		</li>
-		<li class="menu-item {{ app.request.get('_route') == 'fdb_index' ? 'has-active': '' }}">
+		<li class="menu-item {{ app.request.get('_route') == 'fdb_validate' ? 'has-active': '' }}">
 			<a href="{{ path('fdb_validate') }}" class="menu-link">Validée</a>
+		</li>
+		<li class="menu-item {{ app.request.get('_route') == 'fdb_approuve' ? 'has-active': '' }}">
+			<a href="{{ path('fdb_approuve') }}" class="menu-link">Approuvée</a>
 		</li>
 
 	</ul>

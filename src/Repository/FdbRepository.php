@@ -50,19 +50,27 @@ class FdbRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
-    public function findFdbValidate()
-    {
-        $qb = $this->createQueryBuilder('f');
-        $qb->where('f.status = :status')
-            ->setParameter('status',Status::VALIDATED);
-        return $qb->getQuery()->getResult();
-    }
-
     public function findFdbCancel()
     {
         $qb = $this->createQueryBuilder('f');
         $qb->where('f.status = :status')
             ->setParameter('status',Status::CANCELLED);
+        return $qb->getQuery()->getResult();
+    }
+
+    public function findFdbApprouve()
+    {
+        $qb = $this->createQueryBuilder('f');
+        $qb->where('f.status = :status')
+            ->setParameter('status',Status::APPROUVE);
+        return $qb->getQuery()->getResult();
+    }
+
+    public function findFdbValidate()
+    {
+        $qb = $this->createQueryBuilder('f');
+        $qb->where('f.status = :status')
+            ->setParameter('status',Status::VALIDATED);
         return $qb->getQuery()->getResult();
     }
 

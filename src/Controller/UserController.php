@@ -1,9 +1,9 @@
 <?php
 
+
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\UserPasswordType;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -12,8 +12,7 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\PasswordHasher\PasswordHasherInterface;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/user')]
 class UserController extends AbstractController
@@ -27,25 +26,18 @@ class UserController extends AbstractController
     }
 
     #[Route('/new', name: 'app_user_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager,UserPasswordHasherInterface $passwordHasher): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Récupérez le mot de passe en clair saisi par l'utilisateur
             $plaintextPassword = $form->get('password')->getData();
-
-            // Hash du mot de passe
-            $hashedPassword = $passwordHasher->hashPassword(
-                $user,
-                $plaintextPassword
-            );
+            $hashedPassword = $passwordHasher->hashPassword($user, $plaintextPassword);
             $user->setPassword($hashedPassword);
             $entityManager->persist($user);
             $entityManager->flush();
-//            flash()->success('Utilisateur créé avec succès !');
             return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -55,23 +47,16 @@ class UserController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, User $user, EntityManagerInterface $entityManager,UserPasswordHasherInterface $passwordHasher, Security $security): Response
+    public function edit(Request $request, User $user, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher, Security $security): Response
     {
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
-        $user->setPassword($user->getPassword());
-        if ($form->isSubmitted() && $form->isValid()) {
-            // Récupérez le mot de passe en clair saisi par l'utilisateur
-            $plaintextPassword = $form->get('password')->getData();
 
-            // Hash du mot de passe
-            $hashedPassword = $passwordHasher->hashPassword(
-                $user,
-                $plaintextPassword
-            );
+        if ($form->isSubmitted() && $form->isValid()) {
+            $plaintextPassword = $form->get('password')->getData();
+            $hashedPassword = $passwordHasher->hashPassword($user, $plaintextPassword);
             $user->setPassword($hashedPassword);
             $entityManager->flush();
-//            flash()->success('Utilisateur modifié avec succès !');
 
             if ($security->isGranted('ROLE_ADMIN')) {
                 return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
@@ -81,10 +66,8 @@ class UserController extends AbstractController
         }
 
         return $this->render('user/edit.html.twig', [
-            'form' => $form,
+            'form' => $form->createView(),
             'user' => $user
         ]);
     }
-
-
 }

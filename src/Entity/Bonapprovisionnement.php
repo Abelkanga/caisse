@@ -65,6 +65,15 @@ class Bonapprovisionnement
     #[ORM\OneToMany(targetEntity: Billetage::class, mappedBy: 'bonapprovisionnement')]
     private Collection $billetages;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $porteur = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $destinataire = null;
+
+    #[ORM\ManyToOne(inversedBy: 'bonapprovisionnements')]
+    private ?Emeteur $emeteur = null;
+
 
     public function __construct()
     {
@@ -268,6 +277,42 @@ class Bonapprovisionnement
                 $billetage->setBonapprovisionnement(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPorteur(): ?string
+    {
+        return $this->porteur;
+    }
+
+    public function setPorteur(?string $porteur): static
+    {
+        $this->porteur = $porteur;
+
+        return $this;
+    }
+
+    public function getDestinataire(): ?string
+    {
+        return $this->destinataire;
+    }
+
+    public function setDestinataire(?string $destinataire): static
+    {
+        $this->destinataire = $destinataire;
+
+        return $this;
+    }
+
+    public function getEmeteur(): ?Emeteur
+    {
+        return $this->emeteur;
+    }
+
+    public function setEmeteur(?Emeteur $emeteur): static
+    {
+        $this->emeteur = $emeteur;
 
         return $this;
     }

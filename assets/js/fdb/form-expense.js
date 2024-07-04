@@ -16,10 +16,6 @@
 // })
 // assets/js/fdb.js
 
-
-
-
-
 $(document).ready(function() {
     console.log("jQuery is working!");
     const typeExpense$ = $('#fdb_typeExpense');

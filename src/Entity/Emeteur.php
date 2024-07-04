@@ -27,9 +27,16 @@ class Emeteur
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $contact = null;
 
+    /**
+     * @var Collection<int, Bonapprovisionnement>
+     */
+    #[ORM\OneToMany(targetEntity: Bonapprovisionnement::class, mappedBy: 'emeteur')]
+    private Collection $bonapprovisionnements;
+
     public function __construct()
     {
         $this->fdb = new ArrayCollection();
+        $this->bonapprovisionnements = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -95,4 +102,36 @@ class Emeteur
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Bonapprovisionnement>
+     */
+    public function getBonapprovisionnements(): Collection
+    {
+        return $this->bonapprovisionnements;
+    }
+
+    public function addBonapprovisionnement(Bonapprovisionnement $bonapprovisionnement): static
+    {
+        if (!$this->bonapprovisionnements->contains($bonapprovisionnement)) {
+            $this->bonapprovisionnements->add($bonapprovisionnement);
+            $bonapprovisionnement->setEmeteur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBonapprovisionnement(Bonapprovisionnement $bonapprovisionnement): static
+    {
+        if ($this->bonapprovisionnements->removeElement($bonapprovisionnement)) {
+            // set the owning side to null (unless already changed)
+            if ($bonapprovisionnement->getEmeteur() === $this) {
+                $bonapprovisionnement->setEmeteur(null);
+            }
+        }
+
+        return $this;
+    }
+
+
 }

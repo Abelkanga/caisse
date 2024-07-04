@@ -69,10 +69,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $resetToken;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $fonction = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $isTemporary = null;
+
     public function __construct()
     {
         $this->depenses = new ArrayCollection();
         $this->bonapprovisionnements = new ArrayCollection();
+
     }
 
     public function getId(): ?int
@@ -256,17 +263,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-public function isActive(): ?bool
-{
-    return $this->isActive;
-}
+    public function getIsActive(): ?bool
+    {
+        return $this->isActive;
+    }
 
-public function setIsActive(?bool $isActive): static
-{
-    $this->isActive = $isActive;
+    public function setIsActive(?bool $isActive): static
+    {
+        $this->isActive = $isActive;
 
-    return $this;
-}
+        return $this;
+    }
 
     public function getResetToken(): ?string
     {
@@ -276,6 +283,35 @@ public function setIsActive(?bool $isActive): static
     public function setResetToken(?string $resetToken): self
     {
         $this->resetToken = $resetToken;
+
+        return $this;
+    }
+
+    public function getFonction(): ?string
+    {
+        return $this->fonction;
+    }
+
+    public function setFonction(?string $fonction): static
+    {
+        $this->fonction = $fonction;
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->fullName;
+    }
+
+    public function getIsTemporary(): ?bool
+    {
+        return $this->isTemporary;
+    }
+
+    public function setTemporary(?bool $isTemporary): static
+    {
+        $this->isTemporary = $isTemporary;
 
         return $this;
     }

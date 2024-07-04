@@ -31,86 +31,96 @@
                     <table class="table table-sm bordered">
                         <tbody>
                         <tr>
-                            <th>De</th>
-                            <td>{{ fdb.emeteur }}</td>
-                        </tr>
-                        <tr>
-                            <th>À</th>
-                            <td>{{ fdb.destinataire }}</td>
-                        </tr>
-                        <tr>
-                            <th>Pour</th>
-                            <td>{{ fdb.beneficiaire }}</td>
-                        </tr>
-                        <tr>
                             <th>Date</th>
                             <td>{{ fdb.date ? fdb.date|date('d-m-Y') : '' }}</td>
                         </tr>
                         <tr>
-                            <th>Objet</th>
+                            <th>Emetteur</th>
+                            <td>{{ fdb.emeteur }}</td>
+                        </tr>
+                        <tr>
+                            <th>Destinataire</th>
+                            <td>{{ fdb.destinataire }}</td>
+                        </tr>
+                        <tr>
+                            <th>Bénéficiaire</th>
+                            <td>{{ fdb.beneficiaire }}</td>
+                        </tr>
+                        <tr>
+                            <th>Nature</th>
                             <td>{{ fdb.typeExpense }}</td>
+                        </tr>
+                        <tr>
+                            <th>Libellé</th>
+                            <td>{{ fdb.Expense }}</td>
                         </tr>
                         </tbody>
                     </table>
-
-                    <fieldset>
-                        <legend> Détail de la fiche de besoin</legend>
-                        <table class="table bordered table-sm">
-                            <thead>
+                </fieldset>
+                <fieldset>
+                    <legend> Détail Opération</legend>
+                    <table class="table bordered table-sm">
+                        <thead>
+                        <tr>
+                            <th>Désignation</th>
+                            <th>Quantité</th>
+                            <th>Prix unitaire (F cfa)</th>
+                            <th>Montant TTC (F cfa)</th>
+                        </tr>
+                        </thead>
+                        <tbody id="fdb_details">
+                        {% for detail in fdb.details %}
                             <tr>
-                                <th>Désignation</th>
-                                <th>Quantité</th>
-                                <th>Prix unitaire (F cfa)</th>
-                                <th>Montant TTC (F cfa)</th>
+                                <td>{{ detail.designationproduit }}</td>
+                                <td>{{ detail.quantite }}</td>
+                                <td class="separator text-right">{{ detail.price }} (F cfa)</td>
+                                <td class="separator text-right">{{ detail.montant }} (F cfa)</td>
                             </tr>
-                            </thead>
-                            <tbody id="fdb_details">
-                            {% for detail in fdb.details %}
-                                <tr>
-                                    <td>{{ detail.designationproduit }}</td>
-                                    <td>{{ detail.quantite }}</td>
-                                    <td class="separator text-right">{{ detail.price }} (F cfa)</td>
-                                    <td class="separator text-right">{{ detail.montant }} (F cfa)</td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                            <tfoot>
-                            <tr>
-                                <th colspan="3">Total</th>
-                                <th class=" separator text-right">{{ total }}</th>
-                            </tr>
-                            </tfoot>
+                        {% endfor %}
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <th colspan="3">Total</th>
+                            <th class=" separator text-right">{{ total }}</th>
+                        </tr>
+                        </tfoot>
 
-                        </table>
-                    </fieldset>
+                    </table>
+                </fieldset>
 
-                    <form method="post" action="{{ path('fdb_show', {'id': fdb.id}) }}">
-                        <div class="card-footer">
-
-
-                            <div class="card-footer-content">
-                                {% if is_granted('ROLE_MANAGER') and fdb.status == 'en attente' %}
-                                    {% include '_modal.html.twig' %}
-                                    {% include '_modal_annulé.html.twig' %}
-                                    <!-- Button trigger modal -->
-                                {% endif %}
-                                {% if is_granted('ROLE_MANAGER') and fdb.status == 'validée' %}
-                                    <a target="_blank" href="{{ path('print_fdb', {'uuid': fdb.uuid}) }}" class="btn btn-primary float-right ml-2">
-                                        <i class="fa fa-print"></i> Imprimer Bon de caisse
-                                    </a>
-                                {% endif %}
-                                {% if is_granted('ROLE_USER') %}
+                <form method="post" action="{{ path('fdb_show', {'id': fdb.id}) }}">
+                    <div class="card-footer">
+                        <div class="card-footer-content">
+                            {% if is_granted('ROLE_RESPONSABLE') and fdb.status == 'en attente' %}
+                                {% include '_modal_responsable.html.twig' %}
+                            {% endif %}
+                            {% if is_granted('ROLE_MANAGER') and fdb.status == 'validée' %}
+                                {% include '_modal_manager.html.twig' %}
+                            {% endif %}
+                            {% if is_granted('ROLE_MANAGER') and fdb.status == 'approuvée' %}
+                                <a target="_blank" href="{{ path('print_fdb', {'uuid': fdb.uuid}) }}" class="btn btn-primary float-right ml-2">
+                                    <i class="fa fa-print"></i> Imprimer Bon de caisse
+                                </a>
+                            {% endif %}
+                            {% if (is_granted('ROLE_USER') or is_granted('ROLE_RESPONSABLE')) and fdb.status == 'approuvée' %}
                                 <a target="_blank" href="{{ path('printA_fdb', {'uuid': fdb.uuid}) }}" class="btn btn-primary float-right ml-2">
                                     <i class="fa fa-print"></i> Imprimer Fiche de besoin
                                 </a>
-                                {% endif %}
-                                <a href="{{ path('app_welcome') }}" class="btn btn-info float-right">
-                                    <i class="oi oi-home"></i> Retour
+                            {% endif %}
+                            {% if is_granted('ROLE_USER') and fdb.status == 'annulée' %}
+                                <a target="_blank" href="{{ path('fdb_delete' , {'id': fdb.id}) }}" class="btn btn-primary float-right ml-2">
+                                    <i class="fa fa-print"></i> Supprimer
                                 </a>
-                                <input type="hidden" name="_token" value="{{ csrf_token('validate-caisse-fdb') }}">
-                            </div>
+                            {% endif %}
+                            <a href="{{ path('app_welcome') }}" class="btn btn-info float-right">
+                                <i class="oi oi-home"></i> Retour
+                            </a>
+                            <input type="hidden" name="_token" value="{{ csrf_token('validate-caisse-fdb') }}">
                         </div>
-                    </form>
+                    </div>
+                </form>
+
+
             </div>
         </div>
     </div>
