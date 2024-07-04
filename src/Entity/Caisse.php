@@ -52,12 +52,6 @@ class Caisse
     private Collection $journees;
 
     /**
-     * @var Collection<int, User>
-     */
-    #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'caisse')]
-    private Collection $users;
-
-    /**
      * @var Collection<int, Fdb>
      */
     #[ORM\OneToMany(targetEntity: Fdb::class, mappedBy: 'caisse')]
@@ -77,6 +71,9 @@ class Caisse
      */
     #[ORM\OneToMany(targetEntity: Billetage::class, mappedBy: 'caisse')]
     private Collection $billetages;
+
+    #[ORM\ManyToOne(inversedBy: 'caisses')]
+    private ?User $user = null;
 
     public function __construct()
     {
@@ -247,36 +244,6 @@ class Caisse
     }
 
     /**
-     * @return Collection<int, User>
-     */
-    public function getUsers(): Collection
-    {
-        return $this->users;
-    }
-
-    public function addUser(User $user): static
-    {
-        if (!$this->users->contains($user)) {
-            $this->users->add($user);
-            $user->setCaisse($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): static
-    {
-        if ($this->users->removeElement($user)) {
-            // set the owning side to null (unless already changed)
-            if ($user->getCaisse() === $this) {
-                $user->setCaisse(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, Fdb>
      */
     public function getFdbs(): Collection
@@ -379,6 +346,18 @@ class Caisse
                 $billetage->setCaisse(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

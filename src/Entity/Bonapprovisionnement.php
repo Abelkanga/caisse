@@ -74,6 +74,23 @@ class Bonapprovisionnement
     #[ORM\ManyToOne(inversedBy: 'bonapprovisionnements')]
     private ?Emeteur $emeteur = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $CheckNumber = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $NomBanque = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $NomCaisse = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $NumeroBon = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $NomTiers = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $Echeance = null;
 
     public function __construct()
     {
@@ -313,6 +330,78 @@ class Bonapprovisionnement
     public function setEmeteur(?Emeteur $emeteur): static
     {
         $this->emeteur = $emeteur;
+
+        return $this;
+    }
+
+    public function getCheckNumber(): ?string
+    {
+        return $this->CheckNumber;
+    }
+
+    public function setCheckNumber(?string $CheckNumber): static
+    {
+        $this->CheckNumber = $CheckNumber;
+
+        return $this;
+    }
+
+    public function getNomBanque(): ?string
+    {
+        return $this->NomBanque;
+    }
+
+    public function setNomBanque(?string $NomBanque): static
+    {
+        $this->NomBanque = $NomBanque;
+
+        return $this;
+    }
+
+    public function getNomCaisse(): ?string
+    {
+        return $this->NomCaisse;
+    }
+
+    public function setNomCaisse(?string $NomCaisse): static
+    {
+        $this->NomCaisse = $NomCaisse;
+
+        return $this;
+    }
+
+    public function getNumeroBon(): ?string
+    {
+        return $this->NumeroBon;
+    }
+
+    public function setNumeroBon(?string $NumeroBon): static
+    {
+        $this->NumeroBon = $NumeroBon;
+
+        return $this;
+    }
+
+    public function getNomTiers(): ?string
+    {
+        return $this->NomTiers;
+    }
+
+    public function setNomTiers(?string $NomTiers): static
+    {
+        $this->NomTiers = $NomTiers;
+
+        return $this;
+    }
+
+    public function getEcheance(): ?\DateTimeInterface
+    {
+        return $this->Echeance;
+    }
+
+    public function setEcheance(?\DateTimeInterface $Echeance): static
+    {
+        $this->Echeance = $Echeance;
 
         return $this;
     }

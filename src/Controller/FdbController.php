@@ -179,39 +179,41 @@ class FdbController extends AbstractController
             }
 
             if ($request->request->has('confirm_manager') && $this->isGranted('ROLE_MANAGER')) {
-                $caisse = $user->getCaisse();
-                $solde = $caisse->getSoldedispo();
-                $total = $fdb->getTotal();
+                $caisses = $user->getCaisses(); // obtenir la collection de caisses
+                if (!$caisses->isEmpty()) {
+                    $caisse = $caisses->first(); // obtenir la première caisse (ajustez selon vos besoins)
+                    $solde = $caisse->getSoldedispo();
+                    $total = $fdb->getTotal();
 
-                if ($solde < $total) {
-                    $this->addFlash('error', 'Pas de fond disponible pour effectuer cette opération');
+                    if ($solde < $total) {
+                        $this->addFlash('error', 'Pas de fond disponible pour effectuer cette opération');
+                        return $this->redirectToRoute('app_welcome');
+                    }
+
+                    $caisse->setSoldedispo($solde - $total);
+                    $fdb->setStatus(Status::APPROUVE);
+
+                    $bonCaisse = new BonCaisse();
+                    $bonCaisse->setStatus(Status::APPROUVE);
+                    $bonCaisse->setDate(new \DateTime());
+                    $bonCaisse->setMontant($fdb->getTotal());
+                    $bonCaisse->setCaisse($caisse);
+                    $bonCaisse->setFdb($fdb);
+
+                    $entityManager->persist($bonCaisse);
+                    $entityManager->persist($fdb);
+                    $entityManager->persist($caisse);
+                    $entityManager->flush();
                     return $this->redirectToRoute('app_welcome');
                 }
-
-                $caisse->setSoldedispo($solde - $total);
-                $fdb->setStatus(Status::APPROUVE);
-
-                $bonCaisse = new BonCaisse();
-                $bonCaisse->setStatus(Status::APPROUVE);
-                $bonCaisse->setDate(new \DateTime());
-                $bonCaisse->setMontant($fdb->getTotal());
-                $bonCaisse->setCaisse($caisse);
-                $bonCaisse->setFdb($fdb);
-
-                $entityManager->persist($bonCaisse);
-                $entityManager->persist($fdb);
-                $entityManager->persist($caisse);
-                $entityManager->flush();
-                return $this->redirectToRoute('app_welcome');
             }
         }
+            return $this->render('fdb/show.html.twig', [
+                'fdb' => $fdb,
+                'total' => $total,
+            ]);
 
-        return $this->render('fdb/show.html.twig', [
-            'fdb' => $fdb,
-            'total' => $total,
-        ]);
     }
-
 
     #[Route('/fdb/{id}/edit', name:'fdb_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Fdb $fdb, EntityManagerInterface $entityManager): Response

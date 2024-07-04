@@ -49,9 +49,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Bonapprovisionnement::class, mappedBy: 'user')]
     private Collection $bonapprovisionnements;
 
-    #[ORM\ManyToOne(inversedBy: 'users')]
-    private ?Caisse $caisse = null;
-
     #[ORM\Column(nullable: true)]
     private ?bool $isActive = true;
 
@@ -75,10 +72,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?bool $isTemporary = null;
 
+    /**
+     * @var Collection<int, Caisse>
+     */
+    #[ORM\OneToMany(targetEntity: Caisse::class, mappedBy: 'user')]
+    private Collection $caisses;
+
     public function __construct()
     {
         $this->depenses = new ArrayCollection();
         $this->bonapprovisionnements = new ArrayCollection();
+        $this->caisses = new ArrayCollection();
 
     }
 
@@ -227,18 +231,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getCaisse(): ?Caisse
-    {
-        return $this->caisse;
-    }
-
-    public function setCaisse(?Caisse $caisse): static
-    {
-        $this->caisse = $caisse;
-
-        return $this;
-    }
-
     public function getContact(): ?string
     {
         return $this->contact;
@@ -312,6 +304,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setTemporary(?bool $isTemporary): static
     {
         $this->isTemporary = $isTemporary;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Caisse>
+     */
+    public function getCaisses(): Collection
+    {
+        return $this->caisses;
+    }
+
+    public function addCaiss(Caisse $caiss): static
+    {
+        if (!$this->caisses->contains($caiss)) {
+            $this->caisses->add($caiss);
+            $caiss->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCaiss(Caisse $caiss): static
+    {
+        if ($this->caisses->removeElement($caiss)) {
+            // set the owning side to null (unless already changed)
+            if ($caiss->getUser() === $this) {
+                $caiss->setUser(null);
+            }
+        }
 
         return $this;
     }

@@ -29,14 +29,24 @@ class BonapprovisionnementType extends AbstractType
                 'placeholder' => 'Sélectionnez un émetteur', 'required' => false
             ])
             ->add('porteur', TextType::class)
-            ->add('modepaie', TextType::class, [
-                'attr' => [
-                    'readonly' => false
-                ]
+            ->add('modepaie', ChoiceType::class, [
+                'choices'  => [
+                    'Banque' => 'banque',
+                    'Caisse' => 'caisse',
+                    'Prêt' => 'pret',
+                ],
+                'placeholder' => 'Sélectionnez un moyen d\'approvisionnement',
             ])
+            ->add('NomBanque', TextType::class, ['required' => false])
+            ->add('CheckNumber', TextType::class, ['required' => false])
+            ->add('NomCaisse', TextType::class, ['required' => false])
+            ->add('numeroBon', TextType::class, [
+                'label' => 'Numéro de Bon',
+                'attr' => ['class' => 'form-control js-datepicker']
+            ])
+            ->add('NomTiers', TextType::class, ['required' => false])
+            ->add('Echeance', DateType::class, ['required' => false])
             ->add('montanttotal', NumberType::class);
-
-
 
     }
 

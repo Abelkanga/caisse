@@ -17,6 +17,7 @@ import './js/delete.form.collection'
 import './css/custom.min.css';
 import './js/fdb/form-expense'
 import './js/depense/form-expense'
+import './js/approvisionnement/approvisionnement'
 
 
 import {runInputmask} from "./js/inputMark";

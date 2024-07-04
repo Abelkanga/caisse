@@ -14,9 +14,12 @@
                         <thead class="thead-light">
                         <tr>
                             <th>Date</th>
-{#                            <th>Nature</th>#}
+                            <th>Référence</th>
+                            <th>Emetteur</th>
+                            <th>Destinataire</th>
+                            <th>Porteur de chèque</th>
+                            <th>Moyen de paiement</th>
                             <th>Montant Total (F cfa)</th>
-                            <th>Mode de paiement</th>
                             <th>Statut</th>
                             <th>Actions</th>
                         </tr>
@@ -25,9 +28,12 @@
                         {% for bonapprovisionnement in bonapprovisionnement %}
                             <tr>
                                 <td class="text-center align-middle">{{ bonapprovisionnement.date ? bonapprovisionnement.date|date('d-m-Y') : '' }}</td>
-{#                                <td>{{ bonapprovisionnement.nature }}</td>#}
-                                <td class="separator text-right align-middle">{{ bonapprovisionnement.montanttotal }} (F cfa)</td>
+                                <td class="align-middle">{{ bonapprovisionnement.reference }}</td>
+                                <td class="align-middle">{{ bonapprovisionnement.emeteur }}</td>
+                                <td class="align-middle">{{ bonapprovisionnement.destinataire }}</td>
+                                <td class="align-middle">{{ bonapprovisionnement.porteur }}</td>
                                 <td class="align-middle">{{ bonapprovisionnement.modepaie }}</td>
+                                <td class="separator text-right align-middle">{{ bonapprovisionnement.montanttotal }} (F cfa)</td>
                                 <td class="text-center align-middle">
                                     {% if bonapprovisionnement.status == 'validée' %}
                                         <span class="badge badge-success">{{ bonapprovisionnement.status }}</span>
