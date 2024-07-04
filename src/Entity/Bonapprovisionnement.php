@@ -74,6 +74,9 @@ class Bonapprovisionnement
     #[ORM\ManyToOne(inversedBy: 'bonapprovisionnements')]
     private ?Emeteur $emeteur = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $CheckNumber = null;
+
 
     public function __construct()
     {
@@ -313,6 +316,18 @@ class Bonapprovisionnement
     public function setEmeteur(?Emeteur $emeteur): static
     {
         $this->emeteur = $emeteur;
+
+        return $this;
+    }
+
+    public function getCheckNumber(): ?string
+    {
+        return $this->CheckNumber;
+    }
+
+    public function setCheckNumber(?string $CheckNumber): static
+    {
+        $this->CheckNumber = $CheckNumber;
 
         return $this;
     }

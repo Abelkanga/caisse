@@ -58,12 +58,15 @@
                         <span class="oi oi-clock p-1"></span>
                         <strong class="pt-1">Date du jour : {{ "now"|date('d-m-Y') }}</strong>
                     </button>
-                    {% if app.user and app.user.caisse is not null and is_granted('ROLE_MANAGER')%}
+                    {% if app.user and app.user.caisses is not empty and is_granted('ROLE_MANAGER') %}
                         <button class="btn-account d-flex align-items-center" type="button">
                             <span class="oi oi-map-bill p-1"></span>
-                            <strong class="pt-1">SOLDE : {{ app.user.caisse.soldedispo|number_format(0, ',' , ' ') }} F</strong>
+                            {% for caisse in app.user.caisses %}
+                                <strong class="pt-1">SOLDE : {{ caisse.soldedispo|number_format(0, ',' , ' ') }} F</strong>
+                            {% endfor %}
                         </button>
                     {% endif %}
+
                 </div>
                 <!-- /.top-bar-item -->
 

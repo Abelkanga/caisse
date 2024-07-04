@@ -37,7 +37,7 @@
                                         <span>Libellé :</span> {{ fdb.typeExpense }}
                                     </div>
                                     <div>
-                                        <span>Montant :</span> {{ fdb.total }}
+                                        <span>Montant :</span> {{ fdb.total|number_format(0, ',' , ' ') }} F Cfa
                                     </div>
                                 </div>
                             </table>
@@ -59,8 +59,8 @@
                                     <tr>
                                         <td>{{ detail.designationproduit }}</td>
                                         <td>{{ detail.quantite }}</td>
-                                        <td class="text-right">{{ detail.price }} </td>
-                                        <td class="text-right">{{ detail.montant }} </td>
+                                        <td class="text-right separator">{{ detail.price }} </td>
+                                        <td class="text-right separator">{{ detail.montant }} </td>
                                     </tr>
                                 {% endfor %}
                                 </tbody>
@@ -73,15 +73,15 @@
                             </table>
                             <div class="row approved-by">
                                 <div class="col-3">
-                                    <p>Approbation</p>
+                                    <p>Approbation :</p>
                                     <p>__________________</p>
                                 </div>
                                 <div class="col-3">
-                                    <p>Caisse:</p>
+                                    <p>Caisse :</p>
                                     <p>__________________</p>
                                 </div>
                                 <div class="col-3">
-                                    <p>Bénéficiaire</p>
+                                    <p>Bénéficiaire :</p>
                                     <p>__________________</p>
                                 </div>
                             </div>

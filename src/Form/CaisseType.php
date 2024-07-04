@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Caisse;
+use App\Entity\User;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -17,7 +19,12 @@ class CaisseType extends AbstractType
         $builder
             ->add('code', TextType::class)
             ->add('intitule', TextType::class)
-            ->add('gerant', TextType::class)
+            ->add('user', EntityType::class, [
+                'class' => User::class,
+                'choice_label' => 'fullName',
+                'placeholder' => 'Sélectionnez un utilisateur', 'required' => false,
+                'choice_value' => 'id',
+            ])
             ->add('plafond', NumberType::class)
         ;
     }
