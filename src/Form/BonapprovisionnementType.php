@@ -37,16 +37,39 @@ class BonapprovisionnementType extends AbstractType
                 ],
                 'placeholder' => 'Sélectionnez un moyen d\'approvisionnement',
             ])
-            ->add('NomBanque', TextType::class, ['required' => false])
-            ->add('CheckNumber', TextType::class, ['required' => false])
-            ->add('NomCaisse', TextType::class, ['required' => false])
-            ->add('numeroBon', TextType::class, [
-                'label' => 'Numéro de Bon',
-                'attr' => ['class' => 'form-control js-datepicker']
+
+            ->add('montanttotal', NumberType::class)
+
+            // Champs pour les détails bancaires
+            ->add('NomBanque', TextType::class, [
+                'required' => false,
+                'attr' => ['class' => 'd-none'] // Masqué par défaut
             ])
-            ->add('NomTiers', TextType::class, ['required' => false])
-            ->add('Echeance', DateType::class, ['required' => false])
-            ->add('montanttotal', NumberType::class);
+            ->add('CheckNumber', TextType::class, [
+                'required' => false,
+                'attr' => ['class' => 'd-none'] // Masqué par défaut
+            ])
+
+            // Champs pour les détails de caisse
+            ->add('NomCaisse', TextType::class, [
+                'required' => false,
+                'attr' => ['class' => 'd-none'] // Masqué par défaut
+            ])
+            ->add('NumeroBon', TextType::class, [
+                'required' => false,
+                'attr' => ['class' => 'd-none'] // Masqué par défaut
+            ])
+
+            // Champs pour les détails de prêt
+            ->add('NomTiers', TextType::class, [
+                'required' => false,
+                'attr' => ['class' => 'd-none'] // Masqué par défaut
+            ])
+            ->add('Echeance', DateType::class, [
+                'required' => false,
+                'widget' => 'single_text',
+                'attr' => ['class' => 'd-none'] // Masqué par défaut
+            ]);
 
     }
 

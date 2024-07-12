@@ -59,74 +59,55 @@ class CaisseController extends AbstractController
     }
 
 
+    // src/Controller/CaisseController.php
+
     #[Route('/etat', name: 'app_etat_caisse', methods: ['GET'])]
-    public function getMouvementsCaisse(FdbRepository $fdbRepository, BonapprovisionnementRepository $bonapprovisionnementRepository, DepenseRepository $depenseRepository, Request $request): Response {
+    public function getMouvementsCaisse(FdbRepository $fdbRepository, BonapprovisionnementRepository $bonapprovisionnementRepository, Request $request): Response {
         $dateDebut = $request->query->get('date_debut') ? new \DateTime($request->query->get('date_debut')) : null;
         $dateFin = $request->query->get('date_fin') ? new \DateTime($request->query->get('date_fin')) : null;
-        $type = $request->query->get('type');
 
         $mouvements = [];
+        $solde = 0;
+        $totalEntree = 0;
+        $totalSortie = 0;
 
         if ($dateDebut && $dateFin) {
-            if ($type === 'sortie' || $type === 'tous') {
-                $fdbQuery = $fdbRepository->createQueryBuilder('fdb')
-                    ->leftJoin('fdb.caisse', 'caisse')
-                    ->addSelect('caisse')
-                    ->where('fdb.date BETWEEN :date_debut AND :date_fin')
-                    ->setParameter('date_debut', $dateDebut)
-                    ->setParameter('date_fin', $dateFin)
-                    ->getQuery()
-                    ->getResult();
+            $fdbQuery = $fdbRepository->createQueryBuilder('fdb')
+                ->where('fdb.date BETWEEN :date_debut AND :date_fin')
+                ->setParameter('date_debut', $dateDebut)
+                ->setParameter('date_fin', $dateFin)
+                ->getQuery()
+                ->getResult();
 
-                foreach ($fdbQuery as $fdb) {
-                    $mouvements[] = [
-                        'type' => 'Depense',
-                        'date' => $fdb->getDate(),
-                        'description' => $fdb->getTypeExpense(),
-                        'montant' => $fdb->getTotal(),
-                        'caisse_intitule' => $fdb->getCaisse()->getIntitule(),
-                    ];
-                }
-
-                $depenseQuery = $depenseRepository->createQueryBuilder('d')
-                    ->leftJoin('d.caisse', 'caisse')
-                    ->addSelect('caisse')
-                    ->where('d.date BETWEEN :date_debut AND :date_fin')
-                    ->setParameter('date_debut', $dateDebut)
-                    ->setParameter('date_fin', $dateFin)
-                    ->getQuery()
-                    ->getResult();
-
-                foreach ($depenseQuery as $depense) {
-                    $mouvements[] = [
-                        'type' => 'Depense',
-                        'date' => $depense->getDate(),
-                        'description' => $depense->getTypeExpense(),
-                        'montant' => $depense->getMontant(),
-                        'caisse_intitule' => $depense->getCaisse()->getIntitule(),
-                    ];
-                }
+            foreach ($fdbQuery as $fdb) {
+                $mouvements[] = [
+                    'date' => $fdb->getDate(),
+                    'nature' => $fdb->getTypeExpense(),
+                    'libelle' => $fdb->getExpense(),
+                    'entree' => null,
+                    'sortie' => $fdb->getTotal(),
+                ];
+                $totalSortie += $fdb->getTotal();
+                $solde -= $fdb->getTotal();
             }
 
-            if ($type === 'entree' || $type === 'tous') {
-                $bonapprovisionnementQuery = $bonapprovisionnementRepository->createQueryBuilder('ba')
-                    ->leftJoin('ba.caisse', 'caisse')
-                    ->addSelect('caisse')
-                    ->where('ba.date BETWEEN :date_debut AND :date_fin')
-                    ->setParameter('date_debut', $dateDebut)
-                    ->setParameter('date_fin', $dateFin)
-                    ->getQuery()
-                    ->getResult();
+            $bonapprovisionnementQuery = $bonapprovisionnementRepository->createQueryBuilder('ba')
+                ->where('ba.date BETWEEN :date_debut AND :date_fin')
+                ->setParameter('date_debut', $dateDebut)
+                ->setParameter('date_fin', $dateFin)
+                ->getQuery()
+                ->getResult();
 
-                foreach ($bonapprovisionnementQuery as $bonapprovisionnement) {
-                    $mouvements[] = [
-                        'type' => 'Approvisionnement',
-                        'date' => $bonapprovisionnement->getDate(),
-                        'description' => 'Approvisionnement de la caisse',
-                        'montant' => $bonapprovisionnement->getMontanttotal(),
-                        'caisse_intitule' => $bonapprovisionnement->getCaisse()->getIntitule(),
-                    ];
-                }
+            foreach ($bonapprovisionnementQuery as $bonapprovisionnement) {
+                $mouvements[] = [
+                    'date' => $bonapprovisionnement->getDate(),
+                    'nature' => 'Approvisionnement de la caisse',
+                    'libelle' => 'Approvisionnement de la caisse',
+                    'entree' => $bonapprovisionnement->getMontanttotal(),
+                    'sortie' => null,
+                ];
+                $totalEntree += $bonapprovisionnement->getMontanttotal();
+                $solde += $bonapprovisionnement->getMontanttotal();
             }
 
             usort($mouvements, function ($a, $b) {
@@ -136,7 +117,11 @@ class CaisseController extends AbstractController
 
         return $this->render('caisse/etat.html.twig', [
             'mouvements' => $mouvements,
+            'totalEntree' => $totalEntree,
+            'totalSortie' => $totalSortie,
+            'solde' => $solde,
         ]);
     }
+
 
 }

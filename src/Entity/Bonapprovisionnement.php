@@ -37,7 +37,6 @@ class Bonapprovisionnement
     #[ORM\ManyToOne(inversedBy: 'bonapprovisionnements')]
     private ?Caisse $caisse = null;
 
-
     #[ORM\Column(length: 255)]
     private ?string $status = null;
 
@@ -91,6 +90,15 @@ class Bonapprovisionnement
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $Echeance = null;
+
+    #[ORM\ManyToOne(inversedBy: 'bonapprovisionnements')]
+    private ?Banque $banque = null;
+
+    #[ORM\ManyToOne(inversedBy: 'bonapprovisionnements')]
+    private ?Tiers $tiers = null;
+
+    #[ORM\ManyToOne(inversedBy: 'bonapprovisionnements')]
+    private ?JournalCaisse $JournalCaisse = null;
 
     public function __construct()
     {
@@ -402,6 +410,42 @@ class Bonapprovisionnement
     public function setEcheance(?\DateTimeInterface $Echeance): static
     {
         $this->Echeance = $Echeance;
+
+        return $this;
+    }
+
+    public function getBanque(): ?Banque
+    {
+        return $this->banque;
+    }
+
+    public function setBanque(?Banque $banque): static
+    {
+        $this->banque = $banque;
+
+        return $this;
+    }
+
+    public function getTiers(): ?Tiers
+    {
+        return $this->tiers;
+    }
+
+    public function setTiers(?Tiers $tiers): static
+    {
+        $this->tiers = $tiers;
+
+        return $this;
+    }
+
+    public function getJournalCaisse(): ?JournalCaisse
+    {
+        return $this->JournalCaisse;
+    }
+
+    public function setJournalCaisse(?JournalCaisse $JournalCaisse): static
+    {
+        $this->JournalCaisse = $JournalCaisse;
 
         return $this;
     }

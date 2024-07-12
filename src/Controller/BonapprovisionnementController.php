@@ -52,7 +52,7 @@ class BonapprovisionnementController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager, CaisseService $service): Response
     {
         $num_bonapprovisionnement = $service->refBonApprovisionnement();
-        $bonapprovisionnement = (new Bonapprovisionnement())->setReference($num_bonapprovisionnement)->setModepaie('Chèque');
+        $bonapprovisionnement = (new Bonapprovisionnement())->setReference($num_bonapprovisionnement)->setDestinataire('Konan Gwladys');
 
         $form = $this->createForm(BonapprovisionnementType::class, $bonapprovisionnement);
         $form->handleRequest($request);
@@ -80,17 +80,18 @@ class BonapprovisionnementController extends AbstractController
     public function show(Bonapprovisionnement $bonapprovisionnement, Request $request, EntityManagerInterface $entityManager): Response
     {
         if ($request->isMethod('POST') && $this->isCsrfTokenValid('validate-caisse-bonapprovisionnement', $request->request->get('_token'))) {
-            if($request->request->has('confirm')) {
+            if($request->request->has('confirm_manager')) {
                 /** @var User $user */
                 $user = $this->getUser();
-                $caisse = $user->getCaisse();
+                $caisses = $user->getCaisses(); // obtenir la collection de caisses
+                $caisse = $caisses->first(); // obtenir la première caisse (ajustez selon vos besoins)
                 $solde = $caisse->getSoldedispo();
                 $montanttotal = $bonapprovisionnement->getMontanttotal();
                 $caisse->setSoldedispo($solde + $montanttotal);
-                $bonapprovisionnement->setStatus(Status::VALIDATED);
+                $bonapprovisionnement->setStatus(Status::APPROUVE);
 
                 $bonCaisse = new BonCaisse();
-                $bonCaisse->setStatus(Status::VALIDATED);
+                $bonCaisse->setStatus(Status::APPROUVE);
                 $bonCaisse->setDate(new \DateTime());
                 $bonCaisse->setMontant($bonapprovisionnement->getMontanttotal());
                 $bonCaisse->setCaisse($caisse);

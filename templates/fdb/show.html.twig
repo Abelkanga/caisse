@@ -109,7 +109,7 @@
                             {% endif %}
                             {% if is_granted('ROLE_USER') and fdb.status == 'annulée' %}
                                 <a target="_blank" href="{{ path('fdb_delete' , {'id': fdb.id}) }}" class="btn btn-primary float-right ml-2">
-                                    <i class="fa fa-print"></i> Supprimer
+                                    <i class="fa fa-delete-left"></i> Supprimer
                                 </a>
                             {% endif %}
                             <a href="{{ path('app_welcome') }}" class="btn btn-info float-right">

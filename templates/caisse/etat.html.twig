@@ -1,3 +1,5 @@
+{# templates/caisse/etat.html.twig #}
+
 {% extends 'base.html.twig' %}
 
 {% block title %}État de la Caisse{% endblock %}
@@ -5,7 +7,6 @@
 {% block body %}
 
     <fieldset>
-
         <div class="col-12">
             <div class="card card-fluid">
                 <div class="card-header bg-soft-custom" id="bg">
@@ -15,13 +16,8 @@
                     <div class="row justify-content-center">
                         <div class="col-8">
                             <form method="get" action="{{ path('app_etat_caisse') }}" class="formDate d-flex justify-content-center align-items-center">
-                                <input type="date" name="date_debut" class="input-large mx-2" style="padding: 5px; margin: 5px; border: 1px solid #ced4da; border-radius: 10px; width: 500px; height: 40px; ">
+                                <input type="date" name="date_debut" class="input-large mx-2" style="padding: 5px; margin: 5px; border: 1px solid #ced4da; border-radius: 10px; width: 500px; height: 40px;">
                                 <input type="date" name="date_fin" class="input-large mx-2" style="padding: 5px; margin: 5px; border: 1px solid #ced4da;border-radius: 10px; width: 500px; height: 40px;">
-                                <select name="type" class="input-large mx-2" style="padding: 5px; margin: 5px; border: 1px solid #ced4da;border-radius: 10px; width: 500px; height: 40px;">
-                                    <option value="tous">Tous</option>
-                                    <option value="entree">Entrée</option>
-                                    <option value="sortie">Sortie</option>
-                                </select>
                                 <i class="fa-solid fa-magnifying-glass"></i> <input type="submit" value="Rechercher" class="btn btn-success float-right ml-3">
                             </form>
                         </div>
@@ -29,8 +25,6 @@
                 </div>
             </div>
         </div>
-
-
     </fieldset>
 
     <fieldset>
@@ -45,23 +39,39 @@
                             <thead class="thead-light">
                             <tr>
                                 <th class="text-center">Date</th>
-                                <th class="text-center">Intitulé Caisse</th>
-                                <th class="text-center">Type</th>
-                                <th class="text-center">Description</th>
-                                <th class="text-center">Montant (F cfa)</th>
+                                <th class="text-center">Nature</th>
+                                <th class="text-center">Libellé</th>
+                                <th class="text-center">Entrée (F cfa)</th>
+                                <th class="text-center">Sortie (F cfa)</th>
+                                <th class="text-center">Solde (F cfa)</th>
                             </tr>
                             </thead>
                             <tbody>
+                            {% set solde = 0 %}
                             {% for mouvement in mouvements %}
+                                {% if mouvement.entree %}
+                                    {% set solde = solde + mouvement.entree %}
+                                {% elseif mouvement.sortie %}
+                                    {% set solde = solde - mouvement.sortie %}
+                                {% endif %}
                                 <tr>
                                     <td class="text-center">{{ mouvement.date ? mouvement.date|date('d-m-Y') : '' }}</td>
-                                    <td class="text">{{ mouvement.caisse_intitule }}</td>
-                                    <td class="text">{{ mouvement.type }}</td>
-                                    <td class="text">{{ mouvement.description }}</td>
-                                    <td class="text-right separator">{{ mouvement.montant }}</td>
+                                    <td class="text">{{ mouvement.nature }}</td>
+                                    <td class="text">{{ mouvement.libelle }}</td>
+                                    <td class="text-right separator">{{ mouvement.entree ?: '' }}</td>
+                                    <td class="text-right separator">{{ mouvement.sortie ?: '' }}</td>
+                                    <td class="text-right separator">{{ solde }}</td>
                                 </tr>
                             {% endfor %}
                             </tbody>
+                            <tfoot>
+                            <tr>
+                                <th colspan="3" class="text-center">Totaux</th>
+                                <th class="text-right separator">{{ totalEntree }}</th>
+                                <th class="text-right separator">{{ totalSortie }}</th>
+                                <th class="text-right separator">{{ solde }}</th>
+                            </tr>
+                            </tfoot>
                         </table>
                     </div>
                 </div>
@@ -80,4 +90,3 @@
         </div>
     </fieldset>
 {% endblock %}
-

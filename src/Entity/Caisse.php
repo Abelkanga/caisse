@@ -75,6 +75,9 @@ class Caisse
     #[ORM\ManyToOne(inversedBy: 'caisses')]
     private ?User $user = null;
 
+    #[ORM\ManyToOne(inversedBy: 'caisses')]
+    private ?JournalCaisse $JournalCaisse = null;
+
     public function __construct()
     {
         $this->depenses = new ArrayCollection();
@@ -358,6 +361,18 @@ class Caisse
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getJournalCaisse(): ?JournalCaisse
+    {
+        return $this->JournalCaisse;
+    }
+
+    public function setJournalCaisse(?JournalCaisse $JournalCaisse): static
+    {
+        $this->JournalCaisse = $JournalCaisse;
 
         return $this;
     }

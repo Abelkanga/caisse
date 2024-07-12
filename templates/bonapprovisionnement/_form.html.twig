@@ -41,15 +41,13 @@
     </div>
 
     <legend>Opération</legend>
-
     <div class="row">
         <div class="col-4">
             <div class="form-group">
                 <label for="approvisionnement_modepaie">Moyen d'approvisionnement</label>
-                {{ form_widget(form.modepaie, {'attr': {'class': 'form-control', 'id': 'approvisionnement_modepaie'}}) }}
+                {{ form_widget(form.modepaie, {'attr': {'class': 'form-control select2', 'id': 'approvisionnement_modepaie'}}) }}
             </div>
         </div>
-
         <div class="col-4">
             <div class="form-group">
                 <label for="montanttotal">Montant (F cfa)<span class="text-danger">*</span></label>
@@ -58,91 +56,85 @@
         </div>
     </div>
 
-    <div id="details-banque" class="row details-section hidden">
-        <div class="col-6">
+    <!-- Détails Bancaires -->
+    <div id="bank-details" class="row d-none">
+        <div class="col-4">
             <div class="form-group">
-                <label for="NomBanque">Nom de la Banque</label>
+                <label for="nomBanque">Nom de la Banque</label>
                 {{ form_widget(form.NomBanque, {'attr' : {'class': 'form-control'}}) }}
             </div>
         </div>
-        <div class="col-6">
+        <div class="col-4">
             <div class="form-group">
-                <label for="CheckNumber">Numéro de Chèque</label>
+                <label for="checkNumber">Numéro de Chèque</label>
                 {{ form_widget(form.CheckNumber, {'attr' : {'class': 'form-control'}}) }}
             </div>
         </div>
     </div>
 
-    <div id="details-caisse" class="row details-section hidden">
-        <div class="col-6">
+    <!-- Détails de Caisse -->
+    <div id="cash-details" class="row d-none">
+        <div class="col-4">
             <div class="form-group">
-                <label for="NomCaisse">Nom de la Caisse</label>
+                <label for="nomCaisse">Nom de la Caisse</label>
                 {{ form_widget(form.NomCaisse, {'attr' : {'class': 'form-control'}}) }}
             </div>
         </div>
-        <div class="col-6">
+        <div class="col-4">
             <div class="form-group">
-                <label for="numeroBon">Numéro de Bon</label>
-                {{ form_widget(form.numeroBon, {'attr': {'class': 'form-control js-datepicker'}}) }}
+                <label for="codeCaisse">Code de la Caisse</label>
+                {{ form_widget(form.NumeroBon, {'attr' : {'class': 'form-control'}}) }}
             </div>
         </div>
     </div>
 
-    <div id="details-pret" class="row details-section hidden">
-        <div class="col-6">
+    <!-- Détails de Prêt -->
+    <div id="loan-details" class="row d-none">
+        <div class="col-4">
             <div class="form-group">
-                <label for="NomTiers">Nom du Tiers</label>
+                <label for="nomTiers">Nom du Tiers</label>
                 {{ form_widget(form.NomTiers, {'attr' : {'class': 'form-control'}}) }}
             </div>
         </div>
-        <div class="col-6">
+        <div class="col-4">
             <div class="form-group">
-                <label for="Echeance">Échéance de Remboursement</label>
+                <label for="echeance">Date d'Échéance</label>
                 {{ form_widget(form.Echeance, {'attr' : {'class': 'form-control'}}) }}
             </div>
         </div>
     </div>
+
 </fieldset>
 
-{% block javascripts %}
+<script>
+    // assets/js/form.js
+    document.addEventListener('DOMContentLoaded', function () {
+        const modePaieSelect = document.getElementById('approvisionnement_modepaie');
+        const banqueFields = ['nomBanque', 'checkNumber'];
+        const caisseFields = ['nomCaisse', 'codeCaisse'];
+        const pretFields = ['nomTiers', 'echeance'];
 
-<script>document.addEventListener('DOMContentLoaded', (event) => {
-        const modepaieField = document.getElementById('approvisionnement_modepaie');
-        const detailsBanque = document.getElementById('details-banque');
-        const detailsCaisse = document.getElementById('details-caisse');
-        const detailsPret = document.getElementById('details-pret');
-
-        if (!modepaieField) {
-            console.error('Element with ID approvisionnement_modepaie not found.');
-            return;
+        function toggleFields(fields, show) {
+            fields.forEach(function (field) {
+                const element = document.querySelector('[name="' + field + '"]').closest('.form-group');
+                if (show) {
+                    element.classList.remove('d-none');
+                } else {
+                    element.classList.add('d-none');
+                }
+            });
         }
 
-        function toggleDetails() {
-            const selectedMode = modepaieField.value;
-            detailsBanque.classList.add('hidden');
-            detailsCaisse.classList.add('hidden');
-            detailsPret.classList.add('hidden');
+        modePaieSelect.addEventListener('change', function () {
+            const selectedValue = this.value;
+            toggleFields(banqueFields, selectedValue === 'banque');
+            toggleFields(caisseFields, selectedValue === 'caisse');
+            toggleFields(pretFields, selectedValue === 'pret');
+        });
 
-            if (selectedMode === 'banque') {
-                detailsBanque.classList.remove('hidden');
-            } else if (selectedMode === 'caisse') {
-                detailsCaisse.classList.remove('hidden');
-            } else if (selectedMode === 'pret') {
-                detailsPret.classList.remove('hidden');
-            }
-        }
-
-        modepaieField.addEventListener('change', toggleDetails);
-        toggleDetails(); // Run on page load to set initial state
+        // Initial call to set visibility based on the default selected option
+        const event = new Event('change');
+        modePaieSelect.dispatchEvent(event);
     });
+
 </script>
-{% endblock %}
-
-{% block stylesheets %}
-    <style>
-        .hidden {
-            display: none;
-        }
-    </style>
-
-{% endblock %}

@@ -3,6 +3,7 @@ twig:
     form_themes: [ 'bootstrap_5_layout.html.twig' ]
     globals:
         societe_info: '@App\Service\SocieteService'
+        journee_service: '@App\Service\JourneeService'
 
 
 when@test:

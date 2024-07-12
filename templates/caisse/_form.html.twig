@@ -2,30 +2,30 @@
     <legend>Identification</legend>
 
     <div class="row">
-        <div class="col-6">
+        <div class="col-md-5">
             <div class="form-group">
-                <label for="date">Code</label>
+                <label for="code">Code</label>
                 {{ form_widget(form.code, {'attr' : {'class': 'form-control'}}) }}
             </div>
         </div>
 
-        <div class="col-6">
+        <div class="col-md-5">
             <div class="form-group">
-                <label for="montant">Intitulé</label>
+                <label for="intitule">Intitulé</label>
                 {{ form_widget(form.intitule, {'attr' : {'class': 'form-control'}}) }}
             </div>
         </div>
     </div>
     <div class="row">
-        <div class="col-6">
+        <div class="col-md-5">
             <div class="form-group">
-                <label for="user">Utilisateur</label>
+                <label for="user">Caissier</label>
                 {{ form_widget(form.user, {'attr' : {'class': ' select2'}}) }}
             </div>
         </div>
-        <div class="col-6">
+        <div class="col-md-5">
             <div class="form-group">
-                <label for="modepaie">Plafond</label>
+                <label for="plafond">Plafond</label>
                 {{ form_widget(form.plafond, {'attr' : {'class': 'form-control '}}) }}
             </div>
         </div>

@@ -3,7 +3,9 @@
 
 namespace App\Controller;
 
+use App\Entity\ResetPasswordRequest;
 use App\Entity\User;
+use App\Form\ResetPasswordRequestFormType;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -70,4 +72,24 @@ class UserController extends AbstractController
             'user' => $user
         ]);
     }
+
+    #[Route('/update_password', name: 'app_user_update', methods: ['GET', 'POST'])]
+    public function ResetPasswordRequest(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher) : Response
+    {
+        $resetPasswordRequest = new ResetPasswordRequest();
+        $form =  $this->createForm(ResetPasswordRequestFormType::class, $resetPasswordRequest);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var User $user */
+            $user = $this->getUser();
+            $newPasswordEncoded = $passwordHasher->hashPassword($user, $resetPasswordRequest->getNewPassword());
+            $userRepository->resetPasswordRequest($user, $newPasswordEncoded);
+
+            $this->addFlash('success', 'Mot de passe modifé avec succès');
+
+            return $this->redirectToRoute('app_welcome');
+        }
+    }
+
 }

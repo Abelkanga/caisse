@@ -39,6 +39,22 @@
             justify-content: center;
         }
 
+        .password-container {
+            position: relative;
+        }
+
+        .password-container input {
+            padding-right: 2.5rem; /* Adjust to fit the icon */
+        }
+
+        .password-container .toggle-password {
+            position: absolute;
+            top: 50%;
+            right: 1rem;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+
     </style>
 </head>
 
@@ -78,10 +94,11 @@
 
         <!-- /.form-group -->
         <!-- .form-group -->
-        <div class="form-group mb-4">
+        <div class="form-group mb-4 password-container">
             <label class="d-block text-left" for="inputPassword">Mot de passe</label>
             <input type="password" id="inputPassword" name="_password" autocomplete="current-password"
                    class="form-control form-control-lg" required="">
+            <i class="fas fa-eye toggle-password"></i>
         </div>
         <!-- /.form-group -->
         <!-- .form-group -->
@@ -122,5 +139,19 @@
 <script src="{{ asset('js/jquery.min.js') }}"></script>
 <script src="{{ asset('js/popper.min.js') }}"></script>
 <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+<script>
+    $(document).ready(function() {
+        $('.toggle-password').on('click', function() {
+            let input = $('#inputPassword');
+            if (input.attr('type') === 'password') {
+                input.attr('type', 'text');
+                $(this).removeClass('fa-eye').addClass('fa-eye-slash');
+            } else {
+                input.attr('type', 'password');
+                $(this).removeClass('fa-eye-slash').addClass('fa-eye');
+            }
+        });
+    });
+</script>
 </body>
 </html>

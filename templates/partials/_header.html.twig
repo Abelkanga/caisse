@@ -44,7 +44,7 @@
                     {% set societe = societe_info.info() %}
                     {% if societe %}
                         <button class="btn-account d-flex align-items-center" type="button">
-                            <span  class=" fa-solid fa-landmark p-2"></span>
+                            <span class="fa-solid fa-building p-2"></span>
                             <strong class="pt-1">{{ societe.RaisonSociale }}</strong>
                         </button>
 
@@ -53,6 +53,31 @@
                             <strong class="pt-1">{{ societe.SiegeSocial }}</strong>
                         </button>
                     {% endif %}
+
+                    {% set j = journee_service.getActiveJournee() %}
+
+                    {% if is_granted('ROLE_MANAGER') %}
+                        {% if j is null %}
+                            <button class="btn-account" type="button" data-toggle="modal" data-target="#openJourneeModal">
+                                <span class="oi oi-clock p-1"></span>
+                                Caisse fermée
+                            </button>
+                        {% else %}
+                            <button class="btn-account" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="oi oi-clock p-1"></span>
+                                <strong class="pt-1">Ouverture : {{ j.startedAt|date('d-m-Y H:i:s') }}</strong>
+                            </button>
+                            <input type="hidden" name="date_journee" id="date_journee" value="{{ j.startedAt|date('Y-m-d') }}">
+                        {% endif %}
+                    {% endif %}
+
+                    {#                    <li class="nav-item">#}
+                    {#                        <a class="nav-link target" href="#" id="navbarDropdownMenuLink" data-toggle="modal"#}
+                    {#                           aria-expanded="false" data-target="#modal-default">#}
+                    {#                            <strong><i class="fa fa-train" style="color: red"> </i> Gare fermée</strong>#}
+                    {#                        </a>#}
+                    {#                    </li>#}
+
 
                     <button class="btn-account d-flex align-items-center" type="button">
                         <span class="oi oi-clock p-1"></span>
@@ -129,17 +154,17 @@
 							</span>
                             <span class="account-summary pr-lg-4 d-none d-lg-block">
 								<span class="account-name">{{ app.user.fullName }}</span>
-                                <span class="account-name">{{ app.user.fonction }}</span>
+{#                                <span class="account-name">{{ app.user.fonction }}</span>#}
 							</span>
                         {% elseif is_granted('ROLE_RESPONSABLE')%}
                             <span class="user-avatar user-avatar-md">
-								<img src="{{ asset('images/andre.jpg') }}" alt="">
+								<img src="" alt="">
 							</span>
                             <span class="account-summary pr-lg-4 d-none d-lg-block">
 								<span class="account-name">{{ app.user.fullName }}</span>
-                                <span class="account-name">{{ app.user.fonction }}</span>
+{#                                <span class="account-name">{{ app.user.fonction }}</span>#}
 							</span>
-                            {% else %}
+                        {% else %}
                             <span class="user-avatar user-avatar-md">
 								<img src="https://ui-avatars.com/api/?name=Administrateur" alt="">
 							</span>
@@ -188,3 +213,4 @@
     <!-- /.top-bar -->
 </header>
 <!-- /.app-header -->
+{{ include('/_modal_journee.html.twig') }}

@@ -48,6 +48,9 @@ class Journee
     #[ORM\Column(length: 255)]
     private ?string $uuid = null;
 
+    #[ORM\OneToOne(targetEntity: self::class, cascade: ['persist', 'remove'])]
+    private ?self $LastJournee = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -181,6 +184,18 @@ class Journee
     public function setUuid(string $uuid): static
     {
         $this->uuid = $uuid;
+
+        return $this;
+    }
+
+    public function getLastJournee(): ?self
+    {
+        return $this->LastJournee;
+    }
+
+    public function setLastJournee(?self $LastJournee): static
+    {
+        $this->LastJournee = $LastJournee;
 
         return $this;
     }

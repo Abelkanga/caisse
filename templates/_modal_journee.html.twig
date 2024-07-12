@@ -1,0 +1,38 @@
+{# Modal for opening journee #}
+{#{% block javascripts %}#}
+{#    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>#}
+{#    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>#}
+{#    <script>#}
+{#        $(document).ready(function() {#}
+{#            $('#confirmOpenJournee').click(function() {#}
+{#                $('#openJourneeForm').submit();#}
+{#            });#}
+{#        });#}
+{#    </script>#}
+{#{% endblock %}#}
+
+<div class="modal fade" id="openJourneeModal" tabindex="-1" aria-labelledby="openJourneeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="openJourneeModalLabel">Ouverture de la caisse</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="openJourneeForm" action="{{ path('journee_open') }}" method="post">
+                <div class="modal-body">
+                    <input type="hidden" value="{{ csrf_token('open_journee') }}" name="_token">
+                    <div class="form-group">
+                        <label class="control-label" for="flatpickr01">Date journée</label>
+                        <input name="date_journee" type="date" value="{{ 'now'|date('Y-m-d') }}" class="form-control">
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-primary" id="confirmOpenJournee">Ouvrir</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

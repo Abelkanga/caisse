@@ -86,6 +86,9 @@ class Fdb
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $date = null;
 
+//    #[ORM\ManyToOne(inversedBy: 'fdbs')]
+//    private ?JournalCaisse $JournalCaisse = null;
+
     public function __construct()
     {
         $this->details = new ArrayCollection();
@@ -365,5 +368,18 @@ class Fdb
 
         return $this;
     }
+
+//    public function getJournalCaisse(): ?JournalCaisse
+//    {
+//        return $this->JournalCaisse;
+//    }
+//
+//    public function setJournalCaisse(?JournalCaisse $JournalCaisse): static
+//    {
+//        $this->JournalCaisse = $JournalCaisse;
+//
+//        return $this;
+//    }
+
 
 }
