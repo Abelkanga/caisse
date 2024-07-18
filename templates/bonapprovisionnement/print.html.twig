@@ -1,51 +1,117 @@
 {% extends 'imprimer.html.twig' %}
+
 {% block body %}
-<div content=" ">
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="card card-fluid">
-                <div class="card-header bg-soft-custom">
-                    <h6>Bon d'approvisionnement N°{{ bonapprovisionnement.id }}</h6>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div
-                                class="col-sm-2">{# <img style="margin-left: -2em" src="{{ asset('assets/dist/img/ews.jpg') }}" alt=""> #}
-                        </div>
+    <style>
+        .receipt-container {
+            margin: 20px;
+            font-family: Arial, sans-serif;
+        }
+        .header img {
+            margin: 20px 0;
+        }
+        .header p {
+            margin: 0;
+            font-size: 14px;
+        }
+        .title-box {
+            margin: 20px 0;
+            padding: 10px;
+            border: 1px solid black;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        fieldset {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        legend {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .table th, .table td {
+            padding: 5px;
+        }
+        .separator {
+            text-align: right;
+        }
+    </style>
 
-                        <div
-                                class="col-sm-2">{# <img class="float-right" src="{{ asset('assets/dist/img/stib.jpg') }}" alt=""> #}
-                        </div>
-                    </div>
-                    <br>
-                    <fieldset>
-                        <legend>Information du bon d'approvisionnement</legend>
-                        <table class="table table-sm bordered">
-                            <thead class="thead-light">
-                            <tr>
-                                <th class="text-center">Date</th>
-
-                                <th class="text-left">Mode de paiement</th>
-                                <th class="text-right">Montant Total (F cfa)</th>
-
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td class="text-center">{{ bonapprovisionnement.date ? bonapprovisionnement.date|date('d-m-Y') : ''  }}</td>
-
-                                <td class="text-left">{{ bonapprovisionnement.modepaie }}</td>
-                                <td class="text-right">{{ bonapprovisionnement.montanttotal }}</td>
-                            </tr>
-                            </tbody>
-                        </table>
-
-
-                </div>
-
-            </div>
+    <div class="receipt-container">
+        <div class="header text-center">
+            <img src="{{ asset('images/offset.png') }}" alt="Offset Consulting" style="max-width: 170px;">
+            <p><b><i>Cabinet Offset Consulting</i></b></p>
+            <p><b><i>Audit et Conseil en Organisation Management</i></b></p>
+            <p><b><i>08 BP 2941 Abidjan 08, République de Côte d'Ivoire</i></b></p>
+            <p><b><i>Tél: (225) 27 22 01 59 71  Cél: (225) 07 78 63 63 06</i></b></p>
+            <p><b><i>Email: info@offset-consulting.com</i></b></p>
+            <p><b><i>www.offset-consulting.com</i></b></p>
         </div>
-    </div>
 
-</div>
+        <div class="title-box">
+            BON D'APPROVISIONNEMENT
+        </div>
+
+        <fieldset>
+            <legend>Information du bon d'approvisionnement</legend>
+            <table class="table table-sm bordered">
+                <thead class="thead-light">
+                <tr>
+                    <th class="text-center">Date</th>
+                    <th>Caisse</th>
+                    <th>Objet</th>
+                    <th class="text-right">N° Bon d'approvisionnement</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="text-center">{{ bonapprovisionnement.date ? bonapprovisionnement.date|date('d-m-Y') : ''  }}</td>
+                    <td class="align-middle">{{ bonapprovisionnement.caisse.intitule }}</td>
+                    <td class="align-middle">{{ bonapprovisionnement.porteur }}</td>
+                    <td class="text-right">{{ bonapprovisionnement.reference }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </fieldset>
+
+        <fieldset>
+            <legend>Détail réçu</legend>
+            <table class="table table-sm bordered">
+                <thead class="thead-light">
+                <tr>
+                    <th class="text-center">Bénéficiaire</th>
+                    <th>Nom Caissier(e)</th>
+                    <th class="text-left">Source d'approvisionnement</th>
+                    <th class="text-left">Détail source d'approvisionnement</th>
+                    <th class="text-right">Montant Total (F cfa)</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="align-middle">{{ bonapprovisionnement.destinataire }}</td>
+                    <td class="align-middle">{{ bonapprovisionnement.caisse.user }}</td>
+                    <td class="text-left">{{ bonapprovisionnement.modepaie }}</td>
+                    <td class="text-left">{{ bonapprovisionnement.nomTiers }}</td>
+                    <td class="text-right">{{ bonapprovisionnement.montanttotal }}</td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="row approved-by text-center">
+                <div class="col-4">
+                    <p>Approbation :</p>
+                    <p>__________________</p>
+                </div>
+                <div class="col-4">
+                    <p>Caisse :</p>
+                    <p>__________________</p>
+                </div>
+                <div class="col-4">
+                    <p>Bénéficiaire :</p>
+                    <p>__________________</p>
+                </div>
+            </div>
+        </fieldset>
+    </div>
 {% endblock %}

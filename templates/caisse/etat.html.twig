@@ -1,5 +1,3 @@
-{# templates/caisse/etat.html.twig #}
-
 {% extends 'base.html.twig' %}
 
 {% block title %}État de la Caisse{% endblock %}
@@ -10,16 +8,28 @@
         <div class="col-12">
             <div class="card card-fluid">
                 <div class="card-header bg-soft-custom" id="bg">
-                    <h6><i class="fa-solid fa-list" style="font-size:20px;"></i> Insérer une plage de date</h6>
+                    <h6><i class="fa-solid fa-list" style="font-size:18px;"></i> Période</h6>
                 </div>
                 <div class="card-body">
                     <div class="row justify-content-center">
                         <div class="col-8">
                             <form method="get" action="{{ path('app_etat_caisse') }}" class="formDate d-flex justify-content-center align-items-center">
-                                <input type="date" name="date_debut" class="input-large mx-2" style="padding: 5px; margin: 5px; border: 1px solid #ced4da; border-radius: 10px; width: 500px; height: 40px;">
-                                <input type="date" name="date_fin" class="input-large mx-2" style="padding: 5px; margin: 5px; border: 1px solid #ced4da;border-radius: 10px; width: 500px; height: 40px;">
-                                <i class="fa-solid fa-magnifying-glass"></i> <input type="submit" value="Rechercher" class="btn btn-success float-right ml-3">
+                                <div class="form-group d-flex align-items-center mx-2">
+                                    <label for="date_debut" class="mx-5"> Date_début  </label>
+                                    <input type="date" name="date_debut" class="input-large mx-2 form-control" style="padding: 5px; margin: 5px; border: 1px solid #ced4da; border-radius: 10px; width: 500px; height: 40px;">
+                                </div>
+                                <div class="form-group d-flex align-items-center mx-2">
+                                    <label for="date_fin" class="mx-5"> Date_fin  </label>
+                                    <input type="date" name="date_fin" class="input-large mx-2 form-control" style="padding: 5px; margin: 5px; border: 1px solid #ced4da; border-radius: 10px; width: 500px; height: 40px;">
+                                </div>
+
+                                <div class="form-group d-flex align-items-center mx-2">
+                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                    <input type="submit" value="Rechercher" class="btn btn-success float-right ml-3">
+                                </div>
+
                             </form>
+
                         </div>
                     </div>
                 </div>
@@ -31,7 +41,7 @@
         <div class="col-12 col-md-12">
             <div class="card">
                 <div class="card-header bg-soft-custom" style="background:#21244e; color:white;">
-                    <i class="fa-solid fa-list" style="font-size:20px;"></i> &nbsp;État de la Caisse
+                    <i class="fa-solid fa-list" style="font-size:18px;"></i> &nbsp;État de la Caisse
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -75,16 +85,16 @@
                         </table>
                     </div>
                 </div>
-                <div class="card-footer">
-                    <div class="card-footer-content">
-                        <a href="{{ path('export_excel') }}" class="btn btn-primary float-right ml-2">
-                            Exporter Excel</a>
-                        <a href="{{ path('export_pdf') }}" class="btn btn-primary float-right ml-2">
-                            Exporter Pdf</a>
-                        <a href="{{ path('app_welcome') }}" class="btn btn-info float-right">
-                            <i class="oi oi-home"></i> Retour
-                        </a>
-                    </div>
+                <div class="card-footer-content">
+                    <a href="{{ path('export_excel') }}" class="btn btn-success float-right ml-2 export-excel">
+                        <i class="fas fa-file-excel"></i> Exporter Excel
+                    </a>
+                    <a href="{{ path('export_pdf') }}" class="btn btn-danger float-right ml-2 export-pdf">
+                        <i class="fas fa-file-pdf"></i> Exporter Pdf
+                    </a>
+                    <a href="{{ path('app_welcome') }}" class="btn btn-info float-right">
+                        <i class="oi oi-home"></i> Retour
+                    </a>
                 </div>
             </div>
         </div>

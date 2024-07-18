@@ -1,23 +1,20 @@
-<div id="modalResponsable" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalResponsableLabel" aria-hidden="true">
+<div id="modalValidation" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalValidationLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header bg-secondary">
-                <h5 class="modal-title text-dark" id="modalResponsableLabel">
+                <h5 class="modal-title text-dark" id="modalValidationLabel">
                     <span class="uil uil-question-circle"></span>
-                    Validation ou Annulation par le Responsable
+                    Validation opération
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
             <div class="modal-body font-size-14">
-                Voulez-vous vraiment valider ou annuler cette opération ?
+                Voulez-vous vraiment valider cette opération ?
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-light font-weight-medium" data-dismiss="modal">Fermer</button>
-                <button type="submit" class="btn btn-outline-danger font-weight-medium" name="cancel_responsable" value="cancel">
-                    Annuler
-                </button>
                 <button type="submit" class="btn btn-outline-success font-weight-medium" name="confirm_responsable" value="confirm">
                     Valider
                 </button>
@@ -25,6 +22,6 @@
         </div>
     </div>
 </div>
-<button type="button" class="btn btn-success float-right ml-2" data-toggle="modal" data-target="#modalResponsable">
-    <i class="fa fa-check"></i> Valider ou Annuler
+<button type="button" class="btn btn-success float-right ml-2" data-toggle="modal" data-target="#modalValidation">
+    <i class="fa fa-check"></i> Valider
 </button>

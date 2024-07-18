@@ -15,13 +15,13 @@
                         <tr>
                             <th>Date</th>
                             <th>Référence</th>
-                            <th>Emetteur</th>
-                            <th>Destinataire</th>
-                            <th>Porteur de chèque</th>
-                            <th>Moyen de paiement</th>
+                            <th>Bénéficiaire</th>
+                            <th>Objet</th>
+                            <th>Source d'approvisionnement</th>
+                            <th>Détail source d'approvisionnement</th>
                             <th>Montant Total (F cfa)</th>
                             <th>Statut</th>
-                            <th>Actions</th>
+                            <th>Action</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -29,10 +29,10 @@
                             <tr>
                                 <td class="text-center align-middle">{{ bonapprovisionnement.date ? bonapprovisionnement.date|date('d-m-Y') : '' }}</td>
                                 <td class="align-middle">{{ bonapprovisionnement.reference }}</td>
-                                <td class="align-middle">{{ bonapprovisionnement.emeteur }}</td>
                                 <td class="align-middle">{{ bonapprovisionnement.destinataire }}</td>
                                 <td class="align-middle">{{ bonapprovisionnement.porteur }}</td>
                                 <td class="align-middle">{{ bonapprovisionnement.modepaie }}</td>
+                                <td class="align-middle">{{ bonapprovisionnement.nomTiers }}</td>
                                 <td class="separator text-right align-middle">{{ bonapprovisionnement.montanttotal }} (F cfa)</td>
                                 <td class="text-center align-middle">
                                     {% if bonapprovisionnement.status == 'validée' %}
@@ -43,7 +43,6 @@
                                         <span class="badge badge-success">{{ bonapprovisionnement.status }}</span>
                                     {% endif %}
                                 </td>
-
                                 <td class="text-center align-middle">
                                     <a class="btn btn-sm btn-icon btn-secondary" data-toggle="tooltip" data-html="true" title="<em>Voir</em>" href="{{ path('bonapprovisionnement_show', {'id': bonapprovisionnement.id}) }}">
                                         <i class="fas fa-eye"></i>
@@ -73,7 +72,6 @@
             </div>
         </div>
     </div>
-
 
 {% endblock %}
 

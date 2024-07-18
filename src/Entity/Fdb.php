@@ -105,7 +105,6 @@ class Fdb
         $this->details = new ArrayCollection();
         $this->bonCaisses = new ArrayCollection();
 
-
     }
 
     public function getId(): ?int

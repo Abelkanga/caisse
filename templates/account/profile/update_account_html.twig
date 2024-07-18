@@ -1,0 +1,69 @@
+{% extends 'account/index.html.twig' %}
+
+{% block title %} Modifier information personnel {% endblock %}
+
+{% block layout %}
+    <div class="col-lg-8">
+        <!-- .card -->
+        <div class="widget box">
+            <div class="widget-header">
+                <h4>Modifier vos informations personnelles </h4><!-- .card-body -->
+            </div>
+
+            <div class="widget-content">
+                <!-- form -->
+                {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+                <!-- form row -->
+                <div class="form-group">
+                    <!-- form column -->
+                    <label class="control-label col-md-2" for="{{ form.lastName.vars.id }}">Nom <span class="text-danger">*</span></label>
+                    <div class="col-md-7">
+                        {{ form_widget(form.lastName, {'attr': {'class': 'form-control' }}) }}
+                        {{ form_errors(form.lastName) }}
+                    </div>
+                </div><!-- /form row -->
+                <div class="form-group">
+                    <!-- form column -->
+                    <label class="control-label col-md-2" for="{{ form.firstName.vars.id }}">Prénom(s) <span class="text-danger">*</span></label>
+                    <div class="col-md-7">
+                        {{ form_widget(form.firstName, {'attr': {'class': 'form-control' }}) }}
+                        {{ form_errors(form.firstName) }}
+                    </div>
+                </div>
+                <!-- .form-group -->
+                <div class="form-group">
+                    <label class="control-label col-md-2" for="{{ form.email.vars.id }}">Email</label>
+                    <div class="col-md-7">
+                        {{ form_widget(form.email, {'attr': {'class': 'form-control' }}) }}
+                        {{ form_errors(form.email) }}
+                    </div>
+                </div><!-- /.form-group -->
+
+                <div class="form-group">
+                    <label class="control-label col-md-2" for="{{ form.phoneNumber.vars.id }}">Téléphone</label>
+                    <div class="col-md-7">
+                        {{ form_widget(form.phoneNumber, {'attr': {'class': 'form-control' }}) }}
+                        {{ form_errors(form.phoneNumber) }}
+                    </div>
+                </div><!-- /.form-group -->
+                <!-- .form-group -->
+                <div class="form-group">
+                    <!-- enable submit btn when user type their current password -->
+                    <label class="control-label col-md-2" for="{{ form.currentPassword.vars.id }}">Mot de passe <span class="text-danger">*</span></label>
+                    <div class="col-md-7">
+                        {{ form_widget(form.currentPassword, {'attr': {'class': 'form-control' }}) }}
+                        {{ form_errors(form.currentPassword) }}
+                        <small class="text-muted">Entrer votre mot de passe pour valider les informations.</small>
+                    </div>
+                </div>
+                <hr>
+                <!-- .form-actions -->
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary pull-right">Modifier compte
+                    </button>
+                </div><!-- /.form-actions -->
+                {{ form_end(form) }}<!-- /form -->
+            </div><!-- /.card-body -->
+        </div><!-- /.card -->
+    </div><!-- /grid column -->
+{% endblock %}

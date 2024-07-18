@@ -1,93 +1,119 @@
 {% extends 'imprimer.html.twig' %}
 
 {% block body %}
-    <div content=" ">
-    <div class="row">
-    <div class="col-sm-12">
-    <div class="card card-fluid">
-        <div class="card-header bg-soft-custom">
-            <h6>Fiche de Besoin {{ fdb.numeroFicheBesoin }}</h6>
+    <style>
+        .receipt-container {
+            margin: 20px;
+            font-family: Arial, sans-serif;
+        }
+        .header img {
+            margin: 20px 0;
+        }
+        .header p {
+            margin: 0;
+            font-size: 14px;
+        }
+        .title-box {
+            margin: 20px 0;
+            padding: 10px;
+            border: 1px solid black;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        fieldset {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        legend {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .table th, .table td {
+            padding: 5px;
+        }
+        .separator {
+            text-align: right;
+        }
+    </style>
+
+    <div class="receipt-container">
+        <div class="header text-center">
+            <img src="{{ asset('images/offset.png') }}" alt="Offset Consulting" style="max-width: 170px;">
+            <p><b><i>Cabinet Offset Consulting</i></b></p>
+            <p><b><i>Audit et Conseil en Organisation Management</i></b></p>
+            <p><b><i>08 BP 2941 Abidjan 08, République de Côte d'Ivoire</i></b></p>
+            <p><b><i>Tél: (225) 27 22 01 59 71  Cél: (225) 07 78 63 63 06</i></b></p>
+            <p><b><i>Email: info@offset-consulting.com</i></b></p>
+            <p><b><i>www.offset-consulting.com</i></b></p>
         </div>
-        <div class="card-body">
-            <div class="receipt-container">
-                <div class="header">
-                    <div class="text text-center small">
-                        <img src="{{ asset('images/offset.png') }}" alt="Offset Consulting" style="max-width: 170px;">
-                    </div>
-                    <div class="small">
-                        <p class="small line-height text-center"><b><i>Cabinet Offset Consulting</i></b></p>
-                        <p class="small line-height text-center"><b><i>Audit et Conseil en Organisation Management</i></b></p>
-                        <p class="small line-height text-center"><b><i>08 BP 2941 Abidjan 08, République de Côte d'Ivoire</i></b></p>
-                        <p class="small line-height text-center"><b><i>Tél: (225) 27 22 01 59 71  Cél: (225) 07 78 63 63 06</i></b></p>
-                        <p class="small line-height text-center"><b><i>Email: info@offset-consulting.com</i></b></p>
-                        <p class="small line-height text-center"><b><i>www.offset-consulting.com</i></b></p>
-                    </div>
-                </div>
-                <fieldset>
-                    <legend>Information de la fiche de besoin</legend>
-                    <table class="table table-sm bordered">
-                        <tbody>
-                        <tr>
-                            <th>Date</th>
-                            <td>{{ fdb.date ? fdb.date|date('d-m-Y') : '' }}</td>
-                        </tr>
-                        <tr>
-                            <th>Emetteur</th>
-                            <td>{{ fdb.emeteur }}</td>
-                        </tr>
-                        <tr>
-                            <th>Destinataire</th>
-                            <td>{{ fdb.destinataire }}</td>
-                        </tr>
-                        <tr>
-                            <th>Bénéficiaire</th>
-                            <td>{{ fdb.beneficiaire }}</td>
-                        </tr>
-                        <tr>
-                            <th>Nature</th>
-                            <td>{{ fdb.typeExpense }}</td>
-                        </tr>
-                        <tr>
-                            <th>Libellé</th>
-                            <td>{{ fdb.Expense }}</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </fieldset>
-                <fieldset>
-                    <legend> Détail Opération</legend>
-                    <table class="table bordered table-sm">
-                        <thead>
-                        <tr>
-                            <th>Désignation</th>
-                            <th>Quantité</th>
-                            <th>Prix unitaire (F cfa)</th>
-                            <th>Montant TTC (F cfa)</th>
-                        </tr>
-                        </thead>
-                        <tbody id="fdb_details">
-                        {% for detail in fdb.details %}
-                            <tr>
-                                <td>{{ detail.designationproduit }}</td>
-                                <td>{{ detail.quantite }}</td>
-                                <td class="separator text-right">{{ detail.price }} (F cfa)</td>
-                                <td class="separator text-right">{{ detail.montant }} (F cfa)</td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                        <tfoot>
-                        <tr>
-                            <th colspan="3">Total</th>
-                            <th class=" separator text-right">{{ fdb.total }}</th>
-                        </tr>
-                        </tfoot>
 
-                    </table>
-                </fieldset>
-
-
-            </div>
+        <div class="title-box">
+            FICHE DE BESOIN
         </div>
+
+        <fieldset>
+            <legend>Information de la fiche de besoin</legend>
+            <table class="table table-sm bordered">
+                <tbody>
+                <tr>
+                    <th>Date</th>
+                    <td>{{ fdb.date ? fdb.date|date('d-m-Y') : '' }}</td>
+                </tr>
+                <tr>
+                    <th>Émetteur</th>
+                    <td>{{ fdb.emeteur }}</td>
+                </tr>
+                <tr>
+                    <th>Destinataire</th>
+                    <td>{{ fdb.destinataire }}</td>
+                </tr>
+                <tr>
+                    <th>Bénéficiaire</th>
+                    <td>{{ fdb.beneficiaire }}</td>
+                </tr>
+                <tr>
+                    <th>Type d'opération</th>
+                    <td>{{ fdb.typeExpense }}</td>
+                </tr>
+                <tr>
+                    <th>Nature de l'opération</th>
+                    <td>{{ fdb.Expense }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </fieldset>
+
+        <fieldset>
+            <legend>Détail de l'opération</legend>
+            <table class="table bordered table-sm">
+                <thead>
+                <tr>
+                    <th>Objet de la dépense</th>
+                    <th>Quantité</th>
+                    <th>Prix unitaire (F cfa)</th>
+                    <th>Montant TTC (F cfa)</th>
+                </tr>
+                </thead>
+                <tbody id="fdb_details">
+                {% for detail in fdb.details %}
+                    <tr>
+                        <td>{{ detail.designationproduit }}</td>
+                        <td>{{ detail.quantite }}</td>
+                        <td class="separator text-right">{{ detail.price|number_format(0, ',', ' ') }} </td>
+                        <td class="separator text-right">{{ detail.montant|number_format(0, ',', ' ') }} </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+                <tfoot>
+                <tr>
+                    <th colspan="3">Total</th>
+                    <th class="separator text-right">{{ fdb.total|number_format(0, ',', ' ') }}</th>
+                </tr>
+                </tfoot>
+            </table>
+        </fieldset>
     </div>
-
 {% endblock %}

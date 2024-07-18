@@ -4,8 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Bonapprovisionnement;
 use App\Entity\BonCaisse;
+use App\Entity\Journee;
 use App\Entity\User;
 use App\Form\BonapprovisionnementType;
+use App\Form\CaisseType;
 use App\Repository\BonapprovisionnementRepository;
 use App\Service\CaisseService;
 use App\Utils\Status;
@@ -52,20 +54,21 @@ class BonapprovisionnementController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager, CaisseService $service): Response
     {
         $num_bonapprovisionnement = $service->refBonApprovisionnement();
-        $bonapprovisionnement = (new Bonapprovisionnement())->setReference($num_bonapprovisionnement)->setDestinataire('Konan Gwladys');
+        $bonapprovisionnement = (new Bonapprovisionnement())->setReference($num_bonapprovisionnement);
+//            ->setJournee($journee)->setDate($journee->getStartedAt());
 
         $form = $this->createForm(BonapprovisionnementType::class, $bonapprovisionnement);
         $form->handleRequest($request);
+
 
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var User $user */
             $user = $this->getUser();
             $bonapprovisionnement->setUser($user)->setStatus(Status::EN_ATTENTE);
 
-
             $entityManager->persist($bonapprovisionnement);
             $entityManager->flush();
-//            flash()->success('Bon d approvisionnement créé avec succès !');
+            flash()->success('Bon d approvisionnement créé avec succès !');
             return $this->redirectToRoute('bonapprovisionnement_index');
         }
 
@@ -90,6 +93,7 @@ class BonapprovisionnementController extends AbstractController
                 $caisse->setSoldedispo($solde + $montanttotal);
                 $bonapprovisionnement->setStatus(Status::APPROUVE);
 
+
                 $bonCaisse = new BonCaisse();
                 $bonCaisse->setStatus(Status::APPROUVE);
                 $bonCaisse->setDate(new \DateTime());
@@ -108,13 +112,11 @@ class BonapprovisionnementController extends AbstractController
             }
         }
 
-
         return $this->render('bonapprovisionnement/show.html.twig', [
             'bonapprovisionnement' => $bonapprovisionnement,
 
         ]);
     }
-
 
     #[Route('/bonapprovisionnement/{id}/edit', name: 'bonapprovisionnement_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Bonapprovisionnement $bonapprovisionnement, EntityManagerInterface $entityManager): Response

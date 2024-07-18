@@ -41,49 +41,73 @@
                             <thead class="thead-light">
                             <tr>
                                 <th class="text-center">Date</th>
-                                <th>Emetteur</th>
-                                <th>Destinataire</th>
-                                <th>Porteur de chèque</th>
-                                <th class="text-center">Moyen de paiement</th>
-                                <th class="text-center">Montant Total (F cfa)</th>
+                                <th>Caisse</th>
+                                <th>Objet</th>
+                                <th class="text-right">N° Bon d'approvisionnement</th>
+
                             </tr>
                             </thead>
                             <tbody>
                             <tr>
                                 <td class="text-center">{{ bonapprovisionnement.date ? bonapprovisionnement.date|date('d-m-Y') : ''  }}</td>
-                                <td class="align-middle">{{ bonapprovisionnement.emeteur }}</td>
-                                <td class="align-middle">{{ bonapprovisionnement.destinataire }}</td>
+                                <td class="align-middle">{{ bonapprovisionnement.caisse.intitule }}</td>
                                 <td class="align-middle">{{ bonapprovisionnement.porteur }}</td>
-                                <td class="text-left">{{ bonapprovisionnement.modepaie }}</td>
-                                <td class="text-right separator">{{ bonapprovisionnement.montanttotal }} </td>
+                                <td class="text-right">{{ bonapprovisionnement.reference }}</td>
                             </tr>
                             </tbody>
                         </table>
+                    </fieldset>
 
+                    <fieldset>
+                        <legend>Détail réçu</legend>
+                        <table class="table table-sm bordered">
+                            <thead class="thead-light">
+                            <tr>
+                                <th class="text-center">Bénéficiaire</th>
+                                <th>Nom Caissier(e)</th>
+                                <th class="text-left">Source d'approvisionnement</th>
+                                <th class="text-left">Détail source d'approvisionnement</th>
+                                <th class="text-right">Montant Total (F cfa)</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="align-middle">{{ bonapprovisionnement.destinataire }}</td>
+                                <td class="align-middle">{{ bonapprovisionnement.caisse.user }}</td>
+                                <td class="text-left">{{ bonapprovisionnement.modepaie }}</td>
+                                <td class="text-left">{{ bonapprovisionnement.nomTiers }}</td>
+                                <td class="text-right">{{ bonapprovisionnement.montanttotal }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </fieldset>
 
-                <form method="post" action="{{ path('bonapprovisionnement_show', {'id': bonapprovisionnement.id}) }}">
-                    <div class="card-footer">
+                    <form method="post" action="{{ path('bonapprovisionnement_show', {'id': bonapprovisionnement.id}) }}">
+                        <div class="card-footer">
 
-                        <div class="card-footer-content">
-                            {% if is_granted('ROLE_MANAGER') and bonapprovisionnement.status == 'en attente' %}
-                                {% include '_modal_manager.html.twig' %}
+                            <div class="card-footer-content">
+                                {% if is_granted('ROLE_MANAGER') and bonapprovisionnement.status == 'en attente' %}
+                                    {% include '_modal_manager.html.twig' %}
 
-                                <!-- Button trigger modal -->
-                            {% endif %}
+                                    <!-- Button trigger modal -->
+                                {% endif %}
 
-                            <a target="_blank" href="{{ path('print_bon', {'uuid': bonapprovisionnement.uuid}) }}" class="btn btn-primary float-right ml-2">
-                                <i class="fa fa-print"></i> Imprimer Bon d'approvisionnement
-                            </a>
-                            <a href="{{ path('app_welcome') }}" class="btn btn-info float-right">
-                                <i class="oi oi-home"></i> Retour
-                            </a>
-                            <input type="hidden" name="_token" value="{{ csrf_token('validate-caisse-bonapprovisionnement') }}">
+                                {% if is_granted('ROLE_MANAGER') or is_granted('ROLE_IMPRESSION') and bonapprovisionnement.status == 'approuvée' %}
+                                    <a target="_blank" href="{{ path('print_bon', {'uuid': bonapprovisionnement.uuid}) }}" class="btn btn-primary float-right ml-2">
+                                        <i class="fa fa-print"></i> Imprimer bon d'approvisionnement
+                                    </a>
+                                {% endif %}
+
+                                <a href="{{ path('app_welcome') }}" class="btn btn-info float-right">
+                                    <i class="oi oi-home"></i> Retour
+                                </a>
+                                <input type="hidden" name="_token" value="{{ csrf_token('validate-caisse-bonapprovisionnement') }}">
+                            </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
+
             </div>
         </div>
     </div>
-
 {% endblock %}
-

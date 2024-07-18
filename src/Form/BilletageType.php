@@ -6,6 +6,7 @@ use App\Entity\Billetage;
 
 use Symfony\Component\Form\AbstractType;
 
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -17,6 +18,8 @@ class BilletageType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+//            ->add('date', DateType::class)
+//            ->add("reference")
             ->add('b10000', IntegerType::class, [
                 'attr' => [
                     'min' => 0,
@@ -113,7 +116,7 @@ class BilletageType extends AbstractType
                     'tabindex' => 12
                 ]
             ])
-            ->add('balance')
+            ->add('balance', TextType::class)
             ->add('ecart', TextType::class);
 
     }

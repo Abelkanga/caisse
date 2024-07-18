@@ -75,10 +75,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?Caisse $caisse = null;
 
+    /**
+     * @var Collection<int, Billetage>
+     */
+    #[ORM\OneToMany(targetEntity: Billetage::class, mappedBy: 'user')]
+    private Collection $billetages;
+
     public function __construct()
     {
         $this->depenses = new ArrayCollection();
         $this->bonapprovisionnements = new ArrayCollection();
+        $this->billetages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -321,6 +328,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         $this->caisse = $caisse;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Billetage>
+     */
+    public function getBilletages(): Collection
+    {
+        return $this->billetages;
+    }
+
+    public function addBilletage(Billetage $billetage): static
+    {
+        if (!$this->billetages->contains($billetage)) {
+            $this->billetages->add($billetage);
+            $billetage->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBilletage(Billetage $billetage): static
+    {
+        if ($this->billetages->removeElement($billetage)) {
+            // set the owning side to null (unless already changed)
+            if ($billetage->getUser() === $this) {
+                $billetage->setUser(null);
+            }
+        }
 
         return $this;
     }

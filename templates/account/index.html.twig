@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="widget box">
+                <div class="widget-header">
+                    <h4><i class="icon-reorder"></i> Information personnelle</h4>
+                </div>
+                <div class="widget-content">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img src="https://ui-avatars.com/api/?name={{ app.user.fullName }}&rounded=true&size=100"
+                                 alt="">
+                        </div>
+                        <div class="col-md-6">
+                            <h4 class="account-name font-weight-bold">
+                                <strong>{{ app.user.fullName }}</strong>
+                            </h4>
+                            <h5  class="account-description">
+                                <strong>Votre compte personnel</strong>
+                            </h5>
+                        </div>
+                    </div>
+                    <br><br>
+                    <div class="list-group">
+                        <a href="{{ path('account_profile') }}" class="list-group-item">Mes détails</a>
+                        <a href="{{ path('account_update_recover') }}" class="list-group-item">Modifier mot de passe</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% block layout %}
+        {% endblock %}
+    </div><!-- /grid row -->
+{% endblock %}

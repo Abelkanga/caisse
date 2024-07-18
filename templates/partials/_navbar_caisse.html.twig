@@ -47,7 +47,7 @@
 		</li>
 		<hr>
 		<li class="menu-item {{ app.request.get('_route') == 'billetage_form' ? 'has-active': '' }}">
-			<a href="{{ path('billetage_form') }}" class="menu-link">Inventaire de caisse</a>
+			<a href="{{ path('billetage_inventaire_create') }}" class="menu-link">Inventaire de caisse</a>
 		</li>
 	</ul>
 	<!-- /child menu -->
@@ -84,7 +84,7 @@
 	<!-- child menu -->
 	<ul class="menu">
 		<li class="menu-item {{ app.request.get('_route') == 'app_etat_caisse' ? 'has-active': '' }}">
-			<a href="{{ path('app_etat_caisse') }}" class="menu-link">Liste Dépense et Approvisionnement</a>
+			<a href="{{ path('app_etat_caisse') }}" class="menu-link">Consulter</a>
 		</li>
 
 
@@ -92,6 +92,28 @@
 	<!-- /child menu -->
 	<!-- .menu-item -->
 </li>
+
+<li class="menu-header">REPORTING</li>
+<li class="menu-item has-child">
+	<a href="#" class="menu-link">
+		<span class="menu-icon fas fa-file-alt"> </span>
+		<span class="menu-text">Etat</span>
+	</a>
+	<!-- child menu -->
+	<ul class="menu">
+		<li class="menu-item {{ app.request.get('_route') == 'fdb_etat' ? 'has-active': '' }}">
+			<a href="{{ path('fdb_etat') }}" class="menu-link">Fiche de besoin </a>
+		</li>
+		{#		<li class="menu-item {{ app.request.get('_route') == 'app_etat_caisse' ? 'has-active': '' }}">#}
+		{#			<a href="" class="menu-link">Fiche de besoin validée</a>#}
+		{#		</li>#}
+	</ul>
+	<!-- /child menu -->
+	<!-- .menu-item -->
+</li>
+
+
+
 {#<li class="menu-item has-child">#}
 {#	<a href="#" class="menu-link">#}
 {#		<i class="fa-solid fa-list" style="font-size:17px;"></i>#}

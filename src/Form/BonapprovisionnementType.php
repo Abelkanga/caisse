@@ -24,52 +24,18 @@ class BonapprovisionnementType extends AbstractType
             ->add('date', DateType::class)
             ->add('reference', TextType::class)
             ->add('destinataire', TextType::class)
-            ->add('emeteur', EntityType::class, [
-                'class' => Emeteur::class,
-                'placeholder' => 'Sélectionnez un émetteur', 'required' => false
-            ])
             ->add('porteur', TextType::class)
             ->add('modepaie', ChoiceType::class, [
                 'choices'  => [
-                    'Banque' => 'banque',
-                    'Caisse' => 'caisse',
-                    'Prêt' => 'pret',
+                    'Banque' => 'Banque',
+                    'Caisse' => 'Caisse',
+                    'Prêt' => 'Prêt',
                 ],
                 'placeholder' => 'Sélectionnez un moyen d\'approvisionnement',
             ])
 
             ->add('montanttotal', NumberType::class)
-
-            // Champs pour les détails bancaires
-            ->add('NomBanque', TextType::class, [
-                'required' => false,
-                'attr' => ['class' => 'd-none'] // Masqué par défaut
-            ])
-            ->add('CheckNumber', TextType::class, [
-                'required' => false,
-                'attr' => ['class' => 'd-none'] // Masqué par défaut
-            ])
-
-            // Champs pour les détails de caisse
-            ->add('NomCaisse', TextType::class, [
-                'required' => false,
-                'attr' => ['class' => 'd-none'] // Masqué par défaut
-            ])
-            ->add('NumeroBon', TextType::class, [
-                'required' => false,
-                'attr' => ['class' => 'd-none'] // Masqué par défaut
-            ])
-
-            // Champs pour les détails de prêt
-            ->add('NomTiers', TextType::class, [
-                'required' => false,
-                'attr' => ['class' => 'd-none'] // Masqué par défaut
-            ])
-            ->add('Echeance', DateType::class, [
-                'required' => false,
-                'widget' => 'single_text',
-                'attr' => ['class' => 'd-none'] // Masqué par défaut
-            ]);
+            ->add('nomTiers', TextType::class);
 
     }
 

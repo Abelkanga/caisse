@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Billetage caisse{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-md-10 col-lg-offset-1">
+            <div class="widget box">
+                <div class="widget-header">
+                    <h4>
+                        <i class="icon-reorder"></i>
+                        Modifier le billetage d'une caisse
+                    </h4>
+                </div>
+                <div class="widget-content">
+                    {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+                    {{ include('billetage/_form.html.twig') }}
+                    <div class="form-actions">
+                        <button class="btn btn-primary pull-right">Enregistrer</button>
+                        <a class="btn btn-info pull-right" style="color: white" href="{{ path('app_welcome') }}">Retour</a>
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

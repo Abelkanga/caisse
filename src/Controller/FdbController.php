@@ -235,6 +235,41 @@ class FdbController extends AbstractController
         ]);
     }
 
+    #[Route('/fdb/etat', name: 'fdb_etat', methods: ['GET'])]
+    public function getFdbEtat(FdbRepository $fdbRepository, Request $request): Response
+    {
+        $dateDebut = $request->query->get('date_debut') ? new \DateTime($request->query->get('date_debut')) : null;
+        $dateFin = $request->query->get('date_fin') ? new \DateTime($request->query->get('date_fin')) : null;
+        $status = $request->query->get('status');
+
+        $fdbResults = [];
+        $total = 0;
+
+        $fdbQueryBuilder = $fdbRepository->createQueryBuilder('fdb');
+
+        if ($dateDebut && $dateFin) {
+            $fdbQueryBuilder->where('fdb.date BETWEEN :date_debut AND :date_fin')
+                ->setParameter('date_debut', $dateDebut)
+                ->setParameter('date_fin', $dateFin);
+        }
+
+        if ($status && $status !== 'TOUS') {
+            $fdbQueryBuilder->andWhere('fdb.status = :status')
+                ->setParameter('status', $status);
+        }
+
+        $fdbResults = $fdbQueryBuilder->getQuery()->getResult();
+        $total = count($fdbResults);
+
+        return $this->render('fdb/etat.html.twig', [
+            'fdbResults' => $fdbResults,
+            'total' => $total,
+        ]);
+    }
+
+
+
+
     #[Route('/fdb/{uuid}/print', name: 'print_fdb', methods: ['GET'])]
     public function print(Fdb $fdb): Response
     {

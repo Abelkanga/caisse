@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\BilletageRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: BilletageRepository::class)]
@@ -57,21 +58,40 @@ class Billetage
 
     #[ORM\Column(nullable: true)]
     private ?int $ecart = null;
+//
+//    #[ORM\Column(nullable: true)]
+//    private ?int $checkBalance = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $checkBalance = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?int $checkAmount = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?int $checkEcart = null;
+//    #[ORM\Column(nullable: true)]
+//    private ?int $checkAmount = null;
+//
+//    #[ORM\Column(nullable: true)]
+//    private ?int $checkEcart = null;
 
     #[ORM\ManyToOne(inversedBy: 'billetages')]
     private ?Caisse $caisse = null;
 
     #[ORM\ManyToOne(inversedBy: 'billetages')]
     private ?Bonapprovisionnement $bonapprovisionnement = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $date = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $status = null;
+
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $reference = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $confimreAt = null;
+
+    #[ORM\ManyToOne(inversedBy: 'billetages')]
+    private ?User $user = null;
+
+    #[ORM\OneToOne(inversedBy: 'billetage', cascade: ['persist', 'remove'])]
+    private ?Journee $journee = null;
 
 
     public function getId(): ?int
@@ -248,6 +268,18 @@ class Billetage
         return $this;
     }
 
+    public function getAmount(): ?int
+    {
+        return $this->amount;
+    }
+
+    public function setAmount(?int $amount): static
+    {
+        $this->amount = $amount;
+
+        return $this;
+    }
+
     public function getCaisse(): ?Caisse
     {
         return $this->caisse;
@@ -269,6 +301,78 @@ class Billetage
     public function setBonapprovisionnement(?Bonapprovisionnement $bonapprovisionnement): static
     {
         $this->bonapprovisionnement = $bonapprovisionnement;
+
+        return $this;
+    }
+
+    public function getDate(): ?\DateTimeInterface
+    {
+        return $this->date;
+    }
+
+    public function setDate(?\DateTimeInterface $date): static
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?string $status): static
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getReference(): ?string
+    {
+        return $this->reference;
+    }
+
+    public function setReference(?string $reference): static
+    {
+        $this->reference = $reference;
+
+        return $this;
+    }
+
+    public function getConfimreAt(): ?\DateTimeImmutable
+    {
+        return $this->confimreAt;
+    }
+
+    public function setConfimreAt(?\DateTimeImmutable $confimreAt): static
+    {
+        $this->confimreAt = $confimreAt;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getJournee(): ?Journee
+    {
+        return $this->journee;
+    }
+
+    public function setJournee(?Journee $journee): static
+    {
+        $this->journee = $journee;
 
         return $this;
     }

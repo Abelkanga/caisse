@@ -8,6 +8,7 @@ use App\Repository\BonapprovisionnementRepository;
 use App\Repository\CaisseRepository;
 use App\Repository\DepenseRepository;
 use App\Repository\FdbRepository;
+use App\Utils\Status;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -60,7 +61,6 @@ class CaisseController extends AbstractController
         ]);
     }
 
-
     #[Route('/etat', name: 'app_etat_caisse', methods: ['GET'])]
     public function getMouvementsCaisse(FdbRepository $fdbRepository, BonapprovisionnementRepository $bonapprovisionnementRepository, Request $request): Response {
         $dateDebut = $request->query->get('date_debut') ? new \DateTime($request->query->get('date_debut')) : null;
@@ -74,8 +74,10 @@ class CaisseController extends AbstractController
         if ($dateDebut && $dateFin) {
             $fdbQuery = $fdbRepository->createQueryBuilder('fdb')
                 ->where('fdb.date BETWEEN :date_debut AND :date_fin')
+                ->andWhere('fdb.status = :status')
                 ->setParameter('date_debut', $dateDebut)
                 ->setParameter('date_fin', $dateFin)
+                ->setParameter('status', Status::APPROUVE)
                 ->getQuery()
                 ->getResult();
 
@@ -93,8 +95,10 @@ class CaisseController extends AbstractController
 
             $bonapprovisionnementQuery = $bonapprovisionnementRepository->createQueryBuilder('ba')
                 ->where('ba.date BETWEEN :date_debut AND :date_fin')
+                ->andWhere('ba.status = :status')
                 ->setParameter('date_debut', $dateDebut)
                 ->setParameter('date_fin', $dateFin)
+                ->setParameter('status', Status::APPROUVE)
                 ->getQuery()
                 ->getResult();
 
@@ -122,6 +126,5 @@ class CaisseController extends AbstractController
             'solde' => $solde,
         ]);
     }
-
 
 }

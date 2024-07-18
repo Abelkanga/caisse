@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Fiches de Besoin{% endblock %}
+{% block title %}Fiche de besoin{% endblock %}
 
 {% block body %}
 
     <div class="col-12 col-md-12">
         <div class="card">
             <div class="card-header bg-soft-custom">
-                Liste des Fiches de Besoins
+                Liste des fiches de besoins
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -19,11 +19,11 @@
                             <th>Emetteur</th>
                             <th>Destinataire</th>
                             <th>Bénéficiaire</th>
-                            <th>Nature</th>
-                            <th>Libellé</th>
-                            <th>Montant (F Cfa)</th>
+                            <th>Nature de l'opération</th>
+                            <th>Objet de dépense</th>
+                            <th>Montant (F cfa)</th>
                             <th>Statut</th>
-                            <th>Actions</th>
+                            <th>Action</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -34,8 +34,12 @@
                                 <td class="align-middle">{{ fdb.emeteur }}</td>
                                 <td class="align-middle">{{ fdb.destinataire }}</td>
                                 <td class="align-middle">{{ fdb.beneficiaire }}</td>
-                                <td class="align-middle">{{ fdb.typeExpense }}</td>
                                 <td class="align-middle">{{ fdb.Expense }}</td>
+                                <td class="align-middle">
+                                    {% for detail in fdb.details %}
+                                        {{ detail.designationproduit }} <br>
+                                    {% endfor %}
+                                </td>
                                 <td class="separator text-right align-middle">{{ fdb.total }}</td>
                                 <td class="text-center align-middle">
                                     {% if fdb.status == 'validée' %}

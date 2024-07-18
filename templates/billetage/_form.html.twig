@@ -1,0 +1,218 @@
+<fieldset>
+    <legend>Information de billetage</legend>
+    <div class="form-group">
+        <label class="col-md-2 control-label">Date <span class="required">*</span></label>
+        <div class="col-md-4 clearfix">
+            {{ form_widget(form.date) }}
+            {{ form_errors(form.date) }}
+        </div>
+        <label class="col-md-2 control-label">Référence <span class="required">*</span></label>
+        <div class="col-md-4 clearfix">
+            {{ form_widget(form.reference) }}
+            {{ form_errors(form.reference) }}
+        </div>
+    </div>
+</fieldset>
+<br>
+<fieldset>
+    <legend>Détail Billetage</legend>
+    <table class="table table-striped bordered table-sm">
+        <thead class="thead-">
+        <tr>
+            <th style="width: 33%">Nominal</th>
+            <th style="width: 33%">Montant disponible</th>
+            <th style="width: 33%">Total</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td colspan="3">Billet</td>
+        </tr>
+        <tr>
+            <td>
+                <output>10 000</output>
+            </td>
+            <td>
+                {{ form_widget(form.b10000) }}
+            </td>
+            <td class="output">
+                <input type="text" readonly id="r{{ form.b10000.vars.id }}" name="value10000"
+                       class="form-control separator total text-right form-control-sm">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <output>5 000</output>
+            </td>
+            <td>
+                {{ form_widget(form.b5000) }}
+            </td>
+            <td class="output">
+                <input type="text" readonly id="r{{ form.b5000.vars.id }}" name="value5000"
+                       class="form-control separator total text-right form-control-sm">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <output>2 000</output>
+            </td>
+            <td>
+                {{ form_widget(form.b2000) }}
+            </td>
+            <td class="output">
+                <input type="text" readonly id="r{{ form.b2000.vars.id }}" name="value2000"
+                       class="form-control separator total text-right form-control-sm">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <output>1 000</output>
+            </td>
+            <td>
+                {{ form_widget(form.b1000) }}
+            </td>
+            <td class="output">
+                <input type="text" readonly class="form-control separator total text-right form-control-sm"
+                       id="r{{ form.b1000.vars.id }}"
+                       name="value1000">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <output>500</output>
+            </td>
+            <td>
+                {{ form_widget(form.b500) }}
+            </td>
+            <td class="output">
+                <input type="text" readonly class="form-control separator total text-right form-control-sm"
+                       id="r{{ form.b500.vars.id }}"
+                       name="value500_1">
+            </td>
+        </tr>
+        <tr style="font-weight: 600">
+            <td colspan="2">Sous Total</td>
+            <td class="output text-right">
+                <output id="resualtTotal1"></output>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">Monnaie</td>
+        </tr>
+        <tr>
+            <td>500</td>
+            <td>
+                {{ form_widget(form.m500) }}
+            </td>
+            <td class="output">
+                <input type="text" readonly class="form-control separator total text-right form-control-sm"
+                       id="r{{ form.m500.vars.id }}"
+                       name="value500_2">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <output>250</output>
+            </td>
+            <td>
+                {{ form_widget(form.m250) }}
+            </td>
+            <td class="output">
+                <input type="text" readonly class="form-control separator total text-right form-control-sm"
+                       id="r{{ form.m250.vars.id }}"
+                       name="value200">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <output>200</output>
+            </td>
+            <td>
+                {{ form_widget(form.m200) }}
+            </td>
+            <td class="output">
+                <input type="text" readonly class="form-control separator total text-right form-control-sm"
+                       id="r{{ form.m200.vars.id }}"
+                       name="value250">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <output>100</output>
+            </td>
+            <td>
+                {{ form_widget(form.m100) }}
+            </td>
+            <td class="output">
+                <input type="text" readonly class="form-control separator total text-right form-control-sm"
+                       id="r{{ form.m100.vars.id }}"
+                       name="value100">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <output>50</output>
+            </td>
+            <td>
+                {{ form_widget(form.m50) }}
+            </td>
+            <td class="output">
+                <input type="text" readonly class="form-control separator total text-right form-control-sm"
+                       id="r{{ form.m50.vars.id }}"
+                       name="value50">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <output>10</output>
+            </td>
+            <td>
+                {{ form_widget(form.m10) }}
+            </td>
+            <td class="output">
+                <input type="text" readonly class="form-control separator total text-right form-control-sm"
+                       id="r{{ form.m10.vars.id }}"
+                       name="value10">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <output>5</output>
+            </td>
+            <td>
+                {{ form_widget(form.m5) }}
+            </td>
+            <td class="output">
+                <input type="text" readonly class="form-control separator total text-right form-control-sm"
+                       id="r{{ form.m5.vars.id }}"
+                       name="value5">
+            </td>
+        </tr>
+
+        <tr style="font-weight: 600">
+            <td colspan="2">Sous Total</td>
+            <td class="output text-right">
+                <output id="resualtTotal2"></output>
+            </td>
+        </tr>
+        <tr style="font-weight: 900">
+            <td colspan="2"> Total</td>
+            <td class="output text-right">
+                {{ form_widget(form.amount, {'attr': {'class': 'form-control form-control-sm text-right separator', 'readonly': 'readonly'}}) }}
+            </td>
+        </tr>
+        <tr style="font-weight: 900">
+            <td colspan="2">Solde théorique</td>
+            <td class="output text-danger text-right">
+                {{ form_widget(form.balance, {'attr': {'class': 'form-control form-control-sm text-right separator', 'readonly': 'readonly'}}) }}
+            </td>
+        </tr>
+        <tr style="font-weight: 900">
+            <td colspan="2">Ecart</td>
+            <td class="output">
+                {{ form_widget(form.ecart, {'attr': {'class': 'form-control form-control-sm text-right separator', 'readonly': 'readyonly'}}) }}
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</fieldset>

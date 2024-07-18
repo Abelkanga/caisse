@@ -3,14 +3,19 @@
 namespace App\Entity;
 
 use App\Repository\JourneeRepository;
+use App\Traits\Horodatage;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: JourneeRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Journee
 {
+
+    use Horodatage;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -64,6 +69,10 @@ class Journee
      */
     #[ORM\OneToMany(targetEntity: Fdb::class, mappedBy: 'journee')]
     private Collection $fdbs;
+
+    #[ORM\OneToOne(mappedBy: 'journee', cascade: ['persist', 'remove'])]
+    private ?Billetage $billetage = null;
+
 
     public function __construct()
     {
@@ -276,6 +285,28 @@ class Journee
                 $fdb->setJournee(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getBilletage(): ?Billetage
+    {
+        return $this->billetage;
+    }
+
+    public function setBilletage(?Billetage $billetage): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($billetage === null && $this->billetage !== null) {
+            $this->billetage->setJournee(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($billetage !== null && $billetage->getJournee() !== $this) {
+            $billetage->setJournee($this);
+        }
+
+        $this->billetage = $billetage;
 
         return $this;
     }
