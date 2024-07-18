@@ -1,16 +1,16 @@
 <fieldset>
 
-    <legend>Information Bon d'Approvisionnement</legend>
+    <legend>Information bon d'approvisionnement</legend>
 
     <div class="row">
-        <div class="col-4">
+        <div class="col-5">
             <div class="form-group">
                 <label for="date">Date</label>
                 {{ form_widget(form.date, {'attr' : {'class': 'form-control'}}) }}
             </div>
         </div>
 
-        <div class="col-4">
+        <div class="col-5">
             <div class="form-group">
                 <label for="reference">Reférence</label>
                 {{ form_widget(form.reference, {'attr' : {'class': 'form-control'}}) }}
@@ -19,36 +19,32 @@
     </div>
 
     <div class="row">
-        <div class="col-4">
+        <div class="col-5">
             <div class="form-group">
-                <label for="emetteur">Emetteur<span class="text-danger">*</span></label>
-                {{ form_widget(form.emeteur, {'attr' : {'class': ' select2'}}) }}
-            </div>
-        </div>
-        <div class="col-4">
-            <div class="form-group">
-                <label for="modepaie">Destinataire</label>
+                <label for="modepaie">Bénéficiaire</label>
                 {{ form_widget(form.destinataire, {'attr' : {'class': 'form-control'}}) }}
             </div>
         </div>
-        <div class="col-4">
+
+        <div class="col-5">
             <div class="form-group">
-                <label for="modepaie">Porteur de chèque</label>
+                <label for="modepaie">Objet</label>
                 {{ form_widget(form.porteur, {'attr' : {'class': 'form-control'}}) }}
             </div>
         </div>
 
     </div>
 
-    <legend>Opération</legend>
+    <legend>Détail opération</legend>
     <div class="row">
-        <div class="col-4">
+        <div class="col-5">
             <div class="form-group">
-                <label for="approvisionnement_modepaie">Moyen d'approvisionnement</label>
+                <label for="approvisionnement_modepaie">Source d'approvisionnement</label>
                 {{ form_widget(form.modepaie, {'attr': {'class': 'form-control select2', 'id': 'approvisionnement_modepaie'}}) }}
             </div>
         </div>
-        <div class="col-4">
+
+        <div class="col-5">
             <div class="form-group">
                 <label for="montanttotal">Montant (F cfa)<span class="text-danger">*</span></label>
                 {{ form_widget(form.montanttotal, {'attr' : {'class': 'form-control separator text-right'}}) }}
@@ -56,85 +52,5 @@
         </div>
     </div>
 
-    <!-- Détails Bancaires -->
-    <div id="bank-details" class="row d-none">
-        <div class="col-4">
-            <div class="form-group">
-                <label for="nomBanque">Nom de la Banque</label>
-                {{ form_widget(form.NomBanque, {'attr' : {'class': 'form-control'}}) }}
-            </div>
-        </div>
-        <div class="col-4">
-            <div class="form-group">
-                <label for="checkNumber">Numéro de Chèque</label>
-                {{ form_widget(form.CheckNumber, {'attr' : {'class': 'form-control'}}) }}
-            </div>
-        </div>
-    </div>
-
-    <!-- Détails de Caisse -->
-    <div id="cash-details" class="row d-none">
-        <div class="col-4">
-            <div class="form-group">
-                <label for="nomCaisse">Nom de la Caisse</label>
-                {{ form_widget(form.NomCaisse, {'attr' : {'class': 'form-control'}}) }}
-            </div>
-        </div>
-        <div class="col-4">
-            <div class="form-group">
-                <label for="codeCaisse">Code de la Caisse</label>
-                {{ form_widget(form.NumeroBon, {'attr' : {'class': 'form-control'}}) }}
-            </div>
-        </div>
-    </div>
-
-    <!-- Détails de Prêt -->
-    <div id="loan-details" class="row d-none">
-        <div class="col-4">
-            <div class="form-group">
-                <label for="nomTiers">Nom du Tiers</label>
-                {{ form_widget(form.NomTiers, {'attr' : {'class': 'form-control'}}) }}
-            </div>
-        </div>
-        <div class="col-4">
-            <div class="form-group">
-                <label for="echeance">Date d'Échéance</label>
-                {{ form_widget(form.Echeance, {'attr' : {'class': 'form-control'}}) }}
-            </div>
-        </div>
-    </div>
 
 </fieldset>
-
-<script>
-    // assets/js/form.js
-    document.addEventListener('DOMContentLoaded', function () {
-        const modePaieSelect = document.getElementById('approvisionnement_modepaie');
-        const banqueFields = ['nomBanque', 'checkNumber'];
-        const caisseFields = ['nomCaisse', 'codeCaisse'];
-        const pretFields = ['nomTiers', 'echeance'];
-
-        function toggleFields(fields, show) {
-            fields.forEach(function (field) {
-                const element = document.querySelector('[name="' + field + '"]').closest('.form-group');
-                if (show) {
-                    element.classList.remove('d-none');
-                } else {
-                    element.classList.add('d-none');
-                }
-            });
-        }
-
-        modePaieSelect.addEventListener('change', function () {
-            const selectedValue = this.value;
-            toggleFields(banqueFields, selectedValue === 'banque');
-            toggleFields(caisseFields, selectedValue === 'caisse');
-            toggleFields(pretFields, selectedValue === 'pret');
-        });
-
-        // Initial call to set visibility based on the default selected option
-        const event = new Event('change');
-        modePaieSelect.dispatchEvent(event);
-    });
-
-</script>

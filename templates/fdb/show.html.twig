@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Fiche de Besoin{% endblock %}
+{% block title %}Fiche de besoin{% endblock %}
 
 {% block stylesheets %}
 
@@ -20,7 +20,7 @@
     <div class="col-sm-12">
         <div class="card card-fluid">
             <div class="card-header bg-soft-custom">
-                <h6>Fiche de Besoin {{ fdb.numeroFicheBesoin }}</h6>
+                <h6>Fiche de besoin {{ fdb.numeroFicheBesoin }}</h6>
             </div>
             <div class="card-body">
                 <div class="row">
@@ -47,22 +47,22 @@
                             <td>{{ fdb.beneficiaire }}</td>
                         </tr>
                         <tr>
-                            <th>Nature</th>
+                            <th>Type opération</th>
                             <td>{{ fdb.typeExpense }}</td>
                         </tr>
                         <tr>
-                            <th>Libellé</th>
+                            <th>Nature opération</th>
                             <td>{{ fdb.Expense }}</td>
                         </tr>
                         </tbody>
                     </table>
                 </fieldset>
                 <fieldset>
-                    <legend> Détail Opération</legend>
+                    <legend> Détail opération</legend>
                     <table class="table bordered table-sm">
                         <thead>
                         <tr>
-                            <th>Désignation</th>
+                            <th>Objet de dépense</th>
                             <th>Quantité</th>
                             <th>Prix unitaire (F cfa)</th>
                             <th>Montant TTC (F cfa)</th>
@@ -93,18 +93,19 @@
                         <div class="card-footer-content">
                             {% if is_granted('ROLE_RESPONSABLE') and fdb.status == 'en attente' %}
                                 {% include '_modal_responsable.html.twig' %}
+                                {% include '_modal_responsable_annulation.html.twig' %}
                             {% endif %}
                             {% if is_granted('ROLE_MANAGER') and fdb.status == 'validée' %}
                                 {% include '_modal_manager.html.twig' %}
                             {% endif %}
                             {% if is_granted('ROLE_MANAGER') and fdb.status == 'approuvée' %}
                                 <a target="_blank" href="{{ path('print_fdb', {'uuid': fdb.uuid}) }}" class="btn btn-primary float-right ml-2">
-                                    <i class="fa fa-print"></i> Imprimer Bon de caisse
+                                    <i class="fa fa-print"></i> Imprimer bon de caisse
                                 </a>
                             {% endif %}
                             {% if (is_granted('ROLE_USER') or is_granted('ROLE_RESPONSABLE')) and fdb.status == 'approuvée' %}
                                 <a target="_blank" href="{{ path('printA_fdb', {'uuid': fdb.uuid}) }}" class="btn btn-primary float-right ml-2">
-                                    <i class="fa fa-print"></i> Imprimer Fiche de besoin
+                                    <i class="fa fa-print"></i> Imprimer fiche de besoin
                                 </a>
                             {% endif %}
                             {% if is_granted('ROLE_USER') and fdb.status == 'annulée' %}

@@ -4,6 +4,7 @@ twig:
     globals:
         societe_info: '@App\Service\SocieteService'
         journee_service: '@App\Service\JourneeService'
+        numberToWords: '@App\Service\NumberToWordsService'
 
 
 when@test:

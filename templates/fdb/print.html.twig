@@ -34,10 +34,10 @@
                                         <span>Bénéficiaire :</span> {{ fdb.beneficiaire }}
                                     </div>
                                     <div>
-                                        <span>Libellé :</span> {{ fdb.typeExpense }}
+                                        <span>Libellé :</span> {{ fdb.Expense }}
                                     </div>
                                     <div>
-                                        <span>Montant :</span> {{ fdb.total|number_format(0, ',' , ' ') }} F Cfa
+                                        <span>Montant en lettres :</span> {{ numberToWords.convertNumberToWords(fdb.total) }} francs
                                     </div>
                                 </div>
                             </table>
@@ -48,7 +48,7 @@
                             <table class="table bordered table-sm">
                                 <thead>
                                 <tr>
-                                    <th>Désignation</th>
+                                    <th>Objet de la dépense</th>
                                     <th>Quantité</th>
                                     <th>Prix unitaire (F cfa)</th>
                                     <th>Montant TTC (F cfa)</th>

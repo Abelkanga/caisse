@@ -52,7 +52,7 @@ class BonapprovisionnementController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager, CaisseService $service): Response
     {
         $num_bonapprovisionnement = $service->refBonApprovisionnement();
-        $bonapprovisionnement = (new Bonapprovisionnement())->setReference($num_bonapprovisionnement)->setDestinataire('Konan Gwladys');
+        $bonapprovisionnement = (new Bonapprovisionnement())->setReference($num_bonapprovisionnement);
 
         $form = $this->createForm(BonapprovisionnementType::class, $bonapprovisionnement);
         $form->handleRequest($request);
@@ -89,6 +89,7 @@ class BonapprovisionnementController extends AbstractController
                 $montanttotal = $bonapprovisionnement->getMontanttotal();
                 $caisse->setSoldedispo($solde + $montanttotal);
                 $bonapprovisionnement->setStatus(Status::APPROUVE);
+
 
                 $bonCaisse = new BonCaisse();
                 $bonCaisse->setStatus(Status::APPROUVE);
