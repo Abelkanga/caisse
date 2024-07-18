@@ -27,7 +27,7 @@
                                 <td class="align-middle">{{ c.code }}</td>
                                 <td class="align-middle">{{ c.intitule }}</td>
                                 <td class="align-middle">
-                                    {% for user in c.users %}
+                                    {% for user in c.user %}
                                         {{ user.fullName }}{% if not loop.last %}, {% endif %}
                                     {% endfor %}
                                 </td>
