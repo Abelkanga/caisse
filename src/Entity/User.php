@@ -72,18 +72,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?bool $isTemporary = null;
 
-    /**
-     * @var Collection<int, Caisse>
-     */
-    #[ORM\OneToMany(targetEntity: Caisse::class, mappedBy: 'user')]
-    private Collection $caisses;
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?Caisse $caisse = null;
 
     public function __construct()
     {
         $this->depenses = new ArrayCollection();
         $this->bonapprovisionnements = new ArrayCollection();
-        $this->caisses = new ArrayCollection();
-
     }
 
     public function getId(): ?int
@@ -308,32 +303,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, Caisse>
-     */
-    public function getCaisses(): Collection
+    public function getCaisse(): ?Caisse
     {
-        return $this->caisses;
+        return $this->caisse;
     }
 
-    public function addCaiss(Caisse $caiss): static
+    public function setCaisse(?Caisse $caisse): static
     {
-        if (!$this->caisses->contains($caiss)) {
-            $this->caisses->add($caiss);
-            $caiss->setUser($this);
+        // unset the owning side of the relation if necessary
+        if ($caisse === null && $this->caisse !== null) {
+            $this->caisse->setUser(null);
         }
 
-        return $this;
-    }
-
-    public function removeCaiss(Caisse $caiss): static
-    {
-        if ($this->caisses->removeElement($caiss)) {
-            // set the owning side to null (unless already changed)
-            if ($caiss->getUser() === $this) {
-                $caiss->setUser(null);
-            }
+        // set the owning side of the relation if necessary
+        if ($caisse !== null && $caisse->getUser() !== $this) {
+            $caisse->setUser($this);
         }
+
+        $this->caisse = $caisse;
 
         return $this;
     }

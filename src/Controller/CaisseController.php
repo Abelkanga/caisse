@@ -21,7 +21,8 @@ class CaisseController extends AbstractController
     public function index(CaisseRepository $caisseRepository): Response
     {
         return $this->render('caisse/index.html.twig', [
-            'caisse' => $caisseRepository->findAll(),
+            'caisses' => $caisseRepository->findAll(),
+
         ]);
     }
 
@@ -39,7 +40,8 @@ class CaisseController extends AbstractController
             return $this->redirectToRoute('caisse_index');
         }
         return $this->render('caisse/new.html.twig', [
-            'form' => $form ,
+            'form' => $form->createView(),
+            'caisse' => $caisse,
         ]);
     }
 
@@ -58,8 +60,6 @@ class CaisseController extends AbstractController
         ]);
     }
 
-
-    // src/Controller/CaisseController.php
 
     #[Route('/etat', name: 'app_etat_caisse', methods: ['GET'])]
     public function getMouvementsCaisse(FdbRepository $fdbRepository, BonapprovisionnementRepository $bonapprovisionnementRepository, Request $request): Response {

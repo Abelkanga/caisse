@@ -39,6 +39,9 @@ class Expense
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $status = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $autre = null;
+
     public function __construct()
     {
         $this->depenses = new ArrayCollection();
@@ -161,5 +164,17 @@ class Expense
     public function __toString()
     {
         return $this->name;
+    }
+
+    public function getAutre(): ?string
+    {
+        return $this->autre;
+    }
+
+    public function setAutre(?string $autre): static
+    {
+        $this->autre = $autre;
+
+        return $this;
     }
 }

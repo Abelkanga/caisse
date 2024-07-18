@@ -5,11 +5,14 @@
 // any CSS you import will output into a single css file (app.css in this case)
 
 import $ from 'jquery';
+
+import 'bootstrap';
 import './css/app.css';
 import './js/dataTables.bootstrap';
 import 'select2/dist/js/select2.min'
 require('./plugins/tagsinput/tagsinput.css');
 require('inputmask');
+global.$ = global.jQuery = $;
 import './js/datatables-config';
 import './js/select2-demo';
 import './js/add-form-collection';

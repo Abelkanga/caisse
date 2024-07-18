@@ -22,7 +22,7 @@
 
             <div class="card card-fluid">
                 <div class="card-header bg-soft-custom">
-                    <h6>Bon d'approvisionnement N°{{ bonapprovisionnement.id }}</h6>
+                    <h6>Bon d'approvisionnement {{ bonapprovisionnement.reference }}</h6>
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -41,15 +41,19 @@
                             <thead class="thead-light">
                             <tr>
                                 <th class="text-center">Date</th>
-                                {#                                <th class="text-center">Nature</th>#}
-                                <th class="text-center">Mode de paiement</th>
+                                <th>Emetteur</th>
+                                <th>Destinataire</th>
+                                <th>Porteur de chèque</th>
+                                <th class="text-center">Moyen de paiement</th>
                                 <th class="text-center">Montant Total (F cfa)</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr>
                                 <td class="text-center">{{ bonapprovisionnement.date ? bonapprovisionnement.date|date('d-m-Y') : ''  }}</td>
-                                {#                                <td class="text-left">{{ bonapprovisionnement.nature }}</td>#}
+                                <td class="align-middle">{{ bonapprovisionnement.emeteur }}</td>
+                                <td class="align-middle">{{ bonapprovisionnement.destinataire }}</td>
+                                <td class="align-middle">{{ bonapprovisionnement.porteur }}</td>
                                 <td class="text-left">{{ bonapprovisionnement.modepaie }}</td>
                                 <td class="text-right separator">{{ bonapprovisionnement.montanttotal }} </td>
                             </tr>

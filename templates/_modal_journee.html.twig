@@ -1,15 +1,5 @@
-{# Modal for opening journee #}
-{#{% block javascripts %}#}
-{#    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>#}
-{#    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>#}
-{#    <script>#}
-{#        $(document).ready(function() {#}
-{#            $('#confirmOpenJournee').click(function() {#}
-{#                $('#openJourneeForm').submit();#}
-{#            });#}
-{#        });#}
-{#    </script>#}
-{#{% endblock %}#}
+
+
 
 <div class="modal fade" id="openJourneeModal" tabindex="-1" aria-labelledby="openJourneeModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -20,6 +10,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+
             <form id="openJourneeForm" action="{{ path('journee_open') }}" method="post">
                 <div class="modal-body">
                     <input type="hidden" value="{{ csrf_token('open_journee') }}" name="_token">
@@ -36,3 +27,64 @@
         </div>
     </div>
 </div>
+
+{% block javascripts %}
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#confirmOpenJournee').click(function() {
+                $('#openJourneeForm').submit();
+            });
+        });
+    </script>
+{% endblock %}
+
+
+
+{#<!-- Normal modal -->#}
+{#<div#}
+{#        class="modal modal-alert fade" id="exampleModalAlert" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalAlertLabel" aria-hidden="true">#}
+{#    <!-- .modal-dialog -->#}
+{#    <div#}
+{#            class="modal-dialog" role="document">#}
+{#        <!-- .modal-content -->#}
+{#        <div class="modal-content">#}
+{#            <form action="{{ path('journee_open') }}" method="post">#}
+{#                <input#}
+{#                        type="hidden" value="{{ csrf_token('journee_token') }}" name="_token">#}
+{#                <!-- .modal-header -->#}
+{#                <div class="modal-header bg-facebook">#}
+{#                    <h6 id="exampleModalAlertLabel" class="modal-title">#}
+{#                        <i class="fa fa-clock-o text-success mr-1"></i>#}
+{#                        Ouverture de la station#}
+{#                    </h6>#}
+{#                </div>#}
+{#                <!-- /.modal-header -->#}
+{#                <!-- .modal-body -->#}
+{#                <div class="modal-body">#}
+{#                    <div class="form-group">#}
+{#                        <label class="control-label" for="flatpickr01">Date journée</label>#}
+{#                        <input name="date_journee" type="date" value="{{ latest|date('Y-m-d') }}" class="form-control">#}
+{#                    </div>#}
+{#                </div>#}
+{#                <!-- /.modal-body -->#}
+{#                <!-- .modal-footer -->#}
+{#                <div class="modal-footer">#}
+{#                    <button type="submit" class="btn btn-primary">Enregistrer</button>#}
+{#                    <button type="button" class="btn btn-light" data-dismiss="modal">Annuler</button>#}
+{#                </div>#}
+{#                <!-- /.modal-footer -->#}
+{#            </form>#}
+{#        </div>#}
+{#        <!-- /.modal-content -->#}
+{#    </div>#}
+{#    <!-- /.modal-dialog -->#}
+{#</div>#}
+
+
+{#<button type="button" class="btn btn-primary" data-dismiss="modal">Click Me</button>#}
+{#<button type="button" class="btn btn-light">Secondary Action</button>#}
+
+{#<button type="button" class="btn btn-primary" data-dismiss="modal">Click Me</button>#}
+{#<button type="button" class="btn btn-light">Secondary Action</button>#}

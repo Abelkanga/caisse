@@ -25,15 +25,15 @@ class Fdb
 //    #[ORM\Column(type: Types::DATE_IMMUTABLE)]
 //    private ?\DateTimeImmutable $date = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $objet = null;
+//    #[ORM\Column(length: 255)]
+//    private ?string $objet = null;
 
     #[ORM\Column(length: 255)]
     private ?string $destinataire = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $departement = null;
-   
+
     #[ORM\ManyToOne(inversedBy: 'fdb')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
@@ -86,6 +86,17 @@ class Fdb
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $date = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $isActive = true;
+
+    #[ORM\ManyToOne(inversedBy: 'fdbs')]
+    private ?Journee $journee = null;
+
+//    #[ORM\Column(nullable: true)]
+//    private ?bool $IsActive = null;
+
+
+
 //    #[ORM\ManyToOne(inversedBy: 'fdbs')]
 //    private ?JournalCaisse $JournalCaisse = null;
 
@@ -93,6 +104,7 @@ class Fdb
     {
         $this->details = new ArrayCollection();
         $this->bonCaisses = new ArrayCollection();
+
 
     }
 
@@ -126,19 +138,17 @@ class Fdb
 //    }
 
 
-    public function getObjet(): ?string
+    public function getIsActive(): ?bool
     {
-        return $this->objet;
+        return $this->isActive;
     }
 
-    public function setObjet(string $objet): static
+    public function setIsActive(?bool $isActive): static
     {
-        $this->objet = $objet;
+        $this->isActive = $isActive;
 
         return $this;
     }
-
-
     public function getDestinataire(): ?string
     {
         return $this->destinataire;
@@ -381,5 +391,28 @@ class Fdb
 //        return $this;
 //    }
 
+//public function isActive(): ?bool
+//{
+//    return $this->IsActive;
+//}
+//
+//public function setActive(?bool $IsActive): static
+//{
+//    $this->IsActive = $IsActive;
+//
+//    return $this;
+//}
+
+public function getJournee(): ?Journee
+{
+    return $this->journee;
+}
+
+public function setJournee(?Journee $journee): static
+{
+    $this->journee = $journee;
+
+    return $this;
+}
 
 }

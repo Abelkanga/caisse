@@ -28,10 +28,6 @@ class Caisse
     #[ORM\Column(type: Types::DECIMAL,precision: 10, scale: 2,)]
     private ?string $plafond = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $gerant = null;
-
-
     /**
      * @var Collection<int, Depense>
      */
@@ -43,7 +39,6 @@ class Caisse
      */
     #[ORM\OneToMany(targetEntity: Bonapprovisionnement::class, mappedBy: 'caisse')]
     private Collection $bonapprovisionnements;
-
 
     /**
      * @var Collection<int, Journee>
@@ -73,17 +68,19 @@ class Caisse
     private Collection $billetages;
 
     #[ORM\ManyToOne(inversedBy: 'caisses')]
-    private ?User $user = null;
-
-    #[ORM\ManyToOne(inversedBy: 'caisses')]
     private ?JournalCaisse $JournalCaisse = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+    private ?string $lastSolde = null;
+
+    #[ORM\OneToOne(inversedBy: 'caisse', cascade: ['persist', 'remove'])]
+    private ?User $user = null;
 
     public function __construct()
     {
         $this->depenses = new ArrayCollection();
         $this->bonapprovisionnements = new ArrayCollection();
         $this->journees = new ArrayCollection();
-        $this->users = new ArrayCollection();
         $this->fdbs = new ArrayCollection();
         $this->bonCaisses = new ArrayCollection();
         $this->billetages = new ArrayCollection();
@@ -141,19 +138,6 @@ class Caisse
 
         return $this;
     }
-
-    public function getGerant(): ?string
-    {
-        return $this->gerant;
-    }
-
-    public function setGerant(string $gerant): static
-    {
-        $this->gerant = $gerant;
-
-        return $this;
-    }
-
 
     /**
      * @return Collection<int, Depense>
@@ -249,6 +233,7 @@ class Caisse
     /**
      * @return Collection<int, Fdb>
      */
+
     public function getFdbs(): Collection
     {
         return $this->fdbs;
@@ -353,17 +338,6 @@ class Caisse
         return $this;
     }
 
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): self
-    {
-        $this->user = $user;
-
-        return $this;
-    }
 
     public function getJournalCaisse(): ?JournalCaisse
     {
@@ -376,5 +350,30 @@ class Caisse
 
         return $this;
     }
+
+    public function getLastSolde(): ?string
+    {
+        return $this->lastSolde;
+    }
+
+    public function setLastSolde(?string $lastSolde): static
+    {
+        $this->lastSolde = $lastSolde;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
 
 }

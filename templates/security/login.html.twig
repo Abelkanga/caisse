@@ -33,7 +33,7 @@
             color: #ffffff;
             margin-bottom: -5rem;
             margin-top: 7rem;
-            padding-top: -5rem; /* Increase padding to push the text down */
+            padding-top: -5rem;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -41,20 +41,24 @@
 
         .password-container {
             position: relative;
+            display: flex;
+            align-items: center;
+            margin-top: 0.5rem;
         }
 
         .password-container input {
-            padding-right: 2.5rem; /* Adjust to fit the icon */
+            flex: 1;
+            padding-right: 2.5rem;
         }
 
         .password-container .toggle-password {
             position: absolute;
-            top: 50%;
             right: 1rem;
+            top: 50%;
             transform: translateY(-50%);
             cursor: pointer;
+            color: #000;
         }
-
     </style>
 </head>
 
@@ -94,11 +98,13 @@
 
         <!-- /.form-group -->
         <!-- .form-group -->
-        <div class="form-group mb-4 password-container">
+        <div class="form-group mb-4">
             <label class="d-block text-left" for="inputPassword">Mot de passe</label>
-            <input type="password" id="inputPassword" name="_password" autocomplete="current-password"
-                   class="form-control form-control-lg" required="">
-            <i class="fas fa-eye toggle-password"></i>
+            <div class="password-container">
+                <input type="password" id="inputPassword" name="_password" autocomplete="current-password"
+                       class="form-control form-control-lg" required="">
+                <i class="fas fa-eye toggle-password"></i>
+            </div>
         </div>
         <!-- /.form-group -->
         <!-- .form-group -->

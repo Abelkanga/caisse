@@ -1,5 +1,9 @@
 <?php
 
+// src/Service/ExportService.php
+
+// src/Service/ExportService.php
+
 namespace App\Service;
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -14,21 +18,22 @@ class ExportService
         $sheet = $spreadsheet->getActiveSheet();
 
         // Set header values
-        $sheet->setCellValue('B1', 'Date');
-        $sheet->setCellValue('E1', 'Intitulé Caisse');
-        $sheet->setCellValue('A1', 'Type');
-        $sheet->setCellValue('C1', 'Description');
-        $sheet->setCellValue('D1', 'Montant');
-
+        $sheet->setCellValue('A1', 'Date');
+        $sheet->setCellValue('B1', 'Nature');
+        $sheet->setCellValue('C1', 'Libellé');
+        $sheet->setCellValue('D1', 'Entrée (F cfa)');
+        $sheet->setCellValue('E1', 'Sortie (F cfa)');
+        $sheet->setCellValue('F1', 'Solde (F cfa)');
 
         // Fill data
         $row = 2;
         foreach ($data as $item) {
-            $sheet->setCellValue('B' . $row, $item['date']->format('Y-m-d'));
-            $sheet->setCellValue('E' . $row, $item['caisse']);
-            $sheet->setCellValue('A' . $row, $item['type']);
-            $sheet->setCellValue('C' . $row, $item['description']);
-            $sheet->setCellValue('D' . $row, $item['montant']);
+            $sheet->setCellValue('A' . $row, $item['date']);
+            $sheet->setCellValue('B' . $row, $item['nature']);
+            $sheet->setCellValue('C' . $row, $item['libelle']);
+            $sheet->setCellValue('D' . $row, $item['entree'] !== null ? number_format($item['entree'], 2) : '');
+            $sheet->setCellValue('E' . $row, $item['sortie'] !== null ? number_format($item['sortie'], 2) : '');
+            $sheet->setCellValue('F' . $row, number_format($item['solde'], 2));
             $row++;
         }
 
@@ -47,4 +52,3 @@ class ExportService
         return $response;
     }
 }
-

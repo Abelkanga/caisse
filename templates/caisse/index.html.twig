@@ -22,11 +22,15 @@
                         </tr>
                         </thead>
                         <tbody>
-                        {% for c in caisse %}
+                        {% for c in caisses %}
                             <tr>
                                 <td class="align-middle">{{ c.code }}</td>
                                 <td class="align-middle">{{ c.intitule }}</td>
-                                <td class="align-middle">{{ c.user }}</td>
+                                <td class="align-middle">
+                                    {% for user in c.users %}
+                                        {{ user.fullName }}{% if not loop.last %}, {% endif %}
+                                    {% endfor %}
+                                </td>
                                 <td class="text-right separator align-middle">{{ c.soldedispo ?? 'Aucune information' }}</td>
                                 <td class="text-right align-middle">{{ c.plafond|number_format(0, ',', ' ') }}</td>
                                 <td class="text-center align-middle">

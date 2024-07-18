@@ -71,26 +71,25 @@
                         {% endif %}
                     {% endif %}
 
-                    {#                    <li class="nav-item">#}
-                    {#                        <a class="nav-link target" href="#" id="navbarDropdownMenuLink" data-toggle="modal"#}
-                    {#                           aria-expanded="false" data-target="#modal-default">#}
-                    {#                            <strong><i class="fa fa-train" style="color: red"> </i> Gare fermée</strong>#}
-                    {#                        </a>#}
-                    {#                    </li>#}
 
+                    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_RESPONSABLE') or is_granted('ROLE_USER') %}
 
-                    <button class="btn-account d-flex align-items-center" type="button">
-                        <span class="oi oi-clock p-1"></span>
-                        <strong class="pt-1">Date du jour : {{ "now"|date('d-m-Y') }}</strong>
-                    </button>
-                    {% if app.user and app.user.caisses is not empty and is_granted('ROLE_MANAGER') %}
                         <button class="btn-account d-flex align-items-center" type="button">
-                            <span class="oi oi-map-bill p-1"></span>
-                            {% for caisse in app.user.caisses %}
-                                <strong class="pt-1">SOLDE : {{ caisse.soldedispo|number_format(0, ',' , ' ') }} F</strong>
-                            {% endfor %}
+                            <span class="oi oi-clock p-1"></span>
+                            <strong class="pt-1">Date du jour : {{ "now"|date('d-m-Y') }}</strong>
                         </button>
                     {% endif %}
+
+
+                    {% if app.user and app.user.caisse and is_granted('ROLE_MANAGER') %}
+                        <button class="btn-account d-flex align-items-center" type="button">
+                            <span class="oi oi-map-bill p-1"></span>
+                            <strong class="pt-1">Solde : {{ app.user.caisse.soldedispo|number_format(0, ',', ' ') }} F</strong>
+                        </button>
+                    {% endif %}
+
+
+
 
                 </div>
                 <!-- /.top-bar-item -->

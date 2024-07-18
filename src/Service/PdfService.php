@@ -1,5 +1,7 @@
 <?php
 
+// src/Service/PdfService.php
+
 namespace App\Service;
 
 use TCPDF;
@@ -17,22 +19,23 @@ class PdfService
                     <thead>
                         <tr>
                             <th class="text-center">Date</th>
-                            <th class="text-center">Intitulé Caisse</th>
-                            <th class="text-center">Type</th>
-                            <th class="text-center">Description</th>
-                            <th class="text-center">Montant</th>
-                            
+                            <th class="text-center">Nature</th>
+                            <th class="text-center">Libellé</th>
+                            <th class="text-center">Entrée (F cfa)</th>
+                            <th class="text-center">Sortie (F cfa)</th>
+                            <th class="text-center">Solde (F cfa)</th>
                         </tr>
                     </thead>
                     <tbody>';
 
         foreach ($data as $item) {
             $html .= '<tr>
-                        <td class="text-center">' . $item['date']->format('Y-m-d') . '</td>
-                          <td class="text">' . $item['caisse'] . '</td>
-                        <td class="text">' . $item['type'] . '</td>
-                        <td class="text">' . $item['description'] . '</td>
-                        <td class="text">' . $item['montant'] . '</td>
+                        <td class="text-center">' . $item['date'] . '</td>
+                        <td class="text-center">' . $item['nature'] . '</td>
+                        <td class="text-center">' . $item['libelle'] . '</td>
+                        <td class="text-center">' . ($item['entree'] !== null ? number_format($item['entree'], 2) : '') . '</td>
+                        <td class="text-center">' . ($item['sortie'] !== null ? number_format($item['sortie'], 2) : '') . '</td>
+                        <td class="text-center">' . number_format($item['solde'], 2) . '</td>
                       </tr>';
         }
 

@@ -22,8 +22,9 @@ class CaisseType extends AbstractType
             ->add('user', EntityType::class, [
                 'class' => User::class,
                 'choice_label' => 'fullName',
-                'placeholder' => 'Sélectionnez un utilisateur', 'required' => false,
-                'choice_value' => 'id',
+                'placeholder' => 'Sélectionnez un utilisateur',
+                'required' => false,
+                'multiple' => true,
             ])
             ->add('plafond', NumberType::class)
         ;

@@ -27,9 +27,6 @@ class Bonapprovisionnement
     #[ORM\Column]
     private ?float $montanttotal = null;
 
-//    #[ORM\Column(length: 255)]
-//    private ?string $nature = null;
-
     #[ORM\ManyToOne(inversedBy: 'bonapprovisionnements')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
@@ -100,11 +97,16 @@ class Bonapprovisionnement
     #[ORM\ManyToOne(inversedBy: 'bonapprovisionnements')]
     private ?JournalCaisse $JournalCaisse = null;
 
+    #[ORM\ManyToOne(inversedBy: 'bonapprovisionnements')]
+    private ?Journee $journee = null;
+
+
     public function __construct()
     {
         $this->bonCaisses = new ArrayCollection();
         $this->date = new \DateTimeImmutable();
         $this->billetages = new ArrayCollection();
+
     }
 
     public function getId(): ?int
@@ -446,6 +448,18 @@ class Bonapprovisionnement
     public function setJournalCaisse(?JournalCaisse $JournalCaisse): static
     {
         $this->JournalCaisse = $JournalCaisse;
+
+        return $this;
+    }
+
+    public function getJournee(): ?Journee
+    {
+        return $this->journee;
+    }
+
+    public function setJournee(?Journee $journee): static
+    {
+        $this->journee = $journee;
 
         return $this;
     }

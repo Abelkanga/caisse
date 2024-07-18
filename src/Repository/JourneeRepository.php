@@ -6,14 +6,6 @@ use App\Entity\Journee;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * @extends ServiceEntityRepository<Journee>
- *
- * @method Journee|null find($id, $lockMode = null, $lockVersion = null)
- * @method Journee|null findOneBy(array $criteria, array $orderBy = null)
- * @method Journee[]    findAll()
- * @method Journee[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
 class JourneeRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -21,9 +13,6 @@ class JourneeRepository extends ServiceEntityRepository
         parent::__construct($registry, Journee::class);
     }
 
-    /**
-     * @return Journee|null Returns the active Journee or null if none found
-     */
     public function findActiveJournee(): ?Journee
     {
         return $this->findOneBy(['active' => true]);

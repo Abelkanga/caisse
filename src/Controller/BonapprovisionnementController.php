@@ -66,7 +66,7 @@ class BonapprovisionnementController extends AbstractController
             $entityManager->persist($bonapprovisionnement);
             $entityManager->flush();
 //            flash()->success('Bon d approvisionnement créé avec succès !');
-            return $this->redirectToRoute('billetage_form');
+            return $this->redirectToRoute('bonapprovisionnement_index');
         }
 
         return $this->render('bonapprovisionnement/new.html.twig', [
@@ -83,8 +83,8 @@ class BonapprovisionnementController extends AbstractController
             if($request->request->has('confirm_manager')) {
                 /** @var User $user */
                 $user = $this->getUser();
-                $caisses = $user->getCaisses(); // obtenir la collection de caisses
-                $caisse = $caisses->first(); // obtenir la première caisse (ajustez selon vos besoins)
+                $caisse = $user->getCaisse();
+//                $caisse = $caisse->first();
                 $solde = $caisse->getSoldedispo();
                 $montanttotal = $bonapprovisionnement->getMontanttotal();
                 $caisse->setSoldedispo($solde + $montanttotal);
@@ -97,8 +97,6 @@ class BonapprovisionnementController extends AbstractController
                 $bonCaisse->setCaisse($caisse);
                 $bonCaisse->setBonapprovisionnement($bonapprovisionnement);
                 $entityManager->persist($bonCaisse);
-
-
 
                 $entityManager->persist($bonapprovisionnement);
                 $entityManager->persist($caisse);

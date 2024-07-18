@@ -7,11 +7,11 @@
     </a>
     <!-- child menu -->
     <ul class="menu">
-        <li class="menu-item {{ app.request.get('_route') == 'app_societe_new' ? 'has-active': '' }}">
-            <a href="{{ path('app_societe_new') }}" class="menu-link">Créer</a>
-        </li>
+{#        <li class="menu-item {{ app.request.get('_route') == 'app_societe_new' ? 'has-active': '' }}">#}
+{#            <a href="{{ path('app_societe_new') }}" class="menu-link">Créer</a>#}
+{#        </li>#}
         <li class="menu-item {{ app.request.get('_route') == 'app_societe_index' ? 'has-active': '' }}">
-            <a href="{{ path('app_societe_index') }}" class="menu-link">Liste</a>
+            <a href="{{ path('app_societe_index') }}" class="menu-link">Voir</a>
         </li>
 
     </ul>

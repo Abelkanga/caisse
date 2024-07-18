@@ -83,4 +83,18 @@ class FdbRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleScalarResult();
     }
+
+    /**
+     * @return Fdb[] Returns an array of active Fdb objects
+     */
+
+    public function findActive(): array
+    {
+        return $this->createQueryBuilder('f')
+            ->andWhere('f.isActive = :val')
+            ->setParameter('val', true)
+            ->getQuery()
+            ->getResult();
+    }
+
 }

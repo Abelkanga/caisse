@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\JourneeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -50,6 +52,24 @@ class Journee
 
     #[ORM\OneToOne(targetEntity: self::class, cascade: ['persist', 'remove'])]
     private ?self $LastJournee = null;
+
+    /**
+     * @var Collection<int, Bonapprovisionnement>
+     */
+    #[ORM\OneToMany(targetEntity: Bonapprovisionnement::class, mappedBy: 'journee')]
+    private Collection $bonapprovisionnements;
+
+    /**
+     * @var Collection<int, Fdb>
+     */
+    #[ORM\OneToMany(targetEntity: Fdb::class, mappedBy: 'journee')]
+    private Collection $fdbs;
+
+    public function __construct()
+    {
+        $this->bonapprovisionnements = new ArrayCollection();
+        $this->fdbs = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -199,4 +219,65 @@ class Journee
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Bonapprovisionnement>
+     */
+    public function getBonapprovisionnements(): Collection
+    {
+        return $this->bonapprovisionnements;
+    }
+
+    public function addBonapprovisionnement(Bonapprovisionnement $bonapprovisionnement): static
+    {
+        if (!$this->bonapprovisionnements->contains($bonapprovisionnement)) {
+            $this->bonapprovisionnements->add($bonapprovisionnement);
+            $bonapprovisionnement->setJournee($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBonapprovisionnement(Bonapprovisionnement $bonapprovisionnement): static
+    {
+        if ($this->bonapprovisionnements->removeElement($bonapprovisionnement)) {
+            // set the owning side to null (unless already changed)
+            if ($bonapprovisionnement->getJournee() === $this) {
+                $bonapprovisionnement->setJournee(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Fdb>
+     */
+    public function getFdbs(): Collection
+    {
+        return $this->fdbs;
+    }
+
+    public function addFdb(Fdb $fdb): static
+    {
+        if (!$this->fdbs->contains($fdb)) {
+            $this->fdbs->add($fdb);
+            $fdb->setJournee($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFdb(Fdb $fdb): static
+    {
+        if ($this->fdbs->removeElement($fdb)) {
+            // set the owning side to null (unless already changed)
+            if ($fdb->getJournee() === $this) {
+                $fdb->setJournee(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

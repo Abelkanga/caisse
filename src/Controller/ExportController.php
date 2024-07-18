@@ -1,13 +1,10 @@
 <?php
-
-
 namespace App\Controller;
 
 use App\Service\ExportService;
 use App\Service\PdfService;
 use App\Repository\FdbRepository;
 use App\Repository\BonapprovisionnementRepository;
-use App\Repository\DepenseRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,21 +15,19 @@ class ExportController extends AbstractController
     private $pdfService;
     private $fdbRepository;
     private $bonapprovisionnementRepository;
-    private $depenseRepository;
 
-    public function __construct(ExportService $exportService, PdfService $pdfService, FdbRepository $fdbRepository, BonapprovisionnementRepository $bonapprovisionnementRepository, DepenseRepository $depenseRepository)
+    public function __construct(ExportService $exportService, PdfService $pdfService, FdbRepository $fdbRepository, BonapprovisionnementRepository $bonapprovisionnementRepository)
     {
         $this->exportService = $exportService;
         $this->pdfService = $pdfService;
         $this->fdbRepository = $fdbRepository;
         $this->bonapprovisionnementRepository = $bonapprovisionnementRepository;
-        $this->depenseRepository = $depenseRepository;
     }
+
     #[Route('/export/excel', name: 'export_excel', methods:['GET','POST'])]
     public function exportToExcel(): Response
     {
-        // Récupérer les données dynamiquement depuis la base de données
-        $dateDebut = new \DateTime('2024-06-01'); // Vous pouvez récupérer ces dates dynamiquement
+        $dateDebut = new \DateTime('2024-06-01');
         $dateFin = new \DateTime('2024-06-05');
 
         $fdbData = $this->fdbRepository->createQueryBuilder('fdb')
@@ -53,44 +48,32 @@ class ExportController extends AbstractController
             ->getQuery()
             ->getResult();
 
-        $depenseData = $this->depenseRepository->createQueryBuilder('d')
-            ->leftJoin('d.caisse', 'caisse')
-            ->addSelect('caisse')
-            ->where('d.date BETWEEN :date_debut AND :date_fin')
-            ->setParameter('date_debut', $dateDebut)
-            ->setParameter('date_fin', $dateFin)
-            ->getQuery()
-            ->getResult();
-
         $data = [];
+        $solde = 0;
 
         foreach ($fdbData as $fdb) {
+            $sortie = $fdb->getTotal();
+            $solde -= $sortie;
             $data[] = [
-                'date' => $fdb->getDate(),
-                'caisse' => $fdb->getCaisse()->getIntitule(),
-                'type' => 'Depense',
-                'description' => $fdb->getTypeExpense(),
-                'montant' => $fdb->getTotal(),
+                'date' => $fdb->getDate()->format('Y-m-d'),
+                'nature' => $fdb->getTypeExpense(),
+                'libelle' => $fdb->getExpense(),
+                'entree' => null,
+                'sortie' => $sortie,
+                'solde' => $solde,
             ];
         }
 
         foreach ($bonApprovisionnementData as $bonapprovisionnement) {
+            $entree = $bonapprovisionnement->getMontanttotal();
+            $solde += $entree;
             $data[] = [
-                'date' => $bonapprovisionnement->getDate(),
-                'caisse' => $bonapprovisionnement->getCaisse()->getIntitule(),
-                'type' => 'Approvisionnement',
-                'description' => $bonapprovisionnement->getNature(),
-                'montant' => $bonapprovisionnement->getMontanttotal(),
-            ];
-        }
-
-        foreach ($depenseData as $depense) {
-            $data[] = [
-                'date' => $depense->getDate(),
-                'caisse' => $depense->getCaisse()->getIntitule(),
-                'type' => 'Depense',
-                'description' => $depense->getTypeExpense(),
-                'montant' => $depense->getMontant(),
+                'date' => $bonapprovisionnement->getDate()->format('Y-m-d'),
+                'nature' => $bonapprovisionnement->getNature(),
+                'libelle' => $bonapprovisionnement->getLibelle(),
+                'entree' => $entree,
+                'sortie' => null,
+                'solde' => $solde,
             ];
         }
 
@@ -100,8 +83,7 @@ class ExportController extends AbstractController
     #[Route('/export/pdf', name: 'export_pdf', methods:['GET', 'POST'])]
     public function exportToPdf(): Response
     {
-        // Récupérer les données dynamiquement depuis la base de données
-        $dateDebut = new \DateTime('2024-06-01'); // Vous pouvez récupérer ces dates dynamiquement
+        $dateDebut = new \DateTime('2024-06-01');
         $dateFin = new \DateTime('2024-06-05');
 
         $fdbData = $this->fdbRepository->createQueryBuilder('fdb')
@@ -122,49 +104,35 @@ class ExportController extends AbstractController
             ->getQuery()
             ->getResult();
 
-        $depenseData = $this->depenseRepository->createQueryBuilder('d')
-            ->leftJoin('d.caisse', 'caisse')
-            ->addSelect('caisse')
-            ->where('d.date BETWEEN :date_debut AND :date_fin')
-            ->setParameter('date_debut', $dateDebut)
-            ->setParameter('date_fin', $dateFin)
-            ->getQuery()
-            ->getResult();
-
         $data = [];
+        $solde = 0;
 
         foreach ($fdbData as $fdb) {
+            $sortie = $fdb->getTotal();
+            $solde -= $sortie;
             $data[] = [
-                'date' => $fdb->getDate(),
-                'caisse' => $fdb->getCaisse()->getIntitule(),
-                'type' => 'Depense',
-                'description' => $fdb->getTypeExpense(),
-                'montant' => $fdb->getTotal(),
+                'date' => $fdb->getDate()->format('Y-m-d'),
+                'nature' => $fdb->getTypeExpense(),
+                'libelle' => $fdb->getExpense(),
+                'entree' => null,
+                'sortie' => $sortie,
+                'solde' => $solde,
             ];
         }
 
         foreach ($bonApprovisionnementData as $bonapprovisionnement) {
+            $entree = $bonapprovisionnement->getMontanttotal();
+            $solde += $entree;
             $data[] = [
-                'date' => $bonapprovisionnement->getDate(),
-                'caisse' => $bonapprovisionnement->getCaisse()->getIntitule(),
-                'type' => 'Approvisionnement',
-                'description' => $bonapprovisionnement->getNature(),
-                'montant' => $bonapprovisionnement->getMontanttotal(),
-            ];
-        }
-
-        foreach ($depenseData as $depense) {
-            $data[] = [
-                'date' => $depense->getDate(),
-                'caisse' => $depense->getCaisse()->getIntitule(),
-                'type' => 'Depense',
-                'description' => $depense->getTypeExpense(),
-                'montant' => $depense->getMontant(),
+                'date' => $bonapprovisionnement->getDate()->format('Y-m-d'),
+                'nature' => $bonapprovisionnement->getNature(),
+                'libelle' => $bonapprovisionnement->getLibelle(),
+                'entree' => $entree,
+                'sortie' => null,
+                'solde' => $solde,
             ];
         }
 
         return $this->pdfService->exportToPdf($data);
     }
-
-
 }

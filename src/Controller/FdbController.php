@@ -29,13 +29,15 @@ class FdbController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
+
+
     #[Route('/fdb', name: 'fdb_index', methods:['GET'])]
-    public function index( FdbRepository $fdbRepository): Response
+    public function index(FdbRepository $repository): Response
     {
-        $fdb = $fdbRepository->findAll();
+        $fdb = $repository->findActive();
 
         return $this->render('fdb/index.html.twig', [
-            'fdb' => $fdb
+            'fdb' => $fdb,
         ]);
     }
 
@@ -179,9 +181,9 @@ class FdbController extends AbstractController
             }
 
             if ($request->request->has('confirm_manager') && $this->isGranted('ROLE_MANAGER')) {
-                $caisses = $user->getCaisses(); // obtenir la collection de caisses
-                if (!$caisses->isEmpty()) {
-                    $caisse = $caisses->first(); // obtenir la première caisse (ajustez selon vos besoins)
+                $caisse = $user->getCaisse();
+
+
                     $solde = $caisse->getSoldedispo();
                     $total = $fdb->getTotal();
 
@@ -207,7 +209,7 @@ class FdbController extends AbstractController
                     return $this->redirectToRoute('app_welcome');
                 }
             }
-        }
+
             return $this->render('fdb/show.html.twig', [
                 'fdb' => $fdb,
                 'total' => $total,
@@ -250,11 +252,11 @@ class FdbController extends AbstractController
     }
 
     #[Route('/fdb/{id}/delete', name: 'fdb_delete', methods: ['GET'])]
-    public function delete(EntityManagerInterface $manager, Fdb $fdb) : Response
+    public function delete(EntityManagerInterface $manager, Fdb $fdb): Response
     {
-        $manager->remove($fdb);
+        // Mettre à jour la propriété isActive à false
+        $fdb->setIsActive(false);
         $manager->flush();
-//        flash()->success('Fiche de besoin supprimée avec succès !');
 
         return $this->redirectToRoute('fdb_index');
     }
