@@ -1,0 +1,50 @@
+<!-- .menu-header -->
+<li class="menu-header">GESTION SOCIETE</li>
+<li class="menu-item has-child">
+    <a href="#" class="menu-link">
+        <span class="fa-solid fa-building p-2"></span>
+        <span class="menu-text">Société</span>
+    </a>
+    <!-- child menu -->
+    <ul class="menu">
+        <li class="menu-item {{ app.request.get('_route') == 'app_societe_new' ? 'has-active': '' }}">
+            <a href="{{ path('app_societe_new') }}" class="menu-link">Créer</a>
+        </li>
+        <li class="menu-item {{ app.request.get('_route') == 'app_societe_index' ? 'has-active': '' }}">
+            <a href="{{ path('app_societe_index') }}" class="menu-link">Voir</a>
+        </li>
+
+    </ul>
+    <!-- /child menu -->
+    <!-- .menu-item -->
+</li>
+
+
+
+
+<li class="menu-header">GESTION UTILISATEUR</li>
+<!-- /.menu-header -->
+<!-- .menu-item -->
+<!-- .menu-item -->
+
+<li class="menu-item has-child">
+    <a href="#" class="menu-link">
+        <span class="fa-solid fa-user p-2"></span>
+
+        <span class="menu-text">Utilisateur</span>
+    </a>
+    <!-- child menu -->
+    <ul class="menu">
+        <li class="menu-item {{ app.request.get('_route') == 'app_user_new' ? 'has-active': '' }}">
+            <a href="{{ path('app_user_new') }}" class="menu-link">Créer</a>
+        </li>
+        <li class="menu-item {{ app.request.get('_route') == 'app_user_index' ? 'has-active': '' }}">
+            <a href="{{ path('app_user_index') }}" class="menu-link">Liste</a>
+        </li>
+
+    </ul>
+    <!-- /child menu -->
+    <!-- .menu-item -->
+</li>
+
+

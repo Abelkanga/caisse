@@ -74,6 +74,9 @@
                     {% if is_granted('ROLE_IMPRESSION') %}
                         {% include('partials/_navbar_impression.html.twig') %}
                     {% endif %}
+                    {% if is_granted('ROLE_SUPER_ADMIN') %}
+                       {% include('partials/_navbar_super_admin.html.twig') %}
+                    {% endif %}
                     <!-- /.menu-item -->
 
                 </ul>

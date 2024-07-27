@@ -23,6 +23,21 @@ import './js/page/billetage'
 import './js/page/index'
 
 
+import 'datatables.net';
+
+// import './plugins/datatables-buttons/js/dataTables.buttons.min';
+// import './plugins/datatables-buttons/js/buttons.print.min';
+// import './plugins/datatables-buttons/js/buttons.html5.min';
+// import './plugins/datatables-bs4/js/dataTables.bootstrap4.min';
+// import './plugins/datatables-rowgroup/js/dataTables.rowGroup.min';
+// import './plugins/datatables-select/js/dataTables.select.min';
+
+import JSZip from 'jszip';
+import pdfmake from 'pdfmake';
+window.JSZip = JSZip;
+window.pdfMake = pdfmake;
+
+
 
 import {runInputmask} from "./js/inputMark";
 

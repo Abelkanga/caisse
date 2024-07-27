@@ -11,7 +11,7 @@
                 </button>
             </div>
 
-            <form id="openJourneeForm" action="{{ path('journee_open') }}" method="post">
+            <form id="openJourneeForm" action="{{ path('app_comptability_caisse_journee_open') }}" method="post">
                 <div class="modal-body">
                     <input type="hidden" value="{{ csrf_token('open_journee') }}" name="_token">
                     <div class="form-group">

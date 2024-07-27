@@ -18,13 +18,13 @@ class BilletageType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-//            ->add('date', DateType::class)
-//            ->add("reference")
+            ->add('date', DateType::class)
+            ->add("reference")
             ->add('b10000', IntegerType::class, [
                 'attr' => [
                     'min' => 0,
                     'data-id' => 10000,
-                    'class' => 'text-right montant billet form-control form-control-sm',
+                    'class' => 'text-right montant separator billet form-control form-control-sm',
                     'tabindex' => 1
                 ]
             ])
@@ -32,7 +32,7 @@ class BilletageType extends AbstractType
                 'attr' => [
                     'min' => 0,
                     'data-id' => 5000,
-                    'class' => 'text-right montant billet form-control form-control-sm',
+                    'class' => 'text-right montant separator billet form-control form-control-sm',
                     'tabindex' => 2
                 ]
             ])
@@ -40,7 +40,7 @@ class BilletageType extends AbstractType
                 'attr' => [
                     'min' => 0,
                     'data-id' => 2000,
-                    'class' => 'text-right montant billet form-control form-control-sm',
+                    'class' => 'text-right montant separator billet form-control form-control-sm',
                     'tabindex' => 3
                 ]
             ])
@@ -48,7 +48,7 @@ class BilletageType extends AbstractType
                 'attr' => [
                     'min' => 0,
                     'data-id' => 1000,
-                    'class' => 'text-right montant billet form-control form-control-sm',
+                    'class' => 'text-right montant separator billet form-control form-control-sm',
                     'tabindex' => 4
                 ]
             ])
@@ -56,7 +56,7 @@ class BilletageType extends AbstractType
                 'attr' => [
                     'min' => 0,
                     'data-id' => 500,
-                    'class' => 'text-right montant billet form-control form-control-sm',
+                    'class' => 'text-right montant separator billet form-control form-control-sm',
                     'tabindex' => 5
                 ]
             ])
@@ -64,15 +64,15 @@ class BilletageType extends AbstractType
                 'attr' => [
                     'min' => 0,
                     'data-id' => 500,
-                    'class' => 'text-right montant monnaie form-control form-control-sm',
+                    'class' => 'text-right montant separator monnaie form-control form-control-sm',
                     'tabindex' => 6
                 ]
             ])
             ->add('m250', IntegerType::class, [
                 'attr' => [
                     'min' => 0,
-                    'data-id' => 500,
-                    'class' => 'text-right montant monnaie form-control form-control-sm',
+                    'data-id' => 250,
+                    'class' => 'text-right montant separator monnaie form-control form-control-sm',
                     'tabindex' => 7
                 ]
             ])
@@ -80,7 +80,7 @@ class BilletageType extends AbstractType
                 'attr' => [
                     'min' => 0,
                     'data-id' => 200,
-                    'class' => 'text-right montant monnaie form-control form-control-sm',
+                    'class' => 'text-right montant separator monnaie form-control form-control-sm',
                     'tabindex' => 8
                 ]
             ])
@@ -88,7 +88,7 @@ class BilletageType extends AbstractType
                 'attr' => [
                     'min' => 0,
                     'data-id' => 100,
-                    'class' => 'text-right montant monnaie form-control form-control-sm',
+                    'class' => 'text-right montant separator monnaie form-control form-control-sm',
                     'tabindex' => 9
                 ]
             ])
@@ -96,7 +96,7 @@ class BilletageType extends AbstractType
                 'attr' => [
                     'min' => 0,
                     'data-id' => 50,
-                    'class' => 'text-right montant monnaie form-control form-control-sm',
+                    'class' => 'text-right montant separator monnaie form-control form-control-sm',
                     'tabindex' => 10
                 ]
             ])
@@ -104,7 +104,7 @@ class BilletageType extends AbstractType
                 'attr' => [
                     'min' => 0,
                     'data-id' => 10,
-                    'class' => 'text-right montant monnaie form-control form-control-sm',
+                    'class' => 'text-right montant separator monnaie form-control form-control-sm',
                     'tabindex' => 11
                 ]
             ])
@@ -112,14 +112,25 @@ class BilletageType extends AbstractType
                 'attr' => [
                     'min' => 0,
                     'data-id' => 5,
-                    'class' => 'text-right montant monnaie form-control form-control-sm',
+                    'class' => 'text-right montant separator monnaie form-control form-control-sm',
                     'tabindex' => 12
                 ]
             ])
-            ->add('balance', TextType::class)
-            ->add('ecart', TextType::class);
+
+
+            ->add('balance', TextType::class, [
+                'attr' => ['id' => 'billetage_balance']
+            ])
+            ->add('amount', TextType::class, [
+                'attr' => ['id' => 'billetage_amount']
+            ])
+            ->add('ecart', TextType::class, [
+                'attr' => ['id' => 'billetage_ecart']
+            ]);
+
 
     }
+
 
     public function configureOptions(OptionsResolver $resolver): void
     {

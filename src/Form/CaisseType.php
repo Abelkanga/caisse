@@ -21,10 +21,11 @@ class CaisseType extends AbstractType
             ->add('intitule', TextType::class)
             ->add('user', EntityType::class, [
                 'class' => User::class,
-                'choice_label' => 'fullName',
+                'choice_label' => 'fullName',  // Assurez-vous que 'fullName' est un attribut ou une méthode existante dans User
                 'placeholder' => 'Sélectionnez un utilisateur',
                 'required' => false,
-                'multiple' => true,
+                'multiple' => false,  // Changement ici : l'utilisateur doit être unique
+                'expanded' => false,  // Gardez ce champ sous forme de dropdown (select)
             ])
             ->add('plafond', NumberType::class)
         ;

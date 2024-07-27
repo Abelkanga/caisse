@@ -3,33 +3,26 @@
 namespace App\Service;
 
 use App\Entity\Journee;
+use App\Entity\User;
 use App\Repository\JourneeRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 
 class JourneeService
 {
-    private JourneeRepository $journeeRepository;
-    private EntityManagerInterface $entityManager;
+    public function __construct(
+        private Security $security,
+        private JourneeRepository $journeeRepository
+    ) {}
 
-    public function __construct(JourneeRepository $journeeRepository, EntityManagerInterface $entityManager)
+    public function getActive(): ?Journee
     {
-        $this->journeeRepository = $journeeRepository;
-        $this->entityManager = $entityManager;
-    }
+        /** @var User $user */
+        $user = $this->security->getUser();
 
-    public function openJournee(): Journee
-    {
-        $journee = new Journee();
-        $journee->setStartedAt(new \DateTimeImmutable());
-        $journee->setActive(true);
-        $this->entityManager->persist($journee);
-        $this->entityManager->flush();
+        if ($user && $user->getCaisse()) {
+            return $this->journeeRepository->findActiveJourneeByCaisse($user->getCaisse());
+        }
 
-        return $journee;
-    }
-
-    public function getActiveJournee(): ?Journee
-    {
-        return $this->journeeRepository->findActiveJournee();
+        return null;
     }
 }

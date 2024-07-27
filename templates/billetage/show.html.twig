@@ -3,11 +3,13 @@
 {% block title %}Billetage caisse{% endblock %}
 
 {% block body %}
-    <div class="col-md-10 col-lg-offset-1">
-        <div class="widget box">
+<div class="row">
+    <div class="col-8 offset-2">
+        <div class="card">
             <div class="widget-header">
                 <h4><i class="icon-reorder"></i>Billetage N° {{ billetage.reference }}</h4>
             </div>
+
             <div class="widget-content">
                 <form action="{{ path('billetage_inventaire_show', {'uuid': billetage.uuid}) }}"
                       class="form-horizontal"
@@ -161,15 +163,7 @@
                                 </td>
                                 <td class="text-right">{{ (bt.m50 * 50)|number_format(0, ',', ' ') }}</td>
                             </tr>
-                            <tr>
-                                <td>
-                                    <output>25</output>
-                                </td>
-                                <td class="text-right">
-                                    {{ bt.m25 }}
-                                </td>
-                                <td class="text-right">{{ (bt.m25 * 25)|number_format(0, ',', ' ') }}</td>
-                            </tr>
+
                             <tr>
                                 <td>
                                     <output>10</output>
@@ -192,7 +186,7 @@
                             <tr style="font-weight: 600">
                                 <td colspan="2">Sous Total 2</td>
                                 <td class="text-right">
-                                    {% set sousTotal2 = (bt.m500 * 500) + (bt.m250 * 250) + (bt.m200 * 200) + (bt.m100 * 100) + (bt.m50 * 50) + (bt.m25 * 25) + (bt.m10 * 10) + (bt.m5 * 5) %}
+                                    {% set sousTotal2 = (bt.m500 * 500) + (bt.m250 * 250) + (bt.m200 * 200) + (bt.m100 * 100) + (bt.m50 * 50) + (bt.m10 * 10) + (bt.m5 * 5) %}
                                     {{ sousTotal2 | number_format(0, ',', ' ') }}
                                 </td>
                             </tr>
@@ -205,7 +199,7 @@
                             <button type="submit" name="confirm" class="btn btn-success pull-right" value="confirm">
                                 Valider
                             </button>
-                            <a href="{{ path('billetage_inventaire_edit', {'uuid': bt.uuid}) }}"
+                            <a href="{{ path('billetage_inventaire_edit', {'uuid': billetage.uuid}) }}"
                                class="btn btn-warning pull-right" style="color: white">
                                 <i class="icon-edit"></i> Modifier
                             </a>
@@ -219,4 +213,4 @@
             </div>
         </div>
     </div>
-{% endblock %}
+    {% endblock %}

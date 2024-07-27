@@ -54,7 +54,8 @@
                         </button>
                     {% endif %}
 
-                    {% set j = journee_service.getActiveJournee() %}
+
+                    {% set j = journee_service.getActive() %}
 
                     {% if is_granted('ROLE_MANAGER') %}
                         {% if j is null %}
@@ -71,21 +72,20 @@
                         {% endif %}
                     {% endif %}
 
-
                     {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_RESPONSABLE') or is_granted('ROLE_USER') or is_granted('ROLE_IMPRESSION') %}
-
                         <button class="btn-account d-flex align-items-center" type="button">
                             <span class="oi oi-clock p-1"></span>
                             <strong class="pt-1">Date du jour : {{ "now"|date('d-m-Y') }}</strong>
                         </button>
                     {% endif %}
 
-
                     {% if app.user and app.user.caisse and is_granted('ROLE_MANAGER') %}
-                        <button class="btn-account d-flex align-items-center" type="button">
-                            <span class="oi oi-map-bill p-1"></span>
-                            <strong class="pt-1">Solde : {{ app.user.caisse.soldedispo|number_format(0, ',', ' ') }} F</strong>
-                        </button>
+                        {% if j is not null %}
+                            <button class="btn-account d-flex align-items-center" type="button">
+                                <span class="oi oi-map-bill p-1"></span>
+                                <strong class="pt-1">Solde : {{ app.user.caisse.soldedispo|number_format(0, ',', ' ') }} F</strong>
+                            </button>
+                        {% endif %}
                     {% endif %}
 
 

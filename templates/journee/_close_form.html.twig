@@ -1,0 +1,29 @@
+<fieldset>
+    <legend>Fermeture de la journee</legend>
+    <div class="form-group">
+        <label class="col-md-4 control-label montantTotal-encaissement">Solde Théorique <span class="required">*</span></label>
+        <div class="col-md-4 clearfix">
+            {{ form_widget(form.balance,{'attr': {
+                "class": 'form-control text-right separator ',
+            }}) }}
+            {{ form_errors(form.balance) }}
+        </div>
+        <br>
+        <label class="col-md-4 control-label montantTotal-encaissement">Solde Physique <span class="required">*</span></label>
+        <div class="col-md-4 clearfix">
+            {{ form_widget(form.amount,{'attr': {
+                "class": 'form-control text-right separator ',
+            }}) }}
+            {{ form_errors(form.amount) }}
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-4 control-label montantTotal-encaissement">Ecart <span class="required">*</span></label>
+        <div class="col-md-4 clearfix">
+            {{ form_widget(form.ecart,{'attr': {
+                "class": 'form-control text-right separator ',
+            }}) }}
+            {{ form_errors(form.ecart) }}
+        </div>
+    </div>
+</fieldset>

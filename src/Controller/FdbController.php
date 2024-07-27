@@ -9,6 +9,7 @@ use App\Entity\User;
 use App\Form\FdbType;
 use App\Repository\BonCaisseRepository;
 use App\Repository\FdbRepository;
+use App\Repository\JourneeRepository;
 use App\Service\CaisseService;
 use App\Utils\Status;
 use Doctrine\ORM\EntityManagerInterface;
@@ -34,7 +35,9 @@ class FdbController extends AbstractController
     #[Route('/fdb', name: 'fdb_index', methods:['GET'])]
     public function index(FdbRepository $repository): Response
     {
-        $fdb = $repository->findActive();
+        /** @var User $user */
+        $user = $this->getUser();
+        $fdb = $repository->findByUserRole($user);  // Utilise la méthode filtrant les fiches actives uniquement
 
         return $this->render('fdb/index.html.twig', [
             'fdb' => $fdb,
@@ -54,7 +57,9 @@ class FdbController extends AbstractController
     #[Route('/fdb/pending', name: 'fdb_pending', methods:['GET'])]
     public function index_pending(FdbRepository $fdbRepository): Response
     {
-        $fdb = $fdbRepository->findFdbPending();
+        /** @var User $user */
+        $user = $this->getUser();
+        $fdb = $fdbRepository->findPendingByUserRole($user);
 
         return $this->render('fdb/index.html.twig', [
             'fdb' => $fdb
@@ -64,7 +69,9 @@ class FdbController extends AbstractController
     #[Route('/fdb/cancel', name: 'fdb_cancel', methods:['GET'])]
     public function index_canceled(FdbRepository $fdbRepository): Response
     {
-        $fdb = $fdbRepository->findFdbCancel();
+        /** @var User $user */
+        $user = $this->getUser();
+        $fdb = $fdbRepository->findFdbCancelByUserRole($user);
 
         return $this->render('fdb/index.html.twig', [
             'fdb' => $fdb
@@ -74,7 +81,9 @@ class FdbController extends AbstractController
     #[Route('/fdb/approuve', name: 'fdb_approuve', methods:['GET'])]
     public function index_approuve(FdbRepository $fdbRepository): Response
     {
-        $fdb = $fdbRepository->findFdbApprouve();
+        /** @var User $user */
+        $user = $this->getUser();
+        $fdb = $fdbRepository->findFdbApprouveByUserRole($user);
 
         return $this->render('fdb/index.html.twig', [
             'fdb' => $fdb
@@ -117,7 +126,15 @@ class FdbController extends AbstractController
 
             $entityManager->persist($fdb);
             $entityManager->flush();
+
 //            flash()->success('Fiche de besoin enregistré avec succès !');
+
+            flash()
+                ->options([
+                    'timeout' => 5000, // 3 seconds
+                    'position' => 'bottom-right',
+                ])
+                ->success('Fiche de besoin enregistré avec succès ! ');
 
             return $this->redirectToRoute('fdb_index');
         }
@@ -153,8 +170,9 @@ class FdbController extends AbstractController
     }
 
     #[Route("/fdb/{id}/show", name:'fdb_show', methods: ['GET', 'POST'])]
-    public function show(Fdb $fdb, Request $request, EntityManagerInterface $entityManager): Response
+    public function show(Fdb $fdb, Request $request, EntityManagerInterface $entityManager, JourneeRepository $journeeRepository): Response
     {
+
         $total = 0;
         foreach ($fdb->getDetails() as $detail) {
             $montant = $detail->getMontant();
@@ -163,6 +181,39 @@ class FdbController extends AbstractController
             }
         }
 
+        $user = $this->getUser();
+
+        if ($this->isGranted('ROLE_MANAGER')) {
+            $caisse = $user->getCaisse();
+
+            if (!$caisse) {
+                // L'utilisateur manager n'est pas lié à une caisse
+                flash()
+                    ->options([
+                        'timeout' => 5000,
+                        'position' => 'bottom-right',
+                    ])
+                    ->error('Vous n\'êtes pas associé à une caisse.');
+
+                return $this->redirectToRoute('app_welcome');
+            }
+
+            $activeJournee = $journeeRepository->findOneBy(['caisse' => $caisse, 'active' => true]);
+
+            if (!$activeJournee) {
+                // Aucune journée active n'est trouvée pour la caisse de l'utilisateur
+                flash()
+                    ->options([
+                        'timeout' => 5000,
+                        'position' => 'bottom-right',
+                    ])
+                    ->error('Vous devez ouvrir la caisse avant d\'approuver une dépense.');
+
+                return $this->redirectToRoute('app_comptability_caisse_journee_open');
+            }
+        }
+
+
         if ($request->isMethod('POST') && $this->isCsrfTokenValid('validate-caisse-fdb', $request->request->get('_token'))) {
             $user = $this->getUser();
 
@@ -170,6 +221,14 @@ class FdbController extends AbstractController
                 $fdb->setStatus(Status::VALIDATED);
                 $entityManager->persist($fdb);
                 $entityManager->flush();
+
+                flash()
+                    ->options([
+                        'timeout' => 5000, // 3 seconds
+                        'position' => 'bottom-right',
+                    ])
+                    ->success('Fiche de besoin confirmé avec succès ! ');
+
                 return $this->redirectToRoute('app_welcome');
             }
 
@@ -177,6 +236,15 @@ class FdbController extends AbstractController
                 $fdb->setStatus(Status::CANCELLED);
                 $entityManager->persist($fdb);
                 $entityManager->flush();
+
+
+                flash()
+                    ->options([
+                        'timeout' => 5000, // 3 seconds
+                        'position' => 'bottom-right',
+                    ])
+                    ->warning('Fiche de besoin annulé ! ');
+
                 return $this->redirectToRoute('app_welcome');
             }
 
@@ -188,7 +256,16 @@ class FdbController extends AbstractController
                     $total = $fdb->getTotal();
 
                     if ($solde < $total) {
-                        $this->addFlash('error', 'Pas de fond disponible pour effectuer cette opération');
+
+//                        $this->addFlash('error', 'Pas de fond disponible pour effectuer cette opération');
+
+                        flash()
+                            ->options([
+                                'timeout' => 5000, // 3 seconds
+                                'position' => 'bottom-right',
+                            ])
+                            ->error('Pas de fond disponible pour effectuer cette opération');
+
                         return $this->redirectToRoute('app_welcome');
                     }
 
@@ -206,6 +283,15 @@ class FdbController extends AbstractController
                     $entityManager->persist($fdb);
                     $entityManager->persist($caisse);
                     $entityManager->flush();
+
+                flash()
+                    ->options([
+                        'timeout' => 5000, // 3 seconds
+                        'position' => 'bottom-right',
+                    ])
+                    ->success('Fiche de besoin approuvée avec succès ! ');
+
+
                     return $this->redirectToRoute('app_welcome');
                 }
             }
@@ -225,7 +311,18 @@ class FdbController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
+
+
 //            flash()->success('Fiche de besoin modifiée avec succès !');
+
+            flash()
+                ->options([
+                    'timeout' => 5000, // 3 seconds
+                    'position' => 'bottom-right',
+                ])
+                ->success('Fiche de besoin modifiée avec succès !');
+
+
             return $this->redirectToRoute('fdb_index');
         }
 
@@ -267,9 +364,6 @@ class FdbController extends AbstractController
         ]);
     }
 
-
-
-
     #[Route('/fdb/{uuid}/print', name: 'print_fdb', methods: ['GET'])]
     public function print(Fdb $fdb): Response
     {
@@ -286,15 +380,26 @@ class FdbController extends AbstractController
         ]);
     }
 
+// src/Controller/FdbController.php
+
     #[Route('/fdb/{id}/delete', name: 'fdb_delete', methods: ['GET'])]
     public function delete(EntityManagerInterface $manager, Fdb $fdb): Response
     {
-        // Mettre à jour la propriété isActive à false
-        $fdb->setIsActive(false);
-        $manager->flush();
+        $user = $this->getUser();
+
+        // Vérifier que l'utilisateur a le rôle `ROLE_SAISIE`, que la fiche lui appartient, et qu'elle est annulée et active
+        if (in_array('ROLE_USER', $user->getRoles()) && $fdb->getUser() === $user && $fdb->getStatus() === Status::CANCELLED && $fdb->getIsActive()) {
+            // Mettre à jour la propriété isActive à false pour désactiver la fiche
+            $fdb->setIsActive(false);
+            $manager->flush();
+
+            flash()->options(['timeout' => 5000, 'position' => 'bottom-right'])->success('Fiche de besoin supprimée avec succès !');
+        } else {
+            // Si les conditions ne sont pas respectées, afficher un message d'erreur
+            flash()->options(['timeout' => 5000, 'position' => 'bottom-right'])->error('Vous ne pouvez supprimer que vos propres fiches annulées.');
+        }
 
         return $this->redirectToRoute('fdb_index');
     }
-
 
 }

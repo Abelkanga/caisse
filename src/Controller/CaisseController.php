@@ -32,14 +32,29 @@ class CaisseController extends AbstractController
     {
         $caisse = new Caisse();
 
-        $form = $this->createForm(CaisseType::class,$caisse);
+        $form = $this->createForm(CaisseType::class, $caisse);
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()) {
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user = $this->getUser(); // Récupère l'utilisateur actuellement connecté
+
+            // Associer la caisse à l'utilisateur actuel
+            $caisse->setUser($user);
+            $user->setCaisse($caisse); // Associer la caisse à l'utilisateur, si ce n'est pas déjà fait
+
             $manager->persist($caisse);
             $manager->flush();
-//            flash()->success('Caisse créée avec succès !');
+
+            flash()
+                ->options([
+                    'timeout' => 5000,
+                    'position' => 'bottom-right',
+                ])
+                ->success('Caisse créée avec succès !');
+
             return $this->redirectToRoute('caisse_index');
         }
+
         return $this->render('caisse/new.html.twig', [
             'form' => $form->createView(),
             'caisse' => $caisse,
@@ -53,6 +68,14 @@ class CaisseController extends AbstractController
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
             $manager->flush();
+
+            flash()
+                ->options([
+                    'timeout' => 5000, // 3 seconds
+                    'position' => 'bottom-right',
+                ])
+                ->success('Caisse modifiée avec succès !');
+
 //            flash()->success('Caisse modifiée avec succès !');
             return  $this->redirectToRoute('caisse_index');
         }

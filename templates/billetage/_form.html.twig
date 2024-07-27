@@ -1,18 +1,26 @@
 <fieldset>
-    <legend>Information de billetage</legend>
-    <div class="form-group">
-        <label class="col-md-2 control-label">Date <span class="required">*</span></label>
-        <div class="col-md-4 clearfix">
-            {{ form_widget(form.date) }}
-            {{ form_errors(form.date) }}
+
+    <legend> Information de billetage </legend>
+
+    <div class="row">
+        <div class="col-5">
+            <div class="form-group">
+                <label for="date">Date</label>
+                {{ form_widget(form.date) }}
+                {{ form_errors(form.date) }}
+            </div>
         </div>
-        <label class="col-md-2 control-label">Référence <span class="required">*</span></label>
-        <div class="col-md-4 clearfix">
-            {{ form_widget(form.reference) }}
-            {{ form_errors(form.reference) }}
+        <div class="col-5">
+            <div class="form-group">
+                <label for="date">Référence</label>
+                {{ form_widget(form.reference) }}
+                {{ form_errors(form.reference) }}
+            </div>
         </div>
     </div>
+
 </fieldset>
+
 <br>
 <fieldset>
     <legend>Détail Billetage</legend>

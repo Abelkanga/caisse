@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ouverture de la caisse{% endblock %}
+
+{% block body %}
+
+    <div class="col-md-4">
+        {{ form_start(form) }}
+        <div class="card card-fluid">
+            <div class="card-header bg-soft-custom">
+                <h6>
+                    <i class="icon-reorder"></i>
+                    Ouverture de la caisse
+                </h6>
+            </div>
+
+            <div class="card-body">
+                {{ include('journee/_open_form.html.twig') }}
+                {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+            </div>
+            <div class="card-footer">
+                <div class="card-footer-content">
+                    <button class="btn btn-primary pull-right">Ouvrir la caisse</button>
+                </div>
+            </div>
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

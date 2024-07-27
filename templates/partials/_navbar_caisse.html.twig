@@ -1,35 +1,3 @@
-<!-- .menu-header -->
-
-<!-- /.menu-header -->
-<!-- .menu-item -->
-<!-- .menu-item -->
-{#<li class="menu-item {{ app.request.get('_route') == 'app_feature_ticket_new' ? 'has-active': '' }}"> <a href="{{ path('app_feature_ticket_new') }}" class="menu-link">#}
-{#		<span class="menu-icon fa fa-solid fa-add"></span>#}
-{#		Nouveau Ticket</a>#}
-{#</li>
-{#  <li class="menu-item"> <a href="" class="menu-link">
-		<span class="menu-icon fa fa-solid fa-add"></span>
-		Lien</a>#}
-{#</li>#}
-
-{#<li class="menu-item has-child">#}
-{#	<a href="#" class="menu-link">#}
-{#		<span class="menu-icon oi oi-pencil"></span>#}
-{#		<span class="menu-text">Forms</span>#}
-{#	</a>#}
-{#	<!-- child menu -->#}
-{#	<ul class="menu">#}
-{#		<li class="menu-item">#}
-{#			<a href="" class="menu-link">Basic Elements</a>#}
-{#		</li>#}
-{#		<li class="menu-item">#}
-{#			<a href="" class="menu-link">Autocompletes</a>#}
-{#		</li>#}
-
-{#	</ul>#}
-{#	<!-- /child menu -->#}
-{#</li>#}
-
 <li class="menu-header">ENCAISSEMENT</li>
 <li class="menu-item has-child">
 	<a href="#" class="menu-link">
@@ -113,59 +81,18 @@
 </li>
 
 
-
-{#<li class="menu-item has-child">#}
-{#	<a href="#" class="menu-link">#}
-{#		<i class="fa-solid fa-list" style="font-size:17px;"></i>#}
-{#		<span class="menu-text">Etat de caisse</span>#}
-{#	</a>#}
-{#	<!-- child menu -->#}
-{#	<ul class="menu">#}
-{#		<li class="menu-item {{ app.request.get('_route') == 'app_etat_caisse' ? 'has-active': '' }}">#}
-{#			<a href="{{ path('app_etat_caisse') }}" class="menu-link">Créer</a>#}
-{#		</li>#}
-{#		<li class="menu-item {{ app.request.get('_route') == 'fdb_indexBonCaisse' ? 'has-active': '' }}">#}
-{#			<a href="{{ path('fdb_indexBonCaisse') }}" class="menu-link">Liste des encaissements</a>#}
-{#		</li>#}
-{#		<li class="menu-item {{ app.request.get('_route') == 'app_bon_decaisse' ? 'has-active': '' }}">#}
-{#			<a href="{{ path('app_bon_decaisse') }}" class="menu-link">Liste des decaissements</a>#}
-{#		</li>#}
-
-{#	</ul>#}
-{#	<!-- /child menu -->#}
-{#	<!-- .menu-item -->#}
-{#</li>#}
-
-
-
-{#<li class="menu-item has-child">#}
-{#	<a href="#" class="menu-link">#}
-{#		<span class="menu-icon fas fa-credit-card"></span>#}
-{#		<span class="menu-text">Dépense</span>#}
-{#	</a>#}
-{#	<!-- child menu -->#}
-{#	<ul class="menu">#}
-{#		<li class="menu-item {{ app.request.get('_route') == 'depense_pending' ? 'has-active': '' }}">#}
-{#			<a href="{{ path('depense_pending') }}" class="menu-link">En attente</a>#}
-{#		</li>#}
-{#		<li class="menu-item {{ app.request.get('_route') == 'depense_index' ? 'has-active': '' }}">#}
-{#			<a href="{{ path('depense_index') }}" class="menu-link">Validée</a>#}
-{#		</li>#}
-{#	</ul>#}
-{#	<!-- /child menu -->#}
-{#	<!-- .menu-item -->#}
-{#</li>#}
-{#<li class="menu-item has-child">#}
-{#	<a href="#" class="menu-link">#}
-{#		<span class="menu-icon fas fa-credit-card"></span>#}
-{#		<span class="menu-text">Billetage</span>#}
-{#	</a>#}
-{#	<!-- child menu -->#}
-{#	<ul class="menu">#}
-{#		<li class="menu-item {{ app.request.get('_route') == 'billetage_form' ? 'has-active': '' }}">#}
-{#			<a href="{{ path('billetage_form') }}" class="menu-link">Enregistrer</a>#}
-{#		</li>#}
-{#	</ul>#}
-{#	<!-- /child menu -->#}
-{#	<!-- .menu-item -->#}
-{#</li>#}
+<li class="menu-header">FERMETURE</li>
+<li class="menu-item has-child">
+	<a href="#" class="menu-link">
+		<span class="menu-icon fas fa-file-alt"> </span>
+		<span class="menu-text">Fermer la caisse</span>
+	</a>
+	<!-- child menu -->
+	<ul class="menu">
+		<li class="menu-item {{ app.request.get('_route') == 'app_comptability_caisse_journee_close' ? 'has-active': '' }}">
+			<a href="{{ path('app_comptability_caisse_journee_close') }}" class="menu-link">Fermé</a>
+		</li>
+	</ul>
+	<!-- /child menu -->
+	<!-- .menu-item -->
+</li>

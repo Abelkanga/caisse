@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Fermeture de la caisse{% endblock %}
+
+{% block body %}
+
+    <div class="col-md-4">
+    {{ form_start(form) }}
+    <div class="card card-fluid">
+        <div class="card-header bg-soft-custom">
+            <h6>
+                <i class="icon-reorder"></i>
+                Fermeture de la caisse
+            </h6>
+        </div>
+        <div class="card-body">
+            {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+            {{ include('journee/_close_form.html.twig') }}
+        </div>
+        <div class="card-footer">
+            <div class="card-footer-content">
+                <button class="btn btn-primary pull-right">Fermer la journée</button>
+            </div>
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}

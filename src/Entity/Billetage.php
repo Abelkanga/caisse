@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\BilletageRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: BilletageRepository::class)]
 class Billetage
@@ -58,15 +59,6 @@ class Billetage
 
     #[ORM\Column(nullable: true)]
     private ?int $ecart = null;
-//
-//    #[ORM\Column(nullable: true)]
-//    private ?int $checkBalance = null;
-
-//    #[ORM\Column(nullable: true)]
-//    private ?int $checkAmount = null;
-//
-//    #[ORM\Column(nullable: true)]
-//    private ?int $checkEcart = null;
 
     #[ORM\ManyToOne(inversedBy: 'billetages')]
     private ?Caisse $caisse = null;
@@ -92,6 +84,9 @@ class Billetage
 
     #[ORM\OneToOne(inversedBy: 'billetage', cascade: ['persist', 'remove'])]
     private ?Journee $journee = null;
+
+    #[ORM\Column(type: 'uuid', nullable: true)]
+    private ?Uuid $uuid = null;
 
 
     public function getId(): ?int
@@ -373,6 +368,24 @@ class Billetage
     public function setJournee(?Journee $journee): static
     {
         $this->journee = $journee;
+
+        return $this;
+    }
+
+    public function __construct()
+    {
+        // Génération de l'UUID lors de la création d'un objet Billetage
+        $this->uuid = Uuid::v4();
+    }
+
+    public function getUuid(): ?Uuid
+    {
+        return $this->uuid;
+    }
+
+    public function setUuid(?Uuid $uuid): static
+    {
+        $this->uuid = $uuid;
 
         return $this;
     }

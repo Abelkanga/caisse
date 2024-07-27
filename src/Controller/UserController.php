@@ -38,8 +38,23 @@ class UserController extends AbstractController
             $plaintextPassword = $form->get('password')->getData();
             $hashedPassword = $passwordHasher->hashPassword($user, $plaintextPassword);
             $user->setPassword($hashedPassword);
+
+            // Si un formulaire ou un autre processus permet d'associer une caisse à cet utilisateur :
+            if ($user->getCaisse()) {
+                $caisse = $user->getCaisse();
+                $caisse->setUser($user); // S'assurer que la caisse est bien associée à cet utilisateur
+            }
+
             $entityManager->persist($user);
             $entityManager->flush();
+
+            flash()
+                ->options([
+                    'timeout' => 5000,
+                    'position' => 'bottom-right',
+                ])
+                ->success('Utilisateur créé avec succès !');
+
             return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -59,6 +74,14 @@ class UserController extends AbstractController
             $hashedPassword = $passwordHasher->hashPassword($user, $plaintextPassword);
             $user->setPassword($hashedPassword);
             $entityManager->flush();
+
+            flash()
+                ->options([
+                    'timeout' => 5000, // 3 seconds
+                    'position' => 'bottom-right',
+                ])
+                ->success('Utilisateur modifié avec succès !');
+
 
             if ($security->isGranted('ROLE_ADMIN')) {
                 return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
@@ -86,7 +109,13 @@ class UserController extends AbstractController
             $newPasswordEncoded = $passwordHasher->hashPassword($user, $resetPasswordRequest->getNewPassword());
             $userRepository->resetPasswordRequest($user, $newPasswordEncoded);
 
-            $this->addFlash('success', 'Mot de passe modifé avec succès');
+            flash()
+                ->options([
+                    'timeout' => 5000, // 3 seconds
+                    'position' => 'bottom-right',
+                ])
+                ->success('Mot de passe modifié avec succès !');
+
 
             return $this->redirectToRoute('app_welcome');
         }

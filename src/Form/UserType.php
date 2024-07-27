@@ -52,7 +52,8 @@ class UserType extends AbstractType
                         'Approbation' => 'ROLE_MANAGER',
                         'Validation' => 'ROLE_RESPONSABLE',
                         'Saisie' => 'ROLE_USER',
-                        'Impression' => 'ROLE_IMPRESSION'
+                        'Impression' => 'ROLE_IMPRESSION',
+                        'Super Admin' => 'ROLE_SUPER_ADMIN'
                     ],
                     'multiple' => true,
                     'expanded' => false,

@@ -9,6 +9,7 @@ use App\Entity\User;
 use App\Form\BonapprovisionnementType;
 use App\Form\CaisseType;
 use App\Repository\BonapprovisionnementRepository;
+use App\Repository\JourneeRepository;
 use App\Service\CaisseService;
 use App\Utils\Status;
 use Doctrine\ORM\EntityManagerInterface;
@@ -51,8 +52,24 @@ class BonapprovisionnementController extends AbstractController
     }
 
     #[Route('/bonapprovisionnement/new', name: 'bonapprovisionnement_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, CaisseService $service): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, CaisseService $service,  JourneeRepository $journeeRepository ): Response
     {
+        $activeJournee = $journeeRepository->activeJournee();
+        if (!$activeJournee) {
+//            $this->addFlash('error', 'Vous devez ouvrir la caisse avant de créer un bon d\'approvisionnement.');
+
+            flash()
+                ->options([
+                    'timeout' => 5000, // 3 seconds
+                    'position' => 'bottom-right',
+                ])
+                ->error('Vous devez ouvrir la caisse avant de créer un bon d\'approvisionnement.');
+
+
+            return $this->redirectToRoute('app_comptability_caisse_journee_open');
+        }
+
+
         $num_bonapprovisionnement = $service->refBonApprovisionnement();
         $bonapprovisionnement = (new Bonapprovisionnement())->setReference($num_bonapprovisionnement);
 //            ->setJournee($journee)->setDate($journee->getStartedAt());
@@ -68,7 +85,14 @@ class BonapprovisionnementController extends AbstractController
 
             $entityManager->persist($bonapprovisionnement);
             $entityManager->flush();
-            flash()->success('Bon d approvisionnement créé avec succès !');
+
+            flash()
+                ->options([
+                    'timeout' => 5000, // 3 seconds
+                    'position' => 'bottom-right',
+                ])
+                ->success('Bon d approvisionnement créé avec succès !');
+
             return $this->redirectToRoute('bonapprovisionnement_index');
         }
 
@@ -127,6 +151,15 @@ class BonapprovisionnementController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 //            flash()->success('Bon d approvisionnement modifié avec succès !');
+
+            flash()
+                ->options([
+                    'timeout' => 5000, // 3 seconds
+                    'position' => 'bottom-right',
+                ])
+                ->success('Bon d approvisionnement modifié avec succès !');
+
+
             return $this->redirectToRoute('bonapprovisionnement_index');
         }
 
@@ -149,6 +182,14 @@ class BonapprovisionnementController extends AbstractController
     {
         $entityManager->remove($bonapprovisionnement);
         $entityManager->flush();
+
+        flash()
+            ->options([
+                'timeout' => 5000, // 3 seconds
+                'position' => 'bottom-right',
+            ])
+            ->success('Bon d approvisionnement supprimé avec succès !');
+
 //        flash()->success('Bon d approvisionnement supprimé avec succès !');
         return $this->redirectToRoute('bonapprovisionnement_index');
     }

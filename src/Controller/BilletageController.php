@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Billetage;
+use App\Entity\Caisse;
 use App\Entity\Journee;
 use App\Entity\User;
 use App\Form\BilletageType;
@@ -24,28 +25,59 @@ class BilletageController extends AbstractController
         JourneeRepository  $journeeRepository,
     ): Response
     {
+//        $activeJournee = $journeeRepository->activeJournee();
+//        if (!$activeJournee) {
+////            $this->addFlash('error', 'Vous devez ouvrir la caisse avant de créer un bon d\'approvisionnement.');
+//
+//            flash()
+//                ->options([
+//                    'timeout' => 5000, // 3 seconds
+//                    'position' => 'bottom-right',
+//                ])
+//                ->error('Aucune journée active. Veuillez ouvrir la caisse avant de créer un billetage.');
+//
+//
+//            return $this->redirectToRoute('app_comptability_caisse_journee_open');
+//        }
+
         /** @var User $user */
         $user = $this->getUser();
         $caisse = $user->getCaisse();
 
         $billetage = (new Billetage())
             ->setBalance($caisse->getSoldedispo());
+
         $form = $this->createForm(BilletageType::class, $billetage);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $billetage
+                ->setStatus(Status::EN_ATTENTE)
+                ->setUser($user)
                 ->setCaisse($caisse);
+
             $manager->persist($billetage);
             $manager->flush();
-            $this->addFlash('success', 'Inventaire enregistré avec succes');
-            return $this->redirectToRoute('billetage_inventaire_show');
+
+//            $this->addFlash('success', 'Inventaire enregistré avec succes');
+
+            flash()
+                ->options([
+                    'timeout' => 5000, // 3 seconds
+                    'position' => 'bottom-right',
+                ])
+                ->success('Inventaire enregistré avec succes ');
+
+
+
+            return $this->redirectToRoute('billetage_inventaire_show', ['uuid' => $billetage->getUuid()]);
         }
 
         return $this->render('billetage/index.html.twig', [
             'form' => $form->createView(),
         ]);
     }
+
 
     #[Route('/{uuid}/edit', name: 'edit', methods: ['GET', 'POST'])]
     public function edit(
@@ -59,7 +91,17 @@ class BilletageController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $manager->flush();
-            $this->addFlash('success', 'Inventaire modifié avec succes');
+
+
+            flash()
+                ->options([
+                    'timeout' => 5000, // 3 seconds
+                    'position' => 'bottom-right',
+                ])
+                ->success('Inventaire modifié avec succes');
+
+//            $this->addFlash('success', 'Inventaire modifié avec succes');
+
             return $this->redirectToRoute('billetage_inventaire_show', ['uuid' => $billetage->getUuid()]);
         }
 
@@ -80,6 +122,13 @@ class BilletageController extends AbstractController
     {
         /** @var User $user */
         $user = $this->getUser();
+        $caisse = $user->getCaisse();
+
+        $activeJournee = $journeeRepository->activeJournee($caisse);
+        if($activeJournee) {
+            $this->addFlash('error', 'Veuillez fermer la journee en cours svp');
+            return $this->redirectToRoute('bonapprovisionnement_index');
+        }
 
         if ($request->isMethod('POST') &&
             $this->isCsrfTokenValid('validate-caisse-billetage', $request->request->get('_token'))) {
@@ -87,12 +136,26 @@ class BilletageController extends AbstractController
                 $currentDate = new \DateTimeImmutable();
                 $currentDate->format('D, d M Y H:i:s');
                 $billetage
-                    ->setStatus(Status::VALIDATED)
-                    ->setConfirmedAt(new \DateTimeImmutable())
-                    ->setConfirmedBy($user);
+                    ->setStatus(Status::VALIDATED);
+//                    ->setConfirmedAt(new \DateTimeImmutable())
+//                    ->setConfirmedBy($user);
+
+                $caisse->setSoldedispo($billetage->getAmount());
+
                 $manager->flush();
-                $this->addFlash('success', 'Iventaire validé avec succès');
-                return $this->redirectToRoute('bonapprovisionnement_index');
+
+//                $this->addFlash('success', 'Inventaire validé avec succès');
+
+                flash()
+                    ->options([
+                        'timeout' => 5000, // 3 seconds
+                        'position' => 'bottom-right',
+                    ])
+                    ->success('Inventaire validé avec succes');
+
+
+
+                return $this->redirectToRoute('app_welcome');
             }
         }
 
@@ -100,4 +163,18 @@ class BilletageController extends AbstractController
             'billetage' => $billetage,
         ]);
     }
+
+
+
+
+    private function closeJournee(Journee $journee, Caisse $caisse, EntityManagerInterface $manager): void
+    {
+        $journee->setActive(false);
+        $caisse->setSoldedispo($journee->getSolde());
+
+        $manager->persist($journee);
+        $manager->persist($caisse);
+        $manager->flush();
+    }
+
 }

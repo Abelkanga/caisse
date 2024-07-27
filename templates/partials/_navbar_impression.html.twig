@@ -1,3 +1,21 @@
+<li class="menu-header">Créer une fiche de besoin </li>
+
+<li class="menu-item has-child">
+	<a href="#" class="menu-link">
+		<span class="fa-solid fa-file-alt p-2"></span>
+
+		<span class="menu-text">Fiche de besoin</span>
+	</a>
+	<!-- child menu -->
+	<ul class="menu">
+		<li class="menu-item {{ app.request.get('_route') == 'fdb_new' ? 'has-active': '' }}">
+			<a href="{{ path('fdb_new') }}" class="menu-link">Créer</a>
+		</li>
+	</ul>
+	<!-- /child menu -->
+	<!-- .menu-item -->
+</li>
+
 <li class="menu-header">IMPRESSION</li>
 <li class="menu-item has-child">
 	<a href="#" class="menu-link">
@@ -14,7 +32,6 @@
 	<!-- /child menu -->
 	<!-- .menu-item -->
 </li>
-
 
 <li class="menu-item has-child">
 	<a href="#" class="menu-link">

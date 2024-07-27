@@ -1,0 +1,135 @@
+{#{% extends 'base.html.twig' %}#}
+
+{#{% block title %}Dashboard Caisse{% endblock %}#}
+
+{#{% block body %}#}
+{#    <div class="row">#}
+{#        <div class="col-md-12">#}
+{#            <div class="widget box">#}
+{#                <div class="widget-header" style="background-color: black;">#}
+{#                    <h4>#}
+{#                        <i class="icon-reorder"></i>#}
+{#                        Situation de la caisse#}
+{#                    </h4>#}
+{#                </div>#}
+{#                <div class="widget-content">#}
+{#                    <table class="table table-bordered table-highlight-head bordered table-condensed">#}
+{#                        <thead>#}
+{#                        <tr>#}
+{#                            <th>Période</th>#}
+{#                            <th>Solde initial</th>#}
+{#                            <th>Débit (F cfa)</th>#}
+{#                            <th>Crédit (F cfa)</th>#}
+{#                            <th>Solde (F cfa)</th>#}
+{#                        </tr>#}
+{#                        </thead>#}
+{#                        <tbody>#}
+{#                        <tr>#}
+{#                            <td>Mouvements antérieurs</td>#}
+{#                            <td class="text-right">{{ initial | number_format(0, 0, ' ', null) }}</td>#}
+{#                            <td class="text-right">{{ annee.debit_total | number_format(0, 0, ' ', null) }}</td>#}
+{#                            <td class="text-right">{{ annee.credit_total | number_format(0, 0, ' ', null) }}</td>#}
+{#                            <td class="text-right">{{ (initial + annee.debit_total - annee.credit_total) | number_format(0, 0, ' ', null) }}</td>#}
+{#                        </tr>#}
+{#                        {% if today %}#}
+{#                            <tr>#}
+{#                                <td>Mouvement du {{ today.startedAt | date("d-m-Y") }}</td>#}
+{#                                <td class="text-right">{{ today.lastSolde | number_format(0, 0, ' ', null) }}</td>#}
+{#                                <td class="text-right">{{ today.debit | number_format(0, 0, ' ', null) }}</td>#}
+{#                                <td class="text-right">{{ today.credit | number_format(0, 0, ' ', null) }}</td>#}
+{#                                <td class="text-right">{{ today.solde | number_format(0, 0, ' ', null) }}</td>#}
+{#                            </tr>#}
+{#                        {% endif %}#}
+{#                        </tbody>#}
+{#                    </table>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+
+{#    {% if activeJournee %}#}
+{#        <div class="row">#}
+{#            <div class="col-md-6">#}
+{#                <div class="widget box">#}
+{#                    <div class="widget-header" style="background-color: black;">#}
+{#                        <h4>#}
+{#                            <i class="icon-reorder"></i>#}
+{#                            Liste approvisionnement#}
+{#                        </h4>#}
+{#                    </div>#}
+{#                    <div class="widget-content">#}
+{#                        <table class="table table-bordered table-highlight-head datatable table-condensed dataTable no-footer">#}
+{#                            <thead>#}
+{#                            <tr role="row">#}
+{#                                <th>#}
+{#                                    Date#}
+{#                                </th>#}
+{#                                <th>N° Reçue caisse#}
+{#                                </th>#}
+{#                                <th>Tiers</th>#}
+{#                                <th>#}
+{#                                    Montant Total (F cfa)#}
+{#                                </th>#}
+{#                            </tr>#}
+{#                            </thead>#}
+{#                            <tbody>#}
+{#                            {% for bonapprovisionnement in bonapprovisionnement %}#}
+{#                                <tr style="font-size: 11px">#}
+{#                                    <td class="text-center">{{ bonapprovisionnement.createdAt | date('d/m/y') }}</td>#}
+{#                                    <td class="text-center">{{ bonapprovisionnement.reference }}</td>#}
+{#                                    <td class="text-left">{{ bonapprovisionnement.tiers ?? encaissement.destinataire ?? 'Aucune information' }}</td>#}
+{#                                    <td class="text-right">{{ bonapprovisionnement.montanttotal | number_format(0, 0, ' ') }}</td>#}
+{#                                </tr>#}
+{#                            {% endfor %}#}
+{#                            </tbody>#}
+{#                        </table>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#            <div class="col-md-6">#}
+{#                <div class="widget box">#}
+{#                    <div class="widget-header" style="background-color: black;">#}
+{#                        <h4>#}
+{#                            <i class="icon-reorder"></i>#}
+{#                            Liste dépense#}
+{#                        </h4>#}
+{#                    </div>#}
+{#                    <div class="widget-content">#}
+{#                        <table class="table table-bordered table-highlight-head datatable table-condensed dataTable no-footer"#}
+{#                               id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">#}
+{#                            <thead>#}
+{#                            <tr role="row">#}
+{#                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"#}
+{#                                    colspan="1" aria-label="Date création: Trier par ordre croissant"#}
+{#                                    style="width: 134px;">Date#}
+{#                                </th>#}
+{#                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"#}
+{#                                    colspan="1" aria-label="Numéro de pièce: Trier par ordre croissant"#}
+{#                                    style="width: 119px;">N° Bon caisse#}
+{#                                </th>#}
+{#                                <th>Bénéficiaire</th>#}
+{#                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"#}
+{#                                    colspan="1" aria-label="Montant Total (F cfa): Trier par ordre croissant"#}
+{#                                    style="width: 146px;">Montant Total (F cfa)#}
+{#                                </th>#}
+{#                            </tr>#}
+{#                            </thead>#}
+{#                            <tbody>#}
+{#                            {% for fdb in fdb %}#}
+{#                                {% set staff2 = fdb.staff2 ?? fdb.benef2 %}#}
+{#                                <tr>#}
+{#                                    <td class="text-center">{{ fdb.updatedAt | date('d/m/y') }}</td>#}
+{#                                    <td class="text-center">{{ fdb.numero_fiche_besoin }}</td>#}
+{#                                    <td class="text-left">{{ (fdb.tiers ?? (decaissement.beneficiaire ?? (fdb.staff ?? staff2)))  }}</td>#}
+{#                                    <td class="text-right">{{ fdb.total | number_format(0, 0, ' ') }}</td>#}
+{#                                </tr>#}
+{#                            {% endfor %}#}
+{#                            </tbody>#}
+{#                        </table>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    {% endif %}#}
+
+{#{% endblock %}#}

@@ -32,7 +32,7 @@
                                     {% endfor %}
                                 </td>
                                 <td class="text-right separator align-middle">{{ c.soldedispo ?? 'Aucune information' }}</td>
-                                <td class="text-right align-middle">{{ c.plafond|number_format(0, ',', ' ') }}</td>
+                                <td class="text-right align-middle separator">{{ c.plafond|number_format(0, ',', ' ') }}</td>
                                 <td class="text-center align-middle">
                                     <a class="btn btn-sm btn-icon btn-secondary" data-toggle="tooltip" data-html="true" title="<em>Modifier</em>" href="{{ path('caisse_edit', {'id': c.id}) }}">
                                         <i class="fa fa-pencil-alt"></i>

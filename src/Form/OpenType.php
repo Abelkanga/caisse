@@ -24,11 +24,10 @@ class OpenType extends AbstractType
         ;
     }
 
-
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => JourneeCash::class,
+            'data_class' => Journee::class,
         ]);
     }
 }
