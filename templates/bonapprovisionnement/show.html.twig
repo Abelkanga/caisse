@@ -50,7 +50,7 @@
                             <tbody>
                             <tr>
                                 <td class="text-center">{{ bonapprovisionnement.date ? bonapprovisionnement.date|date('d-m-Y') : ''  }}</td>
-                                <td class="align-middle">{{ bonapprovisionnement.caisse.intitule }}</td>
+                                <td class="align-middle">{{ bonapprovisionnement.caisse ? bonapprovisionnement.caisse.intitule : 'Caisse non définie' }}</td>
                                 <td class="align-middle">{{ bonapprovisionnement.porteur }}</td>
                                 <td class="text-right">{{ bonapprovisionnement.reference }}</td>
                             </tr>

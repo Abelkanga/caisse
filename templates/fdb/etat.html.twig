@@ -48,11 +48,11 @@
             <div class="card">
                 <div class="card-header bg-soft-custom" style="background:#21244e; color:white;">
                     <i class="fa-solid fa-list" style="font-size:18px;"></i> &nbsp;État des fiches de besoin
-                    <div class="float-right">
-                        <button id="export_csv" class="btn btn-sm btn-outline-primary">Export CSV</button>
-                        <button id="export_excel" class="btn btn-sm btn-outline-success">Export Excel</button>
-                        <button id="export_pdf" class="btn btn-sm btn-outline-danger">Export PDF</button>
-                    </div>
+{#                    <div class="float-right">#}
+{#                        <button id="export_csv" class="btn btn-sm btn-outline-primary">Export CSV</button>#}
+{#                        <button id="export_excel" class="btn btn-sm btn-outline-success">Export Excel</button>#}
+{#                        <button id="export_pdf" class="btn btn-sm btn-outline-danger">Export PDF</button>#}
+{#                    </div>#}
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -116,28 +116,28 @@
     </fieldset>
 {% endblock %}
 
-{% block javascripts %}
-    {{ parent() }}
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin/tableExport.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('#export_csv').on('click', function() {
-                $('#fdbTable').tableExport({type: 'csv'});
-            });
+{#{% block javascripts %}#}
+{#    {{ parent() }}#}
+{#    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>#}
+{#    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>#}
+{#    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>#}
+{#    <script src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin/tableExport.min.js"></script>#}
+{#    <script>#}
+{#        $(document).ready(function() {#}
+{#            $('#export_csv').on('click', function() {#}
+{#                $('#fdbTable').tableExport({type: 'csv'});#}
+{#            });#}
 
-            $('#export_excel').on('click', function() {
-                $('#fdbTable').tableExport({type: 'excel'});
-            });
+{#            $('#export_excel').on('click', function() {#}
+{#                $('#fdbTable').tableExport({type: 'excel'});#}
+{#            });#}
 
-            $('#export_pdf').on('click', function() {
-                const { jsPDF } = window.jspdf;
-                const doc = new jsPDF();
-                doc.autoTable({ html: '#fdbTable' });
-                doc.save('fdb_table.pdf');
-            });
-        });
-    </script>
-{% endblock %}
+{#            $('#export_pdf').on('click', function() {#}
+{#                const { jsPDF } = window.jspdf;#}
+{#                const doc = new jsPDF();#}
+{#                doc.autoTable({ html: '#fdbTable' });#}
+{#                doc.save('fdb_table.pdf');#}
+{#            });#}
+{#        });#}
+{#    </script>#}
+{#{% endblock %}#}

@@ -133,11 +133,9 @@ class JourneeController extends AbstractController
         /** @var Journee $active */
         $active = $journeeRepository->activeJournee();
         if (!$active) {
-
-
             flash()
                 ->options([
-                    'timeout' => 5000, // 3 seconds
+                    'timeout' => 5000, // 5 seconds
                     'position' => 'bottom-right',
                 ])
                 ->error('La caisse est déjà fermée');
@@ -150,7 +148,6 @@ class JourneeController extends AbstractController
         $caisse = $user->getCaisse();
 
         if (!$caisse) {
-            // Redirige ou affiche un message si aucune caisse n'est trouvée
             $this->addFlash('error', 'Aucune caisse n\'est associée à votre compte.');
             return $this->redirectToRoute('app_comptability_caisse_journee_close');
         }
@@ -162,26 +159,25 @@ class JourneeController extends AbstractController
             ->setUser($user)
             ->setBalance($active->getSolde());
 
-        $form = $this->createForm(JourneeCloseType::class, $billetage);
+        // Passer la caisse comme option lors de la création du formulaire
+        $form = $this->createForm(JourneeCloseType::class, $billetage, [
+            'caisse' => $caisse,
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $billetage->setStatus(Status::VALIDATED);
 
-
-
             $active->setActive(false)
-
                 ->setSolde($billetage->getBalance());
 
             $caisse->setSoldedispo($billetage->getBalance());
             $manager->persist($billetage);
             $manager->flush();
 
-
             flash()
                 ->options([
-                    'timeout' => 5000, // 3 seconds
+                    'timeout' => 5000, // 5 seconds
                     'position' => 'bottom-right',
                 ])
                 ->success('Caisse fermée avec succès');
@@ -193,4 +189,5 @@ class JourneeController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
 }

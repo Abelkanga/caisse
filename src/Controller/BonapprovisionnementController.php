@@ -52,46 +52,49 @@ class BonapprovisionnementController extends AbstractController
     }
 
     #[Route('/bonapprovisionnement/new', name: 'bonapprovisionnement_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, CaisseService $service,  JourneeRepository $journeeRepository ): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, CaisseService $service, JourneeRepository $journeeRepository): Response
     {
         $activeJournee = $journeeRepository->activeJournee();
         if (!$activeJournee) {
-//            $this->addFlash('error', 'Vous devez ouvrir la caisse avant de créer un bon d\'approvisionnement.');
-
             flash()
                 ->options([
-                    'timeout' => 5000, // 3 seconds
+                    'timeout' => 5000,
                     'position' => 'bottom-right',
                 ])
                 ->error('Vous devez ouvrir la caisse avant de créer un bon d\'approvisionnement.');
-
-
             return $this->redirectToRoute('app_comptability_caisse_journee_open');
         }
 
-
         $num_bonapprovisionnement = $service->refBonApprovisionnement();
         $bonapprovisionnement = (new Bonapprovisionnement())->setReference($num_bonapprovisionnement);
-//            ->setJournee($journee)->setDate($journee->getStartedAt());
 
         $form = $this->createForm(BonapprovisionnementType::class, $bonapprovisionnement);
         $form->handleRequest($request);
 
-
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var User $user */
             $user = $this->getUser();
-            $bonapprovisionnement->setUser($user)->setStatus(Status::EN_ATTENTE);
+            $caisse = $user->getCaisse(); // Obtenir la caisse de l'utilisateur connecté
+
+            if (!$caisse) {
+                flash()->error('Aucune caisse associée à l\'utilisateur.');
+                return $this->redirectToRoute('bonapprovisionnement_new');
+            }
+
+            $bonapprovisionnement
+                ->setUser($user)
+                ->setCaisse($caisse) // Associer la caisse
+                ->setStatus(Status::EN_ATTENTE);
 
             $entityManager->persist($bonapprovisionnement);
             $entityManager->flush();
 
             flash()
                 ->options([
-                    'timeout' => 5000, // 3 seconds
+                    'timeout' => 5000,
                     'position' => 'bottom-right',
                 ])
-                ->success('Bon d approvisionnement créé avec succès !');
+                ->success('Bon d\'approvisionnement créé avec succès !');
 
             return $this->redirectToRoute('bonapprovisionnement_index');
         }

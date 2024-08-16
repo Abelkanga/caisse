@@ -49,11 +49,18 @@ class FdbRepository extends ServiceEntityRepository
      */
     public function findByUserRole(User $user): array
     {
+        // Récupérer les rôles de l'utilisateur
+        $roles = $user->getRoles();
+
         $qb = $this->createQueryBuilder('f')
-            ->andWhere('f.isActive = :isActive') // Ne retourner que les fiches actives
+            ->andWhere('f.isActive = :isActive')
             ->setParameter('isActive', true);
 
-        if (in_array('ROLE_USER', $user->getRoles())) {
+        // Si l'utilisateur a le rôle "ROLE_RESPONSABLE", il voit tous les enregistrements
+        if (in_array('ROLE_RESPONSABLE', $roles)) {
+            // Pas besoin de filtrer par utilisateur
+        } elseif (in_array('ROLE_USER', $roles) || in_array('ROLE_IMPRESSION', $roles)) {
+            // Filtrer par utilisateur pour les autres rôles
             $qb->andWhere('f.user = :user')
                 ->setParameter('user', $user);
         }
@@ -62,6 +69,8 @@ class FdbRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+
 
     public function findPendingByUserRole(User $user): array
     {

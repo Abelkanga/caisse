@@ -227,7 +227,7 @@ class FdbController extends AbstractController
                         'timeout' => 5000, // 3 seconds
                         'position' => 'bottom-right',
                     ])
-                    ->success('Fiche de besoin confirmé avec succès ! ');
+                    ->success('Fiche de besoin validée avec succès ! ');
 
                 return $this->redirectToRoute('app_welcome');
             }
@@ -386,9 +386,14 @@ class FdbController extends AbstractController
     public function delete(EntityManagerInterface $manager, Fdb $fdb): Response
     {
         $user = $this->getUser();
+        $roles = $user->getRoles();
 
-        // Vérifier que l'utilisateur a le rôle `ROLE_SAISIE`, que la fiche lui appartient, et qu'elle est annulée et active
-        if (in_array('ROLE_USER', $user->getRoles()) && $fdb->getUser() === $user && $fdb->getStatus() === Status::CANCELLED && $fdb->getIsActive()) {
+        // Vérifier que l'utilisateur a l'un des rôles nécessaires, que la fiche lui appartient, et qu'elle est annulée et active
+        if ((in_array('ROLE_USER', $roles) || in_array('ROLE_RESPONSABLE', $roles) || in_array('ROLE_IMPRESSION', $roles))
+            && $fdb->getUser() === $user
+            && $fdb->getStatus() === Status::CANCELLED
+            && $fdb->getIsActive()) {
+
             // Mettre à jour la propriété isActive à false pour désactiver la fiche
             $fdb->setIsActive(false);
             $manager->flush();

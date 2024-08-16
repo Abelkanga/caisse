@@ -11,6 +11,10 @@
 		<li class="menu-item {{ app.request.get('_route') == 'fdb_new' ? 'has-active': '' }}">
 			<a href="{{ path('fdb_new') }}" class="menu-link">Créer</a>
 		</li>
+
+		<li class="menu-item {{ app.request.get('_route') == 'fdb_index' ? 'has-active': '' }}">
+			<a href="{{ path('fdb_index') }}" class="menu-link">Liste</a>
+		</li>
 	</ul>
 	<!-- /child menu -->
 	<!-- .menu-item -->

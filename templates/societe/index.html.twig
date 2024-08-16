@@ -29,7 +29,7 @@
                             <th>Numéro compte contribuable</th>
                             <th>Regime fiscal</th>
                             <th>Numéro télé déclarant</th>
-{#                            <th>Actions</th>#}
+                            <th>Actions</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -50,13 +50,13 @@
                                 <td class="align-middle">{{ societe.NumeroCompteContribuable }}</td>
                                 <td class="align-middle">{{ societe.RegimeFiscale }}</td>
                                 <td class="align-middle">{{ societe.NumeroTeleDeclarant }}</td>
-{#                                <td class="text-center align-middle">#}
-{#                                    <a class="btn btn-sm btn-icon btn-secondary" data-toggle="tooltip" data-html="true" title="<em>Modifier</em>" href="{{ path('app_societe_edit', {'id': societe.id}) }}">#}
-{#                                        <i class="fa fa-pencil-alt"></i>#}
-{#                                    </a>#}
-{#                                    <span class="mx-1"></span>#}
+                                <td class="text-center align-middle">
+                                    <a class="btn btn-sm btn-icon btn-secondary" data-toggle="tooltip" data-html="true" title="<em>Modifier</em>" href="{{ path('app_societe_edit', {'id': societe.id}) }}">
+                                        <i class="fa fa-pencil-alt"></i>
+                                    </a>
+                                    <span class="mx-1"></span>
 
-{#                                </td>#}
+                                </td>
                             </tr>
                         {% endfor %}
                         </tbody>
