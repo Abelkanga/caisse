@@ -33,12 +33,7 @@ class UserType extends AbstractType
             ->add('fullName', TextType::class)
             ->add('pseudo', TextType::class)
             ->add('contact', TextType::class)
-            ->add('fonction', EntityType::class, [
-                'class' => Fonction::class,
-                'choice_label' => 'name',
-                'placeholder' => 'Sélectionnez une fonction', 'required' => false,
-                'choice_value' => 'id',
-            ])
+            ->add('fonction', TextType::class)
             ->add('email', EmailType::class)
             ->add('password', PasswordType::class);
 
@@ -49,10 +44,10 @@ class UserType extends AbstractType
                 ->add('roles', ChoiceType::class, [
                     'choices' => [
 //                        'Administrateur' => 'ROLE_ADMIN',
-                        'Approbation' => 'ROLE_MANAGER',
-                        'Validation' => 'ROLE_RESPONSABLE',
-                        'Saisie' => 'ROLE_USER',
-                        'Impression' => 'ROLE_IMPRESSION',
+                        'Approuver décaissement' => 'ROLE_MANAGER',
+                        'Valider Fiche de besoin' => 'ROLE_RESPONSABLE',
+                        'Créer/Modifier Fiche de besoin' => 'ROLE_USER',
+                        'Imprimer Document' => 'ROLE_IMPRESSION',
 //                        'Super Admin' => 'ROLE_SUPER_ADMIN'
                     ],
                     'multiple' => true,

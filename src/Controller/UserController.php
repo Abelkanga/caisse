@@ -22,9 +22,17 @@ class UserController extends AbstractController
     #[Route('/index', name: 'app_user_index', methods: ['GET'])]
     public function index(UserRepository $userRepository): Response
     {
+//        return $this->render('user/index.html.twig', [
+//            'users' => $userRepository->findAll(),
+//        ]);
+
+        // Utiliser la méthode personnalisée pour récupérer les utilisateurs filtrés
+        $users = $userRepository->findAllExcludingAdmins();
+
         return $this->render('user/index.html.twig', [
-            'users' => $userRepository->findAll(),
+            'users' => $users,
         ]);
+
     }
 
     #[Route('/new', name: 'app_user_new', methods: ['GET', 'POST'])]

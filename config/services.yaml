@@ -22,7 +22,14 @@ services:
     app.NumberToWords_service:
         class: App\Service\NumberToWordsService
 
-        # makes classes in src/ available to be used as services
+    App\Service\PusherService:
+        arguments:
+            $pusherAppId: '%env(PUSHER_APP_ID)%'
+            $pusherAppKey: '%env(PUSHER_APP_KEY)%'
+            $pusherAppSecret: '%env(PUSHER_APP_SECRET)%'
+            $pusherAppCluster: '%env(PUSHER_APP_CLUSTER)%'
+
+    # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:
         resource: '../src/'

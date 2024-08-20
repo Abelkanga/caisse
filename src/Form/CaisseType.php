@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Caisse;
 use App\Entity\User;
+use App\Repository\UserRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -21,14 +22,18 @@ class CaisseType extends AbstractType
             ->add('intitule', TextType::class)
             ->add('user', EntityType::class, [
                 'class' => User::class,
-                'choice_label' => 'fullName',  // Assurez-vous que 'fullName' est un attribut ou une méthode existante dans User
+                'choice_label' => 'fullName',
                 'placeholder' => 'Sélectionnez un utilisateur',
                 'required' => false,
-                'multiple' => false,  // Changement ici : l'utilisateur doit être unique
-                'expanded' => false,  // Gardez ce champ sous forme de dropdown (select)
+                'multiple' => false,
+                'expanded' => false,
+                'query_builder' => function (UserRepository $ur) {
+                    return $ur->createQueryBuilder('u')
+                        ->where('u.roles LIKE :role')
+                        ->setParameter('role', '%"ROLE_MANAGER"%');
+                },
             ])
-            ->add('plafond', NumberType::class)
-        ;
+            ->add('plafond', NumberType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)

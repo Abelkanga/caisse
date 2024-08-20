@@ -18,7 +18,6 @@
                             <th>Contact</th>
                             <th>Email</th>
                             <th>Fonction</th>
-                            <th>Rôle</th>
                             <th>Action</th>
                         </tr>
                         </thead>
@@ -30,7 +29,6 @@
                                 <td class="align-middle">{{ u.contact }}</td>
                                 <td class="align-middle">{{ u.email }}</td>
                                 <td class="align-middle">{{ u.fonction }}</td>
-                                <td class="align-middle">{{ u.roles ? u.roles|join(', ') : ''}}</td>
 
                                 <td class="text-center align-middle">
                                     <a class="btn btn-sm btn-icon btn-secondary" data-toggle="tooltip" data-html="true" title="<em>Modifier</em>" href="{{ path('app_user_edit', {'id': u.id}) }}">

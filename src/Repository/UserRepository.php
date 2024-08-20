@@ -57,4 +57,36 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+
+    /**
+     * Retourne les utilisateurs ayant le rôle ROLE_MANAGER
+     *
+     * @return User[]
+     */
+    public function findUsersByRoleManager(): array
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.roles LIKE :role')
+            ->setParameter('role', '%"ROLE_MANAGER"%')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * Find all users except those with roles ROLE_ADMIN or ROLE_SUPER_ADMIN
+     *
+     * @return User[] Returns an array of User objects
+     */
+    public function findAllExcludingAdmins(): array
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.roles NOT LIKE :roleAdmin')
+            ->andWhere('u.roles NOT LIKE :roleSuperAdmin')
+            ->setParameter('roleAdmin', '%"ROLE_ADMIN"%')
+            ->setParameter('roleSuperAdmin', '%"ROLE_SUPER_ADMIN"%')
+            ->getQuery()
+            ->getResult();
+    }
+
 }
