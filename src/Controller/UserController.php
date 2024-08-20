@@ -43,7 +43,7 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $plaintextPassword = $form->get('password')->getData();
+            $plaintextPassword = 'password';
             $hashedPassword = $passwordHasher->hashPassword($user, $plaintextPassword);
             $user->setPassword($hashedPassword);
 
@@ -105,10 +105,10 @@ class UserController extends AbstractController
     }
 
     #[Route('/update_password', name: 'app_user_update', methods: ['GET', 'POST'])]
-    public function ResetPasswordRequest(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher) : Response
+    public function ResetPasswordRequest(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher): Response
     {
         $resetPasswordRequest = new ResetPasswordRequest();
-        $form =  $this->createForm(ResetPasswordRequestFormType::class, $resetPasswordRequest);
+        $form = $this->createForm(ResetPasswordRequestFormType::class, $resetPasswordRequest);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -128,5 +128,4 @@ class UserController extends AbstractController
             return $this->redirectToRoute('app_welcome');
         }
     }
-
 }

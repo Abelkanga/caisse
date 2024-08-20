@@ -4,24 +4,41 @@
             <div class="modal-header bg-secondary">
                 <h5 class="modal-title text-dark" id="modalManagerLabel">
                     <span class="uil uil-question-circle"></span>
-                    Approbation par le Manager
+                    {% if operation_type == 'decaissement' %}
+                        Approbation de la Fiche de Besoin
+                    {% else %}
+                        Approbation du Bon d'Approvisionnement
+                    {% endif %}
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
             <div class="modal-body font-size-14">
-                Voulez-vous vraiment approuver cette opération ?
+                {% if operation_type == 'decaissement' %}
+                    Voulez-vous vraiment approuver ce décaissement ?
+                {% else %}
+                    Voulez-vous vraiment approuver cet encaissement ?
+                {% endif %}
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-light font-weight-medium" data-dismiss="modal">Annuler</button>
                 <button type="submit" class="btn btn-outline-success font-weight-medium" name="confirm_manager" value="confirm">
-                    Confirmer
+                    {% if operation_type == 'decaissement' %}
+                        Confirmer le Décaissement
+                    {% else %}
+                        Confirmer l'Encaissement
+                    {% endif %}
                 </button>
             </div>
         </div>
     </div>
 </div>
 <button type="button" class="btn btn-success float-right ml-2" data-toggle="modal" data-target="#modalManager">
-    <i class="fa fa-check"></i> Approuver
+    <i class="fa fa-check"></i>
+    {% if operation_type == 'decaissement' %}
+        Décaissement
+    {% else %}
+        Encaissement
+    {% endif %}
 </button>

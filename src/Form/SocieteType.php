@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\Fonction;
 use App\Entity\Societe;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -18,20 +20,12 @@ class SocieteType extends AbstractType
         $builder
             ->add('date', DateType::class)
             ->add('RaisonSociale', TextType::class)
-            ->add('forme', ChoiceType::class, [
-                'choices' => [
-                    'Société anonyme ' => 'SA',
-                    'Société à responsabilité limitée ' => 'SARL',
-                    'Société à responsabilité limitée unipersonnelle ' => 'SARLU',
-                    'Entreprise individuelle ' => 'EI',
-                    'Société civile immobilière ' => 'SCI'
-                ],
-                'multiple' => true,
-                'expanded' => false,
+            ->add('Fonction', EntityType::class, [
+                'class' => Fonction::class,
+                'placeholder' => 'Sélectionnez une forme juridique',
                 'required' => false,
-                'attr' => [
-                    'class' => 'form-control-sm select2'
-                ]
+                'multiple' => false,
+                'expanded' => false,
             ])
             ->add('Activite', TextType::class)
             ->add('siegeSocial', TextType::class)

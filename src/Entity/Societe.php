@@ -65,6 +65,9 @@ class Societe
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $SiegeSocial = null;
 
+    #[ORM\ManyToOne(inversedBy: 'societes')]
+    private ?Fonction $fonction = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -270,6 +273,18 @@ class Societe
     public function setSiegeSocial(?string $SiegeSocial): static
     {
         $this->SiegeSocial = $SiegeSocial;
+
+        return $this;
+    }
+
+    public function getFonction(): ?Fonction
+    {
+        return $this->fonction;
+    }
+
+    public function setFonction(?Fonction $fonction): static
+    {
+        $this->fonction = $fonction;
 
         return $this;
     }

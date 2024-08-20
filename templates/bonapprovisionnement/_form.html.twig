@@ -21,14 +21,14 @@
     <div class="row">
         <div class="col-5">
             <div class="form-group">
-                <label for="modepaie">Bénéficiaire</label>
+                <label for="modepaie">Bénéficiaire<span class="text-danger">*</span></label>
                 {{ form_widget(form.destinataire, {'attr' : {'class': 'form-control'}}) }}
             </div>
         </div>
 
         <div class="col-5">
             <div class="form-group">
-                <label for="modepaie">Objet</label>
+                <label for="modepaie">Objet<span class="text-danger">*</span></label>
                 {{ form_widget(form.porteur, {'attr' : {'class': 'form-control'}}) }}
             </div>
         </div>
@@ -55,7 +55,7 @@
 
         <div class="col-5">
             <div class="form-group">
-                <label for="nomTiers">Détail de la source</label>
+                <label for="nomTiers">Détail de la source<span class="text-danger">*</span></label>
                 {{ form_widget(form.nomTiers, {'attr' : {'class': 'form-control'}}) }}
             </div>
         </div>

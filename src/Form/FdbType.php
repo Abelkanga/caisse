@@ -53,7 +53,7 @@ class FdbType extends AbstractType
             ->add('beneficiaire', TextType::class)
             ->add('typeExpense', EntityType::class, [
                 'class' => TypeExpense::class,
-                'placeholder' => 'Sélectionner un type de dépense',
+                'placeholder' => 'Sélectionnez un type de dépense',
             ])
             ->add('details', CollectionType::class, [
                 'entry_type' => DetailType::class,
@@ -66,7 +66,7 @@ class FdbType extends AbstractType
             $form->add("expense", EntityType::class, [
                 "class" => Expense::class,
                 "choice_label" => "name",
-                "placeholder" => "",
+                "placeholder" => "Sélectionnez la nature de dépense",
                 "query_builder" => function (ExpenseRepository $er) use ($typeExpense) {
                     return $er
                         ->createQueryBuilder('e')

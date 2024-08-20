@@ -141,8 +141,9 @@ class BonapprovisionnementController extends AbstractController
 
         return $this->render('bonapprovisionnement/show.html.twig', [
             'bonapprovisionnement' => $bonapprovisionnement,
-
+            'operation_type' => 'encaissement', // ajout de cette variable
         ]);
+
     }
 
     #[Route('/bonapprovisionnement/{id}/edit', name: 'bonapprovisionnement_edit', methods: ['GET', 'POST'])]

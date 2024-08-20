@@ -4,14 +4,14 @@
     <div class="row">
         <div class="col-md-5">
             <div class="form-group">
-                <label for="code">Code</label>
+                <label for="code">Code<span class="text-danger">*</span></label>
                 {{ form_widget(form.code, {'attr' : {'class': 'form-control'}}) }}
             </div>
         </div>
 
         <div class="col-md-5">
             <div class="form-group">
-                <label for="intitule">Intitulé</label>
+                <label for="intitule">Intitulé<span class="text-danger">*</span></label>
                 {{ form_widget(form.intitule, {'attr' : {'class': 'form-control'}}) }}
             </div>
         </div>
@@ -25,7 +25,7 @@
         </div>
         <div class="col-md-5">
             <div class="form-group">
-                <label for="plafond">Plafond</label>
+                <label for="plafond">Plafond<span class="text-danger">*</span></label>
                 {{ form_widget(form.plafond, {'attr' : {'class': 'form-control separator'}}) }}
             </div>
         </div>

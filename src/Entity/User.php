@@ -11,6 +11,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+//#[ORM\HasLifecycleCallbacks]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_USERNAME', fields: ['fullName'])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -361,5 +362,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-
+//
+//    /**
+//     * @ORM\PrePersist
+//     * @ORM\PreUpdate
+//     */
+//    public function generatePseudoIfEmpty(): void
+//    {
+//        if (empty($this->pseudo) && !empty($this->fullName)) {
+//            $this->pseudo = $this->createPseudoFromFullName($this->fullName);
+//        }
+//    }
+//
+//    private function createPseudoFromFullName(string $fullName): string
+//    {
+//        $pseudo = strtolower(trim($fullName));
+//        $pseudo = preg_replace('/\s+/', '-', $pseudo);
+//        $pseudo = iconv('UTF-8', 'ASCII//TRANSLIT', $pseudo);
+//        return $pseudo;
+//    }
 }

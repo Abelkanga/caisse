@@ -114,10 +114,12 @@
         <!-- .form-group -->
         <div class="form-group text-center">
             <div class="custom-control custom-control-inline custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="remember-me"> <label
-                        class="custom-control-label small" for="remember-me">Se souvenir de moi</label>
+                <input type="checkbox" class="custom-control-input" id="remember_me" name="_remember_me">
+                <label class="custom-control-label small" for="remember_me">Se souvenir de moi</label>
             </div>
         </div>
+
+
         <input type="hidden" name="_csrf_token"
                value="{{ csrf_token('authenticate') }}"
         >

@@ -296,10 +296,11 @@ class FdbController extends AbstractController
                 }
             }
 
-            return $this->render('fdb/show.html.twig', [
-                'fdb' => $fdb,
-                'total' => $total,
-            ]);
+        return $this->render('fdb/show.html.twig', [
+            'fdb' => $fdb,
+            'total' => $total,
+            'operation_type' => 'decaissement', // ajout de cette variable
+        ]);
 
     }
 
