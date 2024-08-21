@@ -21,6 +21,7 @@ import './css/custom.min.css';
 import './js/fdb/form-expense'
 import './js/page/billetage'
 import './js/page/index'
+import './js/page/userNameAuto'
 
 
 import 'datatables.net';

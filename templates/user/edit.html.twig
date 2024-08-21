@@ -25,7 +25,7 @@
 
 
 {% extends 'user/indexUpdate.html.twig' %}
-{% block title %}Edit User{% endblock %}
+{% block title %}Modifier utilisateur User{% endblock %}
 
 {% block layout %}
 
@@ -34,7 +34,7 @@
         {{ form_start(form) }}
         <div class="card card-fluid">
             <div class="card-header bg-soft-custom" id="bg">
-                <h6> <i class="fa-solid fa-list" style="font-size:20px;"></i> Modification de l'utilisateur </h6>
+                <h6> <i class="fa fa-pencil-alt" style="font-size:20px;"></i> Modification de l'utilisateur </h6>
             </div>
             <div class="card-body">
                 {{ include('user/_form.html.twig') }}

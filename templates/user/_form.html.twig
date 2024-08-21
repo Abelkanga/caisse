@@ -19,13 +19,13 @@
     <div class="row">
         <div class="col-md-5">
             <div class="form-group">
-                <label for="contact">Contact</label>
+                <label for="contact">Contact<span class="text-danger">*</span></label>
                 {{ form_widget(form.contact, {'attr' : {'class': 'form-control'}}) }}
             </div>
         </div>
         <div class="col-md-5">
             <div class="form-group">
-                <label for="fonction">Fonction</label>
+                <label for="fonction">Fonction<span class="text-danger">*</span></label>
                 {{ form_widget(form.fonction, {'attr' : {'class': 'form-control'}}) }}
             </div>
         </div>
@@ -43,7 +43,7 @@
 
         <div class="col-md-5">
             <div class="form-group">
-                <label for="role">Rôle</label>
+                <label for="role">Rôle<span class="text-danger">*</span></label>
                 {{ form_widget(form.roles, {'attr' : {'class': 'form-control-sm select2 '}}) }}
             </div>
         </div>
@@ -54,13 +54,3 @@
     {% endif %}
 
 </fieldset>
-
-
-{#<script>#}
-{#    document.getElementById('fullName').addEventListener('input', function() {#}
-{#        let fullName = this.value;#}
-{#        let pseudo;#}
-{#        pseudo = fullName.toLowerCase().trim().replace(/\s+/g, '-');#}
-{#        document.getElementById('pseudo').value = pseudo;#}
-{#    });#}
-{#</script>#}

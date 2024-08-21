@@ -33,12 +33,12 @@ class JourneeCloseType extends AbstractType
                     'readonly' => true, // Rendre le champ en lecture seule si nécessaire
                 ],
             ])
-            ->add('amount', TextType::class)
-            ->add('ecart', TextType::class, [
-                'attr' => [
-                    'readonly' => 'readonly',
-                ],
-            ]);
+            ->add('amount', TextType::class);
+//            ->add('ecart', TextType::class, [
+//                'attr' => [
+//                    'readonly' => 'readonly',
+//                ],
+//            ]);
     }
 
 
