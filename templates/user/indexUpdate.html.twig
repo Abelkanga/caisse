@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="row">
+        <!-- grid column -->
+        <div class="col-lg-4">
+            <!-- .card -->
+            <div class="card card-fluid">
+                <div class="card-header">
+                    <button class="btn-account" type="button" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                        <span class="user-avatar user-avatar-md">
+                            <img src="https://png.pngtree.com/png-clipart/20190924/original/pngtree-avatar-icon-in-trendy-style-isolated-background-png-image_4823713.jpg"
+                                 alt="">
+                        </span>
+                        <span class="account-summary pr-lg-4 d-none d-lg-block">
+                            <span class="account-name font-weight-bold"></span>
+                            <span class="account-description">Votre compte personnel</span>
+                        </span>
+                    </button>
+                </div><!-- .nav -->
+                <nav class="nav nav-tabs flex-column border-0">
+                    <a href="{{ path('account_profile') }}"
+                       class="nav-link {{ app.request.get('_route') == 'account_profile' ? 'active' : '' }}">Informations
+                        personnelles</a>
+                    <a href="{{ path('account_update_recover') }}"
+                       class="nav-link {{ app.request.get('_route') == 'account_update_recover' ? 'active' : '' }}" >Modifier
+                        votre mot de passe</a>
+                </nav><!-- /.nav -->
+            </div><!-- /.card -->
+        </div><!-- /grid column -->
+        <!-- grid column -->
+        {% block layout %}
+        {% endblock %}
+    </div><!-- /grid row -->
+{% endblock %}

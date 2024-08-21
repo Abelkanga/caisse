@@ -34,8 +34,8 @@ class UserType extends AbstractType
             ->add('pseudo', TextType::class)
             ->add('contact', TextType::class)
             ->add('fonction', TextType::class)
-            ->add('email', EmailType::class)
-            ->add('password', PasswordType::class);
+            ->add('email', EmailType::class);
+//            ->add('password', PasswordType::class);
 
 
         if ($this->security->isGranted('ROLE_ADMIN')) {

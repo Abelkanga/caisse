@@ -38,30 +38,20 @@
             </div>
         </div>
 
+        {% if is_granted('ROLE_ADMIN') %}
+
+
         <div class="col-md-5">
             <div class="form-group">
-                <label for="password">Mot de passe</label>
-                {{ form_widget(form.password, {'attr' : {'class': 'form-control '}}) }}
+                <label for="role">Rôle</label>
+                {{ form_widget(form.roles, {'attr' : {'class': 'form-control-sm select2 '}}) }}
             </div>
         </div>
+
     </div>
 
-    {% if is_granted('ROLE_ADMIN') %}
-        <div class="row">
-
-            <div class="col-md-5">
-                <div class="form-group">
-                    <label for="role">Rôle</label>
-                    {{ form_widget(form.roles, {'attr' : {'class': 'form-control-sm select2 '}}) }}
-                </div>
-            </div>
-
-
-
-        </div>
 
     {% endif %}
-
 
 </fieldset>
 

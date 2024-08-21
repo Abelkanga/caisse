@@ -15,6 +15,7 @@ class MailerController extends AbstractController
     {
         $address = $data['email'];
 
+
         $email = (new Email())
             ->from('$address')
             ->to('admin@offset-consulting.com')
