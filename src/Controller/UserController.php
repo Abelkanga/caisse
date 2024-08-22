@@ -22,17 +22,12 @@ class UserController extends AbstractController
     #[Route('/index', name: 'app_user_index', methods: ['GET'])]
     public function index(UserRepository $userRepository): Response
     {
-//        return $this->render('user/index.html.twig', [
-//            'users' => $userRepository->findAll(),
-//        ]);
-
-        // Utiliser la méthode personnalisée pour récupérer les utilisateurs filtrés
-        $users = $userRepository->findAllExcludingAdmins();
+        // Utiliser la nouvelle méthode pour récupérer les utilisateurs actifs excluant les admins
+        $users = $userRepository->findAllActiveUsersExcludingAdmins();
 
         return $this->render('user/index.html.twig', [
             'users' => $users,
         ]);
-
     }
 
     #[Route('/new', name: 'app_user_new', methods: ['GET', 'POST'])]
@@ -78,7 +73,7 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $plaintextPassword = $form->get('password')->getData();
+            $plaintextPassword = 'password';
             $hashedPassword = $passwordHasher->hashPassword($user, $plaintextPassword);
             $user->setPassword($hashedPassword);
             $entityManager->flush();
@@ -102,6 +97,25 @@ class UserController extends AbstractController
             'form' => $form->createView(),
             'user' => $user
         ]);
+    }
+
+    #[Route('/{id}/deactivate', name: 'app_user_deactivate', methods: ['POST'])]
+    public function deactivate(User $user, EntityManagerInterface $entityManager): Response
+    {
+        // Désactiver l'utilisateur en mettant `isActive` à false
+        $user->setIsActive(false);
+
+        // Sauvegarder les modifications
+        $entityManager->flush();
+
+        flash()
+            ->options([
+                'timeout' => 5000,
+                'position' => 'bottom-right',
+            ])
+            ->success('Utilisateur désactivé avec succès.');
+
+        return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/update_password', name: 'app_user_update', methods: ['GET', 'POST'])]

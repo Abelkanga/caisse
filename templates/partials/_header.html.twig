@@ -176,11 +176,11 @@
                         <div class="dropdown-arrow d-lg-none" x-arrow=""></div>
                         <div class="dropdown-arrow ml-3 d-none d-lg-block"></div>
                         {% if is_granted('ROLE_ADMIN') %}
-                            {#                            <a class="dropdown-item" href=" ">#}
-                            {#                                <span class="dropdown-icon oi oi-person"></span>#}
-                            {#                                Profile#}
+                            <a class="dropdown-item" href=" {{ path('app_user_edit', {'id': app.user.id})}} ">
+                                                            <span class="dropdown-icon oi oi-person"></span>
+                                                            Profil
 
-                            {#                            </a>#}
+                                                        </a>
                             <a class="dropdown-item" href="{{ path('app_logout') }}">
                                 <span class="dropdown-icon oi oi-account-logout"></span>
                                 Déconnexion

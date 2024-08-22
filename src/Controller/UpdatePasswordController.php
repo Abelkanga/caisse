@@ -35,7 +35,10 @@ class UpdatePasswordController extends AbstractController
             ->setFonction($user->getFonction())
             ->setContact($user->getContact());
 
-        $form = $this->createForm(UserType::class, $account);
+        $form = $this->createForm(UserType::class, $account, [
+            'is_editing_self' => true, // On édite le profil de l'utilisateur connecté
+        ]);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -81,8 +84,6 @@ class UpdatePasswordController extends AbstractController
             $user = $this->getUser();
             $newPasswordEncoded = $passwordHasher->hashPassword($user, $updatePassword->getNewPassword());
             $userRepository->upgradePassword($user, $newPasswordEncoded);
-
-
 
             flash()
                 ->options([

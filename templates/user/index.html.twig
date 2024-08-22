@@ -31,14 +31,19 @@
                                 <td class="align-middle">{{ u.fonction }}</td>
 
                                 <td class="text-center align-middle">
-                                    <a class="btn btn-sm btn-icon btn-secondary" data-toggle="tooltip" data-html="true" title="<em>Modifier</em>" href="{{ path('app_user_edit', {'id': u.id}) }}">
+                                    <a class="btn btn-sm btn-icon btn-secondary" data-toggle="tooltip" data-html="true" title="Modifier" href="{{ path('app_user_edit', {'id': u.id}) }}">
                                         <i class="fa fa-pencil-alt"></i>
                                     </a>
                                     <span class="mx-1"></span>
-                                    {#                                    <a class="btn btn-sm btn-icon btn-secondary" href="{{ path('c_delete', {'id': c.id}) }}">#}
-                                    {#                                        <i class="fas fa-trash-alt"></i>#}
-                                    {#                                    </a>#}
+                                    <form method="post" action="{{ path('app_user_deactivate', {'id': u.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir désactiver cet utilisateur ?');" style="display: inline-block;">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('deactivate' ~ u.id) }}">
+                                        <button class="btn btn-sm  btn-icon" type="submit" title="Désactiver">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </form>
                                 </td>
+
+
                             </tr>
                         {% endfor %}
                         </tbody>

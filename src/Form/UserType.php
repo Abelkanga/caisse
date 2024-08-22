@@ -35,33 +35,28 @@ class UserType extends AbstractType
             ->add('contact', TextType::class)
             ->add('fonction', TextType::class)
             ->add('email', EmailType::class);
-//            ->add('password', PasswordType::class);
 
-
-        if ($this->security->isGranted('ROLE_ADMIN')) {
-            $builder
-
-                ->add('roles', ChoiceType::class, [
-                    'choices' => [
-//                        'Administrateur' => 'ROLE_ADMIN',
-                        'Approuver Encaissement/Décaissement' => 'ROLE_MANAGER',
-                        'Valider Fiche de besoin' => 'ROLE_RESPONSABLE',
-                        'Créer/Modifier Fiche de besoin' => 'ROLE_USER',
-                        'Imprimer Document' => 'ROLE_IMPRESSION',
-//                        'Super Admin' => 'ROLE_SUPER_ADMIN'
-                    ],
-                    'multiple' => true,
-                    'expanded' => false,
-                ]);
-
-
+        // Vérifiez si l'utilisateur actuel est en train de modifier son propre profil
+        if ($this->security->isGranted('ROLE_ADMIN') && !$options['is_editing_self']) {
+            $builder->add('roles', ChoiceType::class, [
+                'choices' => [
+                    'Approuver Encaissement/Décaissement' => 'ROLE_MANAGER',
+                    'Valider Fiche de besoin' => 'ROLE_RESPONSABLE',
+                    'Créer/Modifier Fiche de besoin' => 'ROLE_USER',
+                    'Imprimer Document' => 'ROLE_IMPRESSION',
+                ],
+                'multiple' => true,
+                'expanded' => false,
+            ]);
         }
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'is_editing_self' => false,  // Ajoutez une option pour indiquer si l'utilisateur édite son propre profil
         ]);
     }
 }

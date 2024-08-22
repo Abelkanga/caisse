@@ -78,11 +78,33 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
      *
      * @return User[] Returns an array of User objects
      */
-    public function findAllExcludingAdmins(): array
+//    public function findAllExcludingAdmins(): array
+//    {
+//        return $this->createQueryBuilder('u')
+//            ->where('u.roles NOT LIKE :roleAdmin')
+//            ->andWhere('u.roles NOT LIKE :roleSuperAdmin')
+//            ->setParameter('roleAdmin', '%"ROLE_ADMIN"%')
+//            ->setParameter('roleSuperAdmin', '%"ROLE_SUPER_ADMIN"%')
+//            ->getQuery()
+//            ->getResult();
+//    }
+//
+//    public function findAllActiveUsers(): array
+//    {
+//        return $this->createQueryBuilder('u')
+//            ->where('u.isActive = :active')
+//            ->setParameter('active', true)
+//            ->getQuery()
+//            ->getResult();
+//    }
+
+    public function findAllActiveUsersExcludingAdmins(): array
     {
         return $this->createQueryBuilder('u')
-            ->where('u.roles NOT LIKE :roleAdmin')
+            ->where('u.isActive = :active')
+            ->andWhere('u.roles NOT LIKE :roleAdmin')
             ->andWhere('u.roles NOT LIKE :roleSuperAdmin')
+            ->setParameter('active', true)
             ->setParameter('roleAdmin', '%"ROLE_ADMIN"%')
             ->setParameter('roleSuperAdmin', '%"ROLE_SUPER_ADMIN"%')
             ->getQuery()
