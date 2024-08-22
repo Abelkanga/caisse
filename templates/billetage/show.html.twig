@@ -194,23 +194,94 @@
                         </table>
                     </fieldset>
 
-                    <div class="form-actions">
-                        {% if billetage.status  != 'VALIDATED' %}
-                            <button type="submit" name="confirm" class="btn btn-success pull-right" value="confirm">
-                                Valider
-                            </button>
-                            <a href="{{ path('billetage_inventaire_edit', {'uuid': billetage.uuid}) }}"
-                               class="btn btn-warning pull-right" style="color: white">
-                                <i class="icon-edit"></i> Modifier
-                            </a>
-                        {% endif %}
-                        <a href="{{ path('bonapprovisionnement_index') }}"
-                           class="btn btn-info mr-3 pull-right" style="color: white">
-                            Retour</a>
-                        <input type="hidden" name="_token" value="{{ csrf_token('validate-caisse-billetage') }}">
-                    </div>
+                            <div class="form-actions d-flex justify-content-end align-items-center">
+                                {% if billetage.status != 'VALIDATED' %}
+                                    <button type="submit" name="confirm" class="btn btn-success ml-2">
+                                        Valider
+                                    </button>
+                                    <a href="{{ path('billetage_inventaire_edit', {'uuid': billetage.uuid}) }}"
+                                       class="btn btn-warning ml-2" style="color: white">
+                                        <i class="icon-edit"></i> Modifier
+                                    </a>
+                                {% endif %}
+                                <a href="{{ path('bonapprovisionnement_index') }}" class="btn btn-info ml-2" style="color: white">
+                                    Retour
+                                </a>
+                                <input type="hidden" name="_token" value="{{ csrf_token('validate-caisse-billetage') }}">
+                            </div>
+
+
                 </form>
             </div>
         </div>
     </div>
     {% endblock %}
+
+{% block stylesheets %}
+<style> /* General Table Styling */
+    table.table {
+        border: 1px solid #ddd;
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    table.table th,
+    table.table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    /* Table Header Styling */
+    table.table thead th {
+        background-color: #f8f9fa;
+        font-weight: bold;
+    }
+
+    /* Legend Styling */
+    fieldset legend {
+        font-size: 1.2em;
+        font-weight: bold;
+        color: #2c3e50;
+        border-bottom: 2px solid #2c3e50;
+        padding-bottom: 5px;
+        margin-bottom: 10px;
+    }
+
+    /* Input Field Styling */
+    .form-control {
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        padding: 6px 12px;
+    }
+
+    /* Output Field Styling */
+    .output {
+        font-weight: bold;
+        color: #34495e;
+    }
+
+    /* Totals and Subtotals */
+    table.table tr[style*="font-weight: 600"] td {
+        background-color: #e9ecef;
+    }
+
+    table.table tr[style*="font-weight: 900"] td {
+        background-color: #d1ecf1;
+    }
+
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    /* Additional padding for the overall form */
+    form {
+        padding: 20px;
+        background-color: #f5f5f5;
+        border-radius: 8px;
+    }
+</style>
+{% endblock %}

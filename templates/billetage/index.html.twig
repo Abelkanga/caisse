@@ -13,9 +13,9 @@
                     {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
                     {{ include('billetage/_form.html.twig') }}
 
-                    <div class="form-actions">
+                    <div class="form-actions text-right"> <!-- Aligned the buttons to the right -->
                         <button class="btn btn-primary pull-right ml-2">Enregistrer</button>
-                        <a class="btn btn-info pull-right" style="color: white" href="{{ path('app_welcome') }}">Retour</a>
+                        <a class="btn btn-info pull-right ml-2" style="color: white" href="{{ path('app_welcome') }}">Retour</a>
                     </div>
                     {{ form_end(form) }}
                 </div>
@@ -23,4 +23,74 @@
 
         </div>
     </div>
+{% endblock %}
+
+{% block stylesheets %}
+<style> /* General Table Styling */
+    table.table {
+        border: 1px solid #ddd;
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    table.table th,
+    table.table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    /* Table Header Styling */
+    table.table thead th {
+        background-color: #f8f9fa;
+        font-weight: bold;
+    }
+
+    /* Legend Styling */
+    fieldset legend {
+        font-size: 1.2em;
+        font-weight: bold;
+        color: #2c3e50;
+        border-bottom: 2px solid #2c3e50;
+        padding-bottom: 5px;
+        margin-bottom: 10px;
+    }
+
+    /* Input Field Styling */
+    .form-control {
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        padding: 6px 12px;
+    }
+
+    /* Output Field Styling */
+    .output {
+        font-weight: bold;
+        color: #34495e;
+    }
+
+    /* Totals and Subtotals */
+    table.table tr[style*="font-weight: 600"] td {
+        background-color: #e9ecef;
+    }
+
+    table.table tr[style*="font-weight: 900"] td {
+        background-color: #d1ecf1;
+    }
+
+    /* Button Styling */
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    /* Additional padding for the overall form */
+    form {
+        padding: 20px;
+        background-color: #f5f5f5;
+        border-radius: 8px;
+    }
+</style>
 {% endblock %}
