@@ -91,35 +91,51 @@
                 <form method="post" action="{{ path('fdb_show', {'id': fdb.id}) }}">
                     <div class="card-footer">
                         <div class="card-footer-content">
+                            {% if is_granted('ROLE_USER') and fdb.status == 'brouillon' %}
+                                <!-- Show Edit and Send buttons only if ROLE_USER and status is BROUILLON -->
+                                <a class="btn btn-warning float-right ml-2" href="{{ path('fdb_edit', {'id': fdb.id}) }}">
+                                    <i class="fa fa-pencil-alt"></i> Modifier
+                                </a>
+                                <a class="btn btn-success float-right ml-2" href="{{ path('fdb_send', {'id': fdb.id}) }}">
+                                    <i class="fa fa-paper-plane"></i> Envoyer
+                                </a>
+                            {% endif %}
+
                             {% if is_granted('ROLE_RESPONSABLE') and fdb.status == 'en attente' %}
                                 {% include '_modal_responsable.html.twig' %}
                                 {% include '_modal_responsable_annulation.html.twig' %}
                             {% endif %}
-                            {% if is_granted('ROLE_MANAGER') and fdb.status == 'validée' %}
+
+                            {% if is_granted('ROLE_MANAGER1') and fdb.status == 'validée' %}
+                                {% include '_modal_manager1.html.twig' %}
+                            {% endif %}
+
+                            {% if is_granted('ROLE_MANAGER') and fdb.status == 'approuvéed' %}
+
                                 {% include '_modal_manager.html.twig' %}
                             {% endif %}
+
                             {% if is_granted('ROLE_IMPRESSION') and fdb.status == 'approuvée' %}
                                 <a target="_blank" href="{{ path('print_fdb', {'uuid': fdb.uuid}) }}" class="btn btn-primary float-right ml-2">
                                     <i class="fa fa-print"></i> Imprimer bon de caisse
                                 </a>
                             {% endif %}
-                            {% if is_granted('ROLE_IMPRESSION') and fdb.status == 'approuvée' %}
-                                <a target="_blank" href="{{ path('printA_fdb', {'uuid': fdb.uuid}) }}" class="btn btn-primary float-right ml-2">
-                                    <i class="fa fa-print"></i> Imprimer fiche de besoin
-                                </a>
-                            {% endif %}
+
                             {% if fdb.status == 'annulée' %}
                                 <a target="_blank" href="{{ path('fdb_delete', {'id': fdb.id}) }}" class="btn btn-primary float-right ml-2">
                                     <i class="fas fa-trash"></i> Supprimer
                                 </a>
                             {% endif %}
+
                             <a href="{{ path('app_welcome') }}" class="btn btn-info float-right">
                                 <i class="oi oi-home"></i> Retour
                             </a>
+
                             <input type="hidden" name="_token" value="{{ csrf_token('validate-caisse-fdb') }}">
                         </div>
                     </div>
                 </form>
+
             </div>
         </div>
     </div>

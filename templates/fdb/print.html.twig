@@ -61,7 +61,7 @@
         </div>
 
         <fieldset>
-            <legend>Information du décaissement</legend>
+            <legend>Information du décaissement {{ fdb.numeroFicheBesoin }}</legend>
             <div class="main-content">
                 <div>
                     <strong>Date :</strong> {{ fdb.date ? fdb.date|date('d-m-Y') : '' }}
@@ -74,6 +74,9 @@
                 </div>
                 <div>
                     <strong>Montant en lettres :</strong> {{ numberToWords.convertNumberToWords(fdb.total) }} francs
+                </div>
+                <div>
+                    <strong>Statut :</strong> Approuvé
                 </div>
             </div>
         </fieldset>

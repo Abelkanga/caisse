@@ -48,6 +48,8 @@
                                         <span class="badge badge-danger">{{ fdb.status }}</span>
                                     {% elseif fdb.status == 'annulée' %}
                                         <span class="badge badge-warning">{{ fdb.status }}</span>
+                                    {% elseif fdb.status == 'approuvéed' %}
+                                        <span class="badge badge-primary">{{ fdb.status }}</span>
                                     {% elseif fdb.status == 'approuvée' %}
                                         <span class="badge badge-success">{{ fdb.status }}</span>
                                     {% else %}
@@ -55,14 +57,20 @@
                                     {% endif %}
                                 </td>
                                 <td class="text-center align-middle">
-{#                                    <a class="btn btn-sm btn-icon btn-secondary" data-toggle="tooltip" data-html="true" title="<em>Modifier</em>" href="{{ path('fdb_edit', {'id': fdb.id}) }}">#}
-{#                                        <i class="fa fa-pencil-alt"></i>#}
-{#                                    </a>#}
-                                    <span class="mx-1"></span>
+                                    {% if is_granted('ROLE_USER') and fdb.status == 'en attente' %}
+                                        <!-- Show Edit button only if ROLE_USER and status is EN_ATTENTE -->
+                                        <a class="btn btn-sm btn-icon btn-secondary" data-toggle="tooltip" data-html="true" title="Modifier" href="{{ path('fdb_edit', {'id': fdb.id}) }}">
+                                            <i class="fa fa-pencil-alt"></i>
+                                        </a>
+                                        <span class="mx-1"></span>
+                                    {% endif %}
+
+                                    <!-- Show button to view Fdb details -->
                                     <a class="btn btn-sm btn-icon btn-secondary" data-toggle="tooltip" data-html="true" title="Voir" href="{{ path('fdb_show', {'id': fdb.id}) }}">
                                         <i class="fas fa-eye"></i>
                                     </a>
                                 </td>
+
                             </tr>
                         {% endfor %}
                         </tbody>
@@ -71,7 +79,7 @@
             </div>
             <div class="card-footer">
                 <div class="card-footer-content">
-                    {% if is_granted('ROLE_USER') or is_granted('ROLE_RESPONSABLE') %}
+                    {% if is_granted('ROLE_USER') or is_granted('ROLE_RESPONSABLE') or is_granted('ROLE_IMPRESSION')%}
                         <a href="{{ path('fdb_new') }}" class="btn btn-primary float-right ml-2">
                             Nouveau</a>
                         <a href="{{ path('app_welcome') }}" class="btn btn-success float-right ml-3">

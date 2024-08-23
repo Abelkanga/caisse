@@ -141,6 +141,22 @@ class FdbRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findFdbApprouvedByUserRole(User $user): array
+    {
+        $qb = $this->createQueryBuilder('f')
+            ->andWhere('f.status = :status')
+            ->setParameter('status', Status::APPROUVED);
+
+        if (in_array('ROLE_USER', $user->getRoles())) {
+            $qb->andWhere('f.user = :user')
+                ->setParameter('user', $user);
+        }
+
+        return $qb->orderBy('f.date', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
     public function findFdbPending(): array
     {
         return $this->createQueryBuilder('f')
@@ -156,6 +172,16 @@ class FdbRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('f')
             ->where('f.status = :status')
             ->setParameter('status', Status::CANCELLED)
+            ->orderBy('f.date', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findFdbBrouillon(): array
+    {
+        return $this->createQueryBuilder('f')
+            ->where('f.status = :status')
+            ->setParameter('status', Status::BROUILLON )
             ->orderBy('f.date', 'DESC')
             ->getQuery()
             ->getResult();

@@ -58,7 +58,7 @@
                     </li>
                     <!-- /.menu-item -->
                     <!-- .menu-item -->
-                    {% if is_granted('ROLE_USER') %}
+                    {% if is_granted('ROLE_USER') or is_granted('ROLE_MANAGER1') or is_granted('ROLE_RESPONSABLE') or is_granted('ROLE_IMPRESSION')%}
                         {% include('partials/_navbar.html.twig') %}
                     {% endif %}
                     {% if is_granted('ROLE_ADMIN') %}
@@ -68,15 +68,7 @@
 					{% if is_granted('ROLE_MANAGER') %}
 						{% include('partials/_navbar_caisse.html.twig') %}
 					{% endif %}
-                    {% if is_granted('ROLE_RESPONSABLE') %}
-                        {% include('partials/_navbar_responsable.html.twig') %}
-                    {% endif %}
-                    {% if is_granted('ROLE_IMPRESSION') %}
-                        {% include('partials/_navbar_impression.html.twig') %}
-                    {% endif %}
-                    {% if is_granted('ROLE_SUPER_ADMIN') %}
-                       {% include('partials/_navbar_super_admin.html.twig') %}
-                    {% endif %}
+
                     <!-- /.menu-item -->
 
                 </ul>

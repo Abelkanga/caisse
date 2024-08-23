@@ -1,0 +1,28 @@
+<div id="modalApproval" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalApprovalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-secondary">
+                <h5 class="modal-title text-dark" id="modalApprovalLabel">
+                    <span class="uil uil-question-circle"></span>
+                    Approbation de la fiche de besoin
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body font-size-14">
+                Voulez-vous vraiment approuver cette fiche de besoin ?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light font-weight-medium" data-dismiss="modal">Fermer</button>
+                <button type="submit" class="btn btn-outline-success font-weight-medium" name="confirm_manager1" value="confirm">
+                    Approuver
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button type="button" class="btn btn-success float-right ml-2" data-toggle="modal" data-target="#modalApproval">
+    <i class="fa fa-check"></i> Approuver
+</button>

@@ -66,6 +66,16 @@ class FdbController extends AbstractController
         ]);
     }
 
+    #[Route('/fdb/brouillon', name: 'fdb_brouillon', methods:['GET'])]
+    public function index_brouillon(FdbRepository $fdbRepository): Response
+    {
+        $fdb = $fdbRepository->findFdbBrouillon();
+
+        return $this->render('fdb/index.html.twig', [
+            'fdb' => $fdb
+        ]);
+    }
+
     #[Route('/fdb/cancel', name: 'fdb_cancel', methods:['GET'])]
     public function index_canceled(FdbRepository $fdbRepository): Response
     {
@@ -90,6 +100,17 @@ class FdbController extends AbstractController
         ]);
     }
 
+    #[Route('/fdb/approuved', name: 'fdb_approuved', methods:['GET'])]
+    public function index_approuved(FdbRepository $fdbRepository): Response
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+        $fdb = $fdbRepository->findFdbApprouvedByUserRole($user);
+
+        return $this->render('fdb/index.html.twig', [
+            'fdb' => $fdb
+        ]);
+    }
 
     #[Route('/fdb/validate', name: 'fdb_validate', methods:['GET'])]
     public function index_validated(FdbRepository $fdbRepository): Response
@@ -100,8 +121,6 @@ class FdbController extends AbstractController
             'fdb' => $fdb
         ]);
     }
-
-
 
     #[Route('/fdb/new', name: 'fdb_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, CaisseService $service): Response
@@ -115,7 +134,7 @@ class FdbController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var User $user */
             $user = $this->getUser();
-            $fdb->setUser($user)->setStatus(Status::EN_ATTENTE);
+            $fdb->setUser($user)->setStatus(Status::BROUILLON);
 
             $detail = $fdb->getDetails();
             foreach ($detail as $d) {
@@ -143,6 +162,29 @@ class FdbController extends AbstractController
             'fdb' => $fdb,
             'form' => $form->createView(),
         ]);
+    }
+
+    #[Route('/fdb/send/{id}', name: 'fdb_send', methods: ['GET'])]
+    public function sendFdb(Fdb $fdb, EntityManagerInterface $entityManager): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        if ($fdb->getStatus() === Status::BROUILLON) {
+            $fdb->setStatus(Status::EN_ATTENTE);
+            $entityManager->persist($fdb);
+            $entityManager->flush();
+
+            flash()
+                ->options([
+                    'timeout' => 5000, // 3 seconds
+                    'position' => 'bottom-right',
+                ])
+                ->success('Fiche de besoin envoyé avec succès ! ');
+        } else {
+            $this->addFlash('warning', 'Cette fiche de besoin ne peut pas être envoyée.');
+        }
+
+        return $this->redirectToRoute('fdb_show', ['id' => $fdb->getId()]);
     }
 
     #[Route('/fdb/expenses', name: 'f_expenses_by_type', methods:['POST'])]
@@ -244,6 +286,35 @@ class FdbController extends AbstractController
                         'position' => 'bottom-right',
                     ])
                     ->warning('Fiche de besoin annulé ! ');
+
+                return $this->redirectToRoute('app_welcome');
+            }
+
+            if ($request->request->has('send_fdb') && $this->isGranted('ROLE_USER') && $fdb->getStatus() === Status::BROUILLON) {
+                $fdb->setStatus(Status::EN_ATTENTE);
+                $entityManager->persist($fdb);
+                $entityManager->flush();
+
+                flash()
+                    ->options([
+                        'timeout' => 5000,
+                        'position' => 'bottom-right',
+                    ])
+                    ->success('Fiche de besoin envoyée avec succès !');
+                return $this->redirectToRoute('fdb_show', ['id' => $fdb->getId()]);
+            }
+
+            if ($request->request->has('confirm_manager1') && $this->isGranted('ROLE_MANAGER1')) {
+                $fdb->setStatus(Status::APPROUVED);
+                $entityManager->persist($fdb);
+                $entityManager->flush();
+
+                flash()
+                    ->options([
+                        'timeout' => 5000,
+                        'position' => 'bottom-right',
+                    ])
+                    ->success('Fiche de besoin approuvée avec succès !');
 
                 return $this->redirectToRoute('app_welcome');
             }
