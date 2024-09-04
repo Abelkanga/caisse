@@ -1,0 +1,41 @@
+{# templates/journal_caisse/index.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Consultation des opérations de caisse</h1>
+
+    {{ form_start(form) }}
+    {{ form_row(form.startDate) }}
+    {{ form_row(form.endDate) }}
+    {{ form_row(form.search) }}
+    {{ form_end(form) }}
+
+    {% if journalCaisses is not empty %}
+        <h2>Résultats</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Date</th>
+                <th>Numéro de Pièce</th>
+                <th>Intitulé</th>
+                <th>Entrée</th>
+                <th>Sortie</th>
+                <th>Solde</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for journalCaisse in journalCaisses %}
+                <tr>
+                    <td>{{ journalCaisse.date|date('d/m/Y') }}</td>
+                    <td>{{ journalCaisse.numPiece }}</td>
+                    <td>{{ journalCaisse.intitule }}</td>
+                    <td>{{ journalCaisse.entree }}</td>
+                    <td>{{ journalCaisse.sortie }}</td>
+                    <td>{{ journalCaisse.solde }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}

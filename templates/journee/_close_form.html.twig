@@ -1,5 +1,5 @@
 <fieldset>
-    <legend>Fermeture de la journee</legend>
+    <legend>Fin journée</legend>
     <div class="form-group">
         <label class="col-md-4 control-label montantTotal-encaissement">Solde Théorique <span class="required">*</span></label>
         <div class="col-md-4 clearfix">
@@ -9,22 +9,13 @@
             {{ form_errors(form.balance) }}
         </div>
         <br>
-        <label class="col-md-4 control-label montantTotal-encaissement">Solde Physique <span class="required">*</span></label>
-        <div class="col-md-4 clearfix">
-            {{ form_widget(form.amount,{'attr': {
-                "class": 'form-control text-right separator ',
-            }}) }}
-            {{ form_errors(form.amount) }}
-        </div>
-    </div>
-{#    <div class="form-group">#}
-{#        <label class="col-md-4 control-label montantTotal-encaissement">Ecart <span class="required">*</span></label>#}
+{#        <label class="col-md-4 control-label montantTotal-encaissement">Solde Physique <span class="required">*</span></label>#}
 {#        <div class="col-md-4 clearfix">#}
-{#            <output id="journee_close_ecart"></output>#}
-{#            {{ form_widget(form.ecart,{'attr': {#}
+{#            {{ form_widget(form.amount,{'attr': {#}
 {#                "class": 'form-control text-right separator ',#}
 {#            }}) }}#}
-{#            {{ form_errors(form.ecart) }}#}
+{#            {{ form_errors(form.amount) }}#}
 {#        </div>#}
-{#    </div>#}
+    </div>
+
 </fieldset>

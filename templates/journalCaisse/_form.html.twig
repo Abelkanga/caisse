@@ -1,0 +1,22 @@
+<div class="form-group">
+    <label class="col-sm-2 control-label required">Type document<span class="text-danger">*</span></label>
+    <div class="col-sm-10">
+        {{ form_widget(form.typeDocuments,{attr: {class: 'select2 full-width-fix '}}) }}
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="col-sm-2 control-label required">Intitulé<span class="text-danger">*</span></label>
+    <div class="col-sm-10">
+        {{ form_widget(form.name) }}
+    </div>
+</div>
+
+
+<div class="form-group">
+    <label class="col-sm-2 control-label required"> Code journal<span class="text-danger">*</span></label>
+    <div class="col-sm-10">
+        {{ form_widget(form.code) }}
+        {{ form_errors(form.code) }}
+    </div>
+</div>

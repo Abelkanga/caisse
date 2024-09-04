@@ -41,5 +41,52 @@ class JournalCaisseRepository extends ServiceEntityRepository
     //        ;
     //    }
 
+    public function findLastId()
+    {
+        return $this->createQueryBuilder('jc')
+            ->select('MAX(jc.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function findReportingJournal(mixed $dateDebut,mixed $dateFin)
+    {
+        $qb = $this->createQueryBuilder('jc');
+//            ->leftJoin('jc.Fdb','Fdb')
+//            ->leftJoin('Fdb.typeExpense','typeExpense')
+//            ->leftJoin('typeExpense.expenses','expense')
+//            ->leftJoin('jc.Bonapprovisionnement','Bonapp')
+        $qb
+            ->join('jc.caisse','caisse')
+            ->where($qb->expr()->between('jc.date','?1','?2'))
+            ->setParameter('1' , $dateDebut)
+            ->setParameter('2', $dateFin)
+        ;
+        return $qb->getQuery()->getResult();
+    }
+
+    public function getLastSolde(int $caisseId)
+    {
+        return $this->createQueryBuilder('jc')
+                    ->select('jc.solde')
+                    ->where('jc.caisse = :caisse')
+                    ->setParameter('caisse',$caisseId)
+                    ->orderBy('jc.id','DESC')
+                    ->setMaxResults(1)
+                    ->getQuery()->getSingleScalarResult();
+    }
+
+//    public function getLastSolde(int $caisseId)
+//    {
+//        return $this->createQueryBuilder('jc')
+//            ->select('jc.solde')
+//            ->where('jc.caisse = :caisseId')  // Condition correcte
+//            ->setParameter('caisseId', $caisseId)  // Liaison du paramètre
+//            ->orderBy('jc.id', 'DESC')  // Dernier solde (donc ordre DESC)
+//            ->setMaxResults(1)  // Limiter le résultat à 1
+//            ->getQuery()
+//            ->getSingleScalarResult();
+//    }
+
 
 }

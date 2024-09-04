@@ -65,4 +65,13 @@ class BilletageRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function findLastId()
+    {
+        return $this->createQueryBuilder('bi')
+            ->select('MAX(bi.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
 }

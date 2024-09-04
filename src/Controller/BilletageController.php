@@ -8,6 +8,7 @@ use App\Entity\Journee;
 use App\Entity\User;
 use App\Form\BilletageType;
 use App\Repository\JourneeRepository;
+use App\Service\CaisseService;
 use App\Utils\Status;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,6 +24,7 @@ class BilletageController extends AbstractController
         Request                $request,
         EntityManagerInterface $manager,
         JourneeRepository  $journeeRepository,
+        CaisseService $service
     ): Response
     {
 //        $activeJournee = $journeeRepository->activeJournee();
@@ -44,8 +46,9 @@ class BilletageController extends AbstractController
         $user = $this->getUser();
         $caisse = $user->getCaisse();
 
+        $num_billet = $service->refBilletageCaisse();
         $billetage = (new Billetage())
-            ->setBalance($caisse->getSoldedispo());
+            ->setBalance($caisse->getSoldedispo())->setReference($num_billet);
 
         $form = $this->createForm(BilletageType::class, $billetage);
         $form->handleRequest($request);
@@ -68,8 +71,6 @@ class BilletageController extends AbstractController
                 ])
                 ->success('Inventaire enregistré avec succes ');
 
-
-
             return $this->redirectToRoute('billetage_inventaire_show', ['uuid' => $billetage->getUuid()]);
         }
 
@@ -77,7 +78,6 @@ class BilletageController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-
 
     #[Route('/{uuid}/edit', name: 'edit', methods: ['GET', 'POST'])]
     public function edit(
@@ -91,7 +91,6 @@ class BilletageController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $manager->flush();
-
 
             flash()
                 ->options([
@@ -114,46 +113,40 @@ class BilletageController extends AbstractController
 
     #[Route('/{uuid}/show', name: 'show', methods: ['POST', 'GET'])]
     public function show(
-        Billetage              $billetage,
-        Request                $request,
+        Billetage $billetage,
+        Request $request,
         EntityManagerInterface $manager,
-        JourneeRepository  $journeeRepository
+        JourneeRepository $journeeRepository
     ): Response
     {
         /** @var User $user */
         $user = $this->getUser();
         $caisse = $user->getCaisse();
 
+        // On vérifie s'il y a une journée active associée à la caisse
         $activeJournee = $journeeRepository->activeJournee($caisse);
-        if($activeJournee) {
-            $this->addFlash('error', 'Veuillez fermer la journee en cours svp');
+        if (!$activeJournee) {
+            $this->addFlash('error', 'Aucune journée active trouvée.');
             return $this->redirectToRoute('bonapprovisionnement_index');
         }
 
         if ($request->isMethod('POST') &&
             $this->isCsrfTokenValid('validate-caisse-billetage', $request->request->get('_token'))) {
             if ($request->request->has('confirm')) {
-                $currentDate = new \DateTimeImmutable();
-                $currentDate->format('D, d M Y H:i:s');
-                $billetage
-                    ->setStatus(Status::VALIDATED);
-//                    ->setConfirmedAt(new \DateTimeImmutable())
-//                    ->setConfirmedBy($user);
-
+                $billetage->setStatus(Status::VALIDATED);
                 $caisse->setSoldedispo($billetage->getAmount());
 
-                $manager->flush();
+                // Désactivation de la journée après validation du billetage
+                $this->closeJournee($activeJournee, $caisse, $manager);
 
-//                $this->addFlash('success', 'Inventaire validé avec succès');
+                $manager->flush();
 
                 flash()
                     ->options([
                         'timeout' => 5000, // 3 seconds
                         'position' => 'bottom-right',
                     ])
-                    ->success('Inventaire validé avec succes');
-
-
+                    ->success('Inventaire validé avec succès et caisse fermée.');
 
                 return $this->redirectToRoute('app_welcome');
             }
@@ -163,9 +156,6 @@ class BilletageController extends AbstractController
             'billetage' => $billetage,
         ]);
     }
-
-
-
 
     private function closeJournee(Journee $journee, Caisse $caisse, EntityManagerInterface $manager): void
     {

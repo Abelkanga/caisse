@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: JournalCaisseRepository::class)]
 class JournalCaisse
@@ -34,30 +35,29 @@ class JournalCaisse
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $solde = null;
 
-    /**
-     * @var Collection<int, Caisse>
-     */
+    #[ORM\Column(type: 'uuid', nullable: true)]
+    private ?Uuid $uuid = null;
 
-    #[ORM\OneToMany(targetEntity: Caisse::class, mappedBy: 'JournalCaisse')]
-    private Collection $caisses;
-    /**
-     * @var Collection<int, Bonapprovisionnement>
-     */
-    #[ORM\OneToMany(targetEntity: Bonapprovisionnement::class, mappedBy: 'JournalCaisse')]
-    private Collection $bonapprovisionnements;
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $createdAt = null;
 
-//    /**
-//     * @var Collection<int, Fdb>
-//     */
-//    #[ORM\OneToMany(targetEntity: Fdb::class, mappedBy: 'JournalCaisse')]
-//    private Collection $fdbs;
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $updatedAt = null;
 
-    public function __construct()
-    {
-        $this->caisses = new ArrayCollection();
-        $this->fdbs = new ArrayCollection();
-        $this->bonapprovisionnements = new ArrayCollection();
-    }
+    #[ORM\ManyToOne(inversedBy: 'journalCaisses')]
+    private ?Caisse $caisse = null;
+
+    #[ORM\ManyToOne(inversedBy: 'journalCaisses')]
+    private ?Fdb $Fdb = null;
+
+    #[ORM\ManyToOne(inversedBy: 'journalCaisses')]
+    private ?Bonapprovisionnement $Bonapprovisionnement = null;
+
+    #[ORM\ManyToOne(inversedBy: 'journalCaisses')]
+    private ?RecuCaisse $recuCaisse = null;
+
+    #[ORM\ManyToOne(inversedBy: 'journalCaisses')]
+    private ?BonCaisse $bonCaisse = null;
 
     public function getId(): ?int
     {
@@ -136,92 +136,107 @@ class JournalCaisse
         return $this;
     }
 
-    /**
-     * @return Collection<int, Caisse>
-     */
-    public function getCaisses(): Collection
+    public function getUuid(): ?Uuid
     {
-        return $this->caisses;
+        return $this->uuid;
     }
 
-    public function addCaiss(Caisse $caiss): static
+    #[ORM\PrePersist]
+    public function setUuid(): static
     {
-        if (!$this->caisses->contains($caiss)) {
-            $this->caisses->add($caiss);
-            $caiss->setJournalCaisse($this);
-        }
+        $this->uuid = Uuid::v4();
 
         return $this;
     }
 
-    public function removeCaiss(Caisse $caiss): static
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
-        if ($this->caisses->removeElement($caiss)) {
-            // set the owning side to null (unless already changed)
-            if ($caiss->getJournalCaisse() === $this) {
-                $caiss->setJournalCaisse(null);
-            }
-        }
-
-        return $this;
-    }
-    /**
-     * @return Collection<int, Bonapprovisionnement>
-     */
-    public function getBonapprovisionnements(): Collection
-    {
-        return $this->bonapprovisionnements;
+        return $this->createdAt;
     }
 
-    public function addBonapprovisionnement(Bonapprovisionnement $bonapprovisionnement): static
+    public function setCreatedAt(?\DateTimeImmutable $createdAt): static
     {
-        if (!$this->bonapprovisionnements->contains($bonapprovisionnement)) {
-            $this->bonapprovisionnements->add($bonapprovisionnement);
-            $bonapprovisionnement->setJournalCaisse($this);
-        }
+        $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function removeBonapprovisionnement(Bonapprovisionnement $bonapprovisionnement): static
+    public function getUpdatedAt(): ?\DateTimeImmutable
     {
-        if ($this->bonapprovisionnements->removeElement($bonapprovisionnement)) {
-            // set the owning side to null (unless already changed)
-            if ($bonapprovisionnement->getJournalCaisse() === $this) {
-                $bonapprovisionnement->setJournalCaisse(null);
-            }
-        }
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): static
+    {
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }
 
-//    /**
-//     * @return Collection<int, Fdb>
-//     */
-//    public function getFdbs(): Collection
-//    {
-//        return $this->fdbs;
-//    }
-//
-//    public function addFdb(Fdb $fdb): static
-//    {
-//        if (!$this->fdbs->contains($fdb)) {
-//            $this->fdbs->add($fdb);
-//            $fdb->setJournalCaisse($this);
-//        }
-//
-//        return $this;
-//    }
-//
-//    public function removeFdb(Fdb $fdb): static
-//    {
-//        if ($this->fdbs->removeElement($fdb)) {
-//            // set the owning side to null (unless already changed)
-//            if ($fdb->getJournalCaisse() === $this) {
-//                $fdb->setJournalCaisse(null);
-//            }
-//        }
-//
-//        return $this;
-//    }
+    public function getCaisse(): ?Caisse
+    {
+        return $this->caisse;
+    }
+
+    public function setCaisse(?Caisse $caisse): static
+    {
+        $this->caisse = $caisse;
+
+
+        return $this;
+    }
+
+    public function getFdb(): ?Fdb
+    {
+        return $this->Fdb;
+    }
+
+    public function setFdb(?Fdb $Fdb): static
+    {
+        $this->Fdb = $Fdb;
+
+        return $this;
+    }
+
+    public function getBonapprovisionnement(): ?Bonapprovisionnement
+    {
+        return $this->Bonapprovisionnement;
+    }
+
+    public function setBonapprovisionnement(?Bonapprovisionnement $Bonapprovisionnement): static
+    {
+        $this->Bonapprovisionnement = $Bonapprovisionnement;
+
+        return $this;
+    }
+
+    public function getRecuCaisse(): ?RecuCaisse
+    {
+        return $this->recuCaisse;
+    }
+
+    public function setRecuCaisse(?RecuCaisse $recuCaisse): static
+    {
+        $this->recuCaisse = $recuCaisse;
+
+        return $this;
+    }
+
+    public function getBonCaisse(): ?BonCaisse
+    {
+        return $this->bonCaisse;
+    }
+
+    public function setBonCaisse(?BonCaisse $bonCaisse): static
+    {
+        $this->bonCaisse = $bonCaisse;
+
+        return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->intitule;
+    }
+
 }

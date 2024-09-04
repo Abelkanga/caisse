@@ -13,7 +13,6 @@
     <!-- GOOGLE FONT -->
     <link href="https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600" rel="stylesheet"><!-- End GOOGLE FONT -->
     <!-- BEGIN PLUGINS STYLES -->
-    {{ encore_entry_script_tags('app') }}
 
     {{ encore_entry_link_tags('app') }}
     <!-- BEGIN THEME STYLES -->
@@ -118,19 +117,15 @@
 <script src="{{ asset('js/jquery.min.js') }}"></script>
 <script src="{{ asset('js/popper.min.js') }}"></script>
 <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-<script src="{{ asset('js/notifications.js') }}"></script>
-<script src="{{ asset('js/approvisionnement.js') }}"></script>
 <script src="{{ asset('js/pace.min.js') }}"></script>
 <script src="{{ asset('js/stacked-menu.min.js') }}"></script>
 <script src="{{ asset('js/perfect-scrollbar.min.js') }}"></script>
 <script src="{{ asset('js/flatpickr.min.js') }}"></script>
-<script src="{{ asset('js/pusher.min.js') }}"></script>
-<script src="https://code.iconify.design/3/3.0.0/iconify.min.js"></script>
 
 {{ encore_entry_script_tags('app') }}
 
 
-<script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+{#<script src="https://js.pusher.com/7.0/pusher.min.js"></script>
 <script>
     var pusher = new Pusher('your-app-key', {
         cluster: 'your-app-cluster',
@@ -141,7 +136,7 @@
     channel.bind('my-event', function(data) {
         alert('An event was triggered with message: ' + data.message);
     });
-</script>
+</script>#}
 
 
 <!-- BEGIN BASE JS -->

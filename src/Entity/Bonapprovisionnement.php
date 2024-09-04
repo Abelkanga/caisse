@@ -94,11 +94,23 @@ class Bonapprovisionnement
     #[ORM\ManyToOne(inversedBy: 'bonapprovisionnements')]
     private ?Tiers $tiers = null;
 
-    #[ORM\ManyToOne(inversedBy: 'bonapprovisionnements')]
-    private ?JournalCaisse $JournalCaisse = null;
+//    #[ORM\ManyToOne(inversedBy: 'bonapprovisionnements')]
+//    private ?JournalCaisse $JournalCaisse = null;
 
     #[ORM\ManyToOne(inversedBy: 'bonapprovisionnements')]
     private ?Journee $journee = null;
+
+    /**
+     * @var Collection<int, RecuCaisse>
+     */
+    #[ORM\OneToMany(targetEntity: RecuCaisse::class, mappedBy: 'bonapprovisionnement')]
+    private Collection $recuCaisses;
+
+    /**
+     * @var Collection<int, JournalCaisse>
+     */
+    #[ORM\OneToMany(targetEntity: JournalCaisse::class, mappedBy: 'Bonapprovisionnement')]
+    private Collection $journalCaisses;
 
 
     public function __construct()
@@ -106,6 +118,8 @@ class Bonapprovisionnement
         $this->bonCaisses = new ArrayCollection();
         $this->date = new \DateTimeImmutable();
         $this->billetages = new ArrayCollection();
+        $this->recuCaisses = new ArrayCollection();
+        $this->journalCaisses = new ArrayCollection();
 
     }
 
@@ -440,17 +454,17 @@ class Bonapprovisionnement
         return $this;
     }
 
-    public function getJournalCaisse(): ?JournalCaisse
-    {
-        return $this->JournalCaisse;
-    }
-
-    public function setJournalCaisse(?JournalCaisse $JournalCaisse): static
-    {
-        $this->JournalCaisse = $JournalCaisse;
-
-        return $this;
-    }
+//    public function getJournalCaisse(): ?JournalCaisse
+//    {
+//        return $this->JournalCaisse;
+//    }
+//
+//    public function setJournalCaisse(?JournalCaisse $JournalCaisse): static
+//    {
+//        $this->JournalCaisse = $JournalCaisse;
+//
+//        return $this;
+//    }
 
     public function getJournee(): ?Journee
     {
@@ -460,6 +474,66 @@ class Bonapprovisionnement
     public function setJournee(?Journee $journee): static
     {
         $this->journee = $journee;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, RecuCaisse>
+     */
+    public function getRecuCaisses(): Collection
+    {
+        return $this->recuCaisses;
+    }
+
+    public function addRecuCaiss(RecuCaisse $recuCaiss): static
+    {
+        if (!$this->recuCaisses->contains($recuCaiss)) {
+            $this->recuCaisses->add($recuCaiss);
+            $recuCaiss->setBonapprovisionnement($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRecuCaiss(RecuCaisse $recuCaiss): static
+    {
+        if ($this->recuCaisses->removeElement($recuCaiss)) {
+            // set the owning side to null (unless already changed)
+            if ($recuCaiss->getBonapprovisionnement() === $this) {
+                $recuCaiss->setBonapprovisionnement(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, JournalCaisse>
+     */
+    public function getJournalCaisses(): Collection
+    {
+        return $this->journalCaisses;
+    }
+
+    public function addJournalCaiss(JournalCaisse $journalCaiss): static
+    {
+        if (!$this->journalCaisses->contains($journalCaiss)) {
+            $this->journalCaisses->add($journalCaiss);
+            $journalCaiss->setBonapprovisionnement($this);
+        }
+
+        return $this;
+    }
+
+    public function removeJournalCaiss(JournalCaisse $journalCaiss): static
+    {
+        if ($this->journalCaisses->removeElement($journalCaiss)) {
+            // set the owning side to null (unless already changed)
+            if ($journalCaiss->getBonapprovisionnement() === $this) {
+                $journalCaiss->setBonapprovisionnement(null);
+            }
+        }
 
         return $this;
     }

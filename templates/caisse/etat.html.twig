@@ -13,14 +13,17 @@
                 <div class="card-body">
                     <div class="row justify-content-center">
                         <div class="col-md-12">
-                            <form method="get" action="{{ path('app_etat_caisse') }}" class="formDate d-flex justify-content-center align-items-center">
+                            <form method="get" action="{{ path('app_etat_caisse') }}" name="form_journal_caisse"
+                                  class="formDate d-flex justify-content-center align-items-center">
                                 <div class="form-group d-flex align-items-center col-md-4">
-                                    <label for="date_debut" class="mx-5"> Date_début  </label>
-                                    <input type="date" name="date_debut" class="input-large mx-2 form-control" style="padding: 5px; margin: 5px; border: 1px solid #ced4da; border-radius: 10px; width: 500px; height: 40px;">
+                                    <label for="date_debut" class="col-3"> Date début </label>
+                                    <input type="date" name="date_debut" class="input-large mx-2 form-control"
+                                           style="padding: 5px; margin: 5px; border: 1px solid #ced4da; border-radius: 10px; width: 500px; height: 40px;">
                                 </div>
                                 <div class="form-group d-flex align-items-center col-md-4">
-                                    <label for="date_fin" class="mx-5"> Date_fin  </label>
-                                    <input type="date" name="date_fin" class="input-large mx-2 form-control" style="padding: 5px; margin: 5px; border: 1px solid #ced4da; border-radius: 10px; width: 500px; height: 40px;">
+                                    <label for="date_fin" class="col-3"> Date fin </label>
+                                    <input type="date" name="date_fin" class="input-large mx-2 form-control"
+                                           style="padding: 5px; margin: 5px; border: 1px solid #ced4da; border-radius: 10px; width: 500px; height: 40px;">
                                 </div>
 
                                 <div class="form-group d-flex align-items-center col-md-4">
@@ -45,53 +48,29 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-striped table-hover bordered table-sm basic-datatable">
+                        <table class="table table-striped table-hover bordered table-sm "
+                               id="table_reporting_journal">
                             <thead class="thead-light">
                             <tr>
                                 <th class="text-center">Date</th>
-                                <th class="text-center">Nature</th>
-                                <th class="text-center">Libellé</th>
+                                <th class="text-center">Num Pièce</th>
+                                <th class="text-center">Intitulé</th>
                                 <th class="text-center">Entrée (F cfa)</th>
                                 <th class="text-center">Sortie (F cfa)</th>
                                 <th class="text-center">Solde (F cfa)</th>
                             </tr>
                             </thead>
-                            <tbody>
-                            {% set solde = 0 %}
-                            {% for mouvement in mouvements %}
-                                {% if mouvement.entree %}
-                                    {% set solde = solde + mouvement.entree %}
-                                {% elseif mouvement.sortie %}
-                                    {% set solde = solde - mouvement.sortie %}
-                                {% endif %}
-                                <tr>
-                                    <td class="text-center">{{ mouvement.date ? mouvement.date|date('d-m-Y') : '' }}</td>
-                                    <td class="text">{{ mouvement.nature }}</td>
-                                    <td class="text">{{ mouvement.libelle }}</td>
-                                    <td class="text-right separator">{{ mouvement.entree ?: '' }}</td>
-                                    <td class="text-right separator">{{ mouvement.sortie ?: '' }}</td>
-                                    <td class="text-right separator">{{ solde }}</td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                            <tfoot>
-                            <tr>
-                                <th colspan="3" class="text-center">Totaux</th>
-                                <th class="text-right separator">{{ totalEntree }}</th>
-                                <th class="text-right separator">{{ totalSortie }}</th>
-                                <th class="text-right separator">{{ solde }}</th>
-                            </tr>
-                            </tfoot>
                         </table>
                     </div>
-                </div>
-                <div class="card-footer-content">
-
-                    <a href="{{ path('app_welcome') }}" class="btn btn-info float-right">
-                        <i class="oi oi-home"></i> Retour
-                    </a>
                 </div>
             </div>
         </div>
     </fieldset>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+
+    </script>
+
 {% endblock %}

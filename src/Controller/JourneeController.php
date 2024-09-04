@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Billetage;
 use App\Entity\Bonapprovisionnement;
 use App\Entity\Fdb;
+use App\Entity\JournalCaisse;
 use App\Entity\Journee;
 use App\Entity\User;
 use App\Form\JourneeCloseType;
@@ -98,11 +99,18 @@ class JourneeController extends AbstractController
             ->setActive(true)
             ->setUuid(uniqid());
 
+        $journalCaisse = (new JournalCaisse())->setCaisse($caisse)
+            ->setIntitule('Solde de caisse au '.$journee->getStartedAt()->format('d/m/Y'))
+            ->setEntree($caisse->getSoldedispo() ?? 0)
+            ->setSolde($caisse->getSoldedispo() ?? 0)
+            ->setDate(new \DateTime());
+
         $form = $this->createForm(OpenType::class, $journee);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $manager->persist($journee);
+            $manager->persist($journalCaisse);
             $manager->flush();
 
 
@@ -159,28 +167,14 @@ class JourneeController extends AbstractController
             ->setUser($user)
             ->setBalance($active->getSolde());
 
-        // Passer la caisse comme option lors de la création du formulaire
         $form = $this->createForm(JourneeCloseType::class, $billetage, [
             'caisse' => $caisse,
         ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $billetage->setStatus(Status::VALIDATED);
-
-            $active->setActive(false)
-                ->setSolde($billetage->getBalance());
-
-            $caisse->setSoldedispo($billetage->getBalance());
             $manager->persist($billetage);
             $manager->flush();
-
-            flash()
-                ->options([
-                    'timeout' => 5000, // 5 seconds
-                    'position' => 'bottom-right',
-                ])
-                ->success('Caisse fermée avec succès');
 
             return $this->redirectToRoute('billetage_inventaire_create', ['uuid' => $billetage->getUuid()]);
         }

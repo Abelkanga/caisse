@@ -50,20 +50,20 @@
                                         <span class="badge badge-warning">{{ fdb.status }}</span>
                                     {% elseif fdb.status == 'approuvéed' %}
                                         <span class="badge badge-primary">{{ fdb.status }}</span>
-                                    {% elseif fdb.status == 'approuvée' %}
+                                    {% elseif fdb.status == 'convertit' %}
                                         <span class="badge badge-success">{{ fdb.status }}</span>
                                     {% else %}
                                         <span class="badge">{{ fdb.status }}</span>
                                     {% endif %}
                                 </td>
                                 <td class="text-center align-middle">
-                                    {% if is_granted('ROLE_USER') and fdb.status == 'en attente' %}
-                                        <!-- Show Edit button only if ROLE_USER and status is EN_ATTENTE -->
-                                        <a class="btn btn-sm btn-icon btn-secondary" data-toggle="tooltip" data-html="true" title="Modifier" href="{{ path('fdb_edit', {'id': fdb.id}) }}">
-                                            <i class="fa fa-pencil-alt"></i>
-                                        </a>
-                                        <span class="mx-1"></span>
-                                    {% endif %}
+{#                                    {% if is_granted('ROLE_USER') or is_granted('ROLE_IMPRESSION') and fdb.status == 'en attente' %}#}
+{#                                        <!-- Show Edit button only if ROLE_USER and status is EN_ATTENTE -->#}
+{#                                        <a class="btn btn-sm btn-icon btn-secondary" data-toggle="tooltip" data-html="true" title="Modifier" href="{{ path('fdb_edit', {'id': fdb.id}) }}">#}
+{#                                            <i class="fa fa-pencil-alt"></i>#}
+{#                                        </a>#}
+{#                                        <span class="mx-1"></span>#}
+{#                                    {% endif %}#}
 
                                     <!-- Show button to view Fdb details -->
                                     <a class="btn btn-sm btn-icon btn-secondary" data-toggle="tooltip" data-html="true" title="Voir" href="{{ path('fdb_show', {'id': fdb.id}) }}">

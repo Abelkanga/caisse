@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: BonCaisseRepository::class)]
 class BonCaisse
@@ -51,6 +52,15 @@ class BonCaisse
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $code = null;
+
+    /**
+     * @var Collection<int, JournalCaisse>
+     */
+    #[ORM\OneToMany(targetEntity: JournalCaisse::class, mappedBy: 'bonCaisse')]
+    private Collection $journalCaisses;
+
+//    #[ORM\ManyToOne(inversedBy: 'bonCaisse')]
+//    private ?JournalCaisse $journalCaisse = null;
 
 
     public function getId(): ?int
@@ -105,7 +115,6 @@ class BonCaisse
 
         return $this;
     }
-
 
     public function getStatus(): ?string
     {
@@ -199,6 +208,56 @@ class BonCaisse
     public function setCode(?string $code): static
     {
         $this->code = $code;
+
+        return $this;
+    }
+
+
+    public function __construct()
+    {
+        // Générer automatiquement un UUID lors de la création d'un bon de caisse
+        $this->uuid = Uuid::v4();  // Génération d'un UUID v4
+        $this->journalCaisses = new ArrayCollection();
+    }
+
+//    public function getJournalCaisse(): ?JournalCaisse
+//    {
+//        return $this->journalCaisse;
+//    }
+//
+//    public function setJournalCaisse(?JournalCaisse $journalCaisse): static
+//    {
+//        $this->journalCaisse = $journalCaisse;
+//
+//        return $this;
+//    }
+
+    /**
+     * @return Collection<int, JournalCaisse>
+     */
+    public function getJournalCaisses(): Collection
+    {
+        return $this->journalCaisses;
+    }
+
+    public function addJournalCaiss(JournalCaisse $journalCaiss): static
+    {
+        if (!$this->journalCaisses->contains($journalCaiss)) {
+            $this->journalCaisses->add($journalCaiss);
+            $journalCaiss->setBonCaisse($this);
+        }
+
+        return $this;
+    }
+
+    public function removeJournalCaiss(JournalCaisse $journalCaiss): static
+    {
+        if ($this->journalCaisses->removeElement($journalCaiss)) {
+            // set the owning side to null (unless already changed)
+            if ($journalCaiss->getBonCaisse() === $this) {
+                $journalCaiss->setBonCaisse(null);
+            }
+        }
 
         return $this;
     }

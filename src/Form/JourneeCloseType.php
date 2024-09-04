@@ -12,18 +12,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class JourneeCloseType extends AbstractType
 {
-
-    public function __construct(
-        private JourneeRepository $journeeRepository,
-        private Security $security
-    )
-    {
-    }
-
-
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-
         $caisse = $options['caisse'];
 
         $builder
@@ -32,15 +22,9 @@ class JourneeCloseType extends AbstractType
                 'attr' => [
                     'readonly' => true, // Rendre le champ en lecture seule si nécessaire
                 ],
-            ])
-            ->add('amount', TextType::class);
-//            ->add('ecart', TextType::class, [
-//                'attr' => [
-//                    'readonly' => 'readonly',
-//                ],
-//            ]);
+            ]);
+//            ->add('amount', TextType::class);
     }
-
 
     public function configureOptions(OptionsResolver $resolver): void
     {

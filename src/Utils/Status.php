@@ -8,7 +8,7 @@ class Status
 
     const CANCELLED = 'annulée'; // ROLE_RESPONSABLE => valider/annuler Fiche de besoin
 
-    const APPROUVE = 'approuvée'; // ROLE_MANAGER => Créer/Convertir Réçu de caisse et Bon de caisse
+    const CONVERT = 'convertit'; // ROLE_MANAGER => Créer/Convertir Réçu de caisse et Bon de caisse
 
     const APPROUVED = 'approuvéed'; // ROLE_MANAGER1 => Approuver Fiche de besoin
 

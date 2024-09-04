@@ -87,14 +87,17 @@
 
                             <div class="card-footer-content">
                                 {% if is_granted('ROLE_MANAGER') and bonapprovisionnement.status == 'en attente' %}
-                                    {% include '_modal_manager.html.twig' %}
+{#                                    {% include '_modal_manager.html.twig' %}#}
 
+                                    <a target="_blank" href="{{ path('bonapprovisionnement_convert', {'uuid': bonapprovisionnement.uuid}) }}" class="btn btn-primary float-right ml-2">
+                                        <i class="fa-solid fa-repeat"></i> Convertir Reçu de caisse
+                                    </a>
                                     <!-- Button trigger modal -->
                                 {% endif %}
 
-                                {% if is_granted('ROLE_IMPRESSION') and bonapprovisionnement.status == 'approuvée' %}
+                                {% if is_granted('ROLE_IMPRESSION') or is_granted('ROLE_MANAGER') and bonapprovisionnement.status == 'convertit' %}
                                     <a target="_blank" href="{{ path('print_bon', {'uuid': bonapprovisionnement.uuid}) }}" class="btn btn-primary float-right ml-2">
-                                        <i class="fa fa-print"></i> Imprimer bon d'approvisionnement
+                                        <i class="fa fa-print"></i> Imprimer reçu de caisse
                                     </a>
                                 {% endif %}
 

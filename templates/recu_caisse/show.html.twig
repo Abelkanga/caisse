@@ -1,0 +1,96 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reçu de caisse{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        td{
+            font-size: 13px !important;
+        }
+
+        th{
+            font-size: 13px !important;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-sm-12">
+
+            <div class="card card-fluid">
+                <div class="card-header bg-soft-custom">
+                    <h6>Reçu de caisse {{ recuCaisse.reference }}</h6>
+                </div>
+                <div class="card-body">
+
+
+                    <fieldset>
+                        <legend>Détail du bon d'approvisionnement</legend>
+                        <table class="table table-sm bordered">
+                            <thead class="thead-light">
+                            <tr>
+                                <th class="text-center">Date</th>
+                                <th>N° Bon d'approvisionnement</th>
+                                <th class="text-left">Beneficiaire</th>
+                                <th class="text-left">Objet</th>
+                                <th class="text-right">Montant</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="align-middle">{{ recuCaisse.bonapprovisionnement.date ? recuCaisse.bonapprovisionnement.date|date('d-m-Y') : '' }}</td>
+                                <td class="align-middle">{{ recuCaisse.bonapprovisionnement.reference }}</td>
+                                <td class="text-left">{{ recuCaisse.bonapprovisionnement.destinataire}}</td> <!-- Assuming typeExpense has a "nom" field -->
+                                <td class="text-left">{{ recuCaisse.bonapprovisionnement.porteur}}</td> <!-- Assuming expense has a "nom" field -->
+                                <td class="text-right separator">{{ recuCaisse.bonapprovisionnement.montanttotal }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Information du reçu de caisse</legend>
+                        <table class="table table-sm bordered">
+                            <thead class="thead-light">
+                            <tr>
+                                <th class="text-center">Date</th>
+                                <th>Référence</th>
+                                <th>Bénéficiaire</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="text-center">{{ recuCaisse.date ? recuCaisse.date|date('d-m-Y') : '' }}</td>
+                                <td class="align-middle">{{ recuCaisse.reference }}</td>
+                                <td class="align-middle">{{ recuCaisse.beneficiaire }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </fieldset>
+
+                    <form method="post" action="{{ path('recu_caisse_show', {'uuid': recuCaisse.uuid}) }}">
+                        <div class="card-footer">
+
+                            <div class="card-footer-content">
+                                {% if is_granted('ROLE_MANAGER') and recuCaisse.status == 'en attente' %}
+                                    {% include '_modal_manager.html.twig' %}
+
+                                    <!-- Button trigger modal -->
+                                {% endif %}
+
+
+                                <a href="{{ path('app_welcome') }}" class="btn btn-info float-right">
+                                    <i class="oi oi-home"></i> Retour
+                                </a>
+                                <input type="hidden" name="_token" value="{{ csrf_token('validate-caisse-bonapprovisionnement') }}">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

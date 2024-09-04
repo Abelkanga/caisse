@@ -1,0 +1,69 @@
+<fieldset class="form-container">
+    <legend>Information du bon de caisse</legend>
+
+    <div class="row ">
+
+        <div class="col-3">
+            <div class="form-group">
+                <label for="date_etablissement">Date</label>
+                {{ form_widget(form.date, {'attr' : {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="col-3">
+            <div class="form-group">
+                <label for="numero_fiche_besoin">Référence</label>
+                {{ form_widget(form.reference, {'attr' : {'class': 'form-control js-datepicker'}}) }}
+            </div>
+        </div>
+
+        <div class="col-3">
+            <div class="form-group">
+                <label for="emetteur">Bénéficiaire<span class="text-danger">*</span></label>
+                {{ form_widget(form.beneficiaire, {'attr' : {'class': ' select2'}}) }}
+            </div>
+        </div>
+
+    </div>
+</fieldset>
+
+<fieldset class="form-container">
+    <legend>Détail de la fiche de besoin</legend>
+    <div class="row">
+
+        <div class="col-3">
+            <div class="form-group">
+                <label for="numeroFicheBesoin">N° Fiche de besoin</label>
+                {{ form_widget(form.numeroFicheBesoin, {'attr' : {'class': 'form-control js-datepicker'}}) }}
+            </div>
+        </div>
+
+        <div class="col-3">
+            <div class="form-group">
+                <label for="typeExpense">Type opération<span class="text-danger">*</span></label>
+                {{ form_widget(form.typeExpense, {'attr' : {'class': 'form-control select2', 'data-dependent-element' : '#fdb_expense'}}) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-3">
+            <div class="form-group">
+                <label for="expense">Nature opération<span class="text-danger">*</span></label>
+                {{ form_widget(form.expense, {'attr' : {'class': 'form-control select2'}}) }}
+            </div>
+        </div>
+
+        <div class="col-3">
+            <div class="form-group">
+                <label for="expense">Montant<span class="text-danger">*</span></label>
+                {{ form_widget(form.total, {'attr' : {'class': 'select2'}}) }}
+            </div>
+        </div>
+
+    </div>
+</fieldset>
+
+
+

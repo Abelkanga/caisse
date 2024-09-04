@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\BonCaisse;
+use App\Entity\Caisse;
 use App\Entity\Expense;
 use App\Entity\Fdb;
 use App\Entity\User;
+use App\Form\BonCaisseType;
 use App\Form\FdbType;
 use App\Repository\BonCaisseRepository;
 use App\Repository\FdbRepository;
@@ -18,19 +20,17 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\Uid\Uuid;
 
 class FdbController extends AbstractController
 {
-
     private $entityManager;
 
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
     }
-
-
 
     #[Route('/fdb', name: 'fdb_index', methods:['GET'])]
     public function index(FdbRepository $repository): Response
@@ -126,34 +126,34 @@ class FdbController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager, CaisseService $service): Response
     {
         $num_fdb = $service->refFdb();
-        $fdb = (new Fdb())->setDate(new \DateTime())->setDestinataire('Konan Gwladys')->setNumeroFicheBesoin($num_fdb);
-
+        $fdb = (new Fdb())->setDate(new \DateTime())->setNumeroFicheBesoin($num_fdb)->setDestinataire('Konan Gwladys');
         $form = $this->createForm(FdbType::class, $fdb);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var User $user */
             $user = $this->getUser();
-            $fdb->setUser($user)->setStatus(Status::BROUILLON);
+            $roles = $user->getRoles();
 
-            $detail = $fdb->getDetails();
-            foreach ($detail as $d) {
-                $d->setFdb($fdb);
+            // ROLE_RESPONSABLE crée directement EN_ATTENTE
+            if (in_array('ROLE_RESPONSABLE', $roles)) {
+                $fdb->setStatus(Status::EN_ATTENTE);
+            } else {
+                $fdb->setStatus(Status::BROUILLON);
+            }
 
-                $entityManager->persist($d);
+            $fdb->setUser($user);
+            foreach ($fdb->getDetails() as $detail) {
+                $detail->setFdb($fdb);
+                $entityManager->persist($detail);
             }
 
             $entityManager->persist($fdb);
             $entityManager->flush();
 
-//            flash()->success('Fiche de besoin enregistré avec succès !');
-
             flash()
-                ->options([
-                    'timeout' => 5000, // 3 seconds
-                    'position' => 'bottom-right',
-                ])
-                ->success('Fiche de besoin enregistré avec succès ! ');
+                ->options(['timeout' => 5000, 'position' => 'bottom-right'])
+                ->success('Fiche de besoin enregistrée avec succès !');
 
             return $this->redirectToRoute('fdb_index');
         }
@@ -167,25 +167,30 @@ class FdbController extends AbstractController
     #[Route('/fdb/send/{id}', name: 'fdb_send', methods: ['GET'])]
     public function sendFdb(Fdb $fdb, EntityManagerInterface $entityManager): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_USER');
+        // Permettre l'envoi pour les utilisateurs avec ROLE_USER et ROLE_IMPRESSION
+        if ($this->isGranted('ROLE_USER') || $this->isGranted('ROLE_IMPRESSION')) {
 
-        if ($fdb->getStatus() === Status::BROUILLON) {
-            $fdb->setStatus(Status::EN_ATTENTE);
-            $entityManager->persist($fdb);
-            $entityManager->flush();
+            if ($fdb->getStatus() === Status::BROUILLON) {
+                $fdb->setStatus(Status::EN_ATTENTE);
+                $entityManager->persist($fdb);
+                $entityManager->flush();
 
-            flash()
-                ->options([
-                    'timeout' => 5000, // 3 seconds
-                    'position' => 'bottom-right',
-                ])
-                ->success('Fiche de besoin envoyé avec succès ! ');
-        } else {
-            $this->addFlash('warning', 'Cette fiche de besoin ne peut pas être envoyée.');
+                flash()
+                    ->options([
+                        'timeout' => 5000,
+                        'position' => 'bottom-right',
+                    ])
+                    ->success('Fiche de besoin envoyée avec succès ! ');
+
+                return $this->redirectToRoute('fdb_index');
+            } else {
+                $this->addFlash('warning', 'Cette fiche de besoin ne peut pas être envoyée.');
+            }
         }
 
         return $this->redirectToRoute('fdb_show', ['id' => $fdb->getId()]);
     }
+
 
     #[Route('/fdb/expenses', name: 'f_expenses_by_type', methods:['POST'])]
     public function getExpensesByType(Request $request): JsonResponse
@@ -249,7 +254,7 @@ class FdbController extends AbstractController
                         'timeout' => 5000,
                         'position' => 'bottom-right',
                     ])
-                    ->error('Vous devez ouvrir la caisse avant d\'approuver une dépense.');
+                    ->error('Vous devez ouvrir la caisse avant de convertir ou consulter une fiche de besoin.');
 
                 return $this->redirectToRoute('app_comptability_caisse_journee_open');
             }
@@ -301,6 +306,7 @@ class FdbController extends AbstractController
                         'position' => 'bottom-right',
                     ])
                     ->success('Fiche de besoin envoyée avec succès !');
+
                 return $this->redirectToRoute('fdb_show', ['id' => $fdb->getId()]);
             }
 
@@ -322,13 +328,10 @@ class FdbController extends AbstractController
             if ($request->request->has('confirm_manager') && $this->isGranted('ROLE_MANAGER')) {
                 $caisse = $user->getCaisse();
 
-
                     $solde = $caisse->getSoldedispo();
                     $total = $fdb->getTotal();
 
                     if ($solde < $total) {
-
-//                        $this->addFlash('error', 'Pas de fond disponible pour effectuer cette opération');
 
                         flash()
                             ->options([
@@ -341,10 +344,10 @@ class FdbController extends AbstractController
                     }
 
                     $caisse->setSoldedispo($solde - $total);
-                    $fdb->setStatus(Status::APPROUVE);
+                    $fdb->setStatus(Status::CONVERT);
 
                     $bonCaisse = new BonCaisse();
-                    $bonCaisse->setStatus(Status::APPROUVE);
+                    $bonCaisse->setStatus(Status::CONVERT);
                     $bonCaisse->setDate(new \DateTime());
                     $bonCaisse->setMontant($fdb->getTotal());
                     $bonCaisse->setCaisse($caisse);
@@ -374,6 +377,87 @@ class FdbController extends AbstractController
         ]);
 
     }
+    #[Route('/fdb/{uuid}/convert', name: 'fdb_convert', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_MANAGER')]
+    public function convert(
+        Fdb $fdb,
+        FdbRepository $fdbRepository,
+        BonCaisseRepository $bonCaisseRepository,
+        Request $request,
+        EntityManagerInterface $entityManager,
+        CaisseService $service
+    ): Response
+    {
+        // Vérification du statut de la fiche de besoin
+//        if ($fdb->getStatus() !== Status::APPROUVED) {
+//            throw $this->createNotFoundException('La fiche de besoin doit être approuvée pour être convertie en bon de caisse.');
+//        }
+
+        // Récupération de la caisse liée au manager
+        /** @var User $user */
+        $user = $this->getUser();
+        $caisse = $user->getCaisse();
+
+        if (!$caisse) {
+            $this->addFlash('error', 'Vous n\'êtes pas associé à une caisse.');
+            return $this->redirectToRoute('fdb_show', ['uuid' => $fdb->getUuid()]);
+        }
+
+        // Générer la référence du bon de caisse
+        $num_bon = $service->refBonCaisse();
+
+        // Création du bon de caisse
+        $bonCaisse = (new BonCaisse())
+            ->setReference($num_bon)
+            ->setDate(new \DateTime())
+            ->setStatus(Status::EN_ATTENTE)
+            ->setBeneficiaire($fdb->getBeneficiaire())
+            ->setFdb($fdb)
+            ->setMontant($fdb->getTotal())
+            ->setCaisse($caisse);
+
+        // L'UUID est généré automatiquement dans le constructeur ou ici manuellement si nécessaire
+        if (!$bonCaisse->getUuid()) {
+            $bonCaisse->setUuid(Uuid::v4());
+        }
+
+        // Création et gestion du formulaire
+        $form = $this->createForm(BonCaisseType::class, $bonCaisse, [
+            'fdb' => $fdb,
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Mise à jour du bon de caisse
+
+            // Mise à jour du statut de la fiche de besoin
+            $fdb->setStatus(Status::CONVERT);
+
+            // Enregistrement dans la base de données
+            $entityManager->persist($bonCaisse);
+            $entityManager->persist($fdb);
+            $entityManager->flush();
+
+            flash()
+                ->options([
+                    'timeout' => 5000, // 3 seconds
+                    'position' => 'bottom-right',
+                ])
+                ->success('Bon de caisse enregistré avec succès.');
+
+            // Redirection vers la vue show du bon de caisse
+            return $this->redirectToRoute('bon_caisse_show', [
+                'uuid' => $bonCaisse->getUuid()
+            ], Response::HTTP_SEE_OTHER);
+        }
+
+        // Affichage du formulaire sur la vue show de la fiche de besoin
+        return $this->render('bon_caisse/new.html.twig', [
+            'form' => $form->createView(),
+            'fdb' => $fdb,
+        ]);
+    }
+
 
     #[Route('/fdb/{id}/edit', name:'fdb_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Fdb $fdb, EntityManagerInterface $entityManager): Response
@@ -383,9 +467,6 @@ class FdbController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
-
-
-//            flash()->success('Fiche de besoin modifiée avec succès !');
 
             flash()
                 ->options([
@@ -451,8 +532,6 @@ class FdbController extends AbstractController
             'fdb' => $fdb
         ]);
     }
-
-// src/Controller/FdbController.php
 
     #[Route('/fdb/{id}/delete', name: 'fdb_delete', methods: ['GET'])]
     public function delete(EntityManagerInterface $manager, Fdb $fdb): Response

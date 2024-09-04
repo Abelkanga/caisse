@@ -92,6 +92,12 @@ class Fdb
     #[ORM\ManyToOne(inversedBy: 'fdbs')]
     private ?Journee $journee = null;
 
+    /**
+     * @var Collection<int, JournalCaisse>
+     */
+    #[ORM\OneToMany(targetEntity: JournalCaisse::class, mappedBy: 'Fdb')]
+    private Collection $journalCaisses;
+
 //    #[ORM\Column(nullable: true)]
 //    private ?bool $IsActive = null;
 
@@ -104,6 +110,7 @@ class Fdb
     {
         $this->details = new ArrayCollection();
         $this->bonCaisses = new ArrayCollection();
+        $this->journalCaisses = new ArrayCollection();
 
     }
 
@@ -402,16 +409,46 @@ class Fdb
 //    return $this;
 //}
 
-public function getJournee(): ?Journee
-{
-    return $this->journee;
-}
+    public function getJournee(): ?Journee
+    {
+        return $this->journee;
+    }
 
-public function setJournee(?Journee $journee): static
-{
-    $this->journee = $journee;
+    public function setJournee(?Journee $journee): static
+    {
+        $this->journee = $journee;
 
-    return $this;
-}
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, JournalCaisse>
+     */
+    public function getJournalCaisses(): Collection
+    {
+        return $this->journalCaisses;
+    }
+
+    public function addJournalCaiss(JournalCaisse $journalCaiss): static
+    {
+        if (!$this->journalCaisses->contains($journalCaiss)) {
+            $this->journalCaisses->add($journalCaiss);
+            $journalCaiss->setFdb($this);
+        }
+
+        return $this;
+    }
+
+    public function removeJournalCaiss(JournalCaisse $journalCaiss): static
+    {
+        if ($this->journalCaisses->removeElement($journalCaiss)) {
+            // set the owning side to null (unless already changed)
+            if ($journalCaiss->getFdb() === $this) {
+                $journalCaiss->setFdb(null);
+            }
+        }
+
+        return $this;
+    }
 
 }

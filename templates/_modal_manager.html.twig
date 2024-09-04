@@ -5,9 +5,9 @@
                 <h5 class="modal-title text-dark" id="modalManagerLabel">
                     <span class="uil uil-question-circle"></span>
                     {% if operation_type == 'decaissement' %}
-                        Approbation de la Fiche de Besoin
+                        Validation du Bon de caisse {{ bonCaisse.reference }}
                     {% else %}
-                        Approbation du Bon d'Approvisionnement
+                        Validation du Reçu de caisse {{ recuCaisse.reference }}
                     {% endif %}
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -16,18 +16,18 @@
             </div>
             <div class="modal-body font-size-14">
                 {% if operation_type == 'decaissement' %}
-                    Voulez-vous vraiment approuver ce décaissement ?
+                    Voulez-vous valider ce bon de caisse ?
                 {% else %}
-                    Voulez-vous vraiment approuver cet encaissement ?
+                    Voulez-vous valider ce reçu de caisse ?
                 {% endif %}
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-light font-weight-medium" data-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-light font-weight-medium" data-dismiss="modal">NON</button>
                 <button type="submit" class="btn btn-outline-success font-weight-medium" name="confirm_manager" value="confirm">
                     {% if operation_type == 'decaissement' %}
-                        Confirmer le Décaissement
+                        OUI
                     {% else %}
-                        Confirmer l'Encaissement
+                        OUI
                     {% endif %}
                 </button>
             </div>

@@ -18,49 +18,25 @@ class FdbRepository extends ServiceEntityRepository
         parent::__construct($registry, Fdb::class);
     }
 
-    //    /**
-    //     * @return Fdb[] Returns an array of Fdb objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('f')
-    //            ->andWhere('f.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('f.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?Fdb
-    //    {
-    //        return $this->createQueryBuilder('f')
-    //            ->andWhere('f.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
-
-
     /**
      * Trouve les fiches de besoin (Fdb) en fonction du rôle de l'utilisateur
      */
+    // src/Repository/FdbRepository.php
+
     public function findByUserRole(User $user): array
     {
-        // Récupérer les rôles de l'utilisateur
         $roles = $user->getRoles();
-
         $qb = $this->createQueryBuilder('f')
             ->andWhere('f.isActive = :isActive')
             ->setParameter('isActive', true);
 
-        // Si l'utilisateur a le rôle "ROLE_RESPONSABLE", il voit tous les enregistrements
-        if (in_array('ROLE_RESPONSABLE', $roles)) {
-            // Pas besoin de filtrer par utilisateur
-        } elseif (in_array('ROLE_USER', $roles) || in_array('ROLE_IMPRESSION', $roles)) {
-            // Filtrer par utilisateur pour les autres rôles
+        // Exclure les brouillons pour ROLE_RESPONSABLE, ROLE_MANAGER et ROLE_MANAGER1
+        if (in_array('ROLE_RESPONSABLE', $roles) || in_array('ROLE_MANAGER', $roles) || in_array('ROLE_MANAGER1', $roles)) {
+            $qb->andWhere('f.status != :status')
+                ->setParameter('status', Status::BROUILLON);
+        }
+
+        if (in_array('ROLE_USER', $roles) || in_array('ROLE_IMPRESSION', $roles)) {
             $qb->andWhere('f.user = :user')
                 ->setParameter('user', $user);
         }
@@ -69,8 +45,6 @@ class FdbRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-
-
 
     public function findPendingByUserRole(User $user): array
     {
@@ -88,8 +62,6 @@ class FdbRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-// src/Repository/FdbRepository.php
-
     public function findFdbCancelByUserRole(User $user): array
     {
         $qb = $this->createQueryBuilder('f')
@@ -98,7 +70,7 @@ class FdbRepository extends ServiceEntityRepository
             ->setParameter('status', Status::CANCELLED)
             ->setParameter('isActive', true);
 
-        if (in_array('ROLE_SAISIE', $user->getRoles())) {
+        if (in_array('ROLE_USER', $user->getRoles())) {
             $qb->andWhere('f.user = :user')
                 ->setParameter('user', $user);
         }
@@ -107,7 +79,6 @@ class FdbRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-
 
     public function findFdbValidateByUserRole(User $user): array
     {
@@ -129,7 +100,7 @@ class FdbRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('f')
             ->andWhere('f.status = :status')
-            ->setParameter('status', Status::APPROUVE);
+            ->setParameter('status', Status::CONVERT);
 
         if (in_array('ROLE_USER', $user->getRoles())) {
             $qb->andWhere('f.user = :user')
@@ -201,7 +172,7 @@ class FdbRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('f')
             ->where('f.status = :status')
-            ->setParameter('status', Status::APPROUVE)
+            ->setParameter('status', Status::CONVERT)
             ->orderBy('f.date', 'DESC')
             ->getQuery()
             ->getResult();

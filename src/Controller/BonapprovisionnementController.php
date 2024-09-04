@@ -5,11 +5,14 @@ namespace App\Controller;
 use App\Entity\Bonapprovisionnement;
 use App\Entity\BonCaisse;
 use App\Entity\Journee;
+use App\Entity\RecuCaisse;
 use App\Entity\User;
 use App\Form\BonapprovisionnementType;
 use App\Form\CaisseType;
+use App\Form\RecuCaisseType;
 use App\Repository\BonapprovisionnementRepository;
 use App\Repository\JourneeRepository;
+use App\Repository\RecuCaisseRepository;
 use App\Service\CaisseService;
 use App\Utils\Status;
 use Doctrine\ORM\EntityManagerInterface;
@@ -17,6 +20,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\Uid\Uuid;
 
 
 class BonapprovisionnementController extends AbstractController
@@ -118,16 +123,16 @@ class BonapprovisionnementController extends AbstractController
                 $solde = $caisse->getSoldedispo();
                 $montanttotal = $bonapprovisionnement->getMontanttotal();
                 $caisse->setSoldedispo($solde + $montanttotal);
-                $bonapprovisionnement->setStatus(Status::APPROUVE);
+                $bonapprovisionnement->setStatus(Status::CONVERT);
 
 
-                $bonCaisse = new BonCaisse();
-                $bonCaisse->setStatus(Status::APPROUVE);
-                $bonCaisse->setDate(new \DateTime());
-                $bonCaisse->setMontant($bonapprovisionnement->getMontanttotal());
-                $bonCaisse->setCaisse($caisse);
-                $bonCaisse->setBonapprovisionnement($bonapprovisionnement);
-                $entityManager->persist($bonCaisse);
+                $recuCaisse = new RecuCaisse();
+                $recuCaisse->setStatus(Status::CONVERT);
+                $recuCaisse->setDate(new \DateTime());
+                $recuCaisse->setMontant($bonapprovisionnement->getMontanttotal());
+                $recuCaisse->setCaisse($caisse);
+                $recuCaisse->setBonapprovisionnement($bonapprovisionnement);
+                $entityManager->persist($recuCaisse);
 
                 $entityManager->persist($bonapprovisionnement);
                 $entityManager->persist($caisse);
@@ -144,6 +149,83 @@ class BonapprovisionnementController extends AbstractController
             'operation_type' => 'encaissement', // ajout de cette variable
         ]);
 
+    }
+
+    #[Route('/bonapprovisionnement/{uuid}/convert', name: 'bonapprovisionnement_convert', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_MANAGER')]
+    public function convert(
+        Bonapprovisionnement $bonapprovisionnement,
+        BonapprovisionnementRepository $bonapprovisionnementRepository,
+        RecuCaisseRepository $recuCaisseRepository,
+        Request $request,
+        EntityManagerInterface $entityManager,
+        CaisseService $service
+    ): Response
+    {
+        // Récupération de la caisse liée au manager
+        /** @var User $user */
+        $user = $this->getUser();
+        $caisse = $user->getCaisse();
+
+        if (!$caisse) {
+            $this->addFlash('error', 'Vous n\'êtes pas associé à une caisse.');
+            return $this->redirectToRoute('bonapprovisionnement_show', ['uuid' => $bonapprovisionnement->getUuid()]);
+        }
+
+        // Générer la référence du bon de caisse
+        $num_recu = $service->refRecuCaisse();
+
+        // Création du bon de caisse
+        $recuCaisse = (new RecuCaisse())
+            ->setReference($num_recu)
+            ->setDate(new \DateTime())
+            ->setStatus(Status::EN_ATTENTE)
+            ->setBeneficiaire($bonapprovisionnement->getDestinataire())
+            ->setBonapprovisionnement($bonapprovisionnement)
+            ->setMontant($bonapprovisionnement->getMontanttotal())
+            ->setCaisse($caisse);
+
+        // L'UUID est généré automatiquement dans le constructeur ou ici manuellement si nécessaire
+        if (!$recuCaisse->getUuid()) {
+            $recuCaisse->setUuid(Uuid::v4());
+        }
+
+        // Création et gestion du formulaire
+        $form = $this->createForm(RecuCaisseType::class, $recuCaisse, [
+            'bonapprovisionnement' => $bonapprovisionnement,
+        ]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Mise à jour du bon de caisse
+
+            // Mise à jour du statut de la fiche de besoin
+            $bonapprovisionnement->setStatus(Status::CONVERT);
+
+            // Enregistrement dans la base de données
+            $entityManager->persist($recuCaisse);
+            $entityManager->persist($bonapprovisionnement);
+            $entityManager->flush();
+
+            flash()
+                ->options([
+                    'timeout' => 5000, // 3 seconds
+                    'position' => 'bottom-right',
+                ])
+                ->success('Reçu de caisse enregistré avec succès.');
+
+            // Redirection vers la vue show du bon de caisse
+            return $this->redirectToRoute('recu_caisse_show', [
+                'uuid' => $recuCaisse->getUuid()
+            ], Response::HTTP_SEE_OTHER);
+        }
+
+        // Affichage du formulaire sur la vue show de la fiche de besoin
+        return $this->render('recu_caisse/new.html.twig', [
+            'form' => $form->createView(),
+            'bonapprovisionnement' => $bonapprovisionnement,
+        ]);
     }
 
     #[Route('/bonapprovisionnement/{id}/edit', name: 'bonapprovisionnement_edit', methods: ['GET', 'POST'])]

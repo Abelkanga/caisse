@@ -13,10 +13,10 @@
 		<li class="menu-item {{ app.request.get('_route') == 'bonapprovisionnement_index' ? 'has-active': '' }}">
 			<a href="{{ path('bonapprovisionnement_index') }}" class="menu-link">Liste</a>
 		</li>
-		<hr>
-		<li class="menu-item {{ app.request.get('_route') == 'billetage_form' ? 'has-active': '' }}">
-			<a href="{{ path('billetage_inventaire_create') }}" class="menu-link">Inventaire de caisse</a>
-		</li>
+{#		<hr>#}
+{#		<li class="menu-item {{ app.request.get('_route') == 'billetage_form' ? 'has-active': '' }}">#}
+{#			<a href="{{ path('billetage_inventaire_create') }}" class="menu-link">Inventaire de caisse</a>#}
+{#		</li>#}
 	</ul>
 	<!-- /child menu -->
 	<!-- .menu-item -->
@@ -32,10 +32,10 @@
 	<ul class="menu">
 
 		<li class="menu-item {{ app.request.get('_route') == 'fdb_approuved' ? 'has-active': '' }}">
-			<a href="{{ path('fdb_approuved') }}" class="menu-link">Fiches de besoin validées</a>
+			<a href="{{ path('fdb_approuved') }}" class="menu-link">Fiche approuvée</a>
 		</li>
 		<li class="menu-item {{ app.request.get('_route') == 'fdb_approuve' ? 'has-active': '' }}">
-			<a href="{{ path('fdb_approuve') }}" class="menu-link">Fiches besoin approuvées</a>
+			<a href="{{ path('fdb_approuve') }}" class="menu-link">Fiche décaissée</a>
 		</li>
 
 	</ul>
@@ -54,7 +54,7 @@
 	<!-- child menu -->
 	<ul class="menu">
 		<li class="menu-item {{ app.request.get('_route') == 'app_etat_caisse' ? 'has-active': '' }}">
-			<a href="{{ path('app_etat_caisse') }}" class="menu-link">Consulter</a>
+			<a href="{{ path('app_reporting_journal_caisse') }}" class="menu-link">Consulter</a>
 		</li>
 
 

@@ -1,5 +1,5 @@
 $('.basic-datatable').dataTable({
-    dom: '<"row"<"col-sm-12 col-md-4"B><"col-sm-12 col-md-8"f>><"row"<"col-sm-12"t>><"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
+    dom: '<"row"<"col-sm-12 col-md-4"B><"col-sm-12 col-md-8"f>><"row"<"col-sm-12"t>><"row"<"col-sm-12 col-md-5"i><" "p>>',
     language: {
         paginate: {
             previous: '<i class="fa fa-lg fa-angle-left"></i>',
@@ -31,3 +31,4 @@ $('.export-datatable').dataTable({
         'excel', 'pdf', 'csv'
     ]
 });
+

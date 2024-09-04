@@ -40,4 +40,13 @@ class BonCaisseRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+
+    public function findLastId()
+    {
+        return $this->createQueryBuilder('bc')
+            ->select('MAX(bc.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }

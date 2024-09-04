@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Ajouter journal comptable' %}
+
+{% block body %}
+    <div class="col-md-10 col-lg-offset-1">
+        <div class="widget box">
+            <div class="widget-header">
+                <h4>
+                    <i class="icon-reorder"></i>
+                    Créer un journal
+                </h4>
+            </div>
+
+            <div class="widget-content">
+                {{ form_start(form, {'attr': {'class': 'form-horizontal' }}) }}
+                {{ include('journalCaisse/_form.html.twig') }}
+                <div class="form-actions">
+                    <button class="btn btn-primary pull-right">Enregistrer</button>
+                    <a class="btn btn-info pull-right" href="{{ path('admin_journal_index') }}"
+                       style="margin-right: 8px; color: white">Retour</a>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

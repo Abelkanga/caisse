@@ -37,10 +37,10 @@
 	<!-- child menu -->
 	<ul class="menu">
 		<li class="menu-item {{ app.request.get('_route') == 'fdb_pending' ? 'has-active': '' }}">
-			<a href="{{ path('fdb_pending') }}" class="menu-link">En attente</a>
+			<a href="{{ path('fdb_pending') }}" class="menu-link">Fiche en attente</a>
 		</li>
 		<li class="menu-item {{ app.request.get('_route') == 'fdb_validate' ? 'has-active': '' }}">
-			<a href="{{ path('fdb_validate') }}" class="menu-link">Validée</a>
+			<a href="{{ path('fdb_validate') }}" class="menu-link">Fiche validée</a>
 		</li>
 
 	</ul>
@@ -58,7 +58,7 @@
 	<!-- child menu -->
 	<ul class="menu">
 		<li class="menu-item {{ app.request.get('_route') == 'fdb_approuve' ? 'has-active': '' }}">
-			<a href="{{ path('fdb_approuve') }}" class="menu-link">Liste</a>
+			<a href="{{ path('fdb_approuve') }}" class="menu-link">Liste validée</a>
 		</li>
 
 	</ul>
@@ -76,7 +76,7 @@
 	<ul class="menu">
 
 		<li class="menu-item {{ app.request.get('_route') == 'bonapprovisionnement_index' ? 'has-active': '' }}">
-			<a href="{{ path('bonapprovisionnement_index') }}" class="menu-link">Liste</a>
+			<a href="{{ path('bonapprovisionnement_index') }}" class="menu-link">Liste validée</a>
 		</li>
 
 	</ul>
@@ -95,10 +95,10 @@
 			<a href="{{ path('fdb_index') }}" class="menu-link">Liste</a>
 		</li>
 		<li class="menu-item {{ app.request.get('_route') == 'fdb_validate' ? 'has-active': '' }}">
-			<a href="{{ path('fdb_validate') }}" class="menu-link">Validée</a>
+			<a href="{{ path('fdb_validate') }}" class="menu-link">Fiche validée</a>
 		</li>
 		<li class="menu-item {{ app.request.get('_route') == 'fdb_approuved' ? 'has-active': '' }}">
-			<a href="{{ path('fdb_approuved') }}" class="menu-link">Approbation</a>
+			<a href="{{ path('fdb_approuved') }}" class="menu-link">Fiche approuvée</a>
 		</li>
 	</ul>
 	<!-- /child menu -->
@@ -106,22 +106,22 @@
 </li>
 
 
-<li class="menu-header">REPORTING</li>
-<li class="menu-item has-child">
-	<a href="#" class="menu-link">
-		<span class="menu-icon fas fa-file-alt"> </span>
-		<span class="menu-text">Etat</span>
-	</a>
-	<!-- child menu -->
-	<ul class="menu">
-		<li class="menu-item {{ app.request.get('_route') == 'fdb_etat' ? 'has-active': '' }}">
-			<a href="{{ path('fdb_etat') }}" class="menu-link">Fiche de besoin </a>
-		</li>
-		{#		<li class="menu-item {{ app.request.get('_route') == 'app_etat_caisse' ? 'has-active': '' }}">#}
-		{#			<a href="" class="menu-link">Fiche de besoin validée</a>#}
-		{#		</li>#}
-	</ul>
-	<!-- /child menu -->
-	<!-- .menu-item -->
-</li>
+{#<li class="menu-header">REPORTING</li>#}
+{#<li class="menu-item has-child">#}
+{#	<a href="#" class="menu-link">#}
+{#		<span class="menu-icon fas fa-file-alt"> </span>#}
+{#		<span class="menu-text">Etat</span>#}
+{#	</a>#}
+{#	<!-- child menu -->#}
+{#	<ul class="menu">#}
+{#		<li class="menu-item {{ app.request.get('_route') == 'fdb_etat' ? 'has-active': '' }}">#}
+{#			<a href="{{ path('fdb_etat') }}" class="menu-link">Fiche de besoin </a>#}
+{#		</li>#}
+{#		#}{#		<li class="menu-item {{ app.request.get('_route') == 'app_etat_caisse' ? 'has-active': '' }}">#}
+{#		#}{#			<a href="" class="menu-link">Fiche de besoin validée</a>#}
+{#		#}{#		</li>#}
+{#	</ul>#}
+{#	<!-- /child menu -->#}
+{#	<!-- .menu-item -->#}
+{#</li>#}
 {% endif %}

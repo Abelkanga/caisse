@@ -72,7 +72,7 @@
                         {% endif %}
                     {% endif %}
 
-                    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_RESPONSABLE') or is_granted('ROLE_USER') or is_granted('ROLE_IMPRESSION') %}
+                    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_RESPONSABLE') or is_granted('ROLE_USER') or is_granted('ROLE_IMPRESSION') or is_granted('ROLE_MANAGER1') %}
                         <button class="btn-account d-flex align-items-center" type="button">
                             <span class="oi oi-clock p-1"></span>
                             <strong class="pt-1">Date du jour : {{ "now"|date('d-m-Y') }}</strong>

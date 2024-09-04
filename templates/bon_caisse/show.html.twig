@@ -1,0 +1,100 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bon de caisse{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        td{
+            font-size: 13px !important;
+        }
+
+        th{
+            font-size: 13px !important;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-sm-12">
+
+            <div class="card card-fluid">
+                <div class="card-header bg-soft-custom">
+                    <h6>Bon de caisse {{ bonCaisse.reference }}</h6>
+                </div>
+                <div class="card-body">
+
+
+                    <fieldset>
+                        <legend>Détail de la fiche de besoin</legend>
+                        <table class="table table-sm bordered">
+                            <thead class="thead-light">
+                            <tr>
+                                <th class="text-center">Date</th>
+                                <th>N° Fiche de besoin</th>
+                                <th class="text-left">Type d'opération</th>
+                                <th class="text-left">Nature d'opération</th>
+                                <th class="text-right">Montant</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="align-middle">{{ bonCaisse.fdb.date ? bonCaisse.fdb.date|date('d-m-Y') : '' }}</td>
+                                <td class="align-middle">{{ bonCaisse.fdb.numeroFicheBesoin }}</td>
+                                <td class="text-left">{{ bonCaisse.fdb.typeExpense.name }}</td> <!-- Assuming typeExpense has a "nom" field -->
+                                <td class="text-left">{{ bonCaisse.fdb.expense.name }}</td> <!-- Assuming expense has a "nom" field -->
+                                <td class="text-right separator">{{ bonCaisse.fdb.total }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </fieldset>
+
+                    <!-- Information du Bon de Caisse -->
+                    <fieldset>
+                        <legend>Information du bon de caisse</legend>
+                        <table class="table table-sm bordered">
+                            <thead class="thead-light">
+                            <tr>
+                                <th class="text-center">Date</th>
+                                <th>Référence</th>
+                                <th>Bénéficiaire</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="text-center">{{ bonCaisse.date ? bonCaisse.date|date('d-m-Y') : '' }}</td>
+                                <td class="align-middle">{{ bonCaisse.reference }}</td>
+                                <td class="align-middle">{{ bonCaisse.beneficiaire }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </fieldset>
+
+                    <!-- Détail de la Fiche de Besoin associée -->
+
+
+                    <form method="post" action="{{ path('bon_caisse_show', {'uuid': bonCaisse.uuid}) }}">
+                        <div class="card-footer">
+
+                            <div class="card-footer-content">
+                                {% if is_granted('ROLE_MANAGER') and bonCaisse.status == 'en attente' %}
+                                    {% include '_modal_manager.html.twig' %}
+
+                                    <!-- Button trigger modal -->
+                                {% endif %}
+
+
+                                <a href="{{ path('app_welcome') }}" class="btn btn-info float-right">
+                                    <i class="oi oi-home"></i> Retour
+                                </a>
+                                <input type="hidden" name="_token" value="{{ csrf_token('validate-caisse-fdb') }}">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -8,9 +8,11 @@ use App\Repository\BonapprovisionnementRepository;
 use App\Repository\CaisseRepository;
 use App\Repository\DepenseRepository;
 use App\Repository\FdbRepository;
+use App\Repository\JournalCaisseRepository;
 use App\Utils\Status;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,6 +20,14 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/caisse')]
 class CaisseController extends AbstractController
 {
+
+    private $entityManager;
+
+    // Injecting the EntityManagerInterface
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
     #[Route('/index', name: 'caisse_index', methods:['GET'])]
     public function index(CaisseRepository $caisseRepository): Response
     {
@@ -85,69 +95,72 @@ class CaisseController extends AbstractController
     }
 
     #[Route('/etat', name: 'app_etat_caisse', methods: ['GET'])]
-    public function getMouvementsCaisse(FdbRepository $fdbRepository, BonapprovisionnementRepository $bonapprovisionnementRepository, Request $request): Response {
-        $dateDebut = $request->query->get('date_debut') ? new \DateTime($request->query->get('date_debut')) : null;
-        $dateFin = $request->query->get('date_fin') ? new \DateTime($request->query->get('date_fin')) : null;
+    public function getMouvementsCaisse(JournalCaisseRepository $jCRepository, Request $request): JsonResponse {
+        $dateDebut = $request->query->get('date_debut');
+        $dateFin = $request->query->get('date_fin');
 
-        $mouvements = [];
-        $solde = 0;
-        $totalEntree = 0;
-        $totalSortie = 0;
-
-        if ($dateDebut && $dateFin) {
-            $fdbQuery = $fdbRepository->createQueryBuilder('fdb')
-                ->where('fdb.date BETWEEN :date_debut AND :date_fin')
-                ->andWhere('fdb.status = :status')
-                ->setParameter('date_debut', $dateDebut)
-                ->setParameter('date_fin', $dateFin)
-                ->setParameter('status', Status::APPROUVE)
-                ->getQuery()
-                ->getResult();
-
-            foreach ($fdbQuery as $fdb) {
-                $mouvements[] = [
-                    'date' => $fdb->getDate(),
-                    'nature' => $fdb->getTypeExpense(),
-                    'libelle' => $fdb->getExpense(),
-                    'entree' => null,
-                    'sortie' => $fdb->getTotal(),
-                ];
-                $totalSortie += $fdb->getTotal();
-                $solde -= $fdb->getTotal();
-            }
-
-            $bonapprovisionnementQuery = $bonapprovisionnementRepository->createQueryBuilder('ba')
-                ->where('ba.date BETWEEN :date_debut AND :date_fin')
-                ->andWhere('ba.status = :status')
-                ->setParameter('date_debut', $dateDebut)
-                ->setParameter('date_fin', $dateFin)
-                ->setParameter('status', Status::APPROUVE)
-                ->getQuery()
-                ->getResult();
-
-            foreach ($bonapprovisionnementQuery as $bonapprovisionnement) {
-                $mouvements[] = [
-                    'date' => $bonapprovisionnement->getDate(),
-                    'nature' => 'Approvisionnement de la caisse',
-                    'libelle' => 'Approvisionnement de la caisse',
-                    'entree' => $bonapprovisionnement->getMontanttotal(),
-                    'sortie' => null,
-                ];
-                $totalEntree += $bonapprovisionnement->getMontanttotal();
-                $solde += $bonapprovisionnement->getMontanttotal();
-            }
-
-            usort($mouvements, function ($a, $b) {
-                return $a['date'] <=> $b['date'];
-            });
+        $data = [];
+        $journals = $jCRepository->findReportingJournal($dateDebut,$dateFin);
+        foreach ($journals as $journal) {
+            $data[] = [
+                'date' => date_format($journal->getDate(),'d/m/Y'),
+                'num_piece' => $journal->getNumPiece(),
+                'libelle' => $journal->getFdb()?->getExpense()->getName() ?? $journal->getIntitule(),
+                'debit' => $journal->getEntree() ?? 0,
+                'credit' => $journal->getSortie() ?? 0,
+                'solde' => $journal->getSolde() ?? 0,
+            ];
         }
 
-        return $this->render('caisse/etat.html.twig', [
-            'mouvements' => $mouvements,
-            'totalEntree' => $totalEntree,
-            'totalSortie' => $totalSortie,
-            'solde' => $solde,
-        ]);
+        return new JsonResponse($data);
+
+        /* if ($dateDebut && $dateFin) {
+             $fdbQuery = $fdbRepository->createQueryBuilder('fdb')
+                 ->where('fdb.date BETWEEN :date_debut AND :date_fin')
+                 ->andWhere('fdb.status = :status')
+                 ->setParameter('date_debut', $dateDebut)
+                 ->setParameter('date_fin', $dateFin)
+                     ->setParameter('status', Status::CONVERT)
+                 ->getQuery()
+                 ->getResult();
+
+             foreach ($fdbQuery as $fdb) {
+                 $mouvements[] = [
+                     'date' => $fdb->getDate(),
+                     'nature' => $fdb->getTypeExpense(),
+                     'libelle' => $fdb->getExpense(),
+                     'entree' => null,
+                     'sortie' => $fdb->getTotal(),
+                 ];
+                 $totalSortie += $fdb->getTotal();
+                 $solde -= $fdb->getTotal();
+             }
+
+             $bonapprovisionnementQuery = $bonapprovisionnementRepository->createQueryBuilder('ba')
+                 ->where('ba.date BETWEEN :date_debut AND :date_fin')
+                 ->andWhere('ba.status = :status')
+                 ->setParameter('date_debut', $dateDebut)
+                 ->setParameter('date_fin', $dateFin)
+                 ->setParameter('status', Status::CONVERT)
+                 ->getQuery()
+                 ->getResult();
+
+             foreach ($bonapprovisionnementQuery as $bonapprovisionnement) {
+                 $mouvements[] = [
+                     'date' => $bonapprovisionnement->getDate(),
+                     'nature' => 'Approvisionnement de la caisse',
+                     'libelle' => 'Approvisionnement de la caisse',
+                     'entree' => $bonapprovisionnement->getMontanttotal(),
+                     'sortie' => null,
+                 ];
+                 $totalEntree += $bonapprovisionnement->getMontanttotal();
+                 $solde += $bonapprovisionnement->getMontanttotal();
+             }
+
+             usort($mouvements, function ($a, $b) {
+                 return $a['date'] <=> $b['date'];
+             });
+         }*/
     }
 
 }

@@ -91,13 +91,20 @@
                 <form method="post" action="{{ path('fdb_show', {'id': fdb.id}) }}">
                     <div class="card-footer">
                         <div class="card-footer-content">
-                            {% if is_granted('ROLE_USER') and fdb.status == 'brouillon' %}
-                                <!-- Show Edit and Send buttons only if ROLE_USER and status is BROUILLON -->
+                            {% if (is_granted('ROLE_USER') or is_granted('ROLE_IMPRESSION')) and fdb.status == 'brouillon' %}
+                                <!-- Show Edit and Send buttons only if ROLE_USER or ROLE_IMPRESSION and status is BROUILLON -->
                                 <a class="btn btn-warning float-right ml-2" href="{{ path('fdb_edit', {'id': fdb.id}) }}">
                                     <i class="fa fa-pencil-alt"></i> Modifier
                                 </a>
                                 <a class="btn btn-success float-right ml-2" href="{{ path('fdb_send', {'id': fdb.id}) }}">
                                     <i class="fa fa-paper-plane"></i> Envoyer
+                                </a>
+                            {% endif %}
+
+                            {% if (is_granted('ROLE_USER') or is_granted('ROLE_IMPRESSION')) and fdb.status == 'en attente' %}
+                                <!-- Show Edit and Send buttons only if ROLE_USER or ROLE_IMPRESSION and status is BROUILLON -->
+                                <a class="btn btn-warning float-right ml-2" href="{{ path('fdb_edit', {'id': fdb.id}) }}">
+                                    <i class="fa fa-pencil-alt"></i> Modifier
                                 </a>
                             {% endif %}
 
@@ -112,19 +119,30 @@
 
                             {% if is_granted('ROLE_MANAGER') and fdb.status == 'approuvéed' %}
 
-                                {% include '_modal_manager.html.twig' %}
+{#                                {% include '_modal_manager.html.twig' %}#}
+                                <a target="_blank" href="{{ path('fdb_convert', {'uuid': fdb.uuid}) }}" class="btn btn-primary float-right ml-2">
+                                    <i class="fa-solid fa-repeat"></i> Convertir Bon de caisse
+                                </a>
                             {% endif %}
 
-                            {% if is_granted('ROLE_IMPRESSION') and fdb.status == 'approuvée' %}
+                            {% if is_granted('ROLE_IMPRESSION') and fdb.status == 'convertit' %}
                                 <a target="_blank" href="{{ path('print_fdb', {'uuid': fdb.uuid}) }}" class="btn btn-primary float-right ml-2">
                                     <i class="fa fa-print"></i> Imprimer bon de caisse
                                 </a>
                             {% endif %}
 
+                            {% if is_granted('ROLE_MANAGER') and fdb.status == 'convertit' %}
+                                <a target="_blank" href="{{ path('print_fdb', {'uuid': fdb.uuid}) }}" class="btn btn-primary float-right ml-2">
+                                    <i class="fa fa-print"></i> Imprimer bon de caisse
+                                </a>
+                            {% endif %}
+
+
                             {% if fdb.status == 'annulée' %}
-                                <a target="_blank" href="{{ path('fdb_delete', {'id': fdb.id}) }}" class="btn btn-primary float-right ml-2">
+                                <a target="_blank" href="{{ path('fdb_delete', {'id': fdb.id}) }}" class="btn btn-danger float-right ml-2">
                                     <i class="fas fa-trash"></i> Supprimer
                                 </a>
+
                             {% endif %}
 
                             <a href="{{ path('app_welcome') }}" class="btn btn-info float-right">

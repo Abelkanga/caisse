@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Convertir en Reçu de Caisse{% endblock %}
+
+{% block body %}
+    <div class="col-12">
+
+
+        {{ form_start(form) }}
+        <div class="card card-fluid">
+            <div class="card-header bg-soft-custom">
+                <h6>Créer un reçu de caisse</h6>
+            </div>
+
+            <div class="card-body">
+
+
+                <fieldset class="form-container">
+                    <legend>Détail du bon d'approvisionnement</legend>
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="bonapprovisionnement_date">Date du bon d'approvisionnement</label>
+                                <input type="text" class="form-control" value="{{ bonapprovisionnement.date ? bonapprovisionnement.date|date('d-m-Y') : '' }}" readonly>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="bonapprovisionnement_reference">N° Bon d'approvisionnement</label>
+                                <input type="text" class="form-control" value="{{ bonapprovisionnement.reference }}" readonly>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="bonapprovisionnement_destinataire">Bénéficiaire</label>
+                                <input type="text" class="form-control" value="{{ bonapprovisionnement.destinataire }}" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                        <div class="row">
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="bonapprovisionnement_porteur">Objet</label>
+                                <input type="text" class="form-control" value="{{ bonapprovisionnement.porteur }}" readonly>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="bonapprovisionnement_montanttotal">Montant Total</label>
+                                <input type="text" class="form-control separator" value="{{ bonapprovisionnement.montanttotal }}" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+<br>
+                <fieldset class="form-container">
+                    <legend>Information du reçu de caisse</legend>
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="form-group">
+                                {{ form_label(form.date) }}
+                                {{ form_widget(form.date, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                {{ form_label(form.reference) }}
+                                {{ form_widget(form.reference, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                {{ form_label(form.beneficiaire) }}
+                                {{ form_widget(form.beneficiaire, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+
+            </div>
+
+            <div class="card-footer">
+                <div class="card-footer-content">
+                    <button type="submit" class="btn btn-primary float-right ml-2">Enregistrer</button>
+                    <a href="{{ path('bonapprovisionnement_index') }}" class="btn btn-info float-right"><i class="oi oi-home"></i> Retour</a>
+                </div>
+            </div>
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
