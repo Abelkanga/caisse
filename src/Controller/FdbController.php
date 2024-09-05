@@ -344,10 +344,10 @@ class FdbController extends AbstractController
                     }
 
                     $caisse->setSoldedispo($solde - $total);
-                    $fdb->setStatus(Status::CONVERT);
+//                    $fdb->setStatus(Status::CONVERT);
 
                     $bonCaisse = new BonCaisse();
-                    $bonCaisse->setStatus(Status::CONVERT);
+//                    $bonCaisse->setStatus(Status::CONVERT);
                     $bonCaisse->setDate(new \DateTime());
                     $bonCaisse->setMontant($fdb->getTotal());
                     $bonCaisse->setCaisse($caisse);
@@ -377,6 +377,7 @@ class FdbController extends AbstractController
         ]);
 
     }
+
     #[Route('/fdb/{uuid}/convert', name: 'fdb_convert', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_MANAGER')]
     public function convert(
@@ -413,6 +414,7 @@ class FdbController extends AbstractController
             ->setStatus(Status::EN_ATTENTE)
             ->setBeneficiaire($fdb->getBeneficiaire())
             ->setFdb($fdb)
+            ->setFdb($fdb->setStatus(Status::APPROUVED))
             ->setMontant($fdb->getTotal())
             ->setCaisse($caisse);
 
@@ -429,9 +431,9 @@ class FdbController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             // Mise à jour du bon de caisse
-
+            $bonCaisse->setStatus(Status::EN_ATTENTE);
             // Mise à jour du statut de la fiche de besoin
-            $fdb->setStatus(Status::CONVERT);
+            $fdb->setStatus(Status::APPROUVED);
 
             // Enregistrement dans la base de données
             $entityManager->persist($bonCaisse);

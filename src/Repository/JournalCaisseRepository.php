@@ -52,10 +52,6 @@ class JournalCaisseRepository extends ServiceEntityRepository
     public function findReportingJournal(mixed $dateDebut,mixed $dateFin)
     {
         $qb = $this->createQueryBuilder('jc');
-//            ->leftJoin('jc.Fdb','Fdb')
-//            ->leftJoin('Fdb.typeExpense','typeExpense')
-//            ->leftJoin('typeExpense.expenses','expense')
-//            ->leftJoin('jc.Bonapprovisionnement','Bonapp')
         $qb
             ->join('jc.caisse','caisse')
             ->where($qb->expr()->between('jc.date','?1','?2'))
