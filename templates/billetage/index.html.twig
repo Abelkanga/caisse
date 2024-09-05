@@ -13,10 +13,13 @@
                     {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
                     {{ include('billetage/_form.html.twig') }}
 
-                    <div class="form-actions text-right"> <!-- Aligned the buttons to the right -->
-                        <button class="btn btn-primary pull-right ml-2">Enregistrer</button>
-                        <a class="btn btn-info pull-right ml-2" style="color: white" href="{{ path('app_welcome') }}">Retour</a>
+                    <div class="form-actions d-flex justify-content-end"> <!-- Utilise Flexbox pour aligner à droite -->
+                        <a class="btn btn-info ml-2" style="color: white" href="{{ path('app_welcome') }}">
+                            <i class="oi oi-home"></i> Retour
+                        </a>
+                        <button class="btn btn-primary">Enregistrer</button>
                     </div>
+
                     {{ form_end(form) }}
                 </div>
             </div>
