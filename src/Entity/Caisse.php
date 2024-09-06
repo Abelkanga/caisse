@@ -19,20 +19,8 @@ class Caisse
     #[ORM\Column(length: 255)]
     private ?string $intitule = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $responsable = null;
-
     #[ORM\Column(type: Types::DECIMAL,precision: 10, scale: 2,nullable: true)]
     private ?string $Soldedispo = null;
-
-    #[ORM\Column(type: Types::DECIMAL,precision: 10, scale: 2,)]
-    private ?string $plafond = null;
-
-    /**
-     * @var Collection<int, Depense>
-     */
-    #[ORM\OneToMany(targetEntity: Depense::class, mappedBy: 'caisse')]
-    private Collection $depenses;
 
     /**
      * @var Collection<int, Bonapprovisionnement>
@@ -41,37 +29,10 @@ class Caisse
     private Collection $bonapprovisionnements;
 
     /**
-     * @var Collection<int, Journee>
-     */
-    #[ORM\OneToMany(targetEntity: Journee::class, mappedBy: 'caisse')]
-    private Collection $journees;
-
-    /**
      * @var Collection<int, Fdb>
      */
     #[ORM\OneToMany(targetEntity: Fdb::class, mappedBy: 'caisse')]
     private Collection $fdbs;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $code = null;
-
-    /**
-     * @var Collection<int, BonCaisse>
-     */
-    #[ORM\OneToMany(targetEntity: BonCaisse::class, mappedBy: 'caisse')]
-    private Collection $bonCaisses;
-
-    /**
-     * @var Collection<int, Billetage>
-     */
-    #[ORM\OneToMany(targetEntity: Billetage::class, mappedBy: 'caisse')]
-    private Collection $billetages;
-
-//    #[ORM\ManyToOne(inversedBy: 'caisses')]
-//    private ?JournalCaisse $JournalCaisse = null;
-
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
-    private ?string $lastSolde = null;
 
     #[ORM\OneToOne(inversedBy: 'caisse', cascade: ['persist', 'remove'])]
     private ?User $user = null;

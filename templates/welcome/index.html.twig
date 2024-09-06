@@ -1,13 +1,154 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello WelcomeController!{% endblock %}
+{% block title %}Dashboard{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <style>
+        .card {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .card-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .card-progress {
+            margin-top: 10px;
+        }
+        .card-indicator {
+            background-color: #e9ecef;
+            border-radius: 5px;
+            height: 6px;
+        }
+        .indicator {
+            height: 6px;
+            border-radius: 5px;
+        }
+        .indicator.one {
+            background-color: #007bff;
+        }
+        .indicator.two {
+            background-color: #28a745;
+        }
+        .indicator.three {
+            background-color: #ffc107;
+        }
+        .indicator.four {
+            background-color: #dc3545;
+        }
+    </style>
 
+    <div class="container mt-5">
+        <div class="row">
+            {% if is_granted('ROLE_ADMIN') %}
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-head">
+                            <h2>Nombre de comptes</h2>
+                            <span class="menu-icon fa fa-solid fa-users"></span>
+                        </div>
+                        <div class="card-progress">
+                            <small><a href="{{ path('app_user_index') }}">{{ nbUser }} utilisateurs</a></small>
+                            <div class="card-indicator">
+                                <div class="indicator one" style="width: {{ nbUser }}%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-head">
+                            <h2>Caisse connectée</h2>
+                            <span class="menu-icon fa fa-solid fa-cash-register"></span>
+                        </div>
+                        <div class="card-progress">
+                            <small><a href="#">{{ nbCaisse }} caisse</a></small>
+                            <div class="card-indicator">
+                                <div class="indicator three" style="width: {{ nbCaisse }}%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Graphique pour les rôles -->
+                <canvas id="userChart"></canvas>
+            {% endif %}
+
+            {% if is_granted('ROLE_MANAGER') %}
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-head">
+                            <h2>Solde disponible de la caisse</h2>
+                            <span class="menu-icon fa fa-solid fa-wallet"></span>
+                        </div>
+                        <div class="card-progress">
+                            <small><a href="#" class="separator">{{ soldeCaisse }} </a></small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-head">
+                            <h2>Fiches de besoin créées</h2>
+                            <span class="menu-icon fa fa-solid fa-file-invoice"></span>
+                        </div>
+                        <div class="card-progress">
+                            <small><a href="#">{{ nbFdb }} fiches</a></small>
+                            <div class="card-indicator">
+                                <div class="indicator four" style="width: {{ nbFdb }}%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-head">
+                            <h2>Approvisionnement créés</h2>
+                            <span class="menu-icon fa fa-solid fa-receipt"></span>
+                        </div>
+                        <div class="card-progress">
+                            <small><a href="#">{{ nbBonapprovisionnement }} bons</a></small>
+                            <div class="card-indicator">
+                                <div class="indicator one" style="width: {{ nbBonapprovisionnement }}%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById('userChart').getContext('2d');
+        const userChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Utilisateurs'],
+                datasets: [{
+                    label: 'Nombre',
+                    data: [{{ nbUser }}],
+                    backgroundColor: ['#007bff', '#28a745', '#ffc107', '#dc3545', '#6f42c1'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
 
 {% endblock %}
-
