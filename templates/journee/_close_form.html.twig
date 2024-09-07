@@ -1,5 +1,7 @@
+{% set j = journee_service.getActive() %}
+
 <fieldset>
-    <legend>Fin journée</legend>
+    <legend>Journée du {{ j.startedAt|date('d-m-Y H:i:s') }} </legend>
     <div class="form-group">
         <label class="col-md-4 control-label montantTotal-encaissement">Solde Théorique <span class="required">*</span></label>
         <div class="col-md-4 clearfix">
@@ -8,14 +10,6 @@
             }}) }}
             {{ form_errors(form.balance) }}
         </div>
-        <br>
-{#        <label class="col-md-4 control-label montantTotal-encaissement">Solde Physique <span class="required">*</span></label>#}
-{#        <div class="col-md-4 clearfix">#}
-{#            {{ form_widget(form.amount,{'attr': {#}
-{#                "class": 'form-control text-right separator ',#}
-{#            }}) }}#}
-{#            {{ form_errors(form.amount) }}#}
-{#        </div>#}
     </div>
 
 </fieldset>

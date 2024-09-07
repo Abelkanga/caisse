@@ -48,7 +48,7 @@ class BilletageController extends AbstractController
 
         $num_billet = $service->refBilletageCaisse();
         $billetage = (new Billetage())
-            ->setBalance($caisse->getSoldedispo())->setReference($num_billet);
+            ->setBalance($caisse->getSoldedispo())->setReference($num_billet)->setDate(new \DateTime());
 
         $form = $this->createForm(BilletageType::class, $billetage);
         $form->handleRequest($request);
@@ -154,6 +154,14 @@ class BilletageController extends AbstractController
 
         return $this->render('billetage/show.html.twig', [
             'billetage' => $billetage,
+        ]);
+    }
+
+    #[Route('/{uuid}/print', name: 'print', methods: ['GET'])]
+    public function print( Billetage $billetage,): Response
+    {
+        return $this->render('billetage/print.html.twig', [
+            'billetage' => $billetage
         ]);
     }
 
