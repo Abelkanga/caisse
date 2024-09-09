@@ -75,8 +75,8 @@
                     </div>
                 </div>
 
-{#                <!-- Graphique pour les utilisateurs par rôle -->#}
-{#                <canvas id="userChart"></canvas>#}
+                <!-- Graphique pour les utilisateurs par rôle -->
+                <canvas id="userChart"></canvas>
             {% endif %}
 
             {% if is_granted('ROLE_MANAGER') %}
@@ -163,43 +163,43 @@
 
     </div>
 
-{#    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>#}
-{#    <script>#}
-{#        const ctx = document.getElementById('userChart').getContext('2d');#}
-{#        const userChart = new Chart(ctx, {#}
-{#            type: 'bar',  // Type de graphique en barres#}
-{#            data: {#}
-{#                labels: [#}
-{#                    'Créer/Convertir Document',#}
-{#                    'Approuver Fiche de besoin',#}
-{#                    'Valider Fiche de besoin',#}
-{#                    'Créer/Modifier Fiche de besoin',#}
-{#                    'Imprimer Document'#}
-{#                ],#}
-{#                datasets: [{#}
-{#                    label: 'Nombre d\'utilisateurs par rôle',#}
-{#                    data: [#}
-{#                        {{ nbManagers|default(0) }},#}
-{#                        {{ nbManagers1|default(0) }},#}
-{#                        {{ nbResponsables|default(0) }},#}
-{#                        {{ nbUsers|default(0) }},#}
-{#                        {{ nbImpression|default(0) }}#}
-{#                    ],#}
-{#                    backgroundColor: [#}
-{#                        '#007bff', '#28a745', '#ffc107', '#dc3545', '#6f42c1'#}
-{#                    ],#}
-{#                    borderWidth: 1#}
-{#                }]#}
-{#            },#}
-{#            options: {#}
-{#                scales: {#}
-{#                    y: {#}
-{#                        beginAtZero: true#}
-{#                    }#}
-{#                }#}
-{#            }#}
-{#        });#}
-{#    </script>#}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById('userChart').getContext('2d');
+        const userChart = new Chart(ctx, {
+            type: 'bar',  // Type de graphique en barres
+            data: {
+                labels: [
+                    'Créer/Convertir Document',
+                    'Approuver Fiche de besoin',
+                    'Valider Fiche de besoin',
+                    'Créer/Modifier Fiche de besoin',
+                    'Imprimer Document'
+                ],
+                datasets: [{
+                    label: 'Nombre d\'utilisateurs par rôle',
+                    data: [
+                        {{ nbManagers|default(0) }},
+                        {{ nbManagers1|default(0) }},
+                        {{ nbResponsables|default(0) }},
+                        {{ nbUsers|default(0) }},
+                        {{ nbImpression|default(0) }}
+                    ],
+                    backgroundColor: [
+                        '#007bff', '#28a745', '#ffc107', '#dc3545', '#6f42c1'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
 
 
 {% endblock %}
