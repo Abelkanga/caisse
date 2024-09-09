@@ -75,48 +75,85 @@
                     </div>
                 </div>
 
-                <!-- Graphique pour les rôles -->
+                <!-- Graphique pour les utilisateurs par rôle -->
                 <canvas id="userChart"></canvas>
             {% endif %}
 
             {% if is_granted('ROLE_MANAGER') %}
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-head">
-                            <h2>Solde disponible</h2>
-                            <span class="menu-icon fa fa-solid fa-wallet"></span>
-                        </div>
-                        <div class="card-progress">
-                            <small><a href="#" class="separator">{{ soldeCaisse }} </a></small>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-head">
-                            <h2>Fiches de besoin créées</h2>
-                            <span class="menu-icon fa fa-solid fa-file-invoice"></span>
-                        </div>
-                        <div class="card-progress">
-                            <small><a href="#">{{ nbFdb }} fiches</a></small>
-                            <div class="card-indicator">
-                                <div class="indicator four" style="width: {{ nbFdb }}%;"></div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-head">
+                                <h2>Solde disponible</h2>
+                                <span class="menu-icon fa fa-solid fa-wallet"></span>
+                            </div>
+                            <div class="card-progress">
+                                <small><a href="#" class="separator">{{ soldeCaisse }} </a></small>
                             </div>
                         </div>
                     </div>
+
+
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-head">
+                                <h2>Fiches de besoin approuvées</h2>
+                                <span class="menu-icon fa fa-solid fa-check"></span>
+                            </div>
+                            <div class="card-progress">
+                                <small><a href="{{ path('fdb_approuved') }}">{{ nbFdbApprouvees }} fiches en attente de conversion</a></small>
+                                <div class="card-indicator">
+                                    <div class="indicator three" style="width: {{ nbFdbApprouvees }}%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-head">
+                                <h2>Fiches de besoin converties</h2>
+                                <span class="menu-icon fa fa-solid fa-exchange-alt"></span>
+                            </div>
+                            <div class="card-progress">
+                                <small><a href="{{ path('fdb_approuve') }}">{{ nbFdbConverties }} fiches converties</a></small>
+                                <div class="card-indicator">
+                                    <div class="indicator two" style="width: {{ nbFdbConverties }}%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-head">
-                            <h2>Approvisionnement créés</h2>
-                            <span class="menu-icon fa fa-solid fa-receipt"></span>
+                <div class="row">
+
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-head">
+                                <h2>Bon d'approvisionnement créés</h2>
+                                <span class="menu-icon fa fa-solid fa-receipt"></span>
+                            </div>
+                            <div class="card-progress">
+                                <small><a href="{{ path('bonapprovisionnement_index') }}">{{ nbBonapprovisionnement }} bons</a></small>
+                                <div class="card-indicator">
+                                    <div class="indicator one" style="width: {{ nbBonapprovisionnement }}%;"></div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="card-progress">
-                            <small><a href="#">{{ nbBonapprovisionnement }} bons</a></small>
-                            <div class="card-indicator">
-                                <div class="indicator one" style="width: {{ nbBonapprovisionnement }}%;"></div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-head">
+                                <h2>Bon d'approvisionnement convertis</h2>
+                                <span class="menu-icon fa fa-solid fa-check-double"></span>
+                            </div>
+                            <div class="card-progress">
+                                <small><a href="{{ path('bonapprovisionnement_index') }}">{{ nbBonapprovisionnementConvertis }} bons convertis</a></small>
+                                <div class="card-indicator">
+                                    <div class="indicator two" style="width: {{ nbBonapprovisionnementConvertis }}%;"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -124,20 +161,27 @@
             {% endif %}
         </div>
 
-
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         const ctx = document.getElementById('userChart').getContext('2d');
         const userChart = new Chart(ctx, {
-            type: 'line',
+            type: 'bar',  // Type de graphique en barres
             data: {
-                labels: ['Utilisateurs'],
+                labels: ['Créer/Convertir Document', 'Approuver Fiche de besoin', 'Valider Fiche de besoin', 'Créer/Modifier Fiche de besoin', 'Imprimer Document'],
                 datasets: [{
-                    label: 'Nombre',
-                    data: [{{ nbUser }}],
-                    backgroundColor: ['#007bff', '#28a745', '#ffc107', '#dc3545', '#6f42c1'],
+                    label: 'Nombre d\'utilisateurs par rôle',
+                    data: [
+                        {{ nbManagers }},
+                        {{ nbManagers1 }},
+                        {{ nbResponsables }},
+                        {{ nbUsers }},
+                        {{ nbImpression }}
+                    ],
+                    backgroundColor: [
+                        '#007bff', '#28a745', '#ffc107', '#dc3545', '#6f42c1'
+                    ],
                     borderWidth: 1
                 }]
             },

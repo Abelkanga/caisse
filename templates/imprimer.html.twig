@@ -3,22 +3,17 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>ORBIS CAISSE </title>
-    <!-- Tell the browser to be responsive to screen width -->
+    <title>ORBIS CAISSE</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Bootstrap 4 -->
-    <!-- Font Awesome -->
-    {{ encore_entry_link_tags('app') }}
-    <!-- Ionicons -->
-    <link rel="stylesheet" href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 
-    <!-- Theme style -->
-    <!-- Google Font: Source Sans Pro -->
+    {{ encore_entry_link_tags('app') }}
+    <link rel="stylesheet" href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="//pro.fontawesome.com/releases/v5.10.0/css/all.css"
           integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="{{ asset('css/theme.min.css') }}" data-skin="default">
     <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
+
     {% block stylesheet %}
         <style>
             table.noborder, table.noborder tr, table.noborder th, table.noborder td {
@@ -32,7 +27,7 @@
                 border-bottom: 1px solid rgb(225, 231, 214);
             }
 
-            table, table {
+            table {
                 border: solid #808080 !important;
                 border-width: 2px 0 0 2px !important;
             }
@@ -44,48 +39,141 @@
             .container {
                 margin-top: 20px;
             }
-        </style>
-        <style>
+
+            /* Ajustement pour le format A5 */
             @media print {
-                .btn-print, .btn-home  {
+                .btn-print, .btn-home {
                     display: none;
                 }
                 .btn-back {
                     display: none;
                 }
 
-                #information-right {
+                #information-right, #information-left {
                     float: right !important;
                     width: 100px;
                 }
 
-                #information-left {
-                    float: right !important;
-                    width: 100px;
-                    margin-top: 140px;
+                /* Définir la taille de la page en A5 */
+                @page {
+                    size: A5; /* Format A5 défini */
+                    margin: 1cm; /* Ajustement des marges */
+                }
+
+                /* Ajustement de la police pour un meilleur rendu en A5 */
+                body {
+                    font-size: 12px; /* Taille de police réduite pour correspondre au format A5 */
+                }
+
+                .receipt-container {
+                    margin: 10px; /* Réduire les marges pour mieux utiliser l'espace A5 */
+                }
+
+                .header p {
+                    font-size: 10px; /* Réduire la taille de police des en-têtes */
+                }
+
+                .title-box {
+                    margin: 10px 0;
+                    padding: 5px;
+                    font-size: 14px;
+                }
+
+                fieldset {
+                    margin-top: 10px;
+                    padding: 5px;
+                }
+
+                legend {
+                    font-size: 14px;
+                }
+
+                .main-content div {
+                    margin-bottom: 3px;
+                }
+
+                .table th, .table td {
+                    padding: 3px;
+                }
+
+                .approved-by p {
+                    font-size: 10px;
                 }
 
             }
 
-            @page {
-                size: 21cm 29.7cm;
-                margin: 1.00cm 1.5cm 2.54cm 1.5cm;
-                /* change the margins as you want them to be. */
+            /* Style spécifique pour l'impression */
+            @media print {
+                @page {
+                    size: A5 portrait;
+                    margin: 10mm;
+                }
+
+                body {
+                    margin: 0;
+                    padding: 0;
+                }
+
+                .card-body {
+                    margin: 0;
+                    padding: 0;
+                    border: none;
+                    width: 100%;
+                    height: auto;
+                    page-break-after: always;
+                }
+
+                #header {
+                    padding: 2px;
+                    width: 100%;
+                    white-space: nowrap;
+                    text-align: center;
+                    color: black;
+                    margin-left: 60px;
+                }
+
+                #secendhead {
+                    padding: 2px;
+                    width: 100%;
+                    white-space: nowrap;
+                    text-align: center;
+                    color: black;
+                    margin-left: 160px;
+                }
+
+                .table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin-bottom: 20px;
+                    font-size: 12px;
+                    border: solid 1px black;
+                }
+
+                .table th,
+                .table td {
+                    padding: 10px;
+                    /* Ajuste le padding pour s'adapter au format A5 */
+                    text-align: center;
+                    white-space: nowrap;
+                }
+
+                .table thead th,
+                .table tbody td {
+                    width: 100%;
+                }
             }
+
         </style>
     {% endblock %}
 </head>
 <body>
 <div class="wrapper">
-    <!-- Main content -->
     <section class="container">
         {% block body %}
 
         {% endblock %}
     </section>
-    <!-- /.content -->
 </div>
-<!-- ./wrapper -->
 
 {{ encore_entry_script_tags('app') }}
 <script type="text/javascript">

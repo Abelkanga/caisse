@@ -42,6 +42,24 @@ $formJournalCaisse.submit(function (e) {
             { data: 'credit', sClass: 'text-right' },
             { data: 'solde', sClass: 'text-right' },
         ],
+        dom: '<"row"<"col-sm-12 col-md-4"B><"col-sm-12 col-md-8"f>><"row"<"col-sm-12"t>><"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
+        buttons: [
+            {
+                extend: 'print',
+                customize: function (win) {
+                    $(win.document.body)
+                        .css('font-size', '10pt')
+
+                    $(win.document.body)
+                        .find('table')
+                        .addClass('compact')
+                        .css('font-size', 'inherit');
+                }
+            }
+        ],
+        layout: {
+            topStart: 'buttons'
+        },
         columnDefs: [
             {
                 targets: 3,

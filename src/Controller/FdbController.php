@@ -6,11 +6,13 @@ use App\Entity\BonCaisse;
 use App\Entity\Caisse;
 use App\Entity\Expense;
 use App\Entity\Fdb;
+use App\Entity\JournalCaisse;
 use App\Entity\User;
 use App\Form\BonCaisseType;
 use App\Form\FdbType;
 use App\Repository\BonCaisseRepository;
 use App\Repository\FdbRepository;
+use App\Repository\JournalCaisseRepository;
 use App\Repository\JourneeRepository;
 use App\Service\CaisseService;
 use App\Utils\Status;
@@ -377,7 +379,6 @@ class FdbController extends AbstractController
         ]);
 
     }
-
     #[Route('/fdb/{uuid}/convert', name: 'fdb_convert', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_MANAGER')]
     public function convert(
@@ -386,14 +387,11 @@ class FdbController extends AbstractController
         BonCaisseRepository $bonCaisseRepository,
         Request $request,
         EntityManagerInterface $entityManager,
+        JourneeRepository $journeeRepository,
+        JournalCaisseRepository $jcRepository,
         CaisseService $service
     ): Response
     {
-        // Vérification du statut de la fiche de besoin
-//        if ($fdb->getStatus() !== Status::APPROUVED) {
-//            throw $this->createNotFoundException('La fiche de besoin doit être approuvée pour être convertie en bon de caisse.');
-//        }
-
         // Récupération de la caisse liée au manager
         /** @var User $user */
         $user = $this->getUser();
@@ -423,21 +421,58 @@ class FdbController extends AbstractController
             $bonCaisse->setUuid(Uuid::v4());
         }
 
-        // Création et gestion du formulaire
+        // Création du formulaire avant la condition
         $form = $this->createForm(BonCaisseType::class, $bonCaisse, [
             'fdb' => $fdb,
         ]);
+
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            // Mise à jour du bon de caisse
-            $bonCaisse->setStatus(Status::EN_ATTENTE);
-            // Mise à jour du statut de la fiche de besoin
-            $fdb->setStatus(Status::APPROUVED);
+        // Si la requête contient 'confirm_manager'
+        if ($request->request->has('confirm_manager')) {
+            $solde = $caisse->getSoldedispo();
+            $total = $fdb->getTotal();
 
-            // Enregistrement dans la base de données
+            if ($solde < $total) {
+                flash()
+                    ->options([
+                        'timeout' => 5000, // 3 seconds
+                        'position' => 'bottom-right',
+                    ])
+                    ->error('Pas de fond disponible pour effectuer cette opération');
+
+                return $this->redirectToRoute('app_welcome');
+            }
+
+            $num_journalCaisse = $service->refJournalCaisse();
+            $amount = $fdb->getTotal();
+            $lastSolde = $jcRepository->getLastSolde($caisse->getId());
+
+            $journalCaisse = (new JournalCaisse())
+                ->setNumPiece($num_journalCaisse)
+                ->setDate(new \DateTime())
+                ->setCaisse($caisse)
+                ->setBonCaisse($bonCaisse)
+                ->setSortie($fdb->getTotal())
+                ->setIntitule($fdb->getTypeExpense())
+                ->setSolde($lastSolde - $total)
+                ->setFdb($fdb);
+
+            $caisse->setSoldedispo($solde - $total);
+            $fdb->setStatus(Status::CONVERT);
+            $bonCaisse->setStatus(Status::CONVERT);
+
+            $active = $journeeRepository->activeJournee();
+            $active->setCredit($amount + $active->getCredit())
+                ->setSolde($active->getDebit() - $active->getCredit());
+
+            // Ajout des entités à persister
             $entityManager->persist($bonCaisse);
+            $entityManager->persist($caisse);
+            $entityManager->persist($journalCaisse);
+            $entityManager->persist($active);
             $entityManager->persist($fdb);
+
             $entityManager->flush();
 
             flash()
@@ -445,11 +480,10 @@ class FdbController extends AbstractController
                     'timeout' => 5000, // 3 seconds
                     'position' => 'bottom-right',
                 ])
-                ->success('Bon de caisse enregistré avec succès.');
+                ->success('Bon de caisse décaissé avec succès.');
 
-            // Redirection vers la vue show du bon de caisse
-            return $this->redirectToRoute('bon_caisse_show', [
-                'uuid' => $bonCaisse->getUuid()
+            return $this->redirectToRoute('fdb_show', [
+                'id' => $fdb->getId()
             ], Response::HTTP_SEE_OTHER);
         }
 
@@ -457,6 +491,8 @@ class FdbController extends AbstractController
         return $this->render('bon_caisse/new.html.twig', [
             'form' => $form->createView(),
             'fdb' => $fdb,
+            'bonCaisse' => $bonCaisse,
+            'operation_type' => 'decaissement',
         ]);
     }
 

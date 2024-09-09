@@ -86,9 +86,9 @@ class CaisseController extends AbstractController
                 ])
                 ->success('Caisse modifiée avec succès !');
 
-//            flash()->success('Caisse modifiée avec succès !');
             return  $this->redirectToRoute('caisse_index');
         }
+
         return $this->render('caisse/edit.html.twig', [
             'form' => $form ,
         ]);
@@ -114,53 +114,6 @@ class CaisseController extends AbstractController
 
         return new JsonResponse($data);
 
-        /* if ($dateDebut && $dateFin) {
-             $fdbQuery = $fdbRepository->createQueryBuilder('fdb')
-                 ->where('fdb.date BETWEEN :date_debut AND :date_fin')
-                 ->andWhere('fdb.status = :status')
-                 ->setParameter('date_debut', $dateDebut)
-                 ->setParameter('date_fin', $dateFin)
-                     ->setParameter('status', Status::CONVERT)
-                 ->getQuery()
-                 ->getResult();
-
-             foreach ($fdbQuery as $fdb) {
-                 $mouvements[] = [
-                     'date' => $fdb->getDate(),
-                     'nature' => $fdb->getTypeExpense(),
-                     'libelle' => $fdb->getExpense(),
-                     'entree' => null,
-                     'sortie' => $fdb->getTotal(),
-                 ];
-                 $totalSortie += $fdb->getTotal();
-                 $solde -= $fdb->getTotal();
-             }
-
-             $bonapprovisionnementQuery = $bonapprovisionnementRepository->createQueryBuilder('ba')
-                 ->where('ba.date BETWEEN :date_debut AND :date_fin')
-                 ->andWhere('ba.status = :status')
-                 ->setParameter('date_debut', $dateDebut)
-                 ->setParameter('date_fin', $dateFin)
-                 ->setParameter('status', Status::CONVERT)
-                 ->getQuery()
-                 ->getResult();
-
-             foreach ($bonapprovisionnementQuery as $bonapprovisionnement) {
-                 $mouvements[] = [
-                     'date' => $bonapprovisionnement->getDate(),
-                     'nature' => 'Approvisionnement de la caisse',
-                     'libelle' => 'Approvisionnement de la caisse',
-                     'entree' => $bonapprovisionnement->getMontanttotal(),
-                     'sortie' => null,
-                 ];
-                 $totalEntree += $bonapprovisionnement->getMontanttotal();
-                 $solde += $bonapprovisionnement->getMontanttotal();
-             }
-
-             usort($mouvements, function ($a, $b) {
-                 return $a['date'] <=> $b['date'];
-             });
-         }*/
     }
 
 }

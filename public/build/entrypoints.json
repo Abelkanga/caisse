@@ -2,13 +2,13 @@
   "entrypoints": {
     "app": {
       "js": [
-        "/build/runtime.259d11f7.js",
-        "/build/68.8aea20c7.js",
-        "/build/app.e309a811.js"
+        "http://localhost:8080/build/runtime.js",
+        "http://localhost:8080/build/vendors-node_modules_inputmask_dist_inputmask_js-node_modules_datatables_net-bs4_css_dataTabl-42cfd6.js",
+        "http://localhost:8080/build/app.js"
       ],
       "css": [
-        "/build/68.8ba8fb7e.css",
-        "/build/app.4dc3eb1a.css"
+        "http://localhost:8080/build/vendors-node_modules_inputmask_dist_inputmask_js-node_modules_datatables_net-bs4_css_dataTabl-42cfd6.css",
+        "http://localhost:8080/build/app.css"
       ]
     }
   }

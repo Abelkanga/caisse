@@ -26,7 +26,9 @@ class BilletageType extends AbstractType
                     'data-id' => 10000,
                     'class' => 'text-right montant separator billet form-control form-control-sm',
                     'tabindex' => 1
-                ]
+                ],
+                'empty_data' => 0,
+                'data' => 0 // Valeur par défaut à 0
             ])
             ->add('b5000', IntegerType::class, [
                 'attr' => [
@@ -34,7 +36,9 @@ class BilletageType extends AbstractType
                     'data-id' => 5000,
                     'class' => 'text-right montant separator billet form-control form-control-sm',
                     'tabindex' => 2
-                ]
+                ],
+                'empty_data' => 0,
+                'data' => 0 // Valeur par défaut à 0
             ])
             ->add('b2000', IntegerType::class, [
                 'attr' => [
@@ -42,7 +46,9 @@ class BilletageType extends AbstractType
                     'data-id' => 2000,
                     'class' => 'text-right montant separator billet form-control form-control-sm',
                     'tabindex' => 3
-                ]
+                ],
+                'empty_data' => 0,
+                'data' => 0 // Valeur par défaut à 0
             ])
             ->add('b1000', IntegerType::class, [
                 'attr' => [
@@ -50,7 +56,9 @@ class BilletageType extends AbstractType
                     'data-id' => 1000,
                     'class' => 'text-right montant separator billet form-control form-control-sm',
                     'tabindex' => 4
-                ]
+                ],
+                'empty_data' => 0,
+                'data' => 0 // Valeur par défaut à 0
             ])
             ->add('b500', IntegerType::class, [
                 'attr' => [
@@ -58,7 +66,9 @@ class BilletageType extends AbstractType
                     'data-id' => 500,
                     'class' => 'text-right montant separator billet form-control form-control-sm',
                     'tabindex' => 5
-                ]
+                ],
+                'empty_data' => 0,
+                'data' => 0 // Valeur par défaut à 0
             ])
             ->add('m500', IntegerType::class, [
                 'attr' => [
@@ -66,7 +76,9 @@ class BilletageType extends AbstractType
                     'data-id' => 500,
                     'class' => 'text-right montant separator monnaie form-control form-control-sm',
                     'tabindex' => 6
-                ]
+                ],
+                'empty_data' => 0,
+                'data' => 0 // Valeur par défaut à 0
             ])
             ->add('m250', IntegerType::class, [
                 'attr' => [
@@ -74,7 +86,9 @@ class BilletageType extends AbstractType
                     'data-id' => 250,
                     'class' => 'text-right montant separator monnaie form-control form-control-sm',
                     'tabindex' => 7
-                ]
+                ],
+                'empty_data' => 0,
+                'data' => 0 // Valeur par défaut à 0
             ])
             ->add('m200', IntegerType::class, [
                 'attr' => [
@@ -82,7 +96,9 @@ class BilletageType extends AbstractType
                     'data-id' => 200,
                     'class' => 'text-right montant separator monnaie form-control form-control-sm',
                     'tabindex' => 8
-                ]
+                ],
+                'empty_data' => 0,
+                'data' => 0 // Valeur par défaut à 0
             ])
             ->add('m100', IntegerType::class, [
                 'attr' => [
@@ -90,7 +106,9 @@ class BilletageType extends AbstractType
                     'data-id' => 100,
                     'class' => 'text-right montant separator monnaie form-control form-control-sm',
                     'tabindex' => 9
-                ]
+                ],
+                'empty_data' => 0,
+                'data' => 0 // Valeur par défaut à 0
             ])
             ->add('m50', IntegerType::class, [
                 'attr' => [
@@ -98,7 +116,9 @@ class BilletageType extends AbstractType
                     'data-id' => 50,
                     'class' => 'text-right montant separator monnaie form-control form-control-sm',
                     'tabindex' => 10
-                ]
+                ],
+                'empty_data' => 0,
+                'data' => 0 // Valeur par défaut à 0
             ])
             ->add('m10', IntegerType::class, [
                 'attr' => [
@@ -106,7 +126,9 @@ class BilletageType extends AbstractType
                     'data-id' => 10,
                     'class' => 'text-right montant separator monnaie form-control form-control-sm',
                     'tabindex' => 11
-                ]
+                ],
+                'empty_data' => 0,
+                'data' => 0 // Valeur par défaut à 0
             ])
             ->add('m5', IntegerType::class, [
                 'attr' => [
@@ -114,7 +136,9 @@ class BilletageType extends AbstractType
                     'data-id' => 5,
                     'class' => 'text-right montant separator monnaie form-control form-control-sm',
                     'tabindex' => 12
-                ]
+                ],
+                'empty_data' => 0,
+                'data' => 0 // Valeur par défaut à 0
             ])
 
 
