@@ -2,8 +2,8 @@
   "build/app.css": "http://localhost:8080/build/app.css",
   "build/app.js": "http://localhost:8080/build/app.js",
   "build/runtime.js": "http://localhost:8080/build/runtime.js",
-  "build/vendors-node_modules_inputmask_dist_inputmask_js-node_modules_mini-css-extract-plugin_dist_hm-d055ba.css": "http://localhost:8080/build/vendors-node_modules_inputmask_dist_inputmask_js-node_modules_mini-css-extract-plugin_dist_hm-d055ba.css",
-  "build/vendors-node_modules_inputmask_dist_inputmask_js-node_modules_mini-css-extract-plugin_dist_hm-d055ba.js": "http://localhost:8080/build/vendors-node_modules_inputmask_dist_inputmask_js-node_modules_mini-css-extract-plugin_dist_hm-d055ba.js",
+  "build/vendors-node_modules_inputmask_dist_inputmask_js-node_modules_datatables_net-bs4_css_dataTabl-42cfd6.css": "http://localhost:8080/build/vendors-node_modules_inputmask_dist_inputmask_js-node_modules_datatables_net-bs4_css_dataTabl-42cfd6.css",
+  "build/vendors-node_modules_inputmask_dist_inputmask_js-node_modules_datatables_net-bs4_css_dataTabl-42cfd6.js": "http://localhost:8080/build/vendors-node_modules_inputmask_dist_inputmask_js-node_modules_datatables_net-bs4_css_dataTabl-42cfd6.js",
   "build/fonts/fa-solid-900.ttf": "http://localhost:8080/build/fonts/fa-solid-900.bacd5de6.ttf",
   "build/fonts/fa-brands-400.ttf": "http://localhost:8080/build/fonts/fa-brands-400.60127e35.ttf",
   "build/fonts/fa-solid-900.woff2": "http://localhost:8080/build/fonts/fa-solid-900.4d986b00.woff2",
@@ -16,13 +16,5 @@
   "build/fonts/open-iconic.otf": "http://localhost:8080/build/fonts/open-iconic.bff1e040.otf",
   "build/fonts/open-iconic.woff": "http://localhost:8080/build/fonts/open-iconic.42125a17.woff",
   "build/fonts/fa-v4compatibility.ttf": "http://localhost:8080/build/fonts/fa-v4compatibility.c8e090db.ttf",
-  "build/fonts/fa-v4compatibility.woff2": "http://localhost:8080/build/fonts/fa-v4compatibility.cf7f5903.woff2",
-  "build/vendors-node_modules_inputmask_dist_inputmask_js-node_modules_mini-css-extract-plugin_dist_hm-806705.css": "http://localhost:8080/build/vendors-node_modules_inputmask_dist_inputmask_js-node_modules_mini-css-extract-plugin_dist_hm-806705.css",
-  "build/vendors-node_modules_inputmask_dist_inputmask_js-node_modules_mini-css-extract-plugin_dist_hm-806705.js": "http://localhost:8080/build/vendors-node_modules_inputmask_dist_inputmask_js-node_modules_mini-css-extract-plugin_dist_hm-806705.js",
-  "build/vendors-node_modules_inputmask_dist_inputmask_js-node_modules_datatables_net-bs4_css_dataTabl-2aa9f3.css": "http://localhost:8080/build/vendors-node_modules_inputmask_dist_inputmask_js-node_modules_datatables_net-bs4_css_dataTabl-2aa9f3.css",
-  "build/vendors-node_modules_inputmask_dist_inputmask_js-node_modules_datatables_net-bs4_css_dataTabl-2aa9f3.js": "http://localhost:8080/build/vendors-node_modules_inputmask_dist_inputmask_js-node_modules_datatables_net-bs4_css_dataTabl-2aa9f3.js",
-  "build/vendors-node_modules_inputmask_dist_inputmask_js-node_modules_datatables_net-bs4_css_dataTabl-10d220.css": "http://localhost:8080/build/vendors-node_modules_inputmask_dist_inputmask_js-node_modules_datatables_net-bs4_css_dataTabl-10d220.css",
-  "build/vendors-node_modules_inputmask_dist_inputmask_js-node_modules_datatables_net-bs4_css_dataTabl-10d220.js": "http://localhost:8080/build/vendors-node_modules_inputmask_dist_inputmask_js-node_modules_datatables_net-bs4_css_dataTabl-10d220.js",
-  "build/vendors-node_modules_inputmask_dist_inputmask_js-node_modules_datatables_net-bs4_css_dataTabl-42cfd6.css": "http://localhost:8080/build/vendors-node_modules_inputmask_dist_inputmask_js-node_modules_datatables_net-bs4_css_dataTabl-42cfd6.css",
-  "build/vendors-node_modules_inputmask_dist_inputmask_js-node_modules_datatables_net-bs4_css_dataTabl-42cfd6.js": "http://localhost:8080/build/vendors-node_modules_inputmask_dist_inputmask_js-node_modules_datatables_net-bs4_css_dataTabl-42cfd6.js"
+  "build/fonts/fa-v4compatibility.woff2": "http://localhost:8080/build/fonts/fa-v4compatibility.cf7f5903.woff2"
 }
