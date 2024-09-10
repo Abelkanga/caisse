@@ -40,7 +40,7 @@ class UserType extends AbstractType
         if ($this->security->isGranted('ROLE_ADMIN') && !$options['is_editing_self']) {
             $builder->add('roles', ChoiceType::class, [
                 'choices' => [
-                    'Créer/Convertir Réçu de caisse et Bon de caisse' => 'ROLE_MANAGER',
+                    'Créer/Convertir Reçu de caisse et Bon de caisse' => 'ROLE_MANAGER',
                     'Approuver Fiche de besoin' => 'ROLE_MANAGER1',
                     'Valider Fiche de besoin' => 'ROLE_RESPONSABLE',
                     'Créer/Modifier Fiche de besoin' => 'ROLE_USER',
