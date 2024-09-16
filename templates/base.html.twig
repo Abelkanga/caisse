@@ -29,7 +29,6 @@
             }
 
 
-
             div.bg-soft-custom {
                 background-color: #232754;
                 color: #FFFFFF;
@@ -70,9 +69,9 @@
     </div>
     <![endif]-->
     <!-- .app-header -->
-        {% include 'partials/_header.html.twig' %}
-        <!-- .app-aside -->
-        {% include 'partials/_aside.html.twig' %}
+    {% include 'partials/_header.html.twig' %}
+    <!-- .app-aside -->
+    {% include 'partials/_aside.html.twig' %}
 
     <!-- /.app-aside -->
     <!-- .app-main -->
@@ -91,24 +90,24 @@
                 </div><!-- /.page-inner -->
             </div><!-- /.page -->
         </div><!-- .app-footer -->
-                <footer class="app-footer">
-                    <ul class="list-inline">
+        <footer class="app-footer">
+            <ul class="list-inline">
 
-                        <li class="list-inline-item">
-                            <a class="text-muted" href="#">Support</a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a class="text-muted" href="#">Help Center</a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a class="text-muted" href="#">Privacy</a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a class="text-muted" href="#">Terms of Service</a>
-                        </li>
-                    </ul>
-                    <div class="copyright"> Copyright © {{ 'now'| date('Y') }}. All right reserved.</div>
-                </footer><!-- /.app-footer -->
+                <li class="list-inline-item">
+                    <a class="text-muted" href="#">Support</a>
+                </li>
+                <li class="list-inline-item">
+                    <a class="text-muted" href="#">Help Center</a>
+                </li>
+                <li class="list-inline-item">
+                    <a class="text-muted" href="#">Privacy</a>
+                </li>
+                <li class="list-inline-item">
+                    <a class="text-muted" href="#">Terms of Service</a>
+                </li>
+            </ul>
+            <div class="copyright"> Copyright © {{ 'now'| date('Y') }}. All right reserved.</div>
+        </footer><!-- /.app-footer -->
         <!-- /.wrapper -->
     </main><!-- /.app-main -->
 
@@ -125,7 +124,7 @@
 {{ encore_entry_script_tags('app') }}
 
 
-{#<script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+{# <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
 <script>
     var pusher = new Pusher('your-app-key', {
         cluster: 'your-app-cluster',
@@ -136,7 +135,7 @@
     channel.bind('my-event', function(data) {
         alert('An event was triggered with message: ' + data.message);
     });
-</script>#}
+</script> #}
 
 
 <!-- BEGIN BASE JS -->
@@ -152,8 +151,72 @@
 </script>
 
 <script>
+    window.User = {
+        id: {{ app.user.id }};
+        let permissions = [];
+        {% for p in app.token.roleNames %}
+        permissions.push('{{ p }}')
+        {% endfor %}
 
+        const pusher = new Pusher('d1c1b712fda2bf24cba8', {
+            cluster: 'mt1'
+        });
+        const channel = pusher.subscribe('notify');
 
+        channel
+        .bind('event.notify', function (data) {
+            if (data) {
+                const {message, link, user_id, role, createdAt} = data;
+                if (User.id !== user_id && permissions.includes(role)) {
+                    toastr.info(`${message}`, null, {
+                        "closeButton": true,
+                        "preventDuplicates": false,
+                        "onclick": function () {
+                            window.location.href = link
+                        }
+                    })
+
+                    let $notification1 = $('#notification-body');
+                    let $notification = $notification1;
+                    let notificationCount = $notification1.children().length;
+                    if (!$notification.hasClass('dropdown-scroll has-scrollable') && notificationCount > 3) {
+                        $notification.addClass('dropdown-scroll has-scrollable')
+                    }
+                    if (notificationCount === 1) {
+                        $notification.empty();
+                    }
+                    if (!$('#header-notification').hasClass('has-notified')) {
+                        $('#header-notification').addClass('has-notified')
+                    }
+                    $notification.append(`
+                    <a href="${link}" class="dropdown-item unread">
+                        <div class="user-avatar">
+                        </div>
+                    <div class="dropdown-item-body">
+                        <p class="subject">Notification</p>
+                        <p class="text text-truncate">${message}</p>
+                        <span class="date">${moment(createdAt).fromNow()}</span>
+                    </div>
+                    </a>`)
+                }
+            }
+
+        })
+            .bind('notify-me', function (data) {
+                if (data) {
+                    const {message, user_id, link} = data;
+                    if (User.id !== user_id) {
+                        toastr.info(${message}, null, {
+                            "closeButton": true,
+                            "preventDuplicates": false,
+                            "onclick": function () {
+                                window.location.href = link
+                            },
+                            "timeOut": 0,
+                        })
+                    }
+                }
+            )
 
 </script>
 </body>

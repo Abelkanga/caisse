@@ -73,11 +73,18 @@ class Journee
     #[ORM\OneToOne(mappedBy: 'journee', cascade: ['persist', 'remove'])]
     private ?Billetage $billetage = null;
 
+    /**
+     * @var Collection<int, ApproCaisse>
+     */
+    #[ORM\OneToMany(targetEntity: ApproCaisse::class, mappedBy: 'journee')]
+    private Collection $approCaisses;
+
 
     public function __construct()
     {
         $this->bonapprovisionnements = new ArrayCollection();
         $this->fdbs = new ArrayCollection();
+        $this->approCaisses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -307,6 +314,36 @@ class Journee
         }
 
         $this->billetage = $billetage;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ApproCaisse>
+     */
+    public function getApproCaisses(): Collection
+    {
+        return $this->approCaisses;
+    }
+
+    public function addApproCaiss(ApproCaisse $approCaiss): static
+    {
+        if (!$this->approCaisses->contains($approCaiss)) {
+            $this->approCaisses->add($approCaiss);
+            $approCaiss->setJournee($this);
+        }
+
+        return $this;
+    }
+
+    public function removeApproCaiss(ApproCaisse $approCaiss): static
+    {
+        if ($this->approCaisses->removeElement($approCaiss)) {
+            // set the owning side to null (unless already changed)
+            if ($approCaiss->getJournee() === $this) {
+                $approCaiss->setJournee(null);
+            }
+        }
 
         return $this;
     }

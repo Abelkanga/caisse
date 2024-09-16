@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\Caisse;
 use App\Entity\Fdb;
+use App\Repository\ApproCaisseRepository;
 use App\Repository\BilletageRepository;
 use App\Repository\BonapprovisionnementRepository;
 use App\Repository\BonCaisseRepository;
@@ -15,7 +16,14 @@ use App\Repository\RecuCaisseRepository;
 class CaisseService
 {
     private FdbRepository $fdbRepository;
-    public function __construct(JournalCaisseRepository $journalCaisseRepository, FdbRepository $fdbRepository, BonapprovisionnementRepository $bonapprovisionnementRepository, BonCaisseRepository $bonCaisseRepository, RecuCaisseRepository $recuCaisseRepository, BilletageRepository $billetageRepository)
+    public function __construct(JournalCaisseRepository $journalCaisseRepository,
+                                FdbRepository $fdbRepository,
+                                BonapprovisionnementRepository $bonapprovisionnementRepository,
+                                BonCaisseRepository $bonCaisseRepository,
+                                RecuCaisseRepository $recuCaisseRepository,
+                                BilletageRepository $billetageRepository,
+                                ApproCaisseRepository $approCaisseRepository
+    )
     {
         $this->fdbRepository = $fdbRepository;
         $this->BonapprovisionnementRepository = $bonapprovisionnementRepository;
@@ -23,6 +31,7 @@ class CaisseService
         $this->RecuCaisseRepository = $recuCaisseRepository;
         $this->BilletageRepository = $billetageRepository;
         $this->JournalCaisseRepository = $journalCaisseRepository;
+        $this->ApproCaisseRepository = $approCaisseRepository;
     }
 
     public function refFdb(): string
@@ -31,6 +40,17 @@ class CaisseService
         $lastId++;
         $year = date_format(new \DateTime(),'Y');
         $suffix = 'N°OSC-FB/'.$year.'/';
+        $id = $this->countOp($lastId);
+        return $suffix.$id;
+
+    }
+
+    public function refApproCaisse(): string
+    {
+        $lastId = (int)$this->ApproCaisseRepository->findLastId() ?? 0;
+        $lastId++;
+        $year = date_format(new \DateTime(),'Y');
+        $suffix = 'N°OSC-APC/'.$year.'/';
         $id = $this->countOp($lastId);
         return $suffix.$id;
 

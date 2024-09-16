@@ -28,7 +28,7 @@ class BonapprovisionnementType extends AbstractType
             ->add('modepaie', ChoiceType::class, [
                 'choices'  => [
                     'Banque' => 'Banque',
-                    'Caisse' => 'Caisse',
+//                    'Caisse' => 'Caisse',
                     'Prêt' => 'Prêt',
                 ],
                 'placeholder' => 'Sélectionnez un moyen d\'approvisionnement',

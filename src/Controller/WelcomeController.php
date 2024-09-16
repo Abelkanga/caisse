@@ -42,7 +42,8 @@ class WelcomeController extends AbstractController
         $nbBonapprovisionnementConvertis = $bonapprovisionnementRepository->count(['status' => Status::CONVERT]);
 
         $nbCaisse = $caisseRepository->count([]);
-        $caisse = $caisseRepository->findOneBy([]);
+        $user = $this->getUser(); // Obtenir l'utilisateur connecté
+        $caisse = $user->getCaisse(); // Obtenir la caisse associée à l'utilisateur connecté
 
         // Calcul du solde de la caisse (s'il y a une caisse associée)
         $soldeCaisse = $caisse ? $caisse->getSoldedispo() : 0;

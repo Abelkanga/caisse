@@ -17,6 +17,7 @@ use App\Repository\JourneeRepository;
 use App\Service\CaisseService;
 use App\Utils\Status;
 use Doctrine\ORM\EntityManagerInterface;
+use Pusher\Pusher;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -125,8 +126,12 @@ class FdbController extends AbstractController
     }
 
     #[Route('/fdb/new', name: 'fdb_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, CaisseService $service): Response
+    public function new(Request $request,
+                        EntityManagerInterface $entityManager,
+                        CaisseService $service,
+                        JourneeRepository $journeeRepository): Response
     {
+        $activeJournee = $journeeRepository->activeJournee();
         $num_fdb = $service->refFdb();
         $fdb = (new Fdb())->setDate(new \DateTime())->setNumeroFicheBesoin($num_fdb)->setDestinataire('Konan Gwladys');
         $form = $this->createForm(FdbType::class, $fdb);
@@ -144,7 +149,10 @@ class FdbController extends AbstractController
                 $fdb->setStatus(Status::BROUILLON);
             }
 
-            $fdb->setUser($user);
+            $fdb
+                ->setUser($user)
+                ->setJournee($activeJournee)
+            ;
             foreach ($fdb->getDetails() as $detail) {
                 $detail->setFdb($fdb);
                 $entityManager->persist($detail);
@@ -219,8 +227,9 @@ class FdbController extends AbstractController
     }
 
     #[Route("/fdb/{id}/show", name:'fdb_show', methods: ['GET', 'POST'])]
-    public function show(Fdb $fdb, Request $request, EntityManagerInterface $entityManager, JourneeRepository $journeeRepository): Response
+    public function show(Fdb $fdb, Request $request, EntityManagerInterface $entityManager, JourneeRepository $journeeRepository, Pusher $pusher): Response
     {
+
 
         $total = 0;
         foreach ($fdb->getDetails() as $detail) {
@@ -249,6 +258,9 @@ class FdbController extends AbstractController
 
             $activeJournee = $journeeRepository->findOneBy(['caisse' => $caisse, 'active' => true]);
 
+
+
+
             if (!$activeJournee) {
                 // Aucune journée active n'est trouvée pour la caisse de l'utilisateur
                 flash()
@@ -269,6 +281,22 @@ class FdbController extends AbstractController
             if ($request->request->has('confirm_responsable') && ($this->isGranted('ROLE_RESPONSABLE') || $user->getIsTemporary())) {
                 $fdb->setStatus(Status::VALIDATED);
                 $entityManager->persist($fdb);
+
+                $data = [];
+                $notification = $notificationRepository->findOneBy(['document' => $fdb]);
+
+                if ($notification) {
+                    $data = [
+                        'id' => $notification->getId(),
+                        'link' => $notification->getLinkTo(),
+                        'message' => "Fiche de besoin validée.",
+                        'reference' => $notification->getDocument()->getReference(),
+                        'user_id' => $notification->getOwner()->getId()
+                    ];
+                    $pusher->trigger('notification', 'notify-me', $data);
+                }
+                $notification->setUnread(true);
+
                 $entityManager->flush();
 
                 flash()

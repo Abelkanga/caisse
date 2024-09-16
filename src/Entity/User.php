@@ -82,11 +82,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Billetage::class, mappedBy: 'user')]
     private Collection $billetages;
 
+    /**
+     * @var Collection<int, ApproCaisse>
+     */
+    #[ORM\OneToMany(targetEntity: ApproCaisse::class, mappedBy: 'user')]
+    private Collection $approCaisses;
+
     public function __construct()
     {
         $this->depenses = new ArrayCollection();
         $this->bonapprovisionnements = new ArrayCollection();
         $this->billetages = new ArrayCollection();
+        $this->approCaisses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -263,7 +270,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->isActive;
     }
 
-    public function setIsActive(?bool $isActive): static
+    public function setIsActive(?bool $isActive): self
     {
         $this->isActive = $isActive;
 
@@ -381,4 +388,34 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 //        $pseudo = iconv('UTF-8', 'ASCII//TRANSLIT', $pseudo);
 //        return $pseudo;
 //    }
+
+/**
+ * @return Collection<int, ApproCaisse>
+ */
+public function getApproCaisses(): Collection
+{
+    return $this->approCaisses;
+}
+
+public function addApproCaiss(ApproCaisse $approCaiss): static
+{
+    if (!$this->approCaisses->contains($approCaiss)) {
+        $this->approCaisses->add($approCaiss);
+        $approCaiss->setUser($this);
+    }
+
+    return $this;
+}
+
+public function removeApproCaiss(ApproCaisse $approCaiss): static
+{
+    if ($this->approCaisses->removeElement($approCaiss)) {
+        // set the owning side to null (unless already changed)
+        if ($approCaiss->getUser() === $this) {
+            $approCaiss->setUser(null);
+        }
+    }
+
+    return $this;
+}
 }

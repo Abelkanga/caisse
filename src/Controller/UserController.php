@@ -11,6 +11,7 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -99,23 +100,41 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/deactivate', name: 'app_user_deactivate', methods: ['POST'])]
-    public function deactivate(User $user, EntityManagerInterface $entityManager): Response
+//    #[Route('/{id}/deactivate', name: 'app_user_deactivate', methods: ['POST'])]
+//    public function deactivate(User $user, EntityManagerInterface $entityManager): Response
+//    {
+//        // Désactiver l'utilisateur en mettant `isActive` à false
+//        $user->setIsActive(false);
+//
+//        // Sauvegarder les modifications
+//        $entityManager->flush();
+//
+//        flash()
+//            ->options([
+//                'timeout' => 5000,
+//                'position' => 'bottom-right',
+//            ])
+//            ->success('Utilisateur désactivé avec succès.');
+//
+//        return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+//    }
+
+    #[Route('/user/enable/{id}', name: 'user_enable')]
+    public function enableUser(User $user, EntityManagerInterface $em): RedirectResponse
     {
-        // Désactiver l'utilisateur en mettant `isActive` à false
+        $user->setIsActive(true);
+        $em->flush();
+
+        return $this->redirectToRoute('app_user_index');
+    }
+
+    #[Route('/user/disable/{id}', name: 'user_disable')]
+    public function disableUser(User $user, EntityManagerInterface $em): RedirectResponse
+    {
         $user->setIsActive(false);
+        $em->flush();
 
-        // Sauvegarder les modifications
-        $entityManager->flush();
-
-        flash()
-            ->options([
-                'timeout' => 5000,
-                'position' => 'bottom-right',
-            ])
-            ->success('Utilisateur désactivé avec succès.');
-
-        return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_user_index');
     }
 
     #[Route('/update_password', name: 'app_user_update', methods: ['GET', 'POST'])]

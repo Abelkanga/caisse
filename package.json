@@ -50,6 +50,7 @@
     },
     "dependencies": {
         "jszip": "^3.10.1",
-        "pdfmake": "^0.2.10"
+        "pdfmake": "^0.2.10",
+        "pusher": "^5.2.0"
     }
 }

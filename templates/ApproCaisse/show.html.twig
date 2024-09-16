@@ -1,0 +1,100 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Approvisionnement caisse à caisse{% endblock %}
+
+{% block stylesheets %}
+
+    <style>
+        td{
+            font-size: 13px !important;
+        }
+
+        th{
+            font-size: 13px !important;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-sm-12">
+
+            <div class="card card-fluid">
+                <div class="card-header bg-soft-custom">
+                    <h6>Approvisionnement caisse {{ approCaisses.reference }}</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div
+                                class="col-sm-2">{# <img style="margin-left: -2em" src="{{ asset('assets/dist/img/ews.jpg') }}" alt=""> #}
+                        </div>
+
+                        <div
+                                class="col-sm-2">{# <img class="float-right" src="{{ asset('assets/dist/img/stib.jpg') }}" alt=""> #}
+                        </div>
+                    </div>
+                    <br>
+                    <fieldset>
+                        <legend>Information Approvisionnement caisse à caisse</legend>
+                        <table class="table table-sm bordered">
+                            <thead class="thead-light">
+                            <tr>
+                                <th class="text-center">Date</th>
+                                <th>Référence</th>
+                                <th class="text-right">Objet</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="text-center">{{ approCaisses.date ? approCaisses.date|date('d-m-Y') : ''  }}</td>
+                                <td class="align-middle">{{ approCaisses.reference }}</td>
+                                <td class="align-middle">{{ approCaisses.objet }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Détail Opération</legend>
+                        <table class="table table-sm bordered">
+                            <thead class="thead-light">
+                            <tr>
+                                <th class="text-center">Caisse à approvisionner</th>
+                                <th>Nom Caissier</th>
+                                <th class="text-right">Montant Total (F cfa)</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="align-middle">{{ approCaisses.caisse.intitule }}</td>
+                                <td class="align-middle">{{ approCaisses.caisse.user }}</td>
+                                <td class="text-right separator">{{ approCaisses.montant }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </fieldset>
+
+                    <form method="post" action="{{ path('app_approcaisse_show', {'id': approCaisses.id}) }}">
+                        <div class="card-footer">
+
+                            <div class="card-footer-content">
+                                {% if approCaisses.status != 'VALIDATED' %}
+                                    <form method="post" action="{{ path('app_approcaisse_decaisser', {id: approCaisses.id}) }}">
+                                        <button type="submit" class="btn btn-success float-right ml-2">Décaisser</button>
+                                    </form>
+                                {% endif %}
+
+                                <a href="{{ path('app_welcome') }}" class="btn btn-info float-right">
+                                    <i class="oi oi-home"></i> Retour
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

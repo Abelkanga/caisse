@@ -1,0 +1,48 @@
+<fieldset class="form-container">
+    <legend>Information Décaissement</legend>
+
+    <div class="row ">
+        <div class="col-4">
+            <div class="form-group">
+                <label for="date_etablissement">Date</label>
+                {{ form_widget(form.date, {'attr' : {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="col-4">
+            <div class="form-group">
+                <label for="reference">Référence</label>
+                {{ form_widget(form.reference, {'attr' : {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="col-4">
+            <div class="form-group">
+                <label for="modepaie">Objet<span class="text-danger">*</span></label>
+                {{ form_widget(form.objet, {'attr' : {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+    </div>
+</fieldset>
+
+<fieldset class="form-container">
+    <legend>Détail Décaissement</legend>
+    <div class="row">
+        <div class="col-4">
+            <div class="form-group">
+                <label for="emetteur">Caisse<span class="text-danger">*</span></label>
+                {{ form_widget(form.caisse, {'attr' : {'class': ' select2'}}) }}
+            </div>
+        </div>
+
+
+        <div class="col-4">
+            <div class="form-group">
+                <label for="montanttotal">Montant (F cfa)<span class="text-danger">*</span></label>
+                {{ form_widget(form.montant, {'attr' : {'class': 'form-control separator text-right'}}) }}
+            </div>
+        </div>
+    </div>
+
+</fieldset>

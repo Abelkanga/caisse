@@ -16,11 +16,15 @@
                 <div class="widget-content">
                     {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
                     {{ include('billetage/_form.html.twig') }}
-                    <div class="form-actions">
-                        <button class="btn btn-primary pull-right">Enregistrer</button>
-                        <a class="btn btn-info pull-right" style="color: white" href="{{ path('app_welcome') }}">Retour</a>
+                    <div class="form-actions d-flex justify-content-end">
+                        <button class="btn btn-primary">Modifier</button>
+                        <a class="btn btn-info ml-2" style="color: white" href="{{ path('app_welcome') }}">
+                            <i class="oi oi-home"></i> Retour
+                        </a>
                     </div>
                     {{ form_end(form) }}
+
+
                 </div>
             </div>
         </div>

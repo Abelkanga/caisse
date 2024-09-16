@@ -55,7 +55,6 @@ class RecuCaisseController extends AbstractController
 
                     $amount = $bonapprovisionnement->getMontanttotal();
 
-
                     $num_journalCaisse = $service->refJournalCaisse();
 
                     $lastSolde = $jcRepo->getLastSolde($caisse->getId());
@@ -69,9 +68,6 @@ class RecuCaisseController extends AbstractController
                     $journalCaisse->setSolde($lastSolde + $amount);
                     $journalCaisse->setBonapprovisionnement($bonapprovisionnement);
 
-
-
-//                $caisse = $caisse->first();
                     $solde = $caisse->getSoldedispo();
                     $montanttotal = $bonapprovisionnement->getMontanttotal();
                     $caisse->setSoldedispo($solde + $montanttotal);

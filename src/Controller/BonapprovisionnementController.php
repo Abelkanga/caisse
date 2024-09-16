@@ -59,7 +59,10 @@ class BonapprovisionnementController extends AbstractController
     }
 
     #[Route('/bonapprovisionnement/new', name: 'bonapprovisionnement_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, CaisseService $service, JourneeRepository $journeeRepository): Response
+    public function new(Request $request,
+                        EntityManagerInterface $entityManager,
+                        CaisseService $service,
+                        JourneeRepository $journeeRepository): Response
     {
         $activeJournee = $journeeRepository->activeJournee();
         if (!$activeJournee) {
@@ -90,6 +93,7 @@ class BonapprovisionnementController extends AbstractController
 
             $bonapprovisionnement
                 ->setUser($user)
+                ->setJournee($activeJournee)
                 ->setCaisse($caisse) // Associer la caisse
                 ->setStatus(Status::EN_ATTENTE);
 
@@ -121,12 +125,11 @@ class BonapprovisionnementController extends AbstractController
                 /** @var User $user */
                 $user = $this->getUser();
                 $caisse = $user->getCaisse();
-//                $caisse = $caisse->first();
+
                 $solde = $caisse->getSoldedispo();
                 $montanttotal = $bonapprovisionnement->getMontanttotal();
                 $caisse->setSoldedispo($solde + $montanttotal);
                 $bonapprovisionnement->setStatus(Status::CONVERT);
-
 
                 $recuCaisse = new RecuCaisse();
                 $recuCaisse->setStatus(Status::CONVERT);

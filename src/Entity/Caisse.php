@@ -19,6 +19,15 @@ class Caisse
     #[ORM\Column(length: 255)]
     private ?string $intitule = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $plafond = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $responsable = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $code = null;
+
     #[ORM\Column(type: Types::DECIMAL,precision: 10, scale: 2,nullable: true)]
     private ?string $Soldedispo = null;
 
@@ -27,6 +36,13 @@ class Caisse
      */
     #[ORM\OneToMany(targetEntity: Bonapprovisionnement::class, mappedBy: 'caisse')]
     private Collection $bonapprovisionnements;
+
+    /**
+     * @var Collection<int, Depense>
+     */
+    #[ORM\OneToMany(targetEntity: Depense::class, mappedBy: 'caisse')]
+    private Collection $depenses;
+
 
     /**
      * @var Collection<int, Fdb>
@@ -43,11 +59,39 @@ class Caisse
     #[ORM\OneToMany(targetEntity: RecuCaisse::class, mappedBy: 'caisse')]
     private Collection $recuCaisses;
 
+
+    /**
+     * @var Collection<int, BonCaisse>
+     */
+    #[ORM\OneToMany(targetEntity: BonCaisse::class, mappedBy: 'caisse')]
+    private Collection $bonCaisses;
+
+
     /**
      * @var Collection<int, JournalCaisse>
      */
     #[ORM\OneToMany(targetEntity: JournalCaisse::class, mappedBy: 'caisse')]
     private Collection $journalCaisses;
+
+    /**
+     * @var Collection<int, Billetage>
+     */
+    #[ORM\OneToMany(targetEntity: Billetage::class, mappedBy: 'caisse')]
+    private Collection $billetages;
+
+    /**
+     * @var Collection<int, Journee>
+     */
+    #[ORM\OneToMany(targetEntity: Journee::class, mappedBy: 'caisse')]
+    private Collection $journees;
+
+    /**
+     * @var Collection<int, ApproCaisse>
+     */
+    #[ORM\OneToMany(targetEntity: ApproCaisse::class, mappedBy: 'caisse')]
+    private Collection $approCaisses;
+
+
 
     public function __construct()
     {
@@ -59,6 +103,7 @@ class Caisse
         $this->billetages = new ArrayCollection();
         $this->recuCaisses = new ArrayCollection();
         $this->journalCaisses = new ArrayCollection();
+        $this->approCaisses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -404,6 +449,36 @@ class Caisse
             // set the owning side to null (unless already changed)
             if ($journalCaiss->getCaisse() === $this) {
                 $journalCaiss->setCaisse(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ApproCaisse>
+     */
+    public function getApproCaisses(): Collection
+    {
+        return $this->approCaisses;
+    }
+
+    public function addApproCaiss(ApproCaisse $approCaiss): static
+    {
+        if (!$this->approCaisses->contains($approCaiss)) {
+            $this->approCaisses->add($approCaiss);
+            $approCaiss->setCaisse($this);
+        }
+
+        return $this;
+    }
+
+    public function removeApproCaiss(ApproCaisse $approCaiss): static
+    {
+        if ($this->approCaisses->removeElement($approCaiss)) {
+            // set the owning side to null (unless already changed)
+            if ($approCaiss->getCaisse() === $this) {
+                $approCaiss->setCaisse(null);
             }
         }
 

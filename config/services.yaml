@@ -22,6 +22,13 @@ services:
     app.NumberToWords_service:
         class: App\Service\NumberToWordsService
 
+    Pusher\Pusher:
+        public: true
+        arguments:
+            - '%env(PUSHER_KEY)%'
+            - '%env(PUSHER_SECRET)%'
+            - '%env(PUSHER_API_ID)%'
+
     App\Service\PusherService:
         arguments:
             $pusherAppId: '%env(PUSHER_APP_ID)%'

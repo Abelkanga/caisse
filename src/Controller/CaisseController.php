@@ -20,7 +20,6 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/caisse')]
 class CaisseController extends AbstractController
 {
-
     private $entityManager;
 
     // Injecting the EntityManagerInterface
@@ -40,17 +39,14 @@ class CaisseController extends AbstractController
     #[Route('/new', name: 'caisse_new', methods:['GET','POST'])]
     public function new(Request $request, EntityManagerInterface $manager): Response
     {
+
+
         $caisse = new Caisse();
 
         $form = $this->createForm(CaisseType::class, $caisse);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user = $this->getUser(); // Récupère l'utilisateur actuellement connecté
-
-            // Associer la caisse à l'utilisateur actuel
-            $caisse->setUser($user);
-            $user->setCaisse($caisse); // Associer la caisse à l'utilisateur, si ce n'est pas déjà fait
 
             $manager->persist($caisse);
             $manager->flush();

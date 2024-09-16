@@ -39,8 +39,7 @@ class JourneeRepository extends ServiceEntityRepository
         $caisse = $this->getCaisse();
 
         if ($caisse === null) {
-            $this->addFlash('error', 'Vous n\'êtes associé à aucune caisse active.');
-            return $this->redirectToRoute('some_route_name');
+            return null; // Retourner null si aucune caisse n'est trouvée
         }
 
         return $this->qB($caisse, true)
@@ -48,6 +47,7 @@ class JourneeRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
+
 
     // Récupère la dernière journée fermée pour une caisse donnée
     public function lastJournee(Caisse $caisse): ?Journee
@@ -129,8 +129,7 @@ class JourneeRepository extends ServiceEntityRepository
             ->setParameter('caisse', $caisse)
             ->setParameter('active', $isActive);
     }
-
-
+    
     private function getCaisse(): ?Caisse
     {
         /** @var User $user */
