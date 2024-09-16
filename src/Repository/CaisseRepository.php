@@ -40,4 +40,13 @@ class CaisseRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    public function findLastId()
+    {
+        return $this->createQueryBuilder('c')
+            ->select('MAX(c.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
 }

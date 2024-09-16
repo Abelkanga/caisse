@@ -9,6 +9,7 @@ use App\Repository\CaisseRepository;
 use App\Repository\DepenseRepository;
 use App\Repository\FdbRepository;
 use App\Repository\JournalCaisseRepository;
+use App\Service\CaisseService;
 use App\Utils\Status;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -37,11 +38,13 @@ class CaisseController extends AbstractController
     }
 
     #[Route('/new', name: 'caisse_new', methods:['GET','POST'])]
-    public function new(Request $request, EntityManagerInterface $manager): Response
+    public function new(Request $request, EntityManagerInterface $manager, CaisseService $service,): Response
     {
 
 
-        $caisse = new Caisse();
+        $code_caisse = $service->refCaisse();
+
+        $caisse = (new Caisse())->setCode($code_caisse);
 
         $form = $this->createForm(CaisseType::class, $caisse);
         $form->handleRequest($request);

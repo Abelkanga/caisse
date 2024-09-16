@@ -8,6 +8,7 @@ use App\Repository\ApproCaisseRepository;
 use App\Repository\BilletageRepository;
 use App\Repository\BonapprovisionnementRepository;
 use App\Repository\BonCaisseRepository;
+use App\Repository\CaisseRepository;
 use App\Repository\DepenseRepository;
 use App\Repository\FdbRepository;
 use App\Repository\JournalCaisseRepository;
@@ -22,7 +23,8 @@ class CaisseService
                                 BonCaisseRepository $bonCaisseRepository,
                                 RecuCaisseRepository $recuCaisseRepository,
                                 BilletageRepository $billetageRepository,
-                                ApproCaisseRepository $approCaisseRepository
+                                ApproCaisseRepository $approCaisseRepository,
+                                CaisseRepository $caisseRepository
     )
     {
         $this->fdbRepository = $fdbRepository;
@@ -32,6 +34,7 @@ class CaisseService
         $this->BilletageRepository = $billetageRepository;
         $this->JournalCaisseRepository = $journalCaisseRepository;
         $this->ApproCaisseRepository = $approCaisseRepository;
+        $this->CaisseRepository = $caisseRepository;
     }
 
     public function refFdb(): string
@@ -43,6 +46,18 @@ class CaisseService
         $id = $this->countOp($lastId);
         return $suffix.$id;
 
+    }
+
+    public function refCaisse(): string
+    {
+        // Récupère le dernier ID ou 0 si aucun ID trouvé
+        $lastId = (int)($this->CaisseRepository->findLastId() ?? 0);
+
+        // Incrémente l'ID
+        $lastId++;
+
+        // Formate l'ID en 3 chiffres avec le préfixe 'C'
+        return 'C'.str_pad($lastId, 3, '0', STR_PAD_LEFT);
     }
 
     public function refApproCaisse(): string
