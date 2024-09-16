@@ -4,10 +4,14 @@ namespace App\Form;
 
 use App\Entity\ApproCaisse;
 use App\Entity\Caisse;
+use App\Entity\User;
 use App\Repository\CaisseRepository;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -15,8 +19,25 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
 class ApproCaisseType extends AbstractType
 {
+
+    private Security $security;
+
+    public function __construct(Security $security)
+    {
+        $this->security = $security;
+    }
+
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+
+        // Obtenir l'utilisateur connecté
+        /** @var User $user */
+        $user = $this->security->getUser();
+
+        // Obtenir la caisse de l'utilisateur connecté
+        $caissePrincipale = $user->getCaisse();
+
         $builder
             ->add('date', DateType::class, [
                 'widget' => 'single_text',
@@ -26,15 +47,27 @@ class ApproCaisseType extends AbstractType
             ->add('montant', NumberType::class)
             ->add('objet', TextType::class)
             ->add('reference', TextType::class)
-            ->add('caisse', EntityType::class, [
+
+            // Caisse émettrice : Prérenseigner avec la caisse de l'utilisateur connecté
+            ->add('caisseEmettrice', EntityType::class, [
                 'class' => Caisse::class,
-                'placeholder' => 'Sélectionnez une caisse',
-                'required' => false,
-                'query_builder' => function (CaisseRepository $caisseRepository) {
-                    // Filtrer les caisses dont l'ID est supérieur à 1
-                    return $caisseRepository->createQueryBuilder('c')
-                        ->where('c.id > 1');
+                'choice_label' => 'intitule',
+//                'disabled' => true,  // Désactivé car c'est la caisse de l'utilisateur connecté
+                'data' => $caissePrincipale,  // Prérempli avec la caisse de l'utilisateur connecté
+                'placeholder' => false,
+            ])
+
+            // Caisse réceptrice : Afficher seulement les caisses autres que celle de l'utilisateur
+            ->add('caisseReceptrice', EntityType::class, [
+                'class' => Caisse::class,
+                'choice_label' => 'intitule',
+                'query_builder' => function (EntityRepository $er) use ($caissePrincipale) {
+                    // Exclure la caisse principale de la liste des caisses réceptrices
+                    return $er->createQueryBuilder('c')
+                        ->where('c != :caissePrincipale')
+                        ->setParameter('caissePrincipale', $caissePrincipale);
                 },
+                'placeholder' => 'Sélectionnez la caisse réceptrice',
             ]);
 
     }

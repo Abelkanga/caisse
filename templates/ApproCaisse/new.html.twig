@@ -4,7 +4,7 @@
 
 {% block body %}
     <div class="col-12">
-        {{ form_start(form) }}
+        {{ form_start(form, {'attr': {'id': 'appro-caisse-form'}}) }}
         <div class="card card-fluid">
             <div class="card-header bg-soft-custom">
                 <h6>Approvisionner une caisse</h6>
@@ -14,12 +14,50 @@
             </div>
             <div class="card-footer">
                 <div class="card-footer-content">
-                    <button type="submit" class="btn btn-primary float-right ml-2">Enregistrer</button>
+                    <!-- Bouton pour afficher le modal -->
+                    <button type="button" class="btn btn-primary float-right ml-2" data-toggle="modal" data-target="#modalValidation">
+                        Enregistrer
+                    </button>
                     <a href="{{ path('app_approcaisse_index') }}" class="btn btn-info float-right"><i class="oi oi-home"></i> Retour</a>
                 </div>
             </div>
         </div>
         {{ form_end(form) }}
     </div>
-{% endblock %}
 
+    <!-- Modal de confirmation -->
+    <!-- Modal de confirmation -->
+    <div id="modalValidation" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalValidationLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-secondary">
+                    <h5 class="modal-title text-dark" id="modalValidationLabel">
+                        <span class="uil uil-question-circle"></span>
+                        Confirmation de décaissement {{ approCaisse.reference }}
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body font-size-14">
+                    Confirmer l'approvisionnement vers une autre caisse
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light font-weight-medium" data-dismiss="modal">NON</button>
+                    <!-- Remplacer par un vrai bouton submit -->
+                    <button type="submit" class="btn btn-outline-success font-weight-medium" form="appro-caisse-form">
+                        OUI
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('confirm-button').addEventListener('click', function () {
+            // Soumettre le formulaire après confirmation
+            document.getElementById('appro-caisse-form').submit();
+        });
+    </script>
+
+{% endblock %}

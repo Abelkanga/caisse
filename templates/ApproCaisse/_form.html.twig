@@ -31,18 +31,23 @@
     <div class="row">
         <div class="col-4">
             <div class="form-group">
-                <label for="emetteur">Caisse<span class="text-danger">*</span></label>
-                {{ form_widget(form.caisse, {'attr' : {'class': ' select2'}}) }}
+                <label for="caisseEmettrice">Caisse Émettrice<span class="text-danger">*</span></label>
+                {{ form_widget(form.caisseEmettrice, {'attr' : {'class': ' select2'}}) }}
             </div>
         </div>
-
 
         <div class="col-4">
             <div class="form-group">
-                <label for="montanttotal">Montant (F cfa)<span class="text-danger">*</span></label>
-                {{ form_widget(form.montant, {'attr' : {'class': 'form-control separator text-right'}}) }}
+                <label for="caisseReceptrice">Caisse Réceptrice<span class="text-danger">*</span></label>
+                {{ form_widget(form.caisseReceptrice, {'attr' : {'class': ' select2'}}) }}
+            </div>
+        </div>
+
+        <div class="col-4">
+            <div class="form-group">
+                <label for="montant">Montant (F CFA)<span class="text-danger">*</span></label>
+                {{ form_widget(form.montant, {'attr' : {'class': 'form-control separator'}}) }}
             </div>
         </div>
     </div>
-
 </fieldset>

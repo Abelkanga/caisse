@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ApproCaisseRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
@@ -28,8 +30,15 @@ class ApproCaisse
     #[ORM\ManyToOne(inversedBy: 'approCaisses')]
     private ?Journee $journee = null;
 
-    #[ORM\ManyToOne(inversedBy: 'approCaisses')]
-    private ?Caisse $caisse = null;
+    // Nouvelle relation pour la caisse émettrice (caisse qui envoie l'argent)
+    #[ORM\ManyToOne(targetEntity: Caisse::class, inversedBy: 'approCaissesEmettrices')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Caisse $caisseEmettrice = null;
+
+    // Nouvelle relation pour la caisse réceptrice (caisse qui reçoit l'argent)
+    #[ORM\ManyToOne(targetEntity: Caisse::class, inversedBy: 'approCaissesReceptrices')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Caisse $caisseReceptrice = null;
 
     #[ORM\ManyToOne(inversedBy: 'approCaisses')]
     private ?User $user = null;
@@ -42,6 +51,17 @@ class ApproCaisse
 
     #[ORM\Column(type: 'uuid')]
     private ?Uuid $uuid = null;
+
+    /**
+     * @var Collection<int, JournalCaisse>
+     */
+    #[ORM\OneToMany(targetEntity: JournalCaisse::class, mappedBy: 'approCaisse')]
+    private Collection $journalCaisse;
+
+    public function __construct()
+    {
+        $this->journalCaisse = new ArrayCollection();
+    }
 
 
     public function getId(): ?int
@@ -97,15 +117,25 @@ class ApproCaisse
         return $this;
     }
 
-    public function getCaisse(): ?Caisse
+    public function getCaisseEmettrice(): ?Caisse
     {
-        return $this->caisse;
+        return $this->caisseEmettrice;
     }
 
-    public function setCaisse(?Caisse $caisse): static
+    public function setCaisseEmettrice(?Caisse $caisseEmettrice): self
     {
-        $this->caisse = $caisse;
+        $this->caisseEmettrice = $caisseEmettrice;
+        return $this;
+    }
 
+    public function getCaisseReceptrice(): ?Caisse
+    {
+        return $this->caisseReceptrice;
+    }
+
+    public function setCaisseReceptrice(?Caisse $caisseReceptrice): self
+    {
+        $this->caisseReceptrice = $caisseReceptrice;
         return $this;
     }
 
@@ -154,6 +184,36 @@ class ApproCaisse
     public function setUuid(): static
     {
         $this->uuid = Uuid::v4();
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, JournalCaisse>
+     */
+    public function getJournalCaisse(): Collection
+    {
+        return $this->journalCaisse;
+    }
+
+    public function addJournalCaisse(JournalCaisse $journalCaisse): static
+    {
+        if (!$this->journalCaisse->contains($journalCaisse)) {
+            $this->journalCaisse->add($journalCaisse);
+            $journalCaisse->setApproCaisse($this);
+        }
+
+        return $this;
+    }
+
+    public function removeJournalCaisse(JournalCaisse $journalCaisse): static
+    {
+        if ($this->journalCaisse->removeElement($journalCaisse)) {
+            // set the owning side to null (unless already changed)
+            if ($journalCaisse->getApproCaisse() === $this) {
+                $journalCaisse->setApproCaisse(null);
+            }
+        }
 
         return $this;
     }

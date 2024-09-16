@@ -86,11 +86,16 @@ class Caisse
     private Collection $journees;
 
     /**
-     * @var Collection<int, ApproCaisse>
+     * @var Collection<int, ApproCaisse> Approvisionnements envoyés
      */
-    #[ORM\OneToMany(targetEntity: ApproCaisse::class, mappedBy: 'caisse')]
-    private Collection $approCaisses;
+    #[ORM\OneToMany(targetEntity: ApproCaisse::class, mappedBy: 'caisseEmettrice')]
+    private Collection $approCaissesEmettrices;
 
+    /**
+     * @var Collection<int, ApproCaisse> Approvisionnements reçus
+     */
+    #[ORM\OneToMany(targetEntity: ApproCaisse::class, mappedBy: 'caisseReceptrice')]
+    private Collection $approCaissesReceptrices;
 
 
     public function __construct()
@@ -103,7 +108,8 @@ class Caisse
         $this->billetages = new ArrayCollection();
         $this->recuCaisses = new ArrayCollection();
         $this->journalCaisses = new ArrayCollection();
-        $this->approCaisses = new ArrayCollection();
+        $this->approCaissesEmettrices = new ArrayCollection();
+        $this->approCaissesReceptrices = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -455,30 +461,54 @@ class Caisse
         return $this;
     }
 
-    /**
-     * @return Collection<int, ApproCaisse>
-     */
-    public function getApproCaisses(): Collection
+    public function getApproCaissesEmettrices(): Collection
     {
-        return $this->approCaisses;
+        return $this->approCaissesEmettrices;
     }
 
-    public function addApproCaiss(ApproCaisse $approCaiss): static
+    public function addApproCaissesEmettrice(ApproCaisse $approCaisse): self
     {
-        if (!$this->approCaisses->contains($approCaiss)) {
-            $this->approCaisses->add($approCaiss);
-            $approCaiss->setCaisse($this);
+        if (!$this->approCaissesEmettrices->contains($approCaisse)) {
+            $this->approCaissesEmettrices[] = $approCaisse;
+            $approCaisse->setCaisseEmettrice($this);
         }
 
         return $this;
     }
 
-    public function removeApproCaiss(ApproCaisse $approCaiss): static
+    public function removeApproCaissesEmettrice(ApproCaisse $approCaisse): self
     {
-        if ($this->approCaisses->removeElement($approCaiss)) {
+        if ($this->approCaissesEmettrices->removeElement($approCaisse)) {
             // set the owning side to null (unless already changed)
-            if ($approCaiss->getCaisse() === $this) {
-                $approCaiss->setCaisse(null);
+            if ($approCaisse->getCaisseEmettrice() === $this) {
+                $approCaisse->setCaisseEmettrice(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getApproCaissesReceptrices(): Collection
+    {
+        return $this->approCaissesReceptrices;
+    }
+
+    public function addApproCaissesReceptrice(ApproCaisse $approCaisse): self
+    {
+        if (!$this->approCaissesReceptrices->contains($approCaisse)) {
+            $this->approCaissesReceptrices[] = $approCaisse;
+            $approCaisse->setCaisseReceptrice($this);
+        }
+
+        return $this;
+    }
+
+    public function removeApproCaissesReceptrice(ApproCaisse $approCaisse): self
+    {
+        if ($this->approCaissesReceptrices->removeElement($approCaisse)) {
+            // set the owning side to null (unless already changed)
+            if ($approCaisse->getCaisseReceptrice() === $this) {
+                $approCaisse->setCaisseReceptrice(null);
             }
         }
 

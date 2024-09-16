@@ -59,6 +59,9 @@ class JournalCaisse
     #[ORM\ManyToOne(inversedBy: 'journalCaisses')]
     private ?BonCaisse $bonCaisse = null;
 
+    #[ORM\ManyToOne(inversedBy: 'journalCaisse')]
+    private ?ApproCaisse $approCaisse = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -237,6 +240,18 @@ class JournalCaisse
     public function __toString(): string
     {
         return $this->intitule;
+    }
+
+    public function getApproCaisse(): ?ApproCaisse
+    {
+        return $this->approCaisse;
+    }
+
+    public function setApproCaisse(?ApproCaisse $approCaisse): static
+    {
+        $this->approCaisse = $approCaisse;
+
+        return $this;
     }
 
 }
