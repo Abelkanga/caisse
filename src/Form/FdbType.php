@@ -40,10 +40,10 @@ class FdbType extends AbstractType
             ->add('numero_fiche_besoin', TextType::class, [
                 'required' => true, 'empty_data' => ''
             ])
-            ->add('emeteur', EntityType::class, [
-                'class' => Emeteur::class,
-                'placeholder' => 'Sélectionnez un émetteur', 'required' => false
-            ])
+//            ->add('emeteur', EntityType::class, [
+//                'class' => Emeteur::class,
+//                'placeholder' => 'Sélectionnez un émetteur', 'required' => false
+//            ])
             ->add('destinataire', TextType::class, [
                 'attr' => [
                     'readonly' => false
