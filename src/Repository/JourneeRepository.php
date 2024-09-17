@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\ApproCaisse;
 use App\Entity\Bonapprovisionnement;
 use App\Entity\Caisse;
 use App\Entity\Fdb;
@@ -85,6 +86,18 @@ class JourneeRepository extends ServiceEntityRepository
             ->select('f')
             ->from(Fdb::class, 'f')
             ->where('f.journee = :journee')
+            ->setParameter('journee', $journee)
+            ->getQuery()
+            ->getResult();
+    }
+
+    // Récupère les approvisionnements caisse à caisse pour une journée donnée
+    public function getApproCaisseForJournee(Journee $journee): array
+    {
+        return $this->createQueryBuilder('j')
+            ->select('ap')
+            ->from(ApproCaisse::class, 'ap')
+            ->where('ap.journee = :journee')
             ->setParameter('journee', $journee)
             ->getQuery()
             ->getResult();
