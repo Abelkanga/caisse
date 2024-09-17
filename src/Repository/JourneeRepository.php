@@ -92,16 +92,16 @@ class JourneeRepository extends ServiceEntityRepository
     }
 
     // Récupère les approvisionnements caisse à caisse pour une journée donnée
-    public function getApproCaisseForJournee(Journee $journee): array
-    {
-        return $this->createQueryBuilder('j')
-            ->select('ap')
-            ->from(ApproCaisse::class, 'ap')
-            ->where('ap.journee = :journee')
-            ->setParameter('journee', $journee)
-            ->getQuery()
-            ->getResult();
-    }
+//    public function getApproCaisseForJournee(Journee $journee): array
+//    {
+//        return $this->createQueryBuilder('j')
+//            ->select('ap')
+//            ->from(ApproCaisse::class, 'ap')
+//            ->where('ap.journee = :journee')
+//            ->setParameter('journee', $journee)
+//            ->getQuery()
+//            ->getResult();
+//    }
 
     public function findActiveJourneeByCaisse(Caisse $caisse): ?Journee
     {
