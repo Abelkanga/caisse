@@ -24,25 +24,25 @@
 	<!-- .menu-item -->
 </li>
 <li class="menu-header">DECAISSEMENT</li>
-<li class="menu-item has-child">
+{#<li class="menu-item has-child">#}
 
-	<a href="#" class="menu-link">
-		<span class="fa-solid fa-wallet p-2"></span>
+{#	<a href="#" class="menu-link">#}
+{#		<span class="fa-solid fa-wallet p-2"></span>#}
 
-		<span class="menu-text">Caisse à caisse</span>
-	</a>
-	<!-- child menu -->
-	<ul class="menu">
+{#		<span class="menu-text">Caisse à caisse</span>#}
+{#	</a>#}
+{#	<!-- child menu -->#}
+{#	<ul class="menu">#}
 
-		<li class="menu-item {{ app.request.get('_route') == 'app_approcaisse_new' ? 'has-active': '' }}">
-			<a href="{{ path('app_approcaisse_new') }}" class="menu-link">Approvisionner</a>
-		</li>
-		<li class="menu-item {{ app.request.get('_route') == 'app_approcaisse_index' ? 'has-active': '' }}">
-			<a href="{{ path('app_approcaisse_index') }}" class="menu-link">Liste</a>
-		</li>
+{#		<li class="menu-item {{ app.request.get('_route') == 'app_approcaisse_new' ? 'has-active': '' }}">#}
+{#			<a href="{{ path('app_approcaisse_new') }}" class="menu-link">Approvisionner</a>#}
+{#		</li>#}
+{#		<li class="menu-item {{ app.request.get('_route') == 'app_approcaisse_index' ? 'has-active': '' }}">#}
+{#			<a href="{{ path('app_approcaisse_index') }}" class="menu-link">Liste</a>#}
+{#		</li>#}
 
-	</ul>
-</li>
+{#	</ul>#}
+{#</li>#}
 
 <li class="menu-item has-child">
 	<a href="#" class="menu-link">
