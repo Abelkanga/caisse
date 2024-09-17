@@ -66,24 +66,24 @@
 </li>
 
 
-{#<li class="menu-header">JOURNAL DE CAISSE</li>#}
-{#<li class="menu-item has-child">#}
-{#	<a href="#" class="menu-link">#}
-{#		<span class="oi oi-document p-1"></span>#}
+<li class="menu-header">JOURNAL DE CAISSE</li>
+<li class="menu-item has-child">
+	<a href="#" class="menu-link">
+		<span class="oi oi-document p-1"></span>
 
-{#		<span class="menu-text">Etat de caisse</span>#}
-{#	</a>#}
-{#	<!-- child menu -->#}
-{#	<ul class="menu">#}
-{#		<li class="menu-item {{ app.request.get('_route') == 'app_etat_caisse' ? 'has-active': '' }}">#}
-{#			<a href="{{ path('app_reporting_journal_caisse') }}" class="menu-link">Consulter</a>#}
-{#		</li>#}
+		<span class="menu-text">Etat de caisse</span>
+	</a>
+	<!-- child menu -->
+	<ul class="menu">
+		<li class="menu-item {{ app.request.get('_route') == 'app_etat_caisse' ? 'has-active': '' }}">
+			<a href="{{ path('app_reporting_journal_caisse') }}" class="menu-link">Consulter</a>
+		</li>
 
 
-{#	</ul>#}
-{#	<!-- /child menu -->#}
-{#	<!-- .menu-item -->#}
-{#</li>#}
+	</ul>
+	<!-- /child menu -->
+	<!-- .menu-item -->
+</li>
 
 
 <li class="menu-header">FERMETURE</li>
