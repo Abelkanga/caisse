@@ -151,72 +151,72 @@
 </script>
 
 <script>
-    window.User = {
-        id: {{ app.user.id }};
-        let permissions = [];
-        {% for p in app.token.roleNames %}
-        permissions.push('{{ p }}')
-        {% endfor %}
+    {#window.User = {#}
+    {#    id: {{ app.user.id }};#}
+    {#    let permissions = [];#}
+    {#    {% for p in app.token.roleNames %}#}
+    {#    permissions.push('{{ p }}')#}
+    {#    {% endfor %}#}
 
-        const pusher = new Pusher('d1c1b712fda2bf24cba8', {
-            cluster: 'mt1'
-        });
-        const channel = pusher.subscribe('notify');
+    {#    const pusher = new Pusher('d1c1b712fda2bf24cba8', {#}
+    {#        cluster: 'mt1'#}
+    {#    });#}
+    {#    const channel = pusher.subscribe('notify');#}
 
-        channel
-        .bind('event.notify', function (data) {
-            if (data) {
-                const {message, link, user_id, role, createdAt} = data;
-                if (User.id !== user_id && permissions.includes(role)) {
-                    toastr.info(`${message}`, null, {
-                        "closeButton": true,
-                        "preventDuplicates": false,
-                        "onclick": function () {
-                            window.location.href = link
-                        }
-                    })
+    {#    channel#}
+    {#    .bind('event.notify', function (data) {#}
+    {#        if (data) {#}
+    {#            const {message, link, user_id, role, createdAt} = data;#}
+    {#            if (User.id !== user_id && permissions.includes(role)) {#}
+    {#                toastr.info(`${message}`, null, {#}
+    {#                    "closeButton": true,#}
+    {#                    "preventDuplicates": false,#}
+    {#                    "onclick": function () {#}
+    {#                        window.location.href = link#}
+    {#                    }#}
+    {#                })#}
 
-                    let $notification1 = $('#notification-body');
-                    let $notification = $notification1;
-                    let notificationCount = $notification1.children().length;
-                    if (!$notification.hasClass('dropdown-scroll has-scrollable') && notificationCount > 3) {
-                        $notification.addClass('dropdown-scroll has-scrollable')
-                    }
-                    if (notificationCount === 1) {
-                        $notification.empty();
-                    }
-                    if (!$('#header-notification').hasClass('has-notified')) {
-                        $('#header-notification').addClass('has-notified')
-                    }
-                    $notification.append(`
-                    <a href="${link}" class="dropdown-item unread">
-                        <div class="user-avatar">
-                        </div>
-                    <div class="dropdown-item-body">
-                        <p class="subject">Notification</p>
-                        <p class="text text-truncate">${message}</p>
-                        <span class="date">${moment(createdAt).fromNow()}</span>
-                    </div>
-                    </a>`)
-                }
-            }
+    {#                let $notification1 = $('#notification-body');#}
+    {#                let $notification = $notification1;#}
+    {#                let notificationCount = $notification1.children().length;#}
+    {#                if (!$notification.hasClass('dropdown-scroll has-scrollable') && notificationCount > 3) {#}
+    {#                    $notification.addClass('dropdown-scroll has-scrollable')#}
+    {#                }#}
+    {#                if (notificationCount === 1) {#}
+    {#                    $notification.empty();#}
+    {#                }#}
+    {#                if (!$('#header-notification').hasClass('has-notified')) {#}
+    {#                    $('#header-notification').addClass('has-notified')#}
+    {#                }#}
+    {#                $notification.append(`#}
+    {#                <a href="${link}" class="dropdown-item unread">#}
+    {#                    <div class="user-avatar">#}
+    {#                    </div>#}
+    {#                <div class="dropdown-item-body">#}
+    {#                    <p class="subject">Notification</p>#}
+    {#                    <p class="text text-truncate">${message}</p>#}
+    {#                    <span class="date">${moment(createdAt).fromNow()}</span>#}
+    {#                </div>#}
+    {#                </a>`)#}
+    {#            }#}
+    {#        }#}
 
-        })
-            .bind('notify-me', function (data) {
-                if (data) {
-                    const {message, user_id, link} = data;
-                    if (User.id !== user_id) {
-                        toastr.info(${message}, null, {
-                            "closeButton": true,
-                            "preventDuplicates": false,
-                            "onclick": function () {
-                                window.location.href = link
-                            },
-                            "timeOut": 0,
-                        })
-                    }
-                }
-            )
+    {#    })#}
+    {#        .bind('notify-me', function (data) {#}
+    {#            if (data) {#}
+    {#                const {message, user_id, link} = data;#}
+    {#                if (User.id !== user_id) {#}
+    {#                    toastr.info(${message}, null, {#}
+    {#                        "closeButton": true,#}
+    {#                        "preventDuplicates": false,#}
+    {#                        "onclick": function () {#}
+    {#                            window.location.href = link#}
+    {#                        },#}
+    {#                        "timeOut": 0,#}
+    {#                    })#}
+    {#                }#}
+    {#            }#}
+    {#        )#}
 
 </script>
 </body>
