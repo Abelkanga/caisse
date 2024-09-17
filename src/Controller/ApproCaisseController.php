@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Form\ApproCaisseType;
 use App\Repository\ApproCaisseRepository;
 use App\Repository\CaisseRepository;
+use App\Repository\JourneeRepository;
 use App\Service\CaisseService;
 use App\Utils\Status;
 use Doctrine\ORM\EntityManagerInterface;
@@ -69,8 +70,21 @@ class ApproCaisseController extends AbstractController
     public function new(Request $request,
                         EntityManagerInterface $manager,
                         CaisseRepository $caisseRepository,
-                        CaisseService $service): Response
+                        CaisseService $service,
+                        JourneeRepository $journeeRepository): Response
     {
+
+        $activeJournee = $journeeRepository->activeJournee();
+        if (!$activeJournee) {
+            flash()
+                ->options([
+                    'timeout' => 5000,
+                    'position' => 'bottom-right',
+                ])
+                ->error('Vous devez ouvrir la caisse avant d\'approvisionner une autre caisse.');
+            return $this->redirectToRoute('app_comptability_caisse_journee_open');
+        }
+
         $num_approCaisse = $service->refApproCaisse();
         $approCaisse = (new ApproCaisse())
             ->setDate(new \DateTime())
@@ -83,6 +97,7 @@ class ApproCaisseController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var User $user */
             $user = $this->getUser();
+            $caisse = $user->getCaisse();
 
             // Récupérer les caisses et le montant
             $caisseEmettrice = $approCaisse->getCaisseEmettrice();
@@ -134,7 +149,12 @@ class ApproCaisseController extends AbstractController
             $caisseReceptrice->setSoldedispo($caisseReceptrice->getSoldedispo() + $montant);
 
             // Associer l'utilisateur et le statut à l'ApproCaisse
-            $approCaisse->setUser($user)->setStatus(Status::VALIDATED);
+            $approCaisse
+                ->setUser($user)
+                ->setStatus(Status::VALIDATED)
+                ->setJournee($activeJournee)
+                ->setCaisseEmettrice($caisseEmettrice)
+            ;
 
             // Persister les changements
             $manager->persist($caisseEmettrice);
