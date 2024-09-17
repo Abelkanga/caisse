@@ -282,20 +282,20 @@ class FdbController extends AbstractController
                 $fdb->setStatus(Status::VALIDATED);
                 $entityManager->persist($fdb);
 
-                $data = [];
-                $notification = $notificationRepository->findOneBy(['document' => $fdb]);
+//                $data = [];
+//                $notification = $notificationRepository->findOneBy(['document' => $fdb]);
 
-                if ($notification) {
-                    $data = [
-                        'id' => $notification->getId(),
-                        'link' => $notification->getLinkTo(),
-                        'message' => "Fiche de besoin validée.",
-                        'reference' => $notification->getDocument()->getReference(),
-                        'user_id' => $notification->getOwner()->getId()
-                    ];
-                    $pusher->trigger('notification', 'notify-me', $data);
-                }
-                $notification->setUnread(true);
+//                if ($notification) {
+//                    $data = [
+//                        'id' => $notification->getId(),
+//                        'link' => $notification->getLinkTo(),
+//                        'message' => "Fiche de besoin validée.",
+//                        'reference' => $notification->getDocument()->getReference(),
+//                        'user_id' => $notification->getOwner()->getId()
+//                    ];
+//                    $pusher->trigger('notification', 'notify-me', $data);
+//                }
+//                $notification->setUnread(true);
 
                 $entityManager->flush();
 
