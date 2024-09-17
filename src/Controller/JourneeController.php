@@ -57,7 +57,7 @@ class JourneeController extends AbstractController
         $fdb = $journeeRepository->getFdbForJournee($activeJournee);
 
         // Récupération des approvisionnements caisse à caisse du jour
-//        $approCaisse = $journeeRepository->getApproCaisseForJournee($activeJournee);
+        $approCaisse = $journeeRepository->getApproCaisseForJournee($activeJournee);
 
         return $this->render('welcome/index.html.twig', [
             'last_journee' => $lastday,
@@ -66,7 +66,7 @@ class JourneeController extends AbstractController
             'bonapprovisionnements' => $bonapprovisionnements,
             'bonapprovisionnement' => $bonapprovisionnements,
             'fdb' => $fdb,
-//            'approCaisse' => $approCaisse,
+            'approCaisse' => $approCaisse,
         ]);
     }
 
