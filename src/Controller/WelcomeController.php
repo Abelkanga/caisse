@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\ApproCaisseRepository;
 use App\Repository\UserRepository;
 use App\Repository\FdbRepository;
 use App\Repository\BonapprovisionnementRepository;
@@ -18,7 +19,8 @@ class WelcomeController extends AbstractController
         UserRepository $userRepository,
         FdbRepository $fdbRepository,
         BonapprovisionnementRepository $bonapprovisionnementRepository,
-        CaisseRepository $caisseRepository
+        CaisseRepository $caisseRepository,
+        ApproCaisseRepository $approCaisseRepository
     ): Response {
 
         $nbUser = $userRepository->count([]);
@@ -30,7 +32,6 @@ class WelcomeController extends AbstractController
         $nbUsers = $userRepository->countByRole('ROLE_USER');
         $nbImpression = $userRepository->countByRole('ROLE_IMPRESSION');
 
-
         $nbFdb = $fdbRepository->count([]);
         // Nombre de fiches approuvées (en attente de conversion)
         $nbFdbApprouvees = $fdbRepository->count(['status' => Status::APPROUVED]);
@@ -40,6 +41,8 @@ class WelcomeController extends AbstractController
         $nbBonapprovisionnement = $bonapprovisionnementRepository->count([]);
         // Nombre de bons d'approvisionnement convertis
         $nbBonapprovisionnementConvertis = $bonapprovisionnementRepository->count(['status' => Status::CONVERT]);
+
+        $nbApproCaisse = $approCaisseRepository->count([]);
 
         $nbCaisse = $caisseRepository->count([]);
         $user = $this->getUser(); // Obtenir l'utilisateur connecté
@@ -62,6 +65,7 @@ class WelcomeController extends AbstractController
             'nbResponsables' => $nbResponsables,
             'nbUsers' => $nbUsers,
             'nbImpression' => $nbImpression,
+            'nbApproCaisse' => $nbApproCaisse,
         ]);
     }
 }
