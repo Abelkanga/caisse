@@ -227,7 +227,12 @@ class FdbController extends AbstractController
     }
 
     #[Route("/fdb/{id}/show", name:'fdb_show', methods: ['GET', 'POST'])]
-    public function show(Fdb $fdb, Request $request, EntityManagerInterface $entityManager, JourneeRepository $journeeRepository, Pusher $pusher): Response
+    public function show(Fdb $fdb,
+                         Request $request,
+                         EntityManagerInterface $entityManager,
+                         JourneeRepository $journeeRepository,
+//                         Pusher $pusher
+    ): Response
     {
 
 

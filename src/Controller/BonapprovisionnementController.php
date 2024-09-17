@@ -116,7 +116,6 @@ class BonapprovisionnementController extends AbstractController
         ]);
     }
 
-
     #[Route('/bonapprovisionnement/{id}/show', name: 'bonapprovisionnement_show', methods: ['GET', 'POST'])]
     public function show(Bonapprovisionnement $bonapprovisionnement, Request $request, EntityManagerInterface $entityManager): Response
     {
