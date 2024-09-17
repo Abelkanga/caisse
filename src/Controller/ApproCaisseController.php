@@ -28,43 +28,6 @@ class ApproCaisseController extends AbstractController
         ]);
     }
 
-//    #[Route('/new', name: 'app_approcaisse_new', methods:['GET','POST'])]
-//    public function new(Request $request, EntityManagerInterface $manager, CaisseService $service): Response
-//    {
-//        $num_approCaisse = $service->refApproCaisse();
-//
-//        $approCaisse = (new ApproCaisse())->setDate(new \DateTime())->setReference($num_approCaisse)->setObjet('Approvisionnement de caisse à caisse');
-//
-//        $form = $this->createForm(ApproCaisseType::class, $approCaisse);
-//        $form->handleRequest($request);
-//
-//        if ($form->isSubmitted() && $form->isValid()) {
-//            /** @var User $user */
-//            $user = $this->getUser();
-//
-//            $approCaisse
-//                ->setUser($user)
-//                ->setStatus(Status::EN_ATTENTE);
-//
-//
-//            $manager->persist($approCaisse);
-//            $manager->flush();
-//
-//            flash()
-//                ->options([
-//                    'timeout' => 5000,
-//                    'position' => 'bottom-right',
-//                ])
-//                ->success('Approvisionnement caisse créée avec succès !');
-//
-//            return $this->redirectToRoute('app_approcaisse_index');
-//        }
-//
-//        return $this->render('ApproCaisse/new.html.twig', [
-//            'form' => $form->createView(),
-//            'approCaisse' => $approCaisse,
-//        ]);
-//    }
 
     #[Route('/new', name: 'app_approcaisse_new', methods:['GET','POST'])]
     public function new(Request $request,
@@ -104,11 +67,6 @@ class ApproCaisseController extends AbstractController
             $caisseReceptrice = $approCaisse->getCaisseReceptrice();
             $montant = $approCaisse->getMontant();
 
-            // Vérifier les fonds de la caisse émettrice
-//            if ($caisseEmettrice->getSoldedispo() < $montant) {
-//                flash()->error('Fonds insuffisants dans la caisse émettrice.');
-//                return $this->redirectToRoute('app_approcaisse_new');
-//            }
 
             // Vérifier que la caisse émettrice est bien définie
             $caisseEmettrice = $approCaisse->getCaisseEmettrice();
@@ -191,5 +149,13 @@ class ApproCaisseController extends AbstractController
             'approCaisses' => $approCaisse,
         ]);
 
+    }
+
+    #[Route('/{id}/print', name: 'print_approCaisse', methods: ['GET'])]
+    public function print(ApproCaisse $approCaisse ): Response
+    {
+        return $this->render('ApproCaisse/print.html.twig', [
+            'approCaisses' => $approCaisse,
+        ]);
     }
 }

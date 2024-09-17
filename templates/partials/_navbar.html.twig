@@ -58,7 +58,7 @@
 	<!-- child menu -->
 	<ul class="menu">
 		<li class="menu-item {{ app.request.get('_route') == 'fdb_approuve' ? 'has-active': '' }}">
-			<a href="{{ path('fdb_approuve') }}" class="menu-link">Liste validée</a>
+			<a href="{{ path('fdb_approuve') }}" class="menu-link">Fiche de besoin converties</a>
 		</li>
 
 	</ul>
@@ -70,16 +70,27 @@
 	<a href="#" class="menu-link">
 		<span class="fa-solid fa-hand-holding-usd p-2"></span>
 
-		<span class="menu-text">Réçu de caisse</span>
+		<span class="menu-text">Reçu de caisse</span>
 	</a>
 	<!-- child menu -->
 	<ul class="menu">
 
 		<li class="menu-item {{ app.request.get('_route') == 'bonapprovisionnement_index' ? 'has-active': '' }}">
-			<a href="{{ path('bonapprovisionnement_index') }}" class="menu-link">Liste validée</a>
+			<a href="{{ path('bonapprovisionnement_index') }}" class="menu-link">Bons convertis</a>
+		</li>
+
+		<li class="menu-item {{ app.request.get('_route') == 'app_approcaisse_index' ? 'has-active': '' }}">
+			<a href="{{ path('app_approcaisse_index') }}" class="menu-link">Approvisionnement caisse à caisse</a>
 		</li>
 
 	</ul>
+
+	<!-- /child menu -->
+	<!-- .menu-item -->
+</li>
+
+
+
 	{% endif %}
 	{% if is_granted('ROLE_MANAGER1') %}
 <li class="menu-header">APPROBATION</li>

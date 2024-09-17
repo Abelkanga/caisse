@@ -85,8 +85,12 @@
 
                             <div class="card-footer-content">
 
-                                <a href="{{ path('app_welcome') }}" class="btn btn-info float-right">
+                                <a href="{{ path('app_welcome') }}" class="btn btn-info float-right ml-2">
                                     <i class="oi oi-home"></i> Retour
+                                </a>
+
+                                <a target="_blank" href="{{ path('print_approCaisse', {'id': approCaisses.id}) }}" class="btn btn-primary float-right ml-2">
+                                    <i class="fa fa-print"></i> Imprimer reçu de caisse
                                 </a>
                             </div>
                         </div>

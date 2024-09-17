@@ -1,0 +1,116 @@
+{% extends 'imprimer.html.twig' %}
+
+{% block body %}
+    <style>
+        .receipt-container {
+            margin: 20px;
+            font-family: Arial, sans-serif;
+        }
+        .header img {
+            margin: 20px 0;
+        }
+        .header p {
+            margin: 0;
+            font-size: 14px;
+        }
+        .title-box {
+            margin: 20px 0;
+            padding: 10px;
+            border: 1px solid black;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        fieldset {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        legend {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .table th, .table td {
+            padding: 5px;
+        }
+        .separator {
+            text-align: right;
+        }
+    </style>
+
+    <div class="receipt-container">
+        <div class="header text-center">
+            <img src="{{ asset('images/offset.png') }}" alt="Offset Consulting" style="max-width: 170px;">
+            <p><b><i>Cabinet Offset Consulting</i></b></p>
+            <p><b><i>Audit et Conseil en Organisation Management</i></b></p>
+            <p><b><i>08 BP 2941 Abidjan 08, République de Côte d'Ivoire</i></b></p>
+            <p><b><i>Tél: (225) 27 22 01 59 71  Cél: (225) 07 78 63 63 06</i></b></p>
+            <p><b><i>Email: info@offset-consulting.com</i></b></p>
+            <p><b><i>www.offset-consulting.com</i></b></p>
+        </div>
+
+        <div class="title-box">
+            RECU DE CAISSE
+        </div>
+
+        <fieldset>
+            <legend>Information approvisionnement de caisse</legend>
+            <table class="table table-sm bordered">
+                <thead class="thead-light">
+                <tr>
+                    <th class="text-center">Date</th>
+                    <th>Référence</th>
+                    <th class="text-right">Objet</th>
+                    <th class="text-right">Caisse emettrice</th>
+                    <th class="text-right">Nom Caissier</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="text-center">{{ approCaisses.date ? approCaisses.date|date('d-m-Y') : ''  }}</td>
+                    <td class="align-middle">{{ approCaisses.reference }}</td>
+                    <td class="align-middle">{{ approCaisses.objet }}</td>
+                    <td class="align-middle">{{ approCaisses.caisseEmettrice }}</td>
+                    <td class="align-middle">{{ approCaisses.caisseEmettrice.user }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </fieldset>
+
+        <fieldset>
+            <legend>Détail reçu de caisse</legend>
+            <table class="table table-sm bordered">
+                <thead class="thead-light">
+                <tr>
+                    <th class="text-center">Caisse receptrice</th>
+                    <th>Nom Caissier</th>
+                    <th class="text-right">Montant Total (F cfa)</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="align-middle">{{ approCaisses.caisseReceptrice.intitule }}</td>
+                    <td class="align-middle">{{ approCaisses.caisseReceptrice.user }}</td>
+                    <td class="text-right separator">{{ approCaisses.montant }}</td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="row approved-by text-center">
+                <div class="col-4">
+                    <p>Approbation :</p>
+                    <p>__________________</p>
+                </div>
+                <div class="col-4">
+                    <p>Caisse Emettrice:</p>
+                    <p>__________________</p>
+                </div>
+                <div class="col-4">
+                    <p>Caisse Receptrice :</p>
+                    <p>__________________</p>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+{% endblock %}
