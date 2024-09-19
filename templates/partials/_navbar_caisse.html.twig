@@ -11,39 +11,48 @@
 			<a href="{{ path('bonapprovisionnement_new') }}" class="menu-link">Créer un bon</a>
 		</li>
 		<li class="menu-item {{ app.request.get('_route') == 'bonapprovisionnement_index' ? 'has-active': '' }}">
-			<a href="{{ path('bonapprovisionnement_index') }}" class="menu-link">Liste</a>
+			<a href="{{ path('bonapprovisionnement_index') }}" class="menu-link">Liste des bons</a>
 		</li>
 
+		{% if app.user and app.user.caisse and app.user.caisse.code == 'C002' %}
+			<li class="menu-item {{ app.request.get('_route') == 'app_approcaisse_reception' ? 'has-active': '' }}">
+				<a href="{{ path('app_approcaisse_reception') }}" class="menu-link">Liste des encaissements</a>
+			</li>
+		{% endif %}
 
-{#		<hr>#}
-{#		<li class="menu-item {{ app.request.get('_route') == 'billetage_form' ? 'has-active': '' }}">#}
-{#			<a href="{{ path('billetage_inventaire_create') }}" class="menu-link">Inventaire de caisse</a>#}
-{#		</li>#}
+
+		{#		<hr>#}
+		{#		<li class="menu-item {{ app.request.get('_route') == 'billetage_form' ? 'has-active': '' }}">#}
+		{#			<a href="{{ path('billetage_inventaire_create') }}" class="menu-link">Inventaire de caisse</a>#}
+		{#		</li>#}
 	</ul>
 	<!-- /child menu -->
 	<!-- .menu-item -->
 </li>
 <li class="menu-header">DECAISSEMENT</li>
-<li class="menu-item has-child">
 
-	<a href="#" class="menu-link">
-		<span class="fa-solid fa-wallet p-2"></span>
+{% if app.user and app.user.caisse and app.user.caisse.code == 'C001' %}
+	<li class="menu-item has-child">
 
-		<span class="menu-text">Caisse à caisse</span>
-	</a>
-	<!-- child menu -->
-	<ul class="menu">
+		<a href="#" class="menu-link">
+			<span class="fa-solid fa-wallet p-2"></span>
 
-		<li class="menu-item {{ app.request.get('_route') == 'app_approcaisse_new' ? 'has-active': '' }}">
-			<a href="{{ path('app_approcaisse_new') }}" class="menu-link">Approvisionner</a>
-		</li>
-		<li class="menu-item {{ app.request.get('_route') == 'app_approcaisse_index' ? 'has-active': '' }}">
-			<a href="{{ path('app_approcaisse_index') }}" class="menu-link">Liste</a>
-		</li>
+			<span class="menu-text">Caisse à caisse</span>
+		</a>
+		<!-- child menu -->
+		<ul class="menu">
 
-	</ul>
-</li>
+			<li class="menu-item {{ app.request.get('_route') == 'app_approcaisse_new' ? 'has-active': '' }}">
+				<a href="{{ path('app_approcaisse_new') }}" class="menu-link">Approvisionner</a>
+			</li>
+			<li class="menu-item {{ app.request.get('_route') == 'app_approcaisse_index' ? 'has-active': '' }}">
+				<a href="{{ path('app_approcaisse_index') }}" class="menu-link">Liste</a>
+			</li>
 
+		</ul>
+	</li>
+{% endif %}
+{% if app.user and app.user.caisse and app.user.caisse.code == 'C002' %}
 <li class="menu-item has-child">
 	<a href="#" class="menu-link">
 		<span class="fa-solid fa-wallet p-2"></span>
@@ -64,26 +73,26 @@
 	<!-- /child menu -->
 	<!-- .menu-item -->
 </li>
+{% endif %}
+
+<li class="menu-header">JOURNAL DE CAISSE</li>
+<li class="menu-item has-child">
+	<a href="#" class="menu-link">
+		<span class="oi oi-document p-1"></span>
+
+		<span class="menu-text">Etat de caisse</span>
+	</a>
+	<!-- child menu -->
+	<ul class="menu">
+		<li class="menu-item {{ app.request.get('_route') == 'app_etat_caisse' ? 'has-active': '' }}">
+			<a href="{{ path('app_reporting_journal_caisse') }}" class="menu-link">Consulter</a>
+		</li>
 
 
-{#<li class="menu-header">JOURNAL DE CAISSE</li>#}
-{#<li class="menu-item has-child">#}
-{#	<a href="#" class="menu-link">#}
-{#		<span class="oi oi-document p-1"></span>#}
-
-{#		<span class="menu-text">Etat de caisse</span>#}
-{#	</a>#}
-{#	<!-- child menu -->#}
-{#	<ul class="menu">#}
-{#		<li class="menu-item {{ app.request.get('_route') == 'app_etat_caisse' ? 'has-active': '' }}">#}
-{#			<a href="{{ path('app_reporting_journal_caisse') }}" class="menu-link">Consulter</a>#}
-{#		</li>#}
-
-
-{#	</ul>#}
-{#	<!-- /child menu -->#}
-{#	<!-- .menu-item -->#}
-{#</li>#}
+	</ul>
+	<!-- /child menu -->
+	<!-- .menu-item -->
+</li>
 
 
 <li class="menu-header">FERMETURE</li>

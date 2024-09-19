@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Caisse;
 use App\Entity\Fdb;
 use App\Entity\User;
 use App\Utils\Status;
@@ -112,21 +113,58 @@ class FdbRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findFdbApprouvedByUserRole(User $user): array
+//    public function findFdbApprouvedByUserRole(User $user): array
+//    {
+//        $qb = $this->createQueryBuilder('f')
+//            ->andWhere('f.status = :status')
+//            ->setParameter('status', Status::APPROUVED);
+//
+//        if (in_array('ROLE_USER', $user->getRoles())) {
+//            $qb->andWhere('f.user = :user')
+//                ->setParameter('user', $user);
+//        }
+//
+//        return $qb->orderBy('f.date', 'DESC')
+//            ->getQuery()
+//            ->getResult();
+//    }
+//
+//    public function findFdbApprouvedByCaisse(Caisse $caisse)
+//    {
+//        return $this->createQueryBuilder('f')
+//            ->where('f.status = :status')
+//            ->andWhere('f.caisse = :caisse')
+//            ->setParameter('status', 'approuvé')  // Assurez-vous que le statut correspond bien à 'approuvé'
+//            ->setParameter('caisse', $caisse)
+//            ->getQuery()
+//            ->getResult();
+//    }
+
+    public function findFdbApprouvedByUserRoleAndCaisse(User $user): array
     {
         $qb = $this->createQueryBuilder('f')
             ->andWhere('f.status = :status')
             ->setParameter('status', Status::APPROUVED);
 
+        // Si l'utilisateur a le rôle 'ROLE_USER', on filtre par l'utilisateur
         if (in_array('ROLE_USER', $user->getRoles())) {
             $qb->andWhere('f.user = :user')
                 ->setParameter('user', $user);
+        } else {
+            // Sinon, on filtre par la caisse associée à l'utilisateur
+            $caisse = $user->getCaisse();
+
+            if ($caisse) {
+                $qb->andWhere('f.caisse = :caisse')
+                    ->setParameter('caisse', $caisse);
+            }
         }
 
         return $qb->orderBy('f.date', 'DESC')
             ->getQuery()
             ->getResult();
     }
+
 
     public function findFdbPending(): array
     {

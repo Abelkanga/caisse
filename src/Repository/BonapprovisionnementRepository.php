@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Bonapprovisionnement;
+use App\Entity\Caisse;
 use App\Utils\Status;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -65,5 +66,15 @@ class BonapprovisionnementRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleScalarResult();
     }
+
+    public function findByCaisse(Caisse $caisse)
+    {
+        return $this->createQueryBuilder('b')
+            ->where('b.caisse = :caisse')
+            ->setParameter('caisse', $caisse)
+            ->getQuery()
+            ->getResult();
+    }
+
 
 }

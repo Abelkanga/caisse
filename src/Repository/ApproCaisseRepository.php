@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\ApproCaisse;
+use App\Entity\Caisse;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -48,5 +49,25 @@ class ApproCaisseRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleScalarResult();
     }
+
+    public function findByCaisseEmettrice(Caisse $caisse)
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.caisseEmettrice = :caisse')
+            ->setParameter('caisse', $caisse)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findByCaisseReceptrice(Caisse $caisse)
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.caisseReceptrice = :caisse')
+            ->setParameter('caisse', $caisse)
+            ->orderBy('a.date', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
 
 }

@@ -107,6 +107,7 @@ class JourneeController extends AbstractController
             ->setIntitule('Solde de caisse au '.$journee->getStartedAt()->format('d/m/Y'))
             ->setEntree($caisse->getSoldedispo() ?? 0)
             ->setSolde($caisse->getSoldedispo() ?? 0)
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setDate(new \DateTime());
 
         $form = $this->createForm(OpenType::class, $journee);
@@ -116,7 +117,6 @@ class JourneeController extends AbstractController
             $manager->persist($journee);
             $manager->persist($journalCaisse);
             $manager->flush();
-
 
 
             flash()

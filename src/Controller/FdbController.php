@@ -11,6 +11,7 @@ use App\Entity\User;
 use App\Form\BonCaisseType;
 use App\Form\FdbType;
 use App\Repository\BonCaisseRepository;
+use App\Repository\CaisseRepository;
 use App\Repository\FdbRepository;
 use App\Repository\JournalCaisseRepository;
 use App\Repository\JourneeRepository;
@@ -103,12 +104,47 @@ class FdbController extends AbstractController
         ]);
     }
 
+//    #[Route('/fdb/approuved', name: 'fdb_approuved', methods:['GET'])]
+//    public function index_approuved(FdbRepository $fdbRepository): Response
+//    {
+//        /** @var User $user */
+//        $user = $this->getUser();
+//        $fdb = $fdbRepository->findFdbApprouvedByUserRole($user);
+//
+//        return $this->render('fdb/index.html.twig', [
+//            'fdb' => $fdb
+//        ]);
+//    }
+//
+//    #[Route('/fdb/approuved', name: 'fdb_approuved', methods:['GET'])]
+//    public function index_approuved(FdbRepository $fdbRepository): Response
+//    {
+//        /** @var User $user */
+//        $user = $this->getUser();
+//        $caisse = $user->getCaisse();
+//
+//        if (!$caisse) {
+//            flash()->error('Aucune caisse associée à l\'utilisateur.');
+//            return $this->redirectToRoute('app_welcome');
+//        }
+//
+//        // Récupérer les fiches de besoin approuvées pour la caisse de l'utilisateur connecté
+//        $fdb = $fdbRepository->findFdbApprouvedByCaisse($caisse);
+//
+//        return $this->render('fdb/index.html.twig', [
+//            'fdb' => $fdb
+//        ]);
+//    }
+
+
     #[Route('/fdb/approuved', name: 'fdb_approuved', methods:['GET'])]
     public function index_approuved(FdbRepository $fdbRepository): Response
     {
         /** @var User $user */
         $user = $this->getUser();
-        $fdb = $fdbRepository->findFdbApprouvedByUserRole($user);
+
+        // Récupérer les fiches de besoin approuvées en fonction du rôle de l'utilisateur et de la caisse
+        $fdb = $fdbRepository->findFdbApprouvedByUserRoleAndCaisse($user);
 
         return $this->render('fdb/index.html.twig', [
             'fdb' => $fdb
@@ -128,12 +164,31 @@ class FdbController extends AbstractController
     #[Route('/fdb/new', name: 'fdb_new', methods: ['GET', 'POST'])]
     public function new(Request $request,
                         EntityManagerInterface $entityManager,
+                        CaisseRepository $caisseRepository,
                         CaisseService $service,
                         JourneeRepository $journeeRepository): Response
     {
         $activeJournee = $journeeRepository->activeJournee();
         $num_fdb = $service->refFdb();
-        $fdb = (new Fdb())->setDate(new \DateTime())->setNumeroFicheBesoin($num_fdb)->setDestinataire('Konan Gwladys');
+
+        // Créer une nouvelle fiche de besoin
+        $fdb = (new Fdb())
+            ->setDate(new \DateTime())
+            ->setNumeroFicheBesoin($num_fdb)
+            ->setDestinataire('Konan Gwladys');
+
+        // Récupérer la caisse secondaire
+        $caisseSecondaire = $caisseRepository->findOneBy(['code' => 'C002']);
+
+        // Vérifier que la caisse secondaire existe
+        if (!$caisseSecondaire) {
+            flash()->error('Caisse secondaire non trouvée.');
+            return $this->redirectToRoute('fdb_new');
+        }
+
+        // Assigner la caisse secondaire à la fiche de besoin
+        $fdb->setCaisse($caisseSecondaire);
+
         $form = $this->createForm(FdbType::class, $fdb);
         $form->handleRequest($request);
 
@@ -142,22 +197,21 @@ class FdbController extends AbstractController
             $user = $this->getUser();
             $roles = $user->getRoles();
 
-            // ROLE_RESPONSABLE crée directement EN_ATTENTE
+            // Assigner les statuts selon les rôles
             if (in_array('ROLE_RESPONSABLE', $roles)) {
                 $fdb->setStatus(Status::EN_ATTENTE);
             } else {
                 $fdb->setStatus(Status::BROUILLON);
             }
 
-            $fdb
-                ->setUser($user)
-                ->setJournee($activeJournee)
-            ;
+            $fdb->setUser($user)->setJournee($activeJournee);
+
             foreach ($fdb->getDetails() as $detail) {
                 $detail->setFdb($fdb);
                 $entityManager->persist($detail);
             }
 
+            // Persister la fiche de besoin avec la caisse secondaire
             $entityManager->persist($fdb);
             $entityManager->flush();
 
@@ -173,6 +227,7 @@ class FdbController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
 
     #[Route('/fdb/send/{id}', name: 'fdb_send', methods: ['GET'])]
     public function sendFdb(Fdb $fdb, EntityManagerInterface $entityManager): Response

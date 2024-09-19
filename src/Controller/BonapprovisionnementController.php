@@ -28,15 +28,64 @@ use Symfony\Component\Uid\Uuid;
 
 class BonapprovisionnementController extends AbstractController
 {
+//    #[Route('/bonapprovisionnement', name: 'bonapprovisionnement_index', methods:['GET'])]
+//    public function index(BonapprovisionnementRepository $bonapprovisionnementRepository): Response
+//    {
+//        $bonapprovisionnement = $bonapprovisionnementRepository->findAll();
+//
+//
+//        return $this->render('bonapprovisionnement/index.html.twig', [
+//            'bonapprovisionnement' => $bonapprovisionnement,
+//        ]);
+//    }
+
+//    #[Route('/bonapprovisionnement', name: 'bonapprovisionnement_index', methods:['GET'])]
+//    public function index(BonapprovisionnementRepository $bonapprovisionnementRepository): Response
+//    {
+//        /** @var User $user */
+//        $user = $this->getUser();
+//        $caisse = $user->getCaisse();
+//
+//        if (!$caisse) {
+//            flash()->error('Aucune caisse associée à l\'utilisateur.');
+//            return $this->redirectToRoute('app_welcome');
+//        }
+//
+//        // Récupérer les bons d'approvisionnement pour la caisse de l'utilisateur connecté
+//        $bonapprovisionnement = $bonapprovisionnementRepository->findByCaisse($caisse);
+//
+//        return $this->render('bonapprovisionnement/index.html.twig', [
+//            'bonapprovisionnement' => $bonapprovisionnement,
+//        ]);
+//    }
+
     #[Route('/bonapprovisionnement', name: 'bonapprovisionnement_index', methods:['GET'])]
     public function index(BonapprovisionnementRepository $bonapprovisionnementRepository): Response
     {
-        $bonapprovisionnement = $bonapprovisionnementRepository->findAll();
+        /** @var User $user */
+        $user = $this->getUser();
+        $roles = $user->getRoles();
+
+        // Si l'utilisateur a le rôle ROLE_IMPRESSION, il a accès à tous les bons
+        if (in_array('ROLE_IMPRESSION', $roles)) {
+            $bonapprovisionnement = $bonapprovisionnementRepository->findAll();
+        } else {
+            // Sinon, filtrer par la caisse associée à l'utilisateur
+            $caisse = $user->getCaisse();
+
+            if (!$caisse) {
+                flash()->error('Aucune caisse associée à l\'utilisateur.');
+                return $this->redirectToRoute('app_welcome');
+            }
+
+            $bonapprovisionnement = $bonapprovisionnementRepository->findByCaisse($caisse);
+        }
 
         return $this->render('bonapprovisionnement/index.html.twig', [
             'bonapprovisionnement' => $bonapprovisionnement,
         ]);
     }
+
 
     #[Route('/bonapprovisionnement/pending', name: 'bon_app_pending', methods:['GET'])]
     public function index_pending(BonapprovisionnementRepository $bonapprovisionnementRepository): Response
