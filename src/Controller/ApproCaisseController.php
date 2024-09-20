@@ -185,6 +185,7 @@ class ApproCaisseController extends AbstractController
             // --------------------------
             // JournalCaisse pour la caisse émettrice (sortie)
             // --------------------------
+
             $journalCaisseEmettrice = new JournalCaisse();
             $journalCaisseEmettrice->setNumPiece($numJournalCaisse);
             $journalCaisseEmettrice->setDate(new \DateTime());
@@ -200,6 +201,7 @@ class ApproCaisseController extends AbstractController
             // --------------------------
             // JournalCaisse pour la caisse réceptrice (entrée)
             // --------------------------
+
             $journalCaisseReceptrice = new JournalCaisse();
             $journalCaisseReceptrice->setNumPiece($numJournalCaisse);
             $journalCaisseReceptrice->setDate(new \DateTime());
@@ -216,36 +218,31 @@ class ApproCaisseController extends AbstractController
             // Mise à jour des journées actives
             // --------------------------
 
-            // Caisse émettrice (principal)
+            // Mise à jour de la journée de la caisse émettrice (ajout au débit)
             $journeeEmettrice = $journeeRepository->activeJournee($caisseEmettrice->getId());
             if ($journeeEmettrice) {
-                // Mise à jour du débit (le montant sort de la caisse)
-                $journeeEmettrice->setDebit($journeeEmettrice->getDebit() + $montant);
-
-                // Mise à jour du solde (soustraction du montant transféré)
-                $newSoldeEmettrice = $journeeEmettrice->getSolde() - $montant;
+                $journeeEmettrice->setDebit($journeeEmettrice->getDebit() - $montant);
+                $journeeEmettrice->setCredit($journeeEmettrice->getCredit() + $montant);
+                $newSoldeEmettrice = $journeeEmettrice->getDebit() - $journeeEmettrice->getCredit();
                 $journeeEmettrice->setSolde($newSoldeEmettrice);
             }
 
-            // Caisse réceptrice (secondaire)
+            // Mise à jour de la journée de la caisse réceptrice (ajout au crédit)
             $journeeReceptrice = $journeeRepository->activeJournee($caisseReceptrice->getId());
             if ($journeeReceptrice) {
-                // Mise à jour du crédit (le montant entre dans la caisse)
-                $journeeReceptrice->setCredit($journeeReceptrice->getCredit() + $montant);
 
-                // Mise à jour du solde (ajout du montant reçu)
-                $newSoldeReceptrice = $journeeReceptrice->getSolde() + $montant;
+                $journeeReceptrice->setDebit($journeeReceptrice->getDebit() + $montant);
+
+                $newSoldeReceptrice = $journeeReceptrice->getDebit() - $journeeReceptrice->getCredit();
                 $journeeReceptrice->setSolde($newSoldeReceptrice);
             }
 
-            // --------------------------
-            // Finalisation de l'ApproCaisse et persistance des données
-            // --------------------------
 
             $approCaisse->setUser($user)
                 ->setStatus(Status::VALIDATED)
                 ->setJournee($activeJournee)
-                ->setCaisseEmettrice($caisseEmettrice);
+                ->setCaisseEmettrice($caisseEmettrice)
+                ->setCaisseReceptrice($caisseReceptrice);
 
             // Persister les changements dans la base de données
             $manager->persist($caisseEmettrice);
@@ -272,6 +269,7 @@ class ApproCaisseController extends AbstractController
             'approCaisse' => $approCaisse,
         ]);
     }
+
 
     #[Route('/{id}/show', name: 'app_approcaisse_show', methods: ['GET', 'POST'])]
     public function show(ApproCaisse $approCaisse,
