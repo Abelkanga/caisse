@@ -71,15 +71,34 @@ class CaisseService
 
     }
 
-    public function refJournalCaisse(): string
+//    public function refJournalCaisse(): string
+//    {
+//        $lastId = (int)$this->JournalCaisseRepository->findLastId() ?? 0;
+//        $lastId++;
+//        $year = date_format(new \DateTime(),'Y');
+//        $suffix = 'N°OSC-JC/'.$year.'/';
+//        $id = $this->countOp($lastId);
+//        return $suffix.$id;
+//
+//    }
+
+    public function refJournalCaisse(string $caisseCode): string
     {
+        // Récupère le dernier ID et incrémente de 1
         $lastId = (int)$this->JournalCaisseRepository->findLastId() ?? 0;
         $lastId++;
-        $year = date_format(new \DateTime(),'Y');
-        $suffix = 'N°OSC-JC/'.$year.'/';
-        $id = $this->countOp($lastId);
-        return $suffix.$id;
 
+        // Récupération de l'année en cours
+        $year = date_format(new \DateTime(), 'Y');
+
+        // Création du suffixe avec le code de la caisse
+        $suffix = 'N°OSC-J' . $caisseCode . '/' . $year . '/';
+
+        // Formattage de l'identifiant avec countOp
+        $id = $this->countOp($lastId);
+
+        // Retourne la référence complète
+        return $suffix . $id;
     }
 
 

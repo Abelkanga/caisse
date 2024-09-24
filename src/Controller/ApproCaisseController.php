@@ -180,14 +180,20 @@ class ApproCaisseController extends AbstractController
             $lastSoldeEmettrice = $jcRepo->getLastSolde($caisseEmettrice->getId());
             $lastSoldeReceptrice = $jcRepo->getLastSolde($caisseReceptrice->getId());
 
-            $numJournalCaisse = $service->refJournalCaisse(); // Générer une référence unique pour le journal
+            // Récupérer le code de la caisse émettrice (ou réceptrice)
+            $caisseCodeEmettrice = $caisseEmettrice->getCode(); // Par exemple, 'C001' ou 'C002'
+            $caisseCodeReceptrice = $caisseReceptrice->getCode();
+
+            // Générer la référence du journal de caisse pour chaque caisse
+            $numJournalCaisseEmettrice = $service->refJournalCaisse($caisseCodeEmettrice);
+            $numJournalCaisseReceptrice = $service->refJournalCaisse($caisseCodeReceptrice);
 
             // --------------------------
             // JournalCaisse pour la caisse émettrice (sortie)
             // --------------------------
 
             $journalCaisseEmettrice = new JournalCaisse();
-            $journalCaisseEmettrice->setNumPiece($numJournalCaisse);
+            $journalCaisseEmettrice->setNumPiece($numJournalCaisseEmettrice);
             $journalCaisseEmettrice->setDate(new \DateTime());
             $journalCaisseEmettrice->setCaisse($caisseEmettrice);
             $journalCaisseEmettrice->setSortie($montant); // Enregistrement en sortie pour la caisse principale
@@ -203,7 +209,7 @@ class ApproCaisseController extends AbstractController
             // --------------------------
 
             $journalCaisseReceptrice = new JournalCaisse();
-            $journalCaisseReceptrice->setNumPiece($numJournalCaisse);
+            $journalCaisseReceptrice->setNumPiece($numJournalCaisseReceptrice);
             $journalCaisseReceptrice->setDate(new \DateTime());
             $journalCaisseReceptrice->setCaisse($caisseReceptrice);
             $journalCaisseReceptrice->setEntree($montant); // Enregistrement en entrée pour la caisse secondaire
@@ -211,7 +217,7 @@ class ApproCaisseController extends AbstractController
             $journalCaisseReceptrice->setSolde($lastSoldeReceptrice + $montant); // Calculer le nouveau solde
             $journalCaisseReceptrice->setApproCaisse($approCaisse);
 
-            // Mettre à jour le solde de la caisse réceptrice (créditer)
+
             $caisseReceptrice->setSoldedispo($caisseReceptrice->getSoldedispo() + $montant);
 
             // --------------------------
@@ -236,7 +242,6 @@ class ApproCaisseController extends AbstractController
                 $newSoldeReceptrice = $journeeReceptrice->getDebit() - $journeeReceptrice->getCredit();
                 $journeeReceptrice->setSolde($newSoldeReceptrice);
             }
-
 
             $approCaisse->setUser($user)
                 ->setStatus(Status::VALIDATED)

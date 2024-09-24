@@ -532,12 +532,17 @@ class FdbController extends AbstractController
                 return $this->redirectToRoute('app_welcome');
             }
 
-            $num_journalCaisse = $service->refJournalCaisse();
+
             $amount = $fdb->getTotal();
+
+            $caisseCode = $caisse->getCode();
+
+            $numJournalCaisse = $service->refJournalCaisse($caisseCode);
+
             $lastSolde = $jcRepository->getLastSolde($caisse->getId());
 
             $journalCaisse = (new JournalCaisse())
-                ->setNumPiece($num_journalCaisse)
+                ->setNumPiece($numJournalCaisse)
                 ->setDate(new \DateTime())
                 ->setCaisse($caisse)
                 ->setBonCaisse($bonCaisse)

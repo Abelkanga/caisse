@@ -255,11 +255,14 @@ class BonapprovisionnementController extends AbstractController
         // Si la requête contient 'confirm_manager'
         if ($request->request->has('confirm_manager')) {
             $amount = $bonapprovisionnement->getMontanttotal();
-            $num_journalCaisse = $service->refJournalCaisse();
+            $caisseCode = $caisse->getCode();
+
+            $numJournalCaisse = $service->refJournalCaisse($caisseCode);
+
             $lastSolde = $jcRepo->getLastSolde($caisse->getId());
 
             $journalCaisse = new JournalCaisse();
-            $journalCaisse->setNumPiece($num_journalCaisse)
+            $journalCaisse->setNumPiece($numJournalCaisse)
                 ->setDate(new \DateTime())
                 ->setCaisse($caisse)
                 ->setRecuCaisse($recuCaisse)

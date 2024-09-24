@@ -58,6 +58,9 @@ class JourneeController extends AbstractController
 
         // Récupération des approvisionnements caisse à caisse du jour
         $approCaisse = $journeeRepository->getApproCaisseForJournee($activeJournee);
+//
+//        $sortieApproCaisse = $journeeRepository->getSortieApproCaisseForJournee($activeJournee, $caisse);
+//        $entreeApproCaisse = $journeeRepository->getEntreeApproCaisseForJournee($activeJournee, $caisse);
 
         return $this->render('welcome/index.html.twig', [
             'last_journee' => $lastday,
@@ -66,6 +69,8 @@ class JourneeController extends AbstractController
             'bonapprovisionnements' => $bonapprovisionnements,
             'bonapprovisionnement' => $bonapprovisionnements,
             'fdb' => $fdb,
+//            'sortieApproCaisse' => $sortieApproCaisse, // Sortie pour la caisse émettrice
+//            'entreeApproCaisse' => $entreeApproCaisse, // Entrée pour la caisse réceptrice
             'approCaisse' => $approCaisse,
         ]);
     }
@@ -103,8 +108,21 @@ class JourneeController extends AbstractController
             ->setActive(true)
             ->setUuid(uniqid());
 
-        $journalCaisse = (new JournalCaisse())->setCaisse($caisse)
-            ->setIntitule('Solde de caisse au '.$journee->getStartedAt()->format('d/m/Y'))
+
+        // Vérification du code de la caisse
+        $caisseCode = $caisse->getCode();
+        $intitule = 'Solde de la caisse au ' . $journee->getStartedAt()->format('d/m/Y'); // Intitulé par défaut
+
+        if ($caisseCode === 'C001') {
+            $intitule = 'Solde de la caisse principale au ' . $journee->getStartedAt()->format('d/m/Y');
+        } elseif ($caisseCode === 'C002') {
+            $intitule = 'Solde de la caisse secondaire au ' . $journee->getStartedAt()->format('d/m/Y');
+        }
+
+
+        $journalCaisse = (new JournalCaisse())
+            ->setCaisse($caisse)
+            ->setIntitule($intitule)
             ->setEntree($caisse->getSoldedispo() ?? 0)
             ->setSolde($caisse->getSoldedispo() ?? 0)
             ->setCreatedAt(new \DateTimeImmutable())
