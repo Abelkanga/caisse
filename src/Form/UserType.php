@@ -31,7 +31,12 @@ class UserType extends AbstractType
     {
         $builder
             ->add('fullName', TextType::class)
-            ->add('pseudo', TextType::class)
+            ->add('pseudo', TextType::class, [
+                'attr' => [
+                    'readonly' => true,  // Rendre le champ non modifiable
+                    'class' => 'form-control'
+                ]
+            ])
             ->add('contact', TextType::class)
             ->add('fonction', TextType::class)
             ->add('email', EmailType::class);
