@@ -114,6 +114,11 @@
                     padding: 0;
                 }
 
+                .print-button
+                {
+                    display: none;
+                }
+
                 .card-body {
                     margin: 0;
                     padding: 0;
@@ -176,8 +181,11 @@
 </div>
 
 {{ encore_entry_script_tags('app') }}
+
+<button class="print-button" onclick="window.print()">Imprimer</button>
+
 <script type="text/javascript">
-    window.addEventListener("load", ev => window.print());
+    // window.addEventListener("load", ev => window.print());
 </script>
 </body>
 </html>

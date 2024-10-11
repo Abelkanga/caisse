@@ -29,6 +29,18 @@ services:
             - '%env(PUSHER_SECRET)%'
             - '%env(PUSHER_API_ID)%'
 
+#    App\Service\NotificationService:
+#            arguments:
+#                $entityManager: '@doctrine.orm.entity_manager'
+#                $notificationRepository: '@App\Repository\NotificationRepository'
+#                $urlGenerator: '@router.default'
+
+#    App\Twig\NotificationExtension:
+#            arguments:
+#                $notificationService: '@App\Service\NotificationService'
+#                tags: [ 'twig.extension' ]
+
+
     App\Service\PusherService:
         arguments:
             $pusherAppId: '%env(PUSHER_APP_ID)%'
@@ -45,5 +57,14 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
+
+#    App\Controller\:
+#        resource: '../src/Controller/'
+#        tags: [ 'controller.service_arguments' ]
+#
+#    App\Service\PusherClient: ~
+#
+#
+#    App\Util\NotifyInterface $pusherHub: '@App\Service\PusherClient'
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

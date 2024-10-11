@@ -6,9 +6,14 @@ use App\Entity\Emeteur;
 use App\Entity\Expense;
 use App\Entity\Fdb;
 use App\Entity\TypeExpense;
+use App\Entity\User;
 use App\Repository\ExpenseRepository;
+use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query\Parameter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -21,10 +26,18 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use function Doctrine\ORM\QueryBuilder;
 
 
 class FdbType extends AbstractType
 {
+    public function __construct(
+        private readonly Security       $security,
+        private readonly UserRepository $userRepository
+    )
+    {
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -44,6 +57,22 @@ class FdbType extends AbstractType
 //                'class' => Emeteur::class,
 //                'placeholder' => 'Sélectionnez un émetteur', 'required' => false
 //            ])
+            ->add('validBy', EntityType::class, [
+                'class' => User::class,
+                'query_builder' => function (EntityRepository $er) {
+                    /** @var User $user */
+                    $user = $this->security->getUser();
+                    $username = $user->getUserIdentifier();
+                    $qb = $er->createQueryBuilder('u');
+                    return
+                        $qb->where('u.id <> :u_id')
+                            ->andWhere($qb->expr()->in('u.roles', ['ROLE_RESPONSABLE']))
+                            ->setParameters(new ArrayCollection([
+                                new Parameter('u_id', $user->getId()),
+
+                            ]));
+                }
+            ])
             ->add('destinataire', TextType::class, [
                 'attr' => [
                     'readonly' => false

@@ -18,45 +18,46 @@
     </div>
 
     <div class="row">
-{#            <div class="col-4">#}
-{#                <div class="form-group">#}
-{#                    <label for="emetteur">Emetteur<span class="text-danger">*</span></label>#}
-{#                    {{ form_widget(form.emeteur, {'attr' : {'class': ' select2'}}) }}#}
-{#                </div>#}
-{#            </div>#}
 
-            <div class="col-4">
-                <div class="form-group">
-                    <label for="destinataire">Destinataire</label>
-                    {{ form_widget(form.destinataire, {'attr' : {'class': 'form-control '}}) }}
-                </div>
-            </div>
 
-            <div class="col-4">
-{#                <div class="col-3 offset-1">#}
-                <div class="form-group">
-                    <label for="beneficiaire">Bénéficiaire<span class="text-danger">*</span></label>
-                    {{ form_widget(form.beneficiaire, {'attr' : {'class': 'form-control'}}) }}
-                </div>
+        <div class="col-4">
+            <div class="form-group">
+                <label for="destinataire">Destinataire</label>
+                {{ form_widget(form.destinataire, {'attr' : {'class': 'form-control '}}) }}
             </div>
+        </div>
+
+        <div class="col-4">
+            {#                <div class="col-3 offset-1"> #}
+            <div class="form-group">
+                <label for="beneficiaire">Bénéficiaire<span class="text-danger">*</span></label>
+                {{ form_widget(form.beneficiaire, {'attr' : {'class': 'form-control'}}) }}
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="form-group">
+                <label for="emetteur">Responsable<span class="text-danger">*</span></label>
+                {{ form_widget(form.validBy, {'attr' : {'class': ' select2'}}) }}
+            </div>
+        </div>
     </div>
 
     <div class="row">
-                <div class="col-4">
-                    <div class="form-group">
-                        <label for="typeExpense">Type opération<span class="text-danger">*</span></label>
-                        {{ form_widget(form.typeExpense, {'attr' : {'class': 'form-control select2', 'data-dependent-element' : '#fdb_expense'}}) }}
-                    </div>
-                </div>
-
-                <div class="col-8">
-                    <div class="form-group">
-                        <label for="expense">Nature opération<span class="text-danger">*</span></label>
-                        {{ form_widget(form.expense, {'attr' : {'class': 'form-control select2'}}) }}
-                    </div>
-                </div>
-
+        <div class="col-4">
+            <div class="form-group">
+                <label for="typeExpense">Type opération<span class="text-danger">*</span></label>
+                {{ form_widget(form.typeExpense, {'attr' : {'class': 'form-control select2', 'data-dependent-element' : '#fdb_expense'}}) }}
             </div>
+        </div>
+
+        <div class="col-8">
+            <div class="form-group">
+                <label for="expense">Nature opération<span class="text-danger">*</span></label>
+                {{ form_widget(form.expense, {'attr' : {'class': 'form-control select2'}}) }}
+            </div>
+        </div>
+
+    </div>
 
 </fieldset>
 

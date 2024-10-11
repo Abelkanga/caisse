@@ -88,8 +88,6 @@ class Bonapprovisionnement
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $Echeance = null;
 
-    #[ORM\ManyToOne(inversedBy: 'bonapprovisionnements')]
-    private ?Banque $banque = null;
 
     #[ORM\ManyToOne(inversedBy: 'bonapprovisionnements')]
     private ?Tiers $tiers = null;
@@ -430,17 +428,6 @@ class Bonapprovisionnement
         return $this;
     }
 
-    public function getBanque(): ?Banque
-    {
-        return $this->banque;
-    }
-
-    public function setBanque(?Banque $banque): static
-    {
-        $this->banque = $banque;
-
-        return $this;
-    }
 
     public function getTiers(): ?Tiers
     {

@@ -176,41 +176,11 @@ class FdbRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findFdbCancel(): array
+    public function findFicheByStatus(string $status = Status::EN_ATTENTE)
     {
         return $this->createQueryBuilder('f')
             ->where('f.status = :status')
-            ->setParameter('status', Status::CANCELLED)
-            ->orderBy('f.date', 'DESC')
-            ->getQuery()
-            ->getResult();
-    }
-
-    public function findFdbBrouillon(): array
-    {
-        return $this->createQueryBuilder('f')
-            ->where('f.status = :status')
-            ->setParameter('status', Status::BROUILLON )
-            ->orderBy('f.date', 'DESC')
-            ->getQuery()
-            ->getResult();
-    }
-
-    public function findFdbValidate(): array
-    {
-        return $this->createQueryBuilder('f')
-            ->where('f.status = :status')
-            ->setParameter('status', Status::VALIDATED)
-            ->orderBy('f.date', 'DESC')
-            ->getQuery()
-            ->getResult();
-    }
-
-    public function findFdbApprouve(): array
-    {
-        return $this->createQueryBuilder('f')
-            ->where('f.status = :status')
-            ->setParameter('status', Status::CONVERT)
+            ->setParameter('status', $status)
             ->orderBy('f.date', 'DESC')
             ->getQuery()
             ->getResult();

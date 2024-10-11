@@ -28,7 +28,7 @@ security:
                 target: app_login
                 invalidate_session: true
                 delete_cookies:
-                    REMEMBERME: ~
+                    REMEMBERED: ~
                 # where to redirect after logout
                 # target: app_any_route
             remember_me:
@@ -47,8 +47,8 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
          - { path: ^/login, roles: PUBLIC_ACCESS  }
-         - { path: ^/, roles: IS_AUTHENTICATED_FULLY }
          - { path: ^/user, roles: ROLE_ADMIN }
+         - { path: ^/, roles: [IS_AUTHENTICATED_FULLY, IS_REMEMBERED] }
         # - { path: ^/profile, roles: ROLE_USER }
 
 when@test:

@@ -243,6 +243,15 @@ class ApproCaisseController extends AbstractController
                 $journeeReceptrice->setSolde($newSoldeReceptrice);
             }
 
+//            $journeeReceptrice = $journeeRepository->activeJournee($caisseReceptrice->getId());
+//            if ($journeeReceptrice) {
+//                $journeeReceptrice->setDebit($journeeReceptrice->getDebit() + $montant);
+//                $newSoldeReceptrice = $journeeReceptrice->getSolde() + $montant;
+//                $journeeReceptrice->setSolde($newSoldeReceptrice);
+//            }
+
+
+
             $approCaisse->setUser($user)
                 ->setStatus(Status::VALIDATED)
                 ->setJournee($activeJournee)

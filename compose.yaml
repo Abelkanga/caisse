@@ -1,5 +1,4 @@
 version: '3'
-
 services:
   phpmyadmin:
     image: phpmyadmin
@@ -16,7 +15,7 @@ services:
       - orbis_caisse
     image: 'mariadb:latest'
     environment:
-      MARIADB_DATABASE: ${POSTGRES_DB:-orbis_caisse}
+      MARIADB_DATABASE: ${POSTGRES_DB:-caisse_db}
       # You should definitely change the password in production
       MARIADB_ROOT_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
     ports:

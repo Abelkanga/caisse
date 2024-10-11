@@ -98,6 +98,9 @@ class Fdb
     #[ORM\OneToMany(targetEntity: JournalCaisse::class, mappedBy: 'Fdb')]
     private Collection $journalCaisses;
 
+    #[ORM\ManyToOne]
+    private ?User $validBy = null;
+
 //    #[ORM\Column(nullable: true)]
 //    private ?bool $IsActive = null;
 
@@ -447,6 +450,18 @@ class Fdb
                 $journalCaiss->setFdb(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getValidBy(): ?User
+    {
+        return $this->validBy;
+    }
+
+    public function setValidBy(?User $validBy): static
+    {
+        $this->validBy = $validBy;
 
         return $this;
     }
