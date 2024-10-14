@@ -13,13 +13,13 @@ services:
   database:
     networks:
       - orbis_caisse
-    image: 'mariadb:latest'
+    image: 'mariadb:10.4.3'
     environment:
-      MARIADB_DATABASE: ${POSTGRES_DB:-caisse_db}
+      MYSQL_DATABASE: ${POSTGRES_DB:-caisse_db}
       # You should definitely change the password in production
-      MARIADB_ROOT_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
+      MYSQL_ROOT_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
     ports:
-      - "3307:3306"
+      - "3306:3306"
     volumes:
       - caisse_db:/var/lib/mysql:rw
       # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!

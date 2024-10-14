@@ -2,7 +2,6 @@
 
 namespace App\Form;
 
-use App\Entity\Emeteur;
 use App\Entity\Expense;
 use App\Entity\Fdb;
 use App\Entity\TypeExpense;
@@ -15,9 +14,7 @@ use Doctrine\ORM\Query\Parameter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -25,8 +22,6 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use function Doctrine\ORM\QueryBuilder;
 
 
 class FdbType extends AbstractType
@@ -59,19 +54,6 @@ class FdbType extends AbstractType
 //            ])
             ->add('validBy', EntityType::class, [
                 'class' => User::class,
-                'query_builder' => function (EntityRepository $er) {
-                    /** @var User $user */
-                    $user = $this->security->getUser();
-                    $username = $user->getUserIdentifier();
-                    $qb = $er->createQueryBuilder('u');
-                    return
-                        $qb->where('u.id <> :u_id')
-                            ->andWhere($qb->expr()->in('u.roles', ['ROLE_RESPONSABLE']))
-                            ->setParameters(new ArrayCollection([
-                                new Parameter('u_id', $user->getId()),
-
-                            ]));
-                }
             ])
             ->add('destinataire', TextType::class, [
                 'attr' => [

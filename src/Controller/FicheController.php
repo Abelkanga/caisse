@@ -202,19 +202,30 @@ class FicheController extends AbstractController
                 $total += $montant;
             }
         }
-
-
         // send notification
         if ($request->isMethod('POST') && $this->isCsrfTokenValid('validate-caisse-fdb', $request->request->get('_token'))) {
             $link = $generatorUrl->generate('fdb_show', ['id' => $fdb->getId()]);
             if ($request->request->has('send_fdb')) {
                 $responsableId = $fdb->getValidBy()->getId();
-                $notification = (new Notification());
+                /** @var User $user */
+                $user = $this->getUser();
+                $notification = (new Notification())
+                    ->setUser($user)
+                    ->setUuid(Uuid::v4())
+                    ->setStatus(Status::EN_ATTENTE)
+                    ->setUnread(true)
+                    ->setPermission('ROLE_RESPONSABLE')
+                    ->setFdb($fdb)
+                    ->setCreatedAt(new \DateTimeImmutable())
+                    ->setLink($link)
+                    ->setMessage('Fiche de besoin en attente de validation');
                 $entityManager->persist($notification);
-                $channel = 'responsable' . $responsableId;
-                $pusher->trigger($channel, 'notification', [
+
+                $event = 'responsable' . $responsableId;
+                $pusher->trigger('notify', $event, [
                     'responsableId' => $responsableId,
-                    'message' => 'Fiche de besoin en attente de validation'
+                    'message' => 'Fiche de besoin en attente de validation',
+                    'permission' => 'ROLE_RESPONSABLE'
                 ]);
                 flash()
                     ->options([
@@ -230,6 +241,13 @@ class FicheController extends AbstractController
 
             // validation fiche besoin
             if ($this->isGranted('ROLE_RESPONSABLE') && $request->request->has('confirm_responsable')) {
+
+                // Recupérer la notification de fiche de besoin non lu
+
+                // Marque lu
+
+                // Création d'une nouvelle modification
+
                 $notification = (new Notification())
                     ->setFdb($fdb)
                     ->setMessage('Fiche de besoin en attente d\'approbation')
@@ -266,6 +284,11 @@ class FicheController extends AbstractController
 
             //Approvouver fiche besoin
             if ($request->request->has('confirm_manager1') && $this->isGranted('ROLE_MANAGER1')) {
+
+                // Recupérer la notification de fiche de besoin non lu
+
+                // Marque lu
+
                 $caisse = $fdb->getCaisse();
                 $cashUserId = $caisse->getUser()->getId();
                 $fdb->setStatus(Status::APPROUVED);
@@ -276,7 +299,7 @@ class FicheController extends AbstractController
                     ->setMessage('Fiche de besoin approuvée')
                     ->setLink($link);
                 $entityManager->persist($notification);
-                $pusher->trigger('user.' . $cashUserId, 'notification', [
+                $pusher->trigger('user.' . $cashUserId, 'notify', [
                     'message' => 'Fiche de besoin approuvée'
                 ]);
                 return $this->redirectToRoute('app_welcome');
