@@ -124,7 +124,7 @@
 {{ encore_entry_script_tags('app') }}
 
 
- <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+<script src="https://js.pusher.com/7.0/pusher.min.js"></script>
 <script>
     var pusher = new Pusher('your-app-key', {
         cluster: 'your-app-cluster',
@@ -132,7 +132,7 @@
     });
 
     var channel = pusher.subscribe('my-channel');
-    channel.bind('my-event', function(data) {
+    channel.bind('my-event', function (data) {
         alert('An event was triggered with message: ' + data.message);
     });
 </script>
@@ -151,23 +151,23 @@
 </script>
 
 <script>
-    window.User = {
-        id: {{ app.user.id }};
-        let permissions = [];
-        {% for p in app.token.roleNames %}
-        permissions.push('{{ p }}')
-        {% endfor %}
+    window.User = {id: {{ app.user.id }} };
+    let permissions = [];
+    {% for p in app.token.roleNames %}
+    permissions.push('{{ p }}')
+    {% endfor %}
 
-        const pusher = new Pusher('d1c1b712fda2bf24cba8', {
-            cluster: 'mt1'
-        });
-        const channel = pusher.subscribe('notify');
+    const pusher = new Pusher('d1c1b712fda2bf24cba8', {
+        cluster: 'mt1'
+    });
+    const channel = pusher.subscribe('notify');
 
-        channel
-        .bind('event.notify', function (data) {
+    const userId = window.User.id;
+    channel
+        .bind(`responsable.${userId}`, function (data) {
             if (data) {
-                const {message, link, user_id, role, createdAt} = data;
-                if (User.id !== user_id && permissions.includes(role)) {
+                const {message, link, responsableId, permission } = data;
+                if (permissions.includes(permission)) {
                     toastr.info(`${message}`, null, {
                         "closeButton": true,
                         "preventDuplicates": false,
@@ -200,23 +200,7 @@
                     </a>`)
                 }
             }
-
         })
-            .bind('notify-me', function (data) {
-                if (data) {
-                    const {message, user_id, link} = data;
-                    if (User.id !== user_id) {
-                        toastr.info(${message}, null, {
-                            "closeButton": true,
-                            "preventDuplicates": false,
-                            "onclick": function () {
-                                window.location.href = link
-                            },
-                            "timeOut": 0,
-                        })
-                    }
-                }
-            )
 
 </script>
 </body>
