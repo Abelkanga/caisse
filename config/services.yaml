@@ -57,8 +57,16 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
+    App\Twig\:
+        resource: '../src/Twig'
+        tags: [ 'twig.extension' ]
 
-#    App\Controller\:
+
+    App\Twig\AgoExtension:
+        tags: [ 'twig.extension' ]
+
+
+    #    App\Controller\:
 #        resource: '../src/Controller/'
 #        tags: [ 'controller.service_arguments' ]
 #

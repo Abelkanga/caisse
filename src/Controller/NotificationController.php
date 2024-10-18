@@ -16,10 +16,18 @@ class NotificationController extends AbstractController
     {
         $notifications = $notificationRepository->findAll();
         if (count($notifications) === 0) {
-            $this->addFlash('info', 'Vous n\'avez pas de notification');
+
+            flash()
+                ->options([
+                    'timeout' => 5000,
+                    'position' => 'bottom-right',
+                ])
+                ->warning('Vous n\'avez pas de notification');
+
 
             return $this->redirectToRoute('app_welcome');
         }
+
         return $this->render('notification/index.html.twig', [
             'notifications' => $notifications
         ]);

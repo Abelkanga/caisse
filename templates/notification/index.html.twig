@@ -26,7 +26,7 @@
                                         </a>
                                     </td>
                                     <td class="mailbox-subject"><b>{{ n.message }}</b></td>
-                                    <td class="mailbox-date">{{ n.createdAt|time_ago }}</td>
+                                    <td class="mailbox-date">{{ n.createdAt|date}}</td>
                                 </tr>
                             {% endfor %}
                             </tbody>

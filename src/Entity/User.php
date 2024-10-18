@@ -88,12 +88,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: ApproCaisse::class, mappedBy: 'user')]
     private Collection $approCaisses;
 
+    /**
+     * @var Collection<int, Notification>
+     */
+    #[ORM\OneToMany(targetEntity: Notification::class, mappedBy: 'user')]
+    private Collection $notifications;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $isResponsable = null;
+
     public function __construct()
     {
         $this->depenses = new ArrayCollection();
         $this->bonapprovisionnements = new ArrayCollection();
         $this->billetages = new ArrayCollection();
         $this->approCaisses = new ArrayCollection();
+        $this->notifications = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -413,6 +423,50 @@ public function removeApproCaiss(ApproCaisse $approCaiss): static
             $approCaiss->setUser(null);
         }
     }
+
+    return $this;
+}
+
+
+    /**
+     * @return Collection<int, Notification>
+     */
+    public function getNotifications(): Collection
+    {
+        return $this->notifications;
+    }
+
+    public function addNotification(Notification $notification): static
+    {
+        if (!$this->notifications->contains($notification)) {
+            $this->notifications->add($notification);
+            $notification->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNotification(Notification $notification): static
+    {
+        if ($this->notifications->removeElement($notification)) {
+            // set the owning side to null (unless already changed)
+            if ($notification->getUser() === $this) {
+                $notification->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+
+public function isResponsable(): ?bool
+{
+    return $this->isResponsable;
+}
+
+public function setResponsable(?bool $isResponsable): static
+{
+    $this->isResponsable = $isResponsable;
 
     return $this;
 }

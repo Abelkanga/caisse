@@ -48,12 +48,15 @@ class FdbType extends AbstractType
             ->add('numero_fiche_besoin', TextType::class, [
                 'required' => true, 'empty_data' => ''
             ])
-//            ->add('emeteur', EntityType::class, [
-//                'class' => Emeteur::class,
-//                'placeholder' => 'Sélectionnez un émetteur', 'required' => false
-//            ])
             ->add('validBy', EntityType::class, [
                 'class' => User::class,
+                'choice_label' => 'fullName', // ou un autre champ pour afficher l'utilisateur
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('u')
+                        ->where('u.roles LIKE :role')
+                        ->setParameter('role', '%ROLE_RESPONSABLE%');
+                },
+                'placeholder' => 'Sélectionnez un responsable',
             ])
             ->add('destinataire', TextType::class, [
                 'attr' => [
@@ -111,6 +114,7 @@ class FdbType extends AbstractType
             $fdb->setTotal($total);
         });
     }
+
 
     public function configureOptions(OptionsResolver $resolver): void
     {

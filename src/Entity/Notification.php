@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: NotificationRepository::class)]
+#[ORM\HasLifecycleCallbacks()]
 class Notification
 {
     #[ORM\Id]
@@ -14,8 +15,8 @@ class Notification
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'uuid')]
-    private ?Uuid $uuid = null;
+    #[ORM\Column(type: 'string')]
+    private ?string $uuid = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $message = null;
@@ -38,7 +39,7 @@ class Notification
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $permission = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(inversedBy: 'notifications')]
     private ?User $user = null;
 
     #[ORM\ManyToOne]
@@ -52,14 +53,15 @@ class Notification
         return $this->id;
     }
 
-    public function getUuid(): ?Uuid
+    public function getUuid(): ?string
     {
         return $this->uuid;
     }
 
-    public function setUuid(Uuid $uuid): static
+    #[ORM\PrePersist()]
+    public function setUuid(): static
     {
-        $this->uuid = $uuid;
+        $this->uuid = Uuid::v4()->toBase32();
 
         return $this;
     }
@@ -105,9 +107,10 @@ class Notification
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    #[ORM\PrePersist]
+    public function setCreatedAt(): static
     {
-        $this->createdAt = $createdAt;
+        $this->createdAt = new \DateTimeImmutable();
 
         return $this;
     }
@@ -117,9 +120,10 @@ class Notification
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
+    #[ORM\PrePersist]
+    public function setUpdatedAt(): static
     {
-        $this->updatedAt = $updatedAt;
+        $this->updatedAt = new \DateTimeImmutable();
 
         return $this;
     }

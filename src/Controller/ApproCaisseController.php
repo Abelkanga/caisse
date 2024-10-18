@@ -254,7 +254,7 @@ class ApproCaisseController extends AbstractController
 
             $approCaisse->setUser($user)
                 ->setStatus(Status::VALIDATED)
-                ->setJournee($activeJournee)
+                ->setJournee($journeeReceptrice)
                 ->setCaisseEmettrice($caisseEmettrice)
                 ->setCaisseReceptrice($caisseReceptrice);
 
@@ -283,6 +283,152 @@ class ApproCaisseController extends AbstractController
             'approCaisse' => $approCaisse,
         ]);
     }
+
+
+//    #[Route('/new', name: 'app_approcaisse_new', methods:['GET','POST'])]
+//    public function new(
+//        Request $request,
+//        EntityManagerInterface $manager,
+//        CaisseRepository $caisseRepository,
+//        CaisseService $service,
+//        JourneeRepository $journeeRepository,
+//        JournalCaisseRepository $jcRepo
+//    ): Response {
+//        $activeJournee = $journeeRepository->activeJournee();
+//        if (!$activeJournee) {
+//            flash()
+//                ->options([
+//                    'timeout' => 5000,
+//                    'position' => 'bottom-right',
+//                ])
+//                ->error('Vous devez ouvrir la caisse avant d\'approvisionner une autre caisse.');
+//            return $this->redirectToRoute('app_comptability_caisse_journee_open');
+//        }
+//
+//        $num_approCaisse = $service->refApproCaisse();
+//        $approCaisse = (new ApproCaisse())
+//            ->setDate(new \DateTime())
+//            ->setReference($num_approCaisse)
+//            ->setObjet('Approvisionnement de caisse à caisse');
+//
+//        $form = $this->createForm(ApproCaisseType::class, $approCaisse);
+//        $form->handleRequest($request);
+//
+//        if ($form->isSubmitted() && $form->isValid()) {
+//            /** @var User $user */
+//            $user = $this->getUser();
+//            $caisseEmettrice = $approCaisse->getCaisseEmettrice(); // Caisse principale (émission)
+//            $caisseReceptrice = $approCaisse->getCaisseReceptrice(); // Caisse secondaire (réception)
+//
+//            $montant = $approCaisse->getMontant();
+//
+//            // Vérifications de base
+//            if (!$caisseEmettrice || !$caisseReceptrice) {
+//                flash()
+//                    ->options([
+//                        'timeout' => 5000,
+//                        'position' => 'bottom-right',
+//                    ])
+//                    ->error('Caisse émettrice ou réceptrice non définie.');
+//                return $this->redirectToRoute('app_approcaisse_new');
+//            }
+//
+//            if ($caisseEmettrice->getSoldedispo() === null || $caisseEmettrice->getSoldedispo() < $montant) {
+//                flash()
+//                    ->options([
+//                        'timeout' => 5000,
+//                        'position' => 'bottom-right',
+//                    ])
+//                    ->error('Fonds insuffisants dans la caisse émettrice !');
+//                return $this->redirectToRoute('app_approcaisse_index');
+//            }
+//
+//            // Récupérer les derniers soldes des deux caisses pour le journal
+//            $lastSoldeEmettrice = $jcRepo->getLastSolde($caisseEmettrice->getId());
+//            $lastSoldeReceptrice = $jcRepo->getLastSolde($caisseReceptrice->getId());
+//
+//
+//            // Générer la référence du journal de caisse pour chaque caisse
+//            $numJournalCaisseEmettrice = $service->refJournalCaisse($caisseEmettrice->getCode());
+//            $numJournalCaisseReceptrice = $service->refJournalCaisse($caisseReceptrice->getCode());
+//
+//            // JournalCaisse pour la caisse émettrice (sortie)
+//            $journalCaisseEmettrice = new JournalCaisse();
+//            $journalCaisseEmettrice->setNumPiece($numJournalCaisseEmettrice);
+//            $journalCaisseEmettrice->setDate(new \DateTime());
+//            $journalCaisseEmettrice->setCaisse($caisseEmettrice);
+//            $journalCaisseEmettrice->setSortie($montant);
+//            $journalCaisseEmettrice->setIntitule("Transfert à la caisse secondaire");
+//            $journalCaisseEmettrice->setSolde($lastSoldeEmettrice - $montant);
+//            $journalCaisseEmettrice->setApproCaisse($approCaisse);
+//
+//            $caisseEmettrice->setSoldedispo($caisseEmettrice->getSoldedispo() - $montant);
+//
+//            // JournalCaisse pour la caisse réceptrice (entrée)
+//            $journalCaisseReceptrice = new JournalCaisse();
+//            $journalCaisseReceptrice->setNumPiece($numJournalCaisseReceptrice);
+//            $journalCaisseReceptrice->setDate(new \DateTime());
+//            $journalCaisseReceptrice->setCaisse($caisseReceptrice);
+//            $journalCaisseReceptrice->setEntree($montant);
+//            $journalCaisseReceptrice->setIntitule("Réception de la caisse principale");
+//            $journalCaisseReceptrice->setSolde($lastSoldeReceptrice + $montant);
+//            $journalCaisseReceptrice->setApproCaisse($approCaisse);
+//
+//            $caisseReceptrice->setSoldedispo($caisseReceptrice->getSoldedispo() + $montant);
+//
+//            // Vérifier si une journée est active pour la caisse réceptrice
+//            $journeeReceptrice = $journeeRepository->activeJournee($caisseReceptrice->getId());
+//            if ($journeeReceptrice) {
+//                $journeeReceptrice->setDebit($journeeReceptrice->getDebit() + $montant);
+//                $newSoldeReceptrice = $journeeReceptrice->getDebit() - $journeeReceptrice->getCredit();
+//                $journeeReceptrice->setSolde($newSoldeReceptrice);
+//                $approCaisse->setJournee($journeeReceptrice);
+//            }
+//
+//            // Mettre à jour la journée active pour la caisse émettrice
+//            $journeeEmettrice = $journeeRepository->activeJournee($caisseEmettrice->getId());
+//            if ($journeeEmettrice) {
+//                $journeeEmettrice->setDebit($journeeEmettrice->getDebit() - $montant);
+//                $journeeEmettrice->setCredit($journeeEmettrice->getCredit() + $montant);
+//                $newSoldeEmettrice = $journeeEmettrice->getDebit() - $journeeEmettrice->getCredit();
+//                $journeeEmettrice->setSolde($newSoldeEmettrice);
+//            }
+//
+//            // Mettre à jour l'approvisionnement
+//            $approCaisse->setUser($user)
+//                ->setStatus(Status::VALIDATED)
+//                ->setCaisseEmettrice($caisseEmettrice)
+//                ->setCaisseReceptrice($caisseReceptrice);
+//
+//            // Persister les changements
+//            $manager->persist($caisseEmettrice);
+//            $manager->persist($journalCaisseEmettrice);
+//            $manager->persist($caisseReceptrice);
+//            $manager->persist($journalCaisseReceptrice);
+//            $manager->persist($approCaisse);
+//            if ($journeeEmettrice) {
+//                $manager->persist($journeeEmettrice);
+//            }
+//            if ($journeeReceptrice) {
+//                $manager->persist($journeeReceptrice);
+//            }
+//            $manager->flush();
+//
+//            flash()
+//                ->options([
+//                    'timeout' => 5000,
+//                    'position' => 'bottom-right',
+//                ])
+//                ->success('Transfert effectué avec succès !');
+//
+//            return $this->redirectToRoute('app_approcaisse_index');
+//        }
+//
+//        return $this->render('ApproCaisse/new.html.twig', [
+//            'form' => $form->createView(),
+//            'approCaisse' => $approCaisse,
+//        ]);
+//    }
 
 
     #[Route('/{id}/show', name: 'app_approcaisse_show', methods: ['GET', 'POST'])]

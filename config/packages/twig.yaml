@@ -5,7 +5,7 @@ twig:
         societe_info: '@App\Service\SocieteService'
         journee_service: '@App\Service\JourneeService'
         numberToWords: '@App\Service\NumberToWordsService'
-        notification_info: '@App\Service\NotificationService'
+
         notify: '@App\Service\NotificationService'
 
     number_format:

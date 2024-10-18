@@ -61,16 +61,35 @@ class JournalCaisseRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
+//    public function getLastSolde(int $caisseId)
+//    {
+//        return $this->createQueryBuilder('jc')
+//                    ->select('jc.solde')
+//                    ->where('jc.caisse = :caisse')
+//                    ->setParameter('caisse',$caisseId)
+//                    ->orderBy('jc.id','DESC')
+//                    ->setMaxResults(1)
+//                    ->getQuery()->getSingleScalarResult();
+//    }
+
+
     public function getLastSolde(int $caisseId)
     {
-        return $this->createQueryBuilder('jc')
-                    ->select('jc.solde')
-                    ->where('jc.caisse = :caisse')
-                    ->setParameter('caisse',$caisseId)
-                    ->orderBy('jc.id','DESC')
-                    ->setMaxResults(1)
-                    ->getQuery()->getSingleScalarResult();
+        try {
+            return $this->createQueryBuilder('jc')
+                ->select('jc.solde')
+                ->where('jc.caisse = :caisse')
+                ->setParameter('caisse', $caisseId)
+                ->orderBy('jc.id', 'DESC')
+                ->setMaxResults(1)
+                ->getQuery()
+                ->getSingleScalarResult();
+        } catch (\Doctrine\ORM\NoResultException $e) {
+            // Si aucun résultat trouvé, retourner 0 ou une valeur par défaut
+            return 0;
+        }
     }
+
 
 //    public function getLastSolde(int $caisseId)
 //    {

@@ -15,6 +15,7 @@ use Symfony\Bundle\SecurityBundle\Security;
  * @method Notification|null findOneBy(array $criteria, array $orderBy = null)
  * @method Notification[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
+
 class NotificationRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry, private readonly Security $security)
@@ -43,21 +44,26 @@ class NotificationRepository extends ServiceEntityRepository
     /**
      * @return Notification[]
      */
+
+
+
     public function findAll(): array
     {
         /** @var User $user */
         $user = $this->security->getUser();
-        $permissions = $user?->getRoles();
+
+        $roles = $user?->getRoles();
+
         $qb = $this->createQueryBuilder('n');
+
         return $qb
-            ->where('n.owner <>:user')
-//            ->orWhere($qb->expr()->isNull('n.owner'))
-            ->andwhere($qb->expr()->isNull('n.user'))
-            ->orWhere('n.user =:user')
-//            ->andWhere($qb->expr()->in('n.permission', $permissions))
-            ->andWhere($qb->expr()->in('n.permission', $user->getRoles()))
+            ->where('n.user <> :user')
+            ->andWhere($qb->expr()->in('n.permission', ':roles'))
             ->andWhere('n.unread = true')
             ->setParameter('user', $user)
-            ->getQuery()->getResult();
+            ->setParameter('roles', $roles)
+            ->getQuery()
+            ->getResult();
     }
+
 }

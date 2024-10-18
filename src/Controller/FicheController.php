@@ -202,108 +202,188 @@ class FicheController extends AbstractController
                 $total += $montant;
             }
         }
+
         // send notification
         if ($request->isMethod('POST') && $this->isCsrfTokenValid('validate-caisse-fdb', $request->request->get('_token'))) {
             $link = $generatorUrl->generate('fdb_show', ['id' => $fdb->getId()]);
             if ($request->request->has('send_fdb')) {
+
                 $responsableId = $fdb->getValidBy()->getId();
+
                 /** @var User $user */
                 $user = $this->getUser();
+
                 $notification = (new Notification())
                     ->setUser($user)
-                    ->setUuid(Uuid::v4())
                     ->setStatus(Status::EN_ATTENTE)
                     ->setUnread(true)
                     ->setPermission('ROLE_RESPONSABLE')
                     ->setFdb($fdb)
-                    ->setCreatedAt(new \DateTimeImmutable())
                     ->setLink($link)
-                    ->setMessage('Fiche de besoin en attente de validation');
+                    ->setMessage('Fiche de besoin en attente de validation.');
                 $entityManager->persist($notification);
+
 
                 $event = 'responsable' . $responsableId;
                 $pusher->trigger('notify', $event, [
                     'responsableId' => $responsableId,
-                    'message' => 'Fiche de besoin en attente de validation',
+                    'message' => 'Fiche de besoin en attente de validation.',
                     'permission' => 'ROLE_RESPONSABLE'
                 ]);
+
                 flash()
                     ->options([
                         'timeout' => 5000,
                         'position' => 'bottom-right',
                     ])
-                    ->success('Fiche de besoin envoyé pour la validation');
+                    ->success('Fiche de besoin envoyé pour la validation.');
                 $fdb->setStatus(Status::EN_ATTENTE);
+
                 $entityManager->flush();
                 return $this->redirectToRoute('fdb_index');
             }
 
 
-            // validation fiche besoin
+            // Validation par ROLE_RESPONSABLE
             if ($this->isGranted('ROLE_RESPONSABLE') && $request->request->has('confirm_responsable')) {
-
-                // Recupérer la notification de fiche de besoin non lu
-
-                // Marque lu
-
-                // Création d'une nouvelle modification
-
-                $notification = (new Notification())
-                    ->setFdb($fdb)
-                    ->setMessage('Fiche de besoin en attente d\'approbation')
-                    ->setLink($link);
-                $entityManager->persist($notification);
-                $pusher->trigger('responsable', 'notification', [
-                    'message' => 'Fiche de besoin en attente d\'approbation'
+                // Récupérer la notification actuelle et la marquer comme lue
+                $notification = $entityManager->getRepository(Notification::class)->findOneBy([
+                    'fdb' => $fdb,
+                    'unread' => true,
+                    'permission' => 'ROLE_RESPONSABLE'
                 ]);
+
+                if ($notification) {
+                    $notification->setUnread(false);
+                    $entityManager->persist($notification);
+                }
+
+                // Création d'une nouvelle notification pour ROLE_MANAGER1
+                $manager1Notification = (new Notification())
+                    ->setUser($this->getUser()) // utilisateur responsable
+                    ->setStatus(Status::VALIDATED)
+                    ->setUnread(true)
+                    ->setPermission('ROLE_MANAGER1')
+                    ->setFdb($fdb)
+                    ->setLink($generatorUrl->generate('fdb_show', ['id' => $fdb->getId()]))
+                    ->setMessage('Fiche de besoin en attente d\'approbation.');
+
+                $entityManager->persist($manager1Notification);
+
+                // Envoi de la notification via Pusher
+                $event = 'manager1';
+                $pusher->trigger('notify', $event, [
+                    'message' => 'Fiche de besoin en attente d\'approbation.',
+                    'permission' => 'ROLE_MANAGER1',
+                    'link' => $manager1Notification->getLink()
+                ]);
+
+
                 flash()
                     ->options([
                         'timeout' => 5000,
                         'position' => 'bottom-right',
                     ])
-                    ->success('Fiche de besoin validée');
+                    ->success('Fiche de besoin envoyée pour approbation.');
 
                 $fdb->setStatus(Status::VALIDATED);
                 $entityManager->flush();
 
                 return $this->redirectToRoute('fdb_index');
             }
-            // Cancel Fiche besoin
 
+            // Annulation par ROLE_RESPONSABLE
             if ($request->request->has('cancel_responsable') && $this->isGranted('ROLE_RESPONSABLE')) {
+                // Récupérer l'utilisateur qui a créé la fiche (le champ user de Fdb)
+                $userCreator = $fdb->getUser();
+
+                // Vérifier si l'utilisateur existe
+                if ($userCreator) {
+                    // Création de la notification pour ROLE_USER (créateur de la Fdb)
+                    $cancelNotification = (new Notification())
+                        ->setUser($userCreator)
+                        ->setStatus(Status::CANCELLED)
+                        ->setUnread(true)
+                        ->setPermission('ROLE_USER')
+                        ->setFdb($fdb)
+                        ->setLink($generatorUrl->generate('fdb_show', ['id' => $fdb->getId()]))
+                        ->setMessage('Fiche de besoin annulée, veuillez la retirer');
+
+                    $entityManager->persist($cancelNotification);
+
+                    // Envoi de la notification via Pusher
+                    $event = 'user' . $userCreator->getId();
+                    $pusher->trigger('notify', $event, [
+                        'message' => 'Fiche de besoin annulée, veuillez la retirer',
+                        'permission' => 'ROLE_USER',
+                        'link' => $cancelNotification->getLink()
+                    ]);
+                }
+
+                // Mise à jour du statut de la fiche de besoin
+
                 flash()
                     ->options([
                         'timeout' => 5000,
                         'position' => 'bottom-right',
                     ])
-                    ->success('Fiche de besoin annulée');
+                    ->success('Fiche de besoin annulée.');
+
                 $fdb->setStatus(Status::CANCELLED);
                 $entityManager->flush();
+
                 return $this->redirectToRoute('fdb_index');
             }
 
-            //Approvouver fiche besoin
+
+            // Approvisionnement par ROLE_MANAGER1
             if ($request->request->has('confirm_manager1') && $this->isGranted('ROLE_MANAGER1')) {
-
-                // Recupérer la notification de fiche de besoin non lu
-
-                // Marque lu
-
-                $caisse = $fdb->getCaisse();
-                $cashUserId = $caisse->getUser()->getId();
-                $fdb->setStatus(Status::APPROUVED);
-                $entityManager->persist($fdb);
-                $entityManager->flush();
-                $notification = (new Notification())
-                    ->setFdb($fdb)
-                    ->setMessage('Fiche de besoin approuvée')
-                    ->setLink($link);
-                $entityManager->persist($notification);
-                $pusher->trigger('user.' . $cashUserId, 'notify', [
-                    'message' => 'Fiche de besoin approuvée'
+                // Récupérer la notification actuelle et la marquer comme lue
+                $notification = $entityManager->getRepository(Notification::class)->findOneBy([
+                    'fdb' => $fdb,
+                    'unread' => true,
+                    'permission' => 'ROLE_MANAGER1'
                 ]);
-                return $this->redirectToRoute('app_welcome');
+
+                if ($notification) {
+                    $notification->setUnread(false);
+                    $entityManager->persist($notification);
+                }
+
+                // Création de la notification pour ROLE_MANAGER
+                $managerNotification = (new Notification())
+                    ->setUser($this->getUser()) // utilisateur manager1
+                    ->setStatus(Status::APPROUVED)
+                    ->setUnread(true)
+                    ->setPermission('ROLE_MANAGER')
+                    ->setFdb($fdb)
+                    ->setLink($generatorUrl->generate('fdb_show', ['id' => $fdb->getId()]))
+                    ->setMessage('La fiche de besoin en attente de décaissement.');
+
+                $entityManager->persist($managerNotification);
+
+                // Envoi de la notification via Pusher
+                $event = 'manager';
+                $pusher->trigger('notify', $event, [
+                    'message' => 'La fiche de besoin en attente de décaissement.',
+                    'permission' => 'ROLE_MANAGER',
+                    'link' => $managerNotification->getLink()
+                ]);
+
+
+                flash()
+                    ->options([
+                        'timeout' => 5000,
+                        'position' => 'bottom-right',
+                    ])
+                    ->success('Fiche de besoin envoyée pour décaissement.');
+
+                $fdb->setStatus(Status::APPROUVED);
+                $entityManager->flush();
+
+                return $this->redirectToRoute('fdb_index');
             }
+
         }
 
         return $this->render('fdb/show.html.twig', [
@@ -330,30 +410,30 @@ class FicheController extends AbstractController
         ]);
     }
 
-    #[Route('/fdb/{id}/delete', name: 'fdb_delete', methods: ['GET'])]
-    public function delete(EntityManagerInterface $manager, Fdb $fdb): Response
-    {
-        $user = $this->getUser();
-        $roles = $user->getRoles();
-
-        // Vérifier que l'utilisateur a l'un des rôles nécessaires, que la fiche lui appartient, et qu'elle est annulée et active
-        if ((in_array('ROLE_USER', $roles) || in_array('ROLE_RESPONSABLE', $roles) || in_array('ROLE_IMPRESSION', $roles))
-            && $fdb->getUser() === $user
-            && $fdb->getStatus() === Status::CANCELLED
-            && $fdb->getIsActive()) {
-
-            // Mettre à jour la propriété isActive à false pour désactiver la fiche
-            $fdb->setIsActive(false);
-            $manager->flush();
-
-            flash()->options(['timeout' => 5000, 'position' => 'bottom-right'])->success('Fiche de besoin supprimée avec succès !');
-        } else {
-            // Si les conditions ne sont pas respectées, afficher un message d'erreur
-            flash()->options(['timeout' => 5000, 'position' => 'bottom-right'])->error('Vous ne pouvez supprimer que vos propres fiches annulées.');
-        }
-
-        return $this->redirectToRoute('fdb_index');
-    }
+//    #[Route('/fdb/{id}/delete', name: 'fdb_delete', methods: ['GET'])]
+//    public function delete(EntityManagerInterface $manager, Fdb $fdb): Response
+//    {
+//        $user = $this->getUser();
+//        $roles = $user->getRoles();
+//
+//        // Vérifier que l'utilisateur a l'un des rôles nécessaires, que la fiche lui appartient, et qu'elle est annulée et active
+//        if ((in_array('ROLE_USER', $roles) || in_array('ROLE_RESPONSABLE', $roles) || in_array('ROLE_IMPRESSION', $roles))
+//            && $fdb->getUser() === $user
+//            && ($fdb->getStatus() === Status::CANCELLED || $fdb->getStatus() === Status::BROUILLON)
+//            && $fdb->getIsActive()) {
+//
+//            // Mettre à jour la propriété isActive à false pour désactiver la fiche
+//            $fdb->setIsActive(false);
+//            $manager->flush();
+//
+//            flash()->options(['timeout' => 5000, 'position' => 'bottom-right'])->success('Fiche de besoin supprimée avec succès !');
+//        } else {
+//            // Si les conditions ne sont pas respectées, afficher un message d'erreur
+//            flash()->options(['timeout' => 5000, 'position' => 'bottom-right'])->error('Vous ne pouvez supprimer que vos propres fiches annulées.');
+//        }
+//
+//        return $this->redirectToRoute('fdb_index');
+//    }
 
     #[Route('/fdb/{uuid}/convert', name: 'fdb_convert', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_MANAGER')]

@@ -40,6 +40,22 @@
                 margin-top: 20px;
             }
 
+            /* Style pour le bouton "Imprimer" */
+            .print-button {
+                display: block;
+                margin: 20px auto; /* Centrer le bouton horizontalement */
+                padding: 10px 20px; /* Ajuster le padding pour rendre le bouton plus grand */
+                background-color: #041b48; /* Couleur de fond */
+                color: white; /* Couleur du texte */
+                border: none;
+                border-radius: 5px; /* Coins arrondis */
+                cursor: pointer;
+            }
+
+            .print-button:hover {
+                background-color: #0d84de; /* Couleur de fond au survol */
+            }
+
             /* Ajustement pour le format A5 */
             @media print {
                 .btn-print, .btn-home {
@@ -56,21 +72,20 @@
 
                 /* Définir la taille de la page en A5 */
                 @page {
-                    size: A5; /* Format A5 défini */
-                    margin: 1cm; /* Ajustement des marges */
+                    size: A5;
+                    margin: 1cm;
                 }
 
-                /* Ajustement de la police pour un meilleur rendu en A5 */
                 body {
-                    font-size: 12px; /* Taille de police réduite pour correspondre au format A5 */
+                    font-size: 12px;
                 }
 
                 .receipt-container {
-                    margin: 10px; /* Réduire les marges pour mieux utiliser l'espace A5 */
+                    margin: 10px;
                 }
 
                 .header p {
-                    font-size: 10px; /* Réduire la taille de police des en-têtes */
+                    font-size: 10px;
                 }
 
                 .title-box {
@@ -100,25 +115,7 @@
                     font-size: 10px;
                 }
 
-            }
-
-            /* Style spécifique pour l'impression */
-            @media print {
-                @page {
-                    size: A5 portrait;
-                    margin: 10mm;
-                }
-
-                body {
-                    margin: 0;
-                    padding: 0;
-                }
-
-                .print-button
-                {
-                    display: none;
-                }
-
+                /* Style spécifique pour l'impression */
                 .card-body {
                     margin: 0;
                     padding: 0;
@@ -157,7 +154,6 @@
                 .table th,
                 .table td {
                     padding: 10px;
-                    /* Ajuste le padding pour s'adapter au format A5 */
                     text-align: center;
                     white-space: nowrap;
                 }
@@ -167,7 +163,6 @@
                     width: 100%;
                 }
             }
-
         </style>
     {% endblock %}
 </head>
@@ -182,6 +177,7 @@
 
 {{ encore_entry_script_tags('app') }}
 
+<!-- Bouton "Imprimer" centré -->
 <button class="print-button" onclick="window.print()">Imprimer</button>
 
 <script type="text/javascript">

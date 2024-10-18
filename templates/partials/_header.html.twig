@@ -105,7 +105,8 @@
             <!-- .top-bar-item -->
             <div class="top-bar-item top-bar-item-right px-0 d-none d-sm-flex">
                 <ul class="header-nav nav">
-                    <li class="nav-item dropdown header-nav-dropdown has-notified" id="header-notification">
+                    {% set notifications = notify.notifies %}
+                    <li class="nav-item dropdown header-nav-dropdown {{ notifications|length > 0 ? 'has-notified' : '' }}" id="header-notification">
                         <a class="nav-link" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="oi oi-envelope-open"></span>
                         </a>
@@ -116,30 +117,35 @@
                                 <span>Messages</span>
                             </h6>
                             <!-- .dropdown-scroll -->
-                            <div class="dropdown-scroll has-scrollable" id="notification-body">
+                            <div class="{{ notifications|length > 5 ? 'dropdown-scroll has-scrollable' : '' }} " id="notification-body">
+                                {% for notification in notifications %}
                                 <!-- .dropdown-item -->
-                                <a href="" class="dropdown-item unread">
-                                    <div class="user-avatar">
-                                        <img src="https://ui-avatars.com/api/?name=" alt="Notification">
-                                    </div>
-                                    <div class="dropdown-item-body">
-                                        <p class="subject">Notification</p>
-                                        <p class="text text-truncate"></p>
-                                        <span class="date"></span>
-                                    </div>
-                                </a>
-                                <!-- /.dropdown-item -->
-                                <!-- .dropdown-item -->
-                                <a href="#" class="dropdown-item unread">
-                                    <div class="user-avatar"></div>
-                                    <div class="dropdown-item-body">
-                                        <p class="subject">Vous n'avez pas de notification
-                                        </p>
-                                    </div>
-                                </a>
-                            </div>
-                            <!-- /.dropdown-scroll -->
-                            <a href="#" class="dropdown-footer">Tous les messages
+                                    <a href="{{ notification.link }}" class="dropdown-item unread">
+                                        <div class="user-avatar">
+                                            <img src="https://ui-avatars.com/api/?name=" alt="Notification">
+                                        </div>
+
+                                        <div class="dropdown-item-body">
+                                            <p class="subject">Notification</p>
+                                            <p class="text text-truncate">{{ notification.message }}</p>
+                                            <span class="date">{{ notification.createdAt|date }}</span>
+                                        </div>
+                                    </a>
+                                {% else %}
+                                    <!-- /.dropdown-item -->
+                                    <!-- .dropdown-item -->
+                                    <a href="#" class="dropdown-item unread">
+                                        <div class="user-avatar"></div>
+                                        <div class="dropdown-item-body">
+                                            <p class="subject">Vous n'avez pas de notification
+                                            </p>
+                                        </div>
+                                    </a>
+                                </div>
+                                <!-- /.dropdown-scroll -->
+                            {% endfor %}
+
+                            <a href="{{ path('app_notification') }}" class="dropdown-footer">Toutes les notifications
                                 <i class="fas fa-fw fa-long-arrow-alt-right"></i>
                             </a>
                         </div>
@@ -149,51 +155,49 @@
                     <!-- .nav-item -->
                 </ul>
 
+                {#            <div class="top-bar-item top-bar-item-right px-0 d-none d-sm-flex">#}
+                {#                <ul class="header-nav nav">#}
+                {#                    <li class="nav-item dropdown header-nav-dropdown has-notified" id="header-notification">#}
+                {#                        <a class="nav-link" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
+                {#                            <span class="oi oi-envelope-open"></span>#}
+                {#                        </a>#}
+                {#                        <!-- .dropdown-menu -->#}
+                {#                        <div class="dropdown-menu dropdown-menu-rich dropdown-menu-right">#}
+                {#                            <div class="dropdown-arrow"></div>#}
+                {#                            <h6 class="dropdown-header stop-propagation">#}
+                {#                                <span>Messages</span>#}
+                {#                            </h6>#}
+                {#                            <!-- .dropdown-scroll -->#}
+                {#                            <div class="dropdown-scroll has-scrollable" id="notification-body">#}
+                {#                                {% for notification in app.user.notifications|slice(0, 5) %}#}
+                {#                                    <a href="{{ notification.link }}" class="dropdown-item {% if notification.unread %}unread{% endif %}">#}
+                {#                                        <div class="user-avatar">#}
+                {#                                            <img src="https://ui-avatars.com/api/?name={{ notification.user.username }}" alt="Notification">#}
+                {#                                        </div>#}
+                {#                                        <div class="dropdown-item-body">#}
+                {#                                            <p class="subject">{{ notification.message }}</p>#}
+                {#                                            <span class="date">{{ notification.createdAt|ago }}</span>#}
+                {#                                        </div>#}
+                {#                                    </a>#}
+                {#                                {% else %}#}
+                {#                                    <a href="#" class="dropdown-item">#}
+                {#                                        <div class="dropdown-item-body">#}
+                {#                                            <p class="subject">Vous n'avez pas de notification</p>#}
+                {#                                        </div>#}
+                {#                                    </a>#}
+                {#                                {% endfor %}#}
+                {#                            </div>#}
+                {#                            <!-- /.dropdown-scroll -->#}
+                {#                            <a href="{{ path('app_notification') }}" class="dropdown-footer">Toutes les notifications#}
+                {#                                <i class="fas fa-fw fa-long-arrow-alt-right"></i>#}
+                {#                            </a>#}
+                {#                        </div>#}
+                {#                        <!-- /.dropdown-menu -->#}
+                {#                    </li>#}
+                {#                    <!-- /.nav-item -->#}
+                {#                </ul>#}
                 <!-- .top-bar-item -->
-{#                <div class="top-bar-item top-bar-item-right px-0 d-none d-sm-flex">#}
-{#                    <!-- Notifications -->#}
-{#                    <!-- Notifications -->#}
-{#                    <ul class="header-nav nav">#}
-{#                        <li class="nav-item dropdown header-nav-dropdown has-notified" id="header-notification">#}
-{#                            <a class="nav-link" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
-{#                                <span class="oi oi-envelope-open"></span>#}
-{#                                {% set unreadCount = get_unread_count(app.user) %}#}
-{#                                <span class="badge badge-danger">{{ unreadCount }}</span>#}
-{#                            </a>#}
-{#                            <div class="dropdown-menu dropdown-menu-rich dropdown-menu-right">#}
-{#                                <div class="dropdown-arrow"></div>#}
-{#                                <h6 class="dropdown-header stop-propagation">#}
-{#                                    <span>Notifications</span>#}
-{#                                </h6>#}
-{#                                <div class="dropdown-scroll has-scrollable" id="notification-body">#}
-{#                                    {% set notifications = get_unread_notifications(app.user) %}#}
-{#                                    {% for notification in notifications %}#}
-{#                                        <a href="{{ notification.link }}" class="dropdown-item unread">#}
-{#                                            <div class="user-avatar">#}
-{#                                                <img src="https://ui-avatars.com/api/?name={{ notification.message|url_encode }}" alt="Notification">#}
-{#                                            </div>#}
-{#                                            <div class="dropdown-item-body">#}
-{#                                                <p class="subject">{{ notification.message }}</p>#}
-{#                                                <span class="date">{{ notification.createdAt|date('d/m/Y H:i') }}</span>#}
-{#                                            </div>#}
-{#                                        </a>#}
-{#                                    {% else %}#}
-{#                                        <a href="#" class="dropdown-item">#}
-{#                                            <div class="dropdown-item-body">#}
-{#                                                <p class="subject">Vous n'avez pas de notification</p>#}
-{#                                            </div>#}
-{#                                        </a>#}
-{#                                    {% endfor %}#}
-{#                                </div>#}
-{#                                {% if notifications|length > 0 %}#}
-{#                                    <a href="#" class="dropdown-footer">Toutes les notifications <i class="fas fa-fw fa-long-arrow-alt-right"></i></a>#}
-{#                                {% endif %}#}
-{#                            </div>#}
-{#                        </li>#}
-{#                    </ul>#}
 
-{#                    <!-- ... (le reste du code du header reste inchangé) ... -->#}
-{#                </div>#}
                 <!-- /.top-bar-item -->
 
                 <!-- .btn-account -->
@@ -234,10 +238,10 @@
                         <div class="dropdown-arrow ml-3 d-none d-lg-block"></div>
                         {% if is_granted('ROLE_ADMIN') %}
                             <a class="dropdown-item" href=" {{ path('app_user_edit', {'id': app.user.id})}} ">
-                                                            <span class="dropdown-icon oi oi-person"></span>
-                                                            Profil
+                                <span class="dropdown-icon oi oi-person"></span>
+                                Profil
 
-                                                        </a>
+                            </a>
                             <a class="dropdown-item" href="{{ path('app_logout') }}">
                                 <span class="dropdown-icon oi oi-account-logout"></span>
                                 Déconnexion
@@ -266,4 +270,4 @@
     <!-- /.top-bar -->
 </header>
 <!-- /.app-header -->
-{#{{ include('/_modal_journee.html.twig') }}#}
+{{ include('/_modal_journee.html.twig') }}
