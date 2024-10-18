@@ -168,7 +168,8 @@ class BilletageController extends AbstractController
     private function closeJournee(Journee $journee, Caisse $caisse, EntityManagerInterface $manager): void
     {
         $journee->setActive(false);
-        $caisse->setSoldedispo($journee->getSolde());
+//        $caisse->setSoldedispo($journee->getSolde());
+        $caisse->setSoldedispo($journee->getCaisse()->getSoldedispo());
 
         $manager->persist($journee);
         $manager->persist($caisse);
