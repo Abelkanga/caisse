@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Caisse;
 use App\Entity\JournalCaisse;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -60,6 +61,27 @@ class JournalCaisseRepository extends ServiceEntityRepository
         ;
         return $qb->getQuery()->getResult();
     }
+
+
+    public function findByCaisseAndDateRange(Caisse $caisse, ?string $dateDebut, ?string $dateFin)
+    {
+        $qb = $this->createQueryBuilder('j')
+            ->where('j.caisse = :caisse')
+            ->setParameter('caisse', $caisse);
+
+        if ($dateDebut) {
+            $qb->andWhere('j.date >= :dateDebut')
+                ->setParameter('dateDebut', new \DateTime($dateDebut));
+        }
+
+        if ($dateFin) {
+            $qb->andWhere('j.date <= :dateFin')
+                ->setParameter('dateFin', new \DateTime($dateFin));
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
 
 //    public function getLastSolde(int $caisseId)
 //    {

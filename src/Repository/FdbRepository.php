@@ -24,6 +24,29 @@ class FdbRepository extends ServiceEntityRepository
      */
     // src/Repository/FdbRepository.php
 
+//    public function findByUserRole(User $user): array
+//    {
+//        $roles = $user->getRoles();
+//        $qb = $this->createQueryBuilder('f')
+//            ->andWhere('f.isActive = :isActive')
+//            ->setParameter('isActive', true);
+//
+//        // Exclure les brouillons pour ROLE_RESPONSABLE, ROLE_MANAGER et ROLE_MANAGER1
+//        if (in_array('ROLE_RESPONSABLE', $roles) || in_array('ROLE_MANAGER', $roles) || in_array('ROLE_MANAGER1', $roles)) {
+//            $qb->andWhere('f.status != :status')
+//                ->setParameter('status', Status::BROUILLON);
+//        }
+//
+//        if (in_array('ROLE_USER', $roles) || in_array('ROLE_IMPRESSION', $roles)) {
+//            $qb->andWhere('f.user = :user')
+//                ->setParameter('user', $user);
+//        }
+//
+//        return $qb->orderBy('f.date', 'DESC')
+//            ->getQuery()
+//            ->getResult();
+//    }
+
     public function findByUserRole(User $user): array
     {
         $roles = $user->getRoles();
@@ -31,13 +54,16 @@ class FdbRepository extends ServiceEntityRepository
             ->andWhere('f.isActive = :isActive')
             ->setParameter('isActive', true);
 
-        // Exclure les brouillons pour ROLE_RESPONSABLE, ROLE_MANAGER et ROLE_MANAGER1
-        if (in_array('ROLE_RESPONSABLE', $roles) || in_array('ROLE_MANAGER', $roles) || in_array('ROLE_MANAGER1', $roles)) {
+        // Si l'utilisateur a le rôle ROLE_MANAGER, on affiche toutes ses fiches, même les brouillons
+        if (in_array('ROLE_MANAGER', $roles)) {
+            $qb->andWhere('f.user = :user')
+                ->setParameter('user', $user);
+        } elseif (in_array('ROLE_RESPONSABLE', $roles) || in_array('ROLE_MANAGER1', $roles)) {
+            // Exclure les brouillons pour ROLE_RESPONSABLE et ROLE_MANAGER1
             $qb->andWhere('f.status != :status')
                 ->setParameter('status', Status::BROUILLON);
-        }
-
-        if (in_array('ROLE_USER', $roles) || in_array('ROLE_IMPRESSION', $roles)) {
+        } elseif (in_array('ROLE_USER', $roles) || in_array('ROLE_IMPRESSION', $roles)) {
+            // Filtrer uniquement les fiches créées par l'utilisateur pour ROLE_USER et ROLE_IMPRESSION
             $qb->andWhere('f.user = :user')
                 ->setParameter('user', $user);
         }
@@ -46,6 +72,7 @@ class FdbRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
 
     public function findPendingByUserRole(User $user): array
     {

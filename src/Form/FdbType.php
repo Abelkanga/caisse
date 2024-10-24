@@ -50,13 +50,20 @@ class FdbType extends AbstractType
             ])
             ->add('validBy', EntityType::class, [
                 'class' => User::class,
-                'choice_label' => 'fullName', // ou un autre champ pour afficher l'utilisateur
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('u')
-                        ->where('u.roles LIKE :role')
-                        ->setParameter('role', '%ROLE_RESPONSABLE%');
+                'choice_label' => 'fullName', // Ou autre attribut utilisateur
+                'query_builder' => function (UserRepository $userRepository) {
+                    // Si l'utilisateur est ROLE_IMPRESSION, retourner à la fois ROLE_RESPONSABLE et ROLE_MANAGER1
+                    if ($this->security->isGranted('ROLE_IMPRESSION') || $this->security->isGranted('ROLE_MANAGER')) {
+                        return $userRepository->createQueryBuilder('u')
+                            ->where('u.roles LIKE :manager1')
+                            ->setParameter('manager1', '%"ROLE_MANAGER1"%');
+                    }
+
+                    // Sinon, retourner seulement ROLE_RESPONSABLE
+                    return $userRepository->createQueryBuilder('u')
+                        ->where('u.roles LIKE :responsable')
+                        ->setParameter('responsable', '%"ROLE_RESPONSABLE"%');
                 },
-                'placeholder' => 'Sélectionnez un responsable',
             ])
             ->add('destinataire', TextType::class, [
                 'attr' => [
@@ -112,6 +119,15 @@ class FdbType extends AbstractType
                 $total += $d->getMontant();
             }
             $fdb->setTotal($total);
+        });
+
+        // Ajout de l'événement pour ajuster le formulaire selon le rôle
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+            /** @var Fdb $fdb */
+            $fdb = $event->getData();
+            $form = $event->getForm();
+
+            // Ajuster selon les rôles ici si nécessaire
         });
     }
 

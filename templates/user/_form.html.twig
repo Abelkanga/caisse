@@ -1,47 +1,66 @@
 <fieldset>
-    <legend>Information compte utilisateur</legend>
+    <legend>Identification de l'utilisateur</legend>
 
     <div class="row">
-        <div class="col-md-5">
+        <div class="col-md-6">
             <div class="form-group">
-                <label for="name">Nom & prénoms<span class="text-danger">*</span></label>
+                <label for="name">Nom<span class="text-danger">*</span></label>
                 {{ form_widget(form.fullName, {'attr' : {'class': 'form-control'}}) }}
             </div>
         </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="name">Prénoms<span class="text-danger">*</span></label>
+                {{ form_widget(form.prenom, {'attr' : {'class': 'form-control'}}) }}
+            </div>
+        </div>
 
-        <div class="col-md-5">
+        <div class="col-md-6">
             <div class="form-group">
-                <label for="pseudo">Identifiant</label>
-                {{ form_widget(form.pseudo, {'attr' : {'class': 'form-control', 'id': 'pseudo'}}) }}
+                <label for="role">Service<span class="text-danger">*</span></label>
+                {{ form_widget(form.emeteur, {'attr' : {'class': 'form-control-sm select2 '}}) }}
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-5">
-            <div class="form-group">
-                <label for="contact">Contact<span class="text-danger">*</span></label>
-                {{ form_widget(form.contact, {'attr' : {'class': 'form-control'}}) }}
-            </div>
-        </div>
-        <div class="col-md-5">
+
+        <div class="col-md-6">
             <div class="form-group">
                 <label for="fonction">Fonction<span class="text-danger">*</span></label>
                 {{ form_widget(form.fonction, {'attr' : {'class': 'form-control'}}) }}
             </div>
         </div>
     </div>
+
+    <legend>Coordonnées de l'utilisateur</legend>
+
     <div class="row">
-        <div class="col-md-5">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="contact">Contact<span class="text-danger">*</span></label>
+                {{ form_widget(form.contact, {'attr' : {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="col-md-6">
             <div class="form-group">
                 <label for="email">Email<span class="text-danger">*</span></label>
-                {{ form_widget(form.email, {'attr' : {'class': 'form-control'}}) }}
+                {{ form_widget(form.email, {'attr' : {'class': 'form-control', 'id': 'user_email'}}) }}
+            </div>
+        </div>
+    </div>
+    <legend>Compte utilisateur</legend>
+    <div class="row">
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="pseudo">Identifiant</label>
+                {{ form_widget(form.pseudo, {'attr' : {'class': 'form-control', 'id': 'user_pseudo'}}) }}
             </div>
         </div>
 
         {% if is_granted('ROLE_ADMIN') %}
 
         {% if form.roles is defined %}
-            <div class="col-md-5">
+            <div class="col-md-6">
                 <div class="form-group">
                     <label for="role">Rôle<span class="text-danger">*</span></label>
                     {{ form_widget(form.roles, {'attr' : {'class': 'form-control-sm select2 '}}) }}

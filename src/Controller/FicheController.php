@@ -113,36 +113,181 @@ class FicheController extends AbstractController
 
 
     #[Route('/fdb/new', name: 'fdb_new', methods: ['GET', 'POST'])]
-    public function new(
-        Request                $request,
-        EntityManagerInterface $entityManager,
-        CaisseRepository       $caisseRepository,
-        CaisseService          $service
-    ): Response
-    {
-        $refFiche = $service->refFdb();
+//    public function new(
+//        Request                $request,
+//        EntityManagerInterface $entityManager,
+//        CaisseRepository       $caisseRepository,
+//        CaisseService          $service
+//    ): Response
+//    {
+//        $refFiche = $service->refFdb();
+//
+//        $fdb = (new Fdb())
+//            ->setDate(new \DateTime())
+//            ->setNumeroFicheBesoin($refFiche)
+//            ->setDestinataire('Konan Gwladys');
+//        $caisseSecondaire = $caisseRepository->findOneBy(['code' => 'C002']);
+//        $fdb->setCaisse($caisseSecondaire);
+//
+//        $form = $this->createForm(FdbType::class, $fdb);
+//        $form->handleRequest($request);
+//        if ($form->isSubmitted() && $form->isValid()) {
+//            /** @var User $user */
+//            $user = $this->getUser();
+//            $status = $this->isGranted('ROLE_RESPONSABLE') ? Status::EN_ATTENTE : Status::BROUILLON;
+//
+//            $fdb->setUser($user)->setStatus($status);
+//            foreach ($fdb->getDetails() as $detail) {
+//                $detail->setFdb($fdb);
+//                $entityManager->persist($detail);
+//            }
+//
+//            // Persister la fiche de besoin avec la caisse secondaire
+//            $entityManager->persist($fdb);
+//            $entityManager->flush();
+//
+//            flash()
+//                ->options(['timeout' => 5000, 'position' => 'bottom-right'])
+//                ->success('Fiche de besoin enregistrée avec succès !');
+//
+//            return $this->redirectToRoute('fdb_index');
+//        }
+//
+//        return $this->render('fdb/new.html.twig', [
+//            'fdb' => $fdb,
+//            'form' => $form->createView(),
+//        ]);
+//
+//    }
 
-        $fdb = (new Fdb())
-            ->setDate(new \DateTime())
+//    public function new(
+//        Request $request,
+//        EntityManagerInterface $entityManager,
+//        CaisseRepository $caisseRepository,
+//        CaisseService $service
+//    ): Response
+//    {
+//        $refFiche = $service->refFdb();
+//        $fdb = new Fdb();
+//        $fdb->setDate(new \DateTime())
+//            ->setNumeroFicheBesoin($refFiche)
+//            ->setDestinataire('Konan Gwladys');
+//
+//        // Récupérer la caisse secondaire
+//        $caisseSecondaire = $caisseRepository->findOneBy(['code' => 'C002']);
+//        $fdb->setCaisse($caisseSecondaire);
+//
+//        // Création du formulaire
+//        $form = $this->createForm(FdbType::class, $fdb);
+//        $form->handleRequest($request);
+//
+//        if ($form->isSubmitted() && $form->isValid()) {
+//            /** @var User $user */
+//            $user = $this->getUser();
+//
+//            if ($this->isGranted('ROLE_IMPRESSION')) {
+//                // Création de Fdb par ROLE_IMPRESSION
+//                $status = Status::BROUILLON; // Statut par défaut BROUILLON pour ROLE_IMPRESSION
+//
+//                // Si l'utilisateur a cliqué sur le bouton "Envoyer", le statut passe à VALIDATED
+//                if ($request->request->has('send_fdb')) {
+//                    $status = Status::VALIDATED;
+//                }
+//
+//                $fdb->setStatus($status);
+//            } else {
+//                // Logique par défaut pour les autres rôles
+//                $status = $this->isGranted('ROLE_RESPONSABLE') ? Status::EN_ATTENTE : Status::BROUILLON;
+//                $fdb->setStatus($status);
+//            }
+//
+//            $fdb->setUser($user);
+//            foreach ($fdb->getDetails() as $detail) {
+//                $detail->setFdb($fdb);
+//                $entityManager->persist($detail);
+//            }
+//
+//            $entityManager->persist($fdb);
+//            $entityManager->flush();
+//
+//            flash()
+//                ->options(['timeout' => 5000, 'position' => 'bottom-right'])
+//                ->success('Fiche de besoin enregistrée avec succès !');
+//
+//            return $this->redirectToRoute('fdb_index');
+//        }
+//
+//        return $this->render('fdb/new.html.twig', [
+//            'fdb' => $fdb,
+//            'form' => $form->createView(),
+//        ]);
+//    }
+
+
+    public function new(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        CaisseRepository $caisseRepository,
+        CaisseService $service
+    ): Response {
+
+        /** @var User $user */
+        $user = $this->getUser();
+        $beneficiaire = $user->getPrenom() . ' ' . $user->getFullName(); // Concaténation prénom + nom
+
+        $refFiche = $service->refFdb();
+        $fdb = new Fdb();
+        $fdb->setDate(new \DateTime())
             ->setNumeroFicheBesoin($refFiche)
-            ->setDestinataire('Konan Gwladys');
+            ->setDestinataire('Konan Gwladys')
+            ->setBeneficiaire($beneficiaire);
+
+
+
+
+        // Récupérer la caisse secondaire (ou principale selon votre logique)
         $caisseSecondaire = $caisseRepository->findOneBy(['code' => 'C002']);
         $fdb->setCaisse($caisseSecondaire);
 
+        // Création du formulaire
         $form = $this->createForm(FdbType::class, $fdb);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var User $user */
             $user = $this->getUser();
-            $status = $this->isGranted('ROLE_RESPONSABLE') ? Status::EN_ATTENTE : Status::BROUILLON;
 
-            $fdb->setUser($user)->setStatus($status);
+            if ($this->isGranted('ROLE_MANAGER')) {
+                // Pour ROLE_MANAGER, statut par défaut = BROUILLON
+                $status = Status::BROUILLON;
+
+                // Si l'utilisateur clique sur "Envoyer", passer à VALIDATED
+                if ($request->request->has('send_fdb')) {
+                    $status = Status::VALIDATED;
+                }
+
+                $fdb->setStatus($status);
+            } else if ($this->isGranted('ROLE_IMPRESSION')) {
+                // Logique pour ROLE_IMPRESSION similaire à ROLE_MANAGER
+                $status = Status::BROUILLON;
+
+                if ($request->request->has('send_fdb')) {
+                    $status = Status::VALIDATED;
+                }
+
+                $fdb->setStatus($status);
+            } else {
+                // Logique par défaut pour les autres rôles
+                $status = $this->isGranted('ROLE_RESPONSABLE') ? Status::EN_ATTENTE : Status::BROUILLON;
+                $fdb->setStatus($status);
+            }
+
+            $fdb->setUser($user);
             foreach ($fdb->getDetails() as $detail) {
                 $detail->setFdb($fdb);
                 $entityManager->persist($detail);
             }
 
-            // Persister la fiche de besoin avec la caisse secondaire
             $entityManager->persist($fdb);
             $entityManager->flush();
 
@@ -157,8 +302,8 @@ class FicheController extends AbstractController
             'fdb' => $fdb,
             'form' => $form->createView(),
         ]);
-
     }
+
 
     #[Route('/fdb/{id}/edit', name: 'fdb_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Fdb $fdb, EntityManagerInterface $entityManager): Response
@@ -206,45 +351,88 @@ class FicheController extends AbstractController
         // send notification
         if ($request->isMethod('POST') && $this->isCsrfTokenValid('validate-caisse-fdb', $request->request->get('_token'))) {
             $link = $generatorUrl->generate('fdb_show', ['id' => $fdb->getId()]);
-            if ($request->request->has('send_fdb')) {
 
-                $responsableId = $fdb->getValidBy()->getId();
+            // Vérification du bouton "Envoyer"
+            if ($request->request->has('send_fdb')) {
 
                 /** @var User $user */
                 $user = $this->getUser();
 
-                $notification = (new Notification())
-                    ->setUser($user)
-                    ->setStatus(Status::EN_ATTENTE)
-                    ->setUnread(true)
-                    ->setPermission('ROLE_RESPONSABLE')
-                    ->setFdb($fdb)
-                    ->setLink($link)
-                    ->setMessage('Fiche de besoin en attente de validation.');
-                $entityManager->persist($notification);
+                // Cas spécifique pour ROLE_MANAGER et ROLE_IMPRESSION
+                if ($this->isGranted('ROLE_MANAGER') || $this->isGranted('ROLE_IMPRESSION')) {
+                    // Notification pour ROLE_MANAGER1 directement
+                    $manager1Notification = (new Notification())
+                        ->setUser($user)
+                        ->setStatus(Status::VALIDATED)
+                        ->setUnread(true)
+                        ->setPermission('ROLE_MANAGER1')
+                        ->setFdb($fdb)
+                        ->setLink($link)
+                        ->setMessage('Fiche de besoin en attente d\'approbation.');
 
+                    $entityManager->persist($manager1Notification);
 
-                $event = 'responsable' . $responsableId;
-                $pusher->trigger('notify', $event, [
-                    'responsableId' => $responsableId,
-                    'message' => 'Fiche de besoin en attente de validation.',
-                    'permission' => 'ROLE_RESPONSABLE'
-                ]);
+                    // Envoi de la notification via Pusher
+                    $pusher->trigger('notify', 'manager1', [
+                        'message' => 'Fiche de besoin en attente d\'approbation.',
+                        'permission' => 'ROLE_MANAGER1',
+                        'link' => $link,
+                    ]);
 
-                flash()
-                    ->options([
-                        'timeout' => 5000,
-                        'position' => 'bottom-right',
-                    ])
-                    ->success('Fiche de besoin envoyé pour la validation.');
-                $fdb->setStatus(Status::EN_ATTENTE);
+                    // Mise à jour du statut de la Fdb à VALIDATED pour ROLE_MANAGER et ROLE_IMPRESSION
+                    $fdb->setStatus(Status::VALIDATED);
 
+                    flash()
+                        ->options([
+                            'timeout' => 5000,
+                            'position' => 'bottom-right',
+                        ])
+                        ->success('Fiche de besoin envoyée pour approbation.');
+                } else {
+                    // Logique par défaut : Envoi aux responsables (ROLE_RESPONSABLE)
+                    $responsableId = $fdb->getValidBy()->getId();
+
+                    $notification = (new Notification())
+                        ->setUser($user)
+                        ->setStatus(Status::EN_ATTENTE)
+                        ->setUnread(true)
+                        ->setPermission('ROLE_RESPONSABLE')
+                        ->setFdb($fdb)
+                        ->setLink($link)
+                        ->setMessage('Fiche de besoin en attente de validation.');
+
+                    $entityManager->persist($notification);
+
+                    // Envoi de la notification via Pusher à ROLE_RESPONSABLE
+                    $event = 'responsable' . $responsableId;
+                    $pusher->trigger('notify', $event, [
+                        'responsableId' => $responsableId,
+                        'message' => 'Fiche de besoin en attente de validation.',
+                        'permission' => 'ROLE_RESPONSABLE',
+                        'link' => $link,
+                    ]);
+
+                    // Mise à jour du statut de la Fdb à EN_ATTENTE
+                    $fdb->setStatus(Status::EN_ATTENTE);
+
+                    flash()
+                        ->options([
+                            'timeout' => 5000,
+                            'position' => 'bottom-right',
+                        ])
+                        ->success('Fiche de besoin envoyée pour validation.');
+                }
+
+                // Enregistrement en base
                 $entityManager->flush();
+
+                // Redirection
                 return $this->redirectToRoute('fdb_index');
             }
 
 
-            // Validation par ROLE_RESPONSABLE
+
+        // Validation par ROLE_RESPONSABLE
             if ($this->isGranted('ROLE_RESPONSABLE') && $request->request->has('confirm_responsable')) {
                 // Récupérer la notification actuelle et la marquer comme lue
                 $notification = $entityManager->getRepository(Notification::class)->findOneBy([
@@ -297,6 +485,18 @@ class FicheController extends AbstractController
                 // Récupérer l'utilisateur qui a créé la fiche (le champ user de Fdb)
                 $userCreator = $fdb->getUser();
 
+                // Récupérer l'ancienne notification et la marquer comme lue
+                $oldNotification = $entityManager->getRepository(Notification::class)->findOneBy([
+                    'fdb' => $fdb,
+                    'unread' => true,
+                    'permission' => 'ROLE_RESPONSABLE'
+                ]);
+
+                if ($oldNotification) {
+                    $oldNotification->setUnread(false);
+                    $entityManager->persist($oldNotification);
+                }
+
                 // Vérifier si l'utilisateur existe
                 if ($userCreator) {
                     // Création de la notification pour ROLE_USER (créateur de la Fdb)
@@ -307,7 +507,7 @@ class FicheController extends AbstractController
                         ->setPermission('ROLE_USER')
                         ->setFdb($fdb)
                         ->setLink($generatorUrl->generate('fdb_show', ['id' => $fdb->getId()]))
-                        ->setMessage('Fiche de besoin annulée, veuillez la retirer');
+                        ->setMessage('Votre demande a été rejetée, veuillez contacter votre responsable.');
 
                     $entityManager->persist($cancelNotification);
 
@@ -393,6 +593,7 @@ class FicheController extends AbstractController
         ]);
 
     }
+
 
     #[Route('/fdb/{uuid}/print', name: 'print_fdb', methods: ['GET'])]
     public function print(Fdb $fdb): Response

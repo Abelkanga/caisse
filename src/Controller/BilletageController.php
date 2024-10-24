@@ -7,6 +7,7 @@ use App\Entity\Caisse;
 use App\Entity\Journee;
 use App\Entity\User;
 use App\Form\BilletageType;
+use App\Repository\BilletageRepository;
 use App\Repository\JourneeRepository;
 use App\Service\CaisseService;
 use App\Utils\Status;
@@ -76,6 +77,23 @@ class BilletageController extends AbstractController
 
         return $this->render('billetage/index.html.twig', [
             'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/indexprint', name: 'indexprint', methods: ['GET'])]
+    public function indexprint(
+        EntityManagerInterface $manager,
+        BilletageRepository $billetageRepository
+    ): Response {
+        /** @var User $user */
+        $user = $this->getUser();
+        $caisse = $user->getCaisse();
+
+        // Récupérer tous les billetages associés à la caisse de l'utilisateur
+        $billetages = $billetageRepository->findBy(['caisse' => $caisse]);
+
+        return $this->render('billetage/indexprint.html.twig', [
+            'billetages' => $billetages,
         ]);
     }
 

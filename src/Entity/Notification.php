@@ -48,6 +48,9 @@ class Notification
     #[ORM\ManyToOne]
     private ?Bonapprovisionnement $bonapprovisionnement = null;
 
+    #[ORM\ManyToOne(inversedBy: 'notifications')]
+    private ?ApproCaisse $approcaisse = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -184,6 +187,18 @@ class Notification
     public function setBonapprovisionnement(?Bonapprovisionnement $bonapprovisionnement): static
     {
         $this->bonapprovisionnement = $bonapprovisionnement;
+
+        return $this;
+    }
+
+    public function getApprocaisse(): ?ApproCaisse
+    {
+        return $this->approcaisse;
+    }
+
+    public function setApprocaisse(?ApproCaisse $approcaisse): static
+    {
+        $this->approcaisse = $approcaisse;
 
         return $this;
     }

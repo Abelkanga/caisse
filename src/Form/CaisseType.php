@@ -18,8 +18,12 @@ class CaisseType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('code', TextType::class)
-            ->add('intitule', TextType::class)
+            ->add('code', TextType::class, [
+                'attr' => ['readonly' => true],  // Rendre le champ non modifiable (grisé)
+            ])
+            ->add('intitule', TextType::class, [
+                'attr' => ['readonly' => true],  // Rendre le champ non modifiable (grisé)
+            ])
             ->add('user', EntityType::class, [
                 'class' => User::class,
                 'choice_label' => 'fullName',
@@ -34,6 +38,7 @@ class CaisseType extends AbstractType
                 },
             ])
             ->add('plafond', NumberType::class);
+
     }
 
     public function configureOptions(OptionsResolver $resolver)

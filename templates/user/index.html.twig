@@ -18,29 +18,29 @@
                             <th>Contact</th>
                             <th>Email</th>
                             <th>Fonction</th>
+                            <th>Service</th>
+                            <th>Rôle</th>
                             <th>Action</th>
                         </tr>
                         </thead>
                         <tbody>
                         {% for u in users %}
                             <tr>
-                                <td class="align-middle">{{ u.fullName }}</td>
+                                <td class="align-middle">{{ u.fullName }} {{ u.prenom }}</td>
                                 <td class="align-middle">{{ u.pseudo }}</td>
                                 <td class="align-middle">{{ u.contact }}</td>
                                 <td class="align-middle">{{ u.email }}</td>
                                 <td class="align-middle">{{ u.fonction }}</td>
-
+                                <td class="align-middle">{{ u.emeteur }}</td>
+                                <td class="align-middle">
+                                    {% if u.roles is not empty %}
+                                        {{ u.roles[0]|replace({'ROLE_': ''}) }}
+                                    {% endif %}
+                                </td>
                                 <td class="text-center align-middle">
                                     <a class="btn btn-sm btn-icon btn-secondary" data-toggle="tooltip" data-html="true" title="Modifier" href="{{ path('app_user_edit', {'id': u.id}) }}">
                                         <i class="fa fa-pencil-alt"></i>
                                     </a>
-{#                                    <span class="mx-1"></span>#}
-
-{#                                    {% if u.getIsActive() %}#}
-{#                                        <a href="{{ path('user_disable', { id: u.id }) }}" class="btn btn-danger">Désactiver</a>#}
-{#                                    {% else %}#}
-{#                                        <a href="{{ path('user_enable', { id: u.id }) }}" class="btn btn-success">Activer</a>#}
-{#                                    {% endif %}#}
                                 </td>
                             </tr>
                         {% endfor %}

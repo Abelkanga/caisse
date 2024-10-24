@@ -79,104 +79,104 @@
                 <canvas id="userChart"></canvas>
             {% endif %}
 
-            {% if is_granted('ROLE_MANAGER') %}
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="card">
-                            <div class="card-head">
-                                <h3>Solde disponible</h3>
-                                <span class="menu-icon fa fa-solid fa-wallet"></span>
-                            </div>
-                            <div class="card-progress">
-                                <small><a href="#" class="separator">{{ soldeCaisse ?? 0}} </a></small>
-                            </div>
-                        </div>
-                    </div>
+{#            {% if is_granted('ROLE_MANAGER') %}#}
+{#                <div class="row">#}
+{#                    <div class="col-md-4">#}
+{#                        <div class="card">#}
+{#                            <div class="card-head">#}
+{#                                <h3>Solde disponible</h3>#}
+{#                                <span class="menu-icon fa fa-solid fa-wallet"></span>#}
+{#                            </div>#}
+{#                            <div class="card-progress">#}
+{#                                <small><a href="#" class="separator">{{ soldeCaisse ?? 0}} </a></small>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
 
-                    <div class="col-md-4">
-                        <div class="card">
-                            <div class="card-head">
-                                <h3>Bons d'approvisionnement créés</h3>
-                                <span class="menu-icon fa fa-solid fa-receipt"></span>
-                            </div>
-                            <div class="card-progress">
-                                <small><a href="{{ path('bonapprovisionnement_index') }}">{{ nbBonapprovisionnement ?? 0}} bons</a></small>
-                                <div class="card-indicator">
-                                    <div class="indicator one" style="width: {{ nbBonapprovisionnement ?? 0}}%;"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+{#                    <div class="col-md-4">#}
+{#                        <div class="card">#}
+{#                            <div class="card-head">#}
+{#                                <h3>Bons d'approvisionnement créés</h3>#}
+{#                                <span class="menu-icon fa fa-solid fa-receipt"></span>#}
+{#                            </div>#}
+{#                            <div class="card-progress">#}
+{#                                <small><a href="{{ path('bonapprovisionnement_index') }}">{{ nbBonapprovisionnement ?? 0}} bons</a></small>#}
+{#                                <div class="card-indicator">#}
+{#                                    <div class="indicator one" style="width: {{ nbBonapprovisionnement ?? 0}}%;"></div>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
 
-                    <div class="col-md-4">
-                        <div class="card">
-                            <div class="card-head">
-                                <h3>Bons d'approvisionnement convertis</h3>
-                                <span class="menu-icon fa fa-solid fa-check-double"></span>
-                            </div>
-                            <div class="card-progress">
-                                <small><a href="{{ path('bonapprovisionnement_index') }}">{{ nbBonapprovisionnementConvertis ?? 0}} bons convertis</a></small>
-                                <div class="card-indicator">
-                                    <div class="indicator two" style="width: {{ nbBonapprovisionnementConvertis ?? 0}}%;"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                </div>
-
-                <div class="row">
-
-                    <div class="col-md-4">
-                        <div class="card">
-                            <div class="card-head">
-                                <h3>Fiches de besoin approuvées</h3>
-                                <span class="menu-icon fa fa-solid fa-check"></span>
-                            </div>
-                            <div class="card-progress">
-                                <small><a href="{{ path('fdb_approuved') }}">{{ nbFdbApprouvees ?? 0}} fiches en attente de conversion</a></small>
-                                <div class="card-indicator">
-                                    <div class="indicator three" style="width: {{ nbFdbApprouvees ?? 0}}%;"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="card">
-                            <div class="card-head">
-                                <h3>Fiches de besoin converties</h3>
-                                <span class="menu-icon fa fa-solid fa-exchange-alt"></span>
-                            </div>
-                            <div class="card-progress">
-                                <small><a href="{{ path('fdb_approuve') }}">{{ nbFdbConverties ?? 0}} fiches converties</a></small>
-                                <div class="card-indicator">
-                                    <div class="indicator two" style="width: {{ nbFdbConverties ?? 0}}%;"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+{#                    <div class="col-md-4">#}
+{#                        <div class="card">#}
+{#                            <div class="card-head">#}
+{#                                <h3>Bons d'approvisionnement convertis</h3>#}
+{#                                <span class="menu-icon fa fa-solid fa-check-double"></span>#}
+{#                            </div>#}
+{#                            <div class="card-progress">#}
+{#                                <small><a href="{{ path('bonapprovisionnement_index') }}">{{ nbBonapprovisionnementConvertis ?? 0}} bons convertis</a></small>#}
+{#                                <div class="card-indicator">#}
+{#                                    <div class="indicator two" style="width: {{ nbBonapprovisionnementConvertis ?? 0}}%;"></div>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
 
 
+{#                </div>#}
 
-                    <div class="col-md-4">
-                        <div class="card">
-                            <div class="card-head">
-                                <h3>Approvisionnement caisse à caisse</h3>
-                                <span class="menu-icon fa fa-solid fa-check-double"></span>
-                            </div>
-                            <div class="card-progress">
-                                <small><a href="{{ path('app_approcaisse_index') }}">{{ nbApproCaisse ?? 0}} approvisionnement validé</a></small>
-                                <div class="card-indicator">
-                                    <div class="indicator two" style="width: {{ nbApproCaisse ?? 0}}%;"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+{#                <div class="row">#}
 
-                </div>
-            {% endif %}
+{#                    <div class="col-md-4">#}
+{#                        <div class="card">#}
+{#                            <div class="card-head">#}
+{#                                <h3>Fiches de besoin approuvées</h3>#}
+{#                                <span class="menu-icon fa fa-solid fa-check"></span>#}
+{#                            </div>#}
+{#                            <div class="card-progress">#}
+{#                                <small><a href="{{ path('fdb_approuved') }}">{{ nbFdbApprouvees ?? 0}} fiches en attente de conversion</a></small>#}
+{#                                <div class="card-indicator">#}
+{#                                    <div class="indicator three" style="width: {{ nbFdbApprouvees ?? 0}}%;"></div>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+
+{#                    <div class="col-md-4">#}
+{#                        <div class="card">#}
+{#                            <div class="card-head">#}
+{#                                <h3>Fiches de besoin converties</h3>#}
+{#                                <span class="menu-icon fa fa-solid fa-exchange-alt"></span>#}
+{#                            </div>#}
+{#                            <div class="card-progress">#}
+{#                                <small><a href="{{ path('fdb_approuve') }}">{{ nbFdbConverties ?? 0}} fiches converties</a></small>#}
+{#                                <div class="card-indicator">#}
+{#                                    <div class="indicator two" style="width: {{ nbFdbConverties ?? 0}}%;"></div>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+
+
+
+{#                    <div class="col-md-4">#}
+{#                        <div class="card">#}
+{#                            <div class="card-head">#}
+{#                                <h3>Approvisionnement caisse à caisse</h3>#}
+{#                                <span class="menu-icon fa fa-solid fa-check-double"></span>#}
+{#                            </div>#}
+{#                            <div class="card-progress">#}
+{#                                <small><a href="{{ path('app_approcaisse_index') }}">{{ nbApproCaisse ?? 0}} approvisionnement validé</a></small>#}
+{#                                <div class="card-indicator">#}
+{#                                    <div class="indicator two" style="width: {{ nbApproCaisse ?? 0}}%;"></div>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+
+{#                </div>#}
+{#            {% endif %}#}
         </div>
 
     </div>

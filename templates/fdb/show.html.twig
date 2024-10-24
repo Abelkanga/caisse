@@ -91,7 +91,7 @@
                 <form method="post" action="{{ path('fdb_show', {'id': fdb.id}) }}">
                     <div class="card-footer">
                         <div class="card-footer-content">
-                            {% if (is_granted('ROLE_USER') or is_granted('ROLE_IMPRESSION')) and fdb.status == 'brouillon' %}
+                            {% if (is_granted('ROLE_USER') or is_granted('ROLE_IMPRESSION') or is_granted('ROLE_MANAGER')) and fdb.status == 'brouillon' %}
                                 <!-- Show Edit and Send buttons only if ROLE_USER or ROLE_IMPRESSION and status is BROUILLON -->
                                 <a class="btn btn-warning float-right ml-2" href="{{ path('fdb_edit', {'id': fdb.id}) }}">
                                     <i class="fa fa-pencil-alt"></i> Modifier

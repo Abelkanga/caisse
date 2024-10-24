@@ -125,6 +125,9 @@
 
 
 <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
     var pusher = new Pusher('your-app-key', {
         cluster: 'your-app-cluster',
@@ -163,45 +166,56 @@
     const channel = pusher.subscribe('notify');
 
     const userId = window.User.id;
-    channel
-        .bind(`responsable.${userId}`, function (data) {
-            if (data) {
-                const {message, link, responsableId, permission } = data;
-                if (permissions.includes(permission)) {
-                    toastr.info(`${message}`, null, {
-                        "closeButton": true,
-                        "preventDuplicates": false,
-                        "onclick": function () {
-                            window.location.href = link
-                        }
-                    })
+    channel.bind(`responsable.${userId}`, function (data) {
+        if (data) {
+            const {message, link, responsableId, permission, caisseCode, montant, createdAt} = data;
 
-                    let $notification1 = $('#notification-body');
-                    let $notification = $notification1;
-                    let notificationCount = $notification1.children().length;
-                    if (!$notification.hasClass('dropdown-scroll has-scrollable') && notificationCount > 3) {
-                        $notification.addClass('dropdown-scroll has-scrollable')
+            // Si la notification est liée à un approvisionnement de caisse (vérifie si "caisseCode" et "montant" sont définis)
+            if (caisseCode && montant) {
+                toastr.success(`Votre caisse (${caisseCode}) a été approvisionnée de ${montant}`, null, {
+                    "closeButton": true,
+                    "preventDuplicates": false,
+                    "onclick": function () {
+                        window.location.href = link; // Redirection vers l'index d'approvisionnement
                     }
-                    if (notificationCount === 1) {
-                        $notification.empty();
-                    }
-                    if (!$('#header-notification').hasClass('has-notified')) {
-                        $('#header-notification').addClass('has-notified')
-                    }
-                    $notification.append(`
-                    <a href="${link}" class="dropdown-item unread">
-                        <div class="user-avatar">
-                        </div>
-                    <div class="dropdown-item-body">
-                        <p class="subject">Notification</p>
-                        <p class="text text-truncate">${message}</p>
-                        <span class="date">${moment(createdAt).fromNow()}</span>
-                    </div>
-                    </a>`)
-                }
+                });
             }
+            // Autre type de notification (responsable ou autre)
+            else if (permissions.includes(permission)) {
+                toastr.info(`${message}`, null, {
+                    "closeButton": true,
+                    "preventDuplicates": false,
+                    "onclick": function () {
+                        window.location.href = link;
+                    }
+                });
 
-        })
+                let $notification1 = $('#notification-body');
+                let notificationCount = $notification1.children().length;
+                if (!$notification1.hasClass('dropdown-scroll has-scrollable') && notificationCount > 3) {
+                    $notification1.addClass('dropdown-scroll has-scrollable');
+                }
+                if (notificationCount === 1) {
+                    $notification1.empty();
+                }
+                if (!$('#header-notification').hasClass('has-notified')) {
+                    $('#header-notification').addClass('has-notified');
+                }
+                $notification1.append(`
+            <a href="${link}" class="dropdown-item unread">
+                <div class="user-avatar">
+                </div>
+                <div class="dropdown-item-body">
+                    <p class="subject">Notification</p>
+                    <p class="text text-truncate">${message}</p>
+                    <span class="date">${moment(createdAt).fromNow()}</span>
+                </div>
+            </a>`);
+            }
+        }
+    });
+
+
 
 </script>
 </body>

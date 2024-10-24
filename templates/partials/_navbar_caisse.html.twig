@@ -1,3 +1,30 @@
+{% if app.user and app.user.caisse and app.user.caisse.code == 'C002' %}
+<li class="menu-header">Créer une fiche de besoin </li>
+<!-- /.menu-header -->
+<!-- .menu-item -->
+<!-- .menu-item -->
+
+<li class="menu-item has-child">
+	<a href="#" class="menu-link">
+		<span class="fa-solid fa-file-alt p-2"></span>
+
+		<span class="menu-text">Fiche de besoin</span>
+	</a>
+	<!-- child menu -->
+	<ul class="menu">
+		<li class="menu-item {{ app.request.get('_route') == 'fdb_new' ? 'has-active': '' }}">
+			<a href="{{ path('fdb_new') }}" class="menu-link">Créer</a>
+		</li>
+		<li class="menu-item {{ app.request.get('_route') == 'fdb_index' ? 'has-active': '' }}">
+			<a href="{{ path('fdb_index') }}" class="menu-link">Liste</a>
+		</li>
+
+	</ul>
+	<!-- /child menu -->
+	<!-- .menu-item -->
+</li>
+{% endif %}
+
 <li class="menu-header">ENCAISSEMENT</li>
 <li class="menu-item has-child">
 	<a href="#" class="menu-link">
@@ -7,12 +34,14 @@
 	</a>
 	<!-- child menu -->
 	<ul class="menu">
+		{% if app.user and app.user.caisse and app.user.caisse.code == 'C001' %}
 		<li class="menu-item {{ app.request.get('_route') == 'bonapprovisionnement_new' ? 'has-active': '' }}">
 			<a href="{{ path('bonapprovisionnement_new') }}" class="menu-link">Créer un bon</a>
 		</li>
 		<li class="menu-item {{ app.request.get('_route') == 'bonapprovisionnement_index' ? 'has-active': '' }}">
 			<a href="{{ path('bonapprovisionnement_index') }}" class="menu-link">Liste des bons</a>
 		</li>
+		{% endif %}
 
 		{% if app.user and app.user.caisse and app.user.caisse.code == 'C002' %}
 			<li class="menu-item {{ app.request.get('_route') == 'app_approcaisse_reception' ? 'has-active': '' }}">
@@ -94,6 +123,25 @@
 	<!-- .menu-item -->
 </li>
 
+
+<li class="menu-header">BILLETAGE</li>
+<li class="menu-item has-child">
+	<a href="#" class="menu-link">
+		<span class="oi oi-document p-1"></span>
+
+		<span class="menu-text">Liste billetage</span>
+	</a>
+	<!-- child menu -->
+	<ul class="menu">
+		<li class="menu-item {{ app.request.get('_route') == 'billetage_inventaire_indexprint' ? 'has-active': '' }}">
+			<a href="{{ path('billetage_inventaire_indexprint') }}" class="menu-link">Consulter</a>
+		</li>
+
+
+	</ul>
+	<!-- /child menu -->
+	<!-- .menu-item -->
+</li>
 
 <li class="menu-header">FERMETURE</li>
 <li class="menu-item has-child">

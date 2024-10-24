@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Caisse;
+use App\Entity\User;
 use App\Form\CaisseType;
 use App\Repository\BonapprovisionnementRepository;
 use App\Repository\CaisseRepository;
@@ -93,16 +94,54 @@ class CaisseController extends AbstractController
         ]);
     }
 
+//    #[Route('/etat', name: 'app_etat_caisse', methods: ['GET'])]
+//    public function getMouvementsCaisse(JournalCaisseRepository $jCRepository, Request $request): JsonResponse {
+//        $dateDebut = $request->query->get('date_debut');
+//        $dateFin = $request->query->get('date_fin');
+//
+//        $data = [];
+//        $journals = $jCRepository->findReportingJournal($dateDebut,$dateFin);
+//        foreach ($journals as $journal) {
+//            $data[] = [
+//                'date' => date_format($journal->getDate(),'d/m/Y'),
+//                'num_piece' => $journal->getNumPiece(),
+//                'libelle' => $journal->getFdb()?->getExpense()->getName() ?? $journal->getIntitule(),
+//                'debit' => $journal->getEntree() ?? 0,
+//                'credit' => $journal->getSortie() ?? 0,
+//                'solde' => $journal->getSolde() ?? 0,
+//            ];
+//        }
+//
+//        return new JsonResponse($data);
+//
+//    }
+
     #[Route('/etat', name: 'app_etat_caisse', methods: ['GET'])]
     public function getMouvementsCaisse(JournalCaisseRepository $jCRepository, Request $request): JsonResponse {
+        // Récupérer l'utilisateur connecté et la caisse associée
+        /** @var User $user */
+        $user = $this->getUser();
+        $caisse = $user->getCaisse();
+
         $dateDebut = $request->query->get('date_debut');
         $dateFin = $request->query->get('date_fin');
 
+        // Vérifier si la caisse de l'utilisateur est la caisse principale
+        $isCaissePrincipale = ($caisse->getCode() === 'C001');  // Assurez-vous d'avoir une méthode ou un champ pour distinguer les types de caisses
+
+        // Récupérer les journaux en fonction de la caisse
+        if ($isCaissePrincipale) {
+            // Si c'est la caisse principale, récupérer les journaux de toutes les caisses
+            $journals = $jCRepository->findReportingJournal($dateDebut, $dateFin);
+        } else {
+            // Si c'est une caisse secondaire, ne récupérer que les journaux de cette caisse
+            $journals = $jCRepository->findByCaisseAndDateRange($caisse, $dateDebut, $dateFin);
+        }
+
         $data = [];
-        $journals = $jCRepository->findReportingJournal($dateDebut,$dateFin);
         foreach ($journals as $journal) {
             $data[] = [
-                'date' => date_format($journal->getDate(),'d/m/Y'),
+                'date' => date_format($journal->getDate(), 'd/m/Y'),
                 'num_piece' => $journal->getNumPiece(),
                 'libelle' => $journal->getFdb()?->getExpense()->getName() ?? $journal->getIntitule(),
                 'debit' => $journal->getEntree() ?? 0,
@@ -112,7 +151,7 @@ class CaisseController extends AbstractController
         }
 
         return new JsonResponse($data);
-
     }
+
 
 }

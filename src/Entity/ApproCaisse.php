@@ -11,6 +11,7 @@ use Symfony\Component\Uid\Uuid;
 
 
 #[ORM\Entity(repositoryClass: ApproCaisseRepository::class)]
+#[ORM\HasLifecycleCallbacks()]
 class ApproCaisse
 {
     #[ORM\Id]
@@ -49,8 +50,8 @@ class ApproCaisse
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $objet = null;
 
-    #[ORM\Column(type: 'uuid')]
-    private ?Uuid $uuid = null;
+    #[ORM\Column(type: 'string')]
+    private ?string $uuid = null;
 
     /**
      * @var Collection<int, JournalCaisse>
@@ -58,9 +59,16 @@ class ApproCaisse
     #[ORM\OneToMany(targetEntity: JournalCaisse::class, mappedBy: 'approCaisse')]
     private Collection $journalCaisse;
 
+    /**
+     * @var Collection<int, Notification>
+     */
+    #[ORM\OneToMany(targetEntity: Notification::class, mappedBy: 'approcaisse')]
+    private Collection $notifications;
+
     public function __construct()
     {
         $this->journalCaisse = new ArrayCollection();
+        $this->notifications = new ArrayCollection();
     }
 
 
@@ -175,15 +183,15 @@ class ApproCaisse
         return $this;
     }
 
-    public function getUuid(): ?Uuid
+    public function getUuid(): ?string
     {
         return $this->uuid;
     }
 
-    #[ORM\PrePersist]
+    #[ORM\PrePersist()]
     public function setUuid(): static
     {
-        $this->uuid = Uuid::v4();
+        $this->uuid = Uuid::v4()->toBase32();
 
         return $this;
     }
@@ -212,6 +220,36 @@ class ApproCaisse
             // set the owning side to null (unless already changed)
             if ($journalCaisse->getApproCaisse() === $this) {
                 $journalCaisse->setApproCaisse(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Notification>
+     */
+    public function getNotifications(): Collection
+    {
+        return $this->notifications;
+    }
+
+    public function addNotification(Notification $notification): static
+    {
+        if (!$this->notifications->contains($notification)) {
+            $this->notifications->add($notification);
+            $notification->setApprocaisse($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNotification(Notification $notification): static
+    {
+        if ($this->notifications->removeElement($notification)) {
+            // set the owning side to null (unless already changed)
+            if ($notification->getApprocaisse() === $this) {
+                $notification->setApprocaisse(null);
             }
         }
 

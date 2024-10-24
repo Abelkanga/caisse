@@ -97,6 +97,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?bool $isResponsable = null;
 
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    private ?Emeteur $emeteur = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $prenom = null;
+
     public function __construct()
     {
         $this->depenses = new ArrayCollection();
@@ -104,6 +110,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->billetages = new ArrayCollection();
         $this->approCaisses = new ArrayCollection();
         $this->notifications = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -470,4 +477,34 @@ public function setResponsable(?bool $isResponsable): static
 
     return $this;
 }
+
+public function getEmeteur(): ?Emeteur
+{
+    return $this->emeteur;
+}
+
+public function setEmeteur(?Emeteur $emeteur): static
+{
+    $this->emeteur = $emeteur;
+
+    return $this;
+}
+
+public function getPrenom(): ?string
+{
+    return $this->prenom;
+}
+
+public function setPrenom(?string $prenom): static
+{
+    $this->prenom = $prenom;
+
+    return $this;
+}
+
+    public function getNomComplet(): string
+    {
+        return $this->prenom . ' ' . $this->fullName;
+    }
+
 }
