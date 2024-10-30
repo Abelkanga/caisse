@@ -48,21 +48,24 @@ class ApproCaisseType extends AbstractType
             ->add('objet', TextType::class)
             ->add('reference', TextType::class)
 
-            // Caisse émettrice : Prérenseigner avec la caisse de l'utilisateur connecté
+            // Caisse émettrice : Afficher uniquement la caisse principale
             ->add('caisseEmettrice', EntityType::class, [
                 'class' => Caisse::class,
                 'choice_label' => 'intitule',
-//                'disabled' => true,  // Désactivé car c'est la caisse de l'utilisateur connecté
+                'query_builder' => function (EntityRepository $er) use ($caissePrincipale) {
+                    return $er->createQueryBuilder('c')
+                        ->where('c = :caissePrincipale')
+                        ->setParameter('caissePrincipale', $caissePrincipale);
+                },
                 'data' => $caissePrincipale,  // Prérempli avec la caisse de l'utilisateur connecté
                 'placeholder' => false,
             ])
 
-            // Caisse réceptrice : Afficher seulement les caisses autres que celle de l'utilisateur
+            // Caisse réceptrice : Afficher toutes les autres caisses sauf la principale
             ->add('caisseReceptrice', EntityType::class, [
                 'class' => Caisse::class,
                 'choice_label' => 'intitule',
                 'query_builder' => function (EntityRepository $er) use ($caissePrincipale) {
-                    // Exclure la caisse principale de la liste des caisses réceptrices
                     return $er->createQueryBuilder('c')
                         ->where('c != :caissePrincipale')
                         ->setParameter('caissePrincipale', $caissePrincipale);

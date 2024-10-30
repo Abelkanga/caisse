@@ -125,7 +125,7 @@ class BonapprovisionnementController extends AbstractController
         }
 
         $num_bonapprovisionnement = $service->refBonApprovisionnement();
-        $bonapprovisionnement = (new Bonapprovisionnement())->setReference($num_bonapprovisionnement);
+        $bonapprovisionnement = (new Bonapprovisionnement())->setReference($num_bonapprovisionnement)->setDestinataire('Konan Gwladys');
 
         $form = $this->createForm(BonapprovisionnementType::class, $bonapprovisionnement);
         $form->handleRequest($request);
@@ -168,6 +168,7 @@ class BonapprovisionnementController extends AbstractController
     #[Route('/bonapprovisionnement/{id}/show', name: 'bonapprovisionnement_show', methods: ['GET', 'POST'])]
     public function show(Bonapprovisionnement $bonapprovisionnement, Request $request, EntityManagerInterface $entityManager): Response
     {
+        
         if ($request->isMethod('POST') && $this->isCsrfTokenValid('validate-caisse-bonapprovisionnement', $request->request->get('_token'))) {
             if($request->request->has('confirm_manager')) {
                 /** @var User $user */

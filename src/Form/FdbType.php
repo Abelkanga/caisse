@@ -50,7 +50,9 @@ class FdbType extends AbstractType
             ])
             ->add('validBy', EntityType::class, [
                 'class' => User::class,
-                'choice_label' => 'fullName', // Ou autre attribut utilisateur
+                'choice_label' => function (User $user) {
+                    return $user->getFullName() . ' ' . $user->getPrenom();
+                }, // Ou autre attribut utilisateur
                 'query_builder' => function (UserRepository $userRepository) {
                     // Si l'utilisateur est ROLE_IMPRESSION, retourner à la fois ROLE_RESPONSABLE et ROLE_MANAGER1
                     if ($this->security->isGranted('ROLE_IMPRESSION') || $this->security->isGranted('ROLE_MANAGER')) {

@@ -233,7 +233,7 @@ class FicheController extends AbstractController
 
         /** @var User $user */
         $user = $this->getUser();
-        $beneficiaire = $user->getPrenom() . ' ' . $user->getFullName(); // Concaténation prénom + nom
+        $beneficiaire = $user->getFullName() . ' ' . $user->getPrenom(); // Concaténation prénom + nom
 
         $refFiche = $service->refFdb();
         $fdb = new Fdb();

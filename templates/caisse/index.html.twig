@@ -27,7 +27,7 @@
                                 <td class="align-middle">{{ c.code }}</td>
                                 <td class="align-middle">{{ c.intitule }}</td>
                                 <td class="align-middle">
-                                    {{ c.user.fullName }}
+                                    {{ c.user.fullName }} {{ c.user.prenom }}
                                 </td>
                                 <td class="text-right separator align-middle">{{ c.soldedispo ?? 'Aucune information' }}</td>
                                 <td class="text-right align-middle separator">{{ c.plafond|number_format(0, ',', ' ') }}</td>

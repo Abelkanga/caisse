@@ -23,7 +23,12 @@ class BonapprovisionnementType extends AbstractType
         $builder
             ->add('date', DateType::class)
             ->add('reference', TextType::class)
-            ->add('destinataire', TextType::class)
+            ->add('destinataire', TextType::class, [
+                'attr' => [
+                    'readonly' => false
+                ],
+                'required' => true, 'empty_data' => ''
+            ])
             ->add('porteur', TextType::class)
             ->add('modepaie', ChoiceType::class, [
                 'choices'  => [

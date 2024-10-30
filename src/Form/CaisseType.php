@@ -26,7 +26,9 @@ class CaisseType extends AbstractType
             ])
             ->add('user', EntityType::class, [
                 'class' => User::class,
-                'choice_label' => 'fullName',
+                'choice_label' => function (User $user) {
+                    return $user->getFullName() . ' ' . $user->getPrenom();
+                },
                 'placeholder' => 'Sélectionnez un utilisateur',
                 'required' => false,
                 'multiple' => false,
