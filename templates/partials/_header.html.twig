@@ -57,7 +57,8 @@
 
                     {% set j = journee_service.getActive() %}
 
-                    {% if is_granted('ROLE_MANAGER') %}
+                    {% if is_granted('ROLE_MANAGER') or is_granted('ROLE_MANAGER1') %}
+
                         {% if j is null %}
                             <button class="btn-account" type="button" data-toggle="modal" data-target="#openJourneeModal">
                                 <span class="oi oi-clock p-1"></span>
@@ -72,14 +73,14 @@
                         {% endif %}
                     {% endif %}
 
-                    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_RESPONSABLE') or is_granted('ROLE_USER') or is_granted('ROLE_IMPRESSION') or is_granted('ROLE_MANAGER1') %}
+                    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_RESPONSABLE') or is_granted('ROLE_USER') or is_granted('ROLE_IMPRESSION') %}
                         <button class="btn-account d-flex align-items-center" type="button">
                             <span class="oi oi-clock p-1"></span>
                             <strong class="pt-1">Date du jour : {{ "now"|date('d-m-Y') }}</strong>
                         </button>
                     {% endif %}
 
-                    {% if app.user and app.user.caisse and is_granted('ROLE_MANAGER') %}
+                    {% if app.user and app.user.caisse and is_granted('ROLE_MANAGER') or is_granted('ROLE_MANAGER1')%}
                         {% if j is not null %}
 
                             <button class="btn-account d-flex align-items-center" type="button">
@@ -210,24 +211,24 @@
 								<img src="https://png.pngtree.com/png-clipart/20190924/original/pngtree-avatar-icon-in-trendy-style-isolated-background-png-image_4823713.jpg" alt="">
 							</span>
                             <span class="account-summary pr-lg-4 d-none d-lg-block">
-								<span class="account-name">{{ app.user.fullName }}</span>
-                                <span class="account-name">{{ app.user.email }}</span>
+								<span class="account-name">{{ app.user.pseudo }}</span>
+{#                                <span class="account-name">{{ app.user.email }}</span>#}
 							</span>
                         {% elseif is_granted('ROLE_RESPONSABLE')%}
                             <span class="user-avatar user-avatar-md">
 								<img src="https://png.pngtree.com/png-clipart/20190924/original/pngtree-avatar-icon-in-trendy-style-isolated-background-png-image_4823713.jpg" alt="">
 							</span>
                             <span class="account-summary pr-lg-4 d-none d-lg-block">
-								<span class="account-name">{{ app.user.fullName }}</span>
-                                <span class="account-name">{{ app.user.email }}</span>
+								<span class="account-name">{{ app.user.pseudo }}</span>
+{#                                <span class="account-name">{{ app.user.email }}</span>#}
 							</span>
                         {% else %}
                             <span class="user-avatar user-avatar-md">
 								<img src="https://png.pngtree.com/png-clipart/20190924/original/pngtree-avatar-icon-in-trendy-style-isolated-background-png-image_4823713.jpg" alt="">
 							</span>
                             <span class="account-summary pr-lg-4 d-none d-lg-block">
-								<span class="account-name">{{ app.user.fullName }}</span>
-                                <span class="account-name">{{ app.user.email }}</span>
+								<span class="account-name">{{ app.user.pseudo }}</span>
+{#                                <span class="account-name">{{ app.user.email }}</span>#}
 							</span>
                         {% endif %}
 

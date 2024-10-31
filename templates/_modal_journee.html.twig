@@ -1,6 +1,4 @@
 
-
-
 <div class="modal fade" id="openJourneeModal" tabindex="-1" aria-labelledby="openJourneeModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -15,7 +13,7 @@
                 <div class="modal-body">
                     <input type="hidden" value="{{ csrf_token('open_journee') }}" name="_token">
                     <div class="form-group">
-                        <label class="control-label" for="flatpickr01">Date journée</label>
+                        <label class="control-label" for="flatpickr01">Date de la journée</label>
                         <input name="date_journee" type="date" value="{{ 'now'|date('Y-m-d') }}" class="form-control">
                     </div>
                 </div>

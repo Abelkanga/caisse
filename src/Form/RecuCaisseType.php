@@ -25,12 +25,12 @@ class RecuCaisseType extends AbstractType
             ->add('reference', TextType::class, [
                 'label' => 'Référence',
                 'attr' => ['class' => 'form-control'],
-            ])
-            ->add('beneficiaire', TextType::class, [
-                'label' => 'Bénéficiaire',
-                'required' => true,
-                'attr' => ['class' => 'form-control'],
             ]);
+//            ->add('beneficiaire', TextType::class, [
+//                'label' => 'Bénéficiaire',
+//                'required' => true,
+//                'attr' => ['class' => 'form-control'],
+//            ]);
 
     }
 

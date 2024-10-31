@@ -1,28 +1,28 @@
 {% if app.user and app.user.caisse and app.user.caisse.code == 'C002' %}
-<li class="menu-header">Créer une fiche de besoin </li>
-<!-- /.menu-header -->
-<!-- .menu-item -->
-<!-- .menu-item -->
-
-<li class="menu-item has-child">
-	<a href="#" class="menu-link">
-		<span class="fa-solid fa-file-alt p-2"></span>
-
-		<span class="menu-text">Fiche de besoin</span>
-	</a>
-	<!-- child menu -->
-	<ul class="menu">
-		<li class="menu-item {{ app.request.get('_route') == 'fdb_new' ? 'has-active': '' }}">
-			<a href="{{ path('fdb_new') }}" class="menu-link">Créer</a>
-		</li>
-		<li class="menu-item {{ app.request.get('_route') == 'fdb_index' ? 'has-active': '' }}">
-			<a href="{{ path('fdb_index') }}" class="menu-link">Liste</a>
-		</li>
-
-	</ul>
-	<!-- /child menu -->
+	<li class="menu-header">Créer une fiche de besoin </li>
+	<!-- /.menu-header -->
 	<!-- .menu-item -->
-</li>
+	<!-- .menu-item -->
+
+	<li class="menu-item has-child">
+		<a href="#" class="menu-link">
+			<span class="fa-solid fa-file-alt p-2"></span>
+
+			<span class="menu-text">Fiche de besoin</span>
+		</a>
+		<!-- child menu -->
+		<ul class="menu">
+			<li class="menu-item {{ app.request.get('_route') == 'fdb_new' ? 'has-active': '' }}">
+				<a href="{{ path('fdb_new') }}" class="menu-link">Créer</a>
+			</li>
+			<li class="menu-item {{ app.request.get('_route') == 'fdb_index' ? 'has-active': '' }}">
+				<a href="{{ path('fdb_index') }}" class="menu-link">Liste</a>
+			</li>
+
+		</ul>
+		<!-- /child menu -->
+		<!-- .menu-item -->
+	</li>
 {% endif %}
 
 <li class="menu-header">ENCAISSEMENT</li>
@@ -35,12 +35,12 @@
 	<!-- child menu -->
 	<ul class="menu">
 		{% if app.user and app.user.caisse and app.user.caisse.code == 'C001' %}
-		<li class="menu-item {{ app.request.get('_route') == 'bonapprovisionnement_new' ? 'has-active': '' }}">
-			<a href="{{ path('bonapprovisionnement_new') }}" class="menu-link">Créer un bon</a>
-		</li>
-		<li class="menu-item {{ app.request.get('_route') == 'bonapprovisionnement_index' ? 'has-active': '' }}">
-			<a href="{{ path('bonapprovisionnement_index') }}" class="menu-link">Liste des bons</a>
-		</li>
+			<li class="menu-item {{ app.request.get('_route') == 'bonapprovisionnement_new' ? 'has-active': '' }}">
+				<a href="{{ path('bonapprovisionnement_new') }}" class="menu-link">Créer un bon</a>
+			</li>
+			<li class="menu-item {{ app.request.get('_route') == 'bonapprovisionnement_index' ? 'has-active': '' }}">
+				<a href="{{ path('bonapprovisionnement_index') }}" class="menu-link">Liste des bons</a>
+			</li>
 		{% endif %}
 
 		{% if app.user and app.user.caisse and app.user.caisse.code == 'C002' %}
@@ -82,26 +82,26 @@
 	</li>
 {% endif %}
 {% if app.user and app.user.caisse and app.user.caisse.code == 'C002' %}
-<li class="menu-item has-child">
-	<a href="#" class="menu-link">
-		<span class="fa-solid fa-wallet p-2"></span>
+	<li class="menu-item has-child">
+		<a href="#" class="menu-link">
+			<span class="fa-solid fa-wallet p-2"></span>
 
-		<span class="menu-text">Dépenses</span>
-	</a>
-	<!-- child menu -->
-	<ul class="menu">
+			<span class="menu-text">Dépenses</span>
+		</a>
+		<!-- child menu -->
+		<ul class="menu">
 
-		<li class="menu-item {{ app.request.get('_route') == 'fdb_approuved' ? 'has-active': '' }}">
-			<a href="{{ path('fdb_approuved') }}" class="menu-link">Fiche approuvée</a>
-		</li>
-		<li class="menu-item {{ app.request.get('_route') == 'fdb_approuve' ? 'has-active': '' }}">
-			<a href="{{ path('fdb_approuve') }}" class="menu-link">Fiche décaissée</a>
-		</li>
+			<li class="menu-item {{ app.request.get('_route') == 'fdb_approuved' ? 'has-active': '' }}">
+				<a href="{{ path('fdb_approuved') }}" class="menu-link">Fiche approuvée</a>
+			</li>
+			<li class="menu-item {{ app.request.get('_route') == 'fdb_approuve' ? 'has-active': '' }}">
+				<a href="{{ path('fdb_approuve') }}" class="menu-link">Fiche décaissée</a>
+			</li>
 
-	</ul>
-	<!-- /child menu -->
-	<!-- .menu-item -->
-</li>
+		</ul>
+		<!-- /child menu -->
+		<!-- .menu-item -->
+	</li>
 {% endif %}
 
 <li class="menu-header">JOURNAL DE CAISSE</li>
@@ -124,7 +124,7 @@
 </li>
 
 
-<li class="menu-header">BILLETAGE</li>
+<li class="menu-header">ARRETE DE CAISSE</li>
 <li class="menu-item has-child">
 	<a href="#" class="menu-link">
 		<span class="oi oi-document p-1"></span>

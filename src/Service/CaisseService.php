@@ -42,7 +42,7 @@ class CaisseService
         $lastId = (int)$this->fdbRepository->findLastId() ?? 0;
         $lastId++;
         $year = date_format(new \DateTime(),'Y');
-        $suffix = 'N°OSC-FB/'.$year.'/';
+        $suffix = 'N°FB'.$year.'';
         $id = $this->countOp($lastId);
         return $suffix.$id;
 
@@ -65,7 +65,7 @@ class CaisseService
         $lastId = (int)$this->ApproCaisseRepository->findLastId() ?? 0;
         $lastId++;
         $year = date_format(new \DateTime(),'Y');
-        $suffix = 'N°OSC-APC/'.$year.'/';
+        $suffix = 'N°APC'.$year.'';
         $id = $this->countOp($lastId);
         return $suffix.$id;
 
@@ -92,7 +92,7 @@ class CaisseService
         $year = date_format(new \DateTime(), 'Y');
 
         // Création du suffixe avec le code de la caisse
-        $suffix = 'N°OSC-J' . $caisseCode . '/' . $year . '/';
+        $suffix = 'N°J' . $caisseCode . '' . $year . '';
 
         // Formattage de l'identifiant avec countOp
         $id = $this->countOp($lastId);
@@ -107,7 +107,7 @@ class CaisseService
         $lastId = (int)$this->BonCaisseRepository->findLastId() ?? 0;
         $lastId++;
         $year = date_format(new \DateTime(),'Y');
-        $suffix = 'N°OSC-BC/'.$year.'/';
+        $suffix = 'N°BC'.$year.'';
         $id = $this->countOp($lastId);
         return $suffix.$id;
 
@@ -118,7 +118,7 @@ class CaisseService
         $lastId = (int)$this->RecuCaisseRepository->findLastId() ?? 0;
         $lastId++;
         $year = date_format(new \DateTime(),'Y');
-        $suffix = 'N°OSC-RC/'.$year.'/';
+        $suffix = 'N°RC'.$year.'';
         $id = $this->countOp($lastId);
         return $suffix.$id;
 
@@ -129,7 +129,7 @@ class CaisseService
         $lastId = (int)$this->BilletageRepository->findLastId() ?? 0;
         $lastId++;
         $year = date_format(new \DateTime(),'Y');
-        $suffix = 'N°OSC-BI/'.$year.'/';
+        $suffix = 'N°BI'.$year.'';
         $id = $this->countOp($lastId);
         return $suffix.$id;
 
@@ -141,7 +141,7 @@ class CaisseService
         $lastId = (int)$this->BonapprovisionnementRepository->findLastId() ?? 0;
         $lastId++;
         $year = date_format(new \DateTime(),'Y');
-        $suffix = 'N°OSC-BA/'.$year.'/';
+        $suffix = 'N°BA'.$year.'';
         $id = $this->countOp($lastId);
         return $suffix.$id;
 

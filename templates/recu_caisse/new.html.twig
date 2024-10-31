@@ -4,8 +4,6 @@
 
 {% block body %}
     <div class="col-12">
-
-
         {{ form_start(form) }}
         <div class="card card-fluid">
             <div class="card-header bg-soft-custom">
@@ -14,48 +12,54 @@
 
             <div class="card-body">
 
-
                 <fieldset class="form-container">
-                    <legend>Détail du bon d'approvisionnement</legend>
+                    <legend>Référence Bon Approvisionnement</legend>
                     <div class="row">
                         <div class="col-4">
                             <div class="form-group">
-                                <label for="bonapprovisionnement_date">Date du bon d'approvisionnement</label>
+                                <label for="bonapprovisionnement_date">Date</label>
                                 <input type="text" class="form-control" value="{{ bonapprovisionnement.date ? bonapprovisionnement.date|date('d-m-Y') : '' }}" readonly>
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="form-group">
-                                <label for="bonapprovisionnement_reference">N° Bon d'approvisionnement</label>
+                                <label for="bonapprovisionnement_reference">Référence Bon Approvisionnement</label>
                                 <input type="text" class="form-control" value="{{ bonapprovisionnement.reference }}" readonly>
                             </div>
                         </div>
+                    </div>
+
+                    <legend>Détail</legend>
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="form-group">
+                                <label for="bonapprovisionnement_porteur">Objet</label>
+                                <input type="text" class="form-control" value="{{ bonapprovisionnement.porteur }}" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="bonapprovisionnement_destinataire">Bénéficiaire</label>
                                 <input type="text" class="form-control" value="{{ bonapprovisionnement.destinataire }}" readonly>
                             </div>
                         </div>
-                    </div>
 
-                        <div class="row">
+
                         <div class="col-4">
                             <div class="form-group">
-                                <label for="bonapprovisionnement_porteur">Objet</label>
-                                <input type="text" class="form-control" value="{{ bonapprovisionnement.porteur }}" readonly>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="form-group">
-                                <label for="bonapprovisionnement_montanttotal">Montant Total</label>
+                                <label for="bonapprovisionnement_montanttotal">Montant à encaisser</label>
                                 <input type="text" class="form-control separator" value="{{ bonapprovisionnement.montanttotal }}" readonly>
                             </div>
                         </div>
                     </div>
+
                 </fieldset>
-<br>
+                <br>
                 <fieldset class="form-container">
-                    <legend>Information du reçu de caisse</legend>
+                    <legend>Information Reçu de caisse</legend>
                     <div class="row">
                         <div class="col-3">
                             <div class="form-group">
@@ -69,12 +73,12 @@
                                 {{ form_widget(form.reference, {'attr': {'class': 'form-control'}}) }}
                             </div>
                         </div>
-                        <div class="col-3">
-                            <div class="form-group">
-                                {{ form_label(form.beneficiaire) }}
-                                {{ form_widget(form.beneficiaire, {'attr': {'class': 'form-control'}}) }}
-                            </div>
-                        </div>
+{#                        <div class="col-3">#}
+{#                            <div class="form-group">#}
+{#                                {{ form_label(form.beneficiaire) }}#}
+{#                                {{ form_widget(form.beneficiaire, {'attr': {'class': 'form-control'}}) }}#}
+{#                            </div>#}
+{#                        </div>#}
                     </div>
                 </fieldset>
 

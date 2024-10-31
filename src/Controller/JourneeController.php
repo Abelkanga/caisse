@@ -106,14 +106,30 @@ class JourneeController extends AbstractController
 
 
         // Vérification du code de la caisse
-        $caisseCode = $caisse->getCode();
-        $intitule = 'Solde de la caisse au ' . $journee->getStartedAt()->format('d/m/Y'); // Intitulé par défaut
+//        $caisseCode = $caisse->getCode();
+//        $intitule = 'Solde de la caisse au ' . $journee->getStartedAt()->format('d/m/Y'); // Intitulé par défaut
+//
+//        if ($caisseCode === 'C001') {
+//            $intitule = 'Solde de la caisse principale au ' . $journee->getStartedAt()->format('d/m/Y');
+//        } elseif ($caisseCode === 'C002') {
+//            $intitule = 'Solde de la caisse secondaire au ' . $journee->getStartedAt()->format('d/m/Y');
+//        } elseif ($caisseCode === 'C003') {
+//            $intitule = 'Solde de la caisse spéciale au ' . $journee->getStartedAt()->format('d/m/Y');
+//        }
 
-        if ($caisseCode === 'C001') {
-            $intitule = 'Solde de la caisse principale au ' . $journee->getStartedAt()->format('d/m/Y');
-        } elseif ($caisseCode === 'C002') {
-            $intitule = 'Solde de la caisse secondaire au ' . $journee->getStartedAt()->format('d/m/Y');
-        }
+// Vérification du code de la caisse et attribution de l'intitulé
+        $caisseCode = $caisse->getCode();
+        $dateFormatted = $journee->getStartedAt()->format('d/m/Y');
+
+// Définition des intitulés par code de caisse
+        $libelles = [
+            'C001' => 'Solde de la caisse principale au ' . $dateFormatted,
+            'C002' => 'Solde de la caisse secondaire au ' . $dateFormatted,
+            'C003' => 'Solde de la caisse spéciale au ' . $dateFormatted,
+        ];
+
+// Attribution de l'intitulé selon le code de caisse, ou valeur par défaut
+        $intitule = $libelles[$caisseCode] ?? 'Solde de la caisse au ' . $dateFormatted;
 
 
         $journalCaisse = (new JournalCaisse())

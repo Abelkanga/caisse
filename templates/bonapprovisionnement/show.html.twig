@@ -67,7 +67,7 @@
                                 <th>Nom Caissier(e)</th>
                                 <th class="text-left">Source d'approvisionnement</th>
                                 <th class="text-left">Détail source d'approvisionnement</th>
-                                <th class="text-right">Montant Total (F cfa)</th>
+                                <th class="text-right">Montant Total (F.CFA)</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -97,7 +97,7 @@
 
                                 {% if is_granted('ROLE_IMPRESSION') or is_granted('ROLE_MANAGER') and bonapprovisionnement.status == 'convertit' %}
                                     <a target="_blank" href="{{ path('print_bon', {'uuid': bonapprovisionnement.uuid}) }}" class="btn btn-primary float-right ml-2">
-                                        <i class="fa fa-print"></i> Imprimer reçu de caisse
+                                        <i class="fa fa-print"></i> Imprimer
                                     </a>
                                 {% endif %}
 

@@ -3,89 +3,94 @@
 {% block title %}Convertir en Bon de Caisse{% endblock %}
 
 {% block body %}
-        <div class="col-12">
+    <div class="col-12">
 
 
-    {{ form_start(form) }}
- <div class="card card-fluid">
+        {{ form_start(form) }}
+        <div class="card card-fluid">
             <div class="card-header bg-soft-custom">
                 <h6>Créer un bon de caisse</h6>
             </div>
 
-               <div class="card-body">
+            <div class="card-body">
 
-    <fieldset class="form-container">
-        <legend>Détail de la Fiche de Besoin</legend>
-        <div class="row">
-            <div class="col-4">
-                <div class="form-group">
-                    <label for="fdb_date">Date de la Fiche de Besoin</label>
-                    <input type="text" class="form-control" value="{{ fdb.date ? fdb.date|date('d-m-Y') : '' }}" readonly>
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="form-group">
-                    <label for="fdb_numero">N° Fiche de besoin</label>
-                    <input type="text" class="form-control" value="{{ fdb.numeroFicheBesoin }}" readonly>
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="form-group">
-                    <label for="fdb_typeExpense">Type d'Opération</label>
-                    <input type="text" class="form-control" value="{{ fdb.typeExpense.name }}" readonly>
-                </div>
-            </div>
-        </div>
-            <div class="row">
-            <div class="col-4">
-                <div class="form-group">
-                    <label for="fdb_expense">Nature d'Opération</label>
-                    <input type="text" class="form-control" value="{{ fdb.expense.name }}" readonly>
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="form-group">
-                    <label for="fdb_total">Montant Total</label>
-                    <input type="text" class="form-control separator" value="{{ fdb.total }}" readonly>
-                </div>
-            </div>
-        </div>
-    </fieldset>
+                <fieldset class="form-container">
+                    <legend>Référence Fiche de Besoin</legend>
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="fdb_date">Date</label>
+                                <input type="text" class="form-control" value="{{ fdb.date ? fdb.date|date('d-m-Y') : '' }}" readonly>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="fdb_numero">Référence Fiche de besoin</label>
+                                <input type="text" class="form-control" value="{{ fdb.numeroFicheBesoin }}" readonly>
+                            </div>
+                        </div>
+                    </div>
 
-                   <fieldset class="form-container">
-                       <legend>Information du bon de caisse</legend>
-                       <div class="row">
-                           <div class="col-3">
-                               <div class="form-group">
-                                   {{ form_label(form.date) }}
-                                   {{ form_widget(form.date, {'attr': {'class': 'form-control'}}) }}
-                               </div>
-                           </div>
-                           <div class="col-3">
-                               <div class="form-group">
-                                   {{ form_label(form.reference) }}
-                                   {{ form_widget(form.reference, {'attr': {'class': 'form-control'}}) }}
-                               </div>
-                           </div>
-                           <div class="col-3">
-                               <div class="form-group">
-                                   {{ form_label(form.beneficiaire) }}
-                                   {{ form_widget(form.beneficiaire, {'attr': {'class': 'form-control'}}) }}
-                               </div>
-                           </div>
-                       </div>
-                   </fieldset>
+                    <legend>Détail</legend>
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="fdb_typeExpense">Type Opération</label>
+                                <input type="text" class="form-control" value="{{ fdb.typeExpense.name }}" readonly>
+                            </div>
+                        </div>
 
 
-               </div>
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="fdb_expense">Nature Opération</label>
+                                <input type="text" class="form-control" value="{{ fdb.expense.name }}" readonly>
+                            </div>
+                        </div>
 
- <div class="card-footer">
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="fdb_total">Montant à payer (F.CFA)</label>
+                                <input type="text" class="form-control separator" value="{{ fdb.total }}" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset class="form-container">
+                    <legend>Information Bon de caisse</legend>
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="form-group">
+                                {{ form_label(form.date) }}
+                                {{ form_widget(form.date, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                {{ form_label(form.reference) }}
+                                {{ form_widget(form.reference, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                {{ form_label(form.beneficiaire) }}
+                                {{ form_widget(form.beneficiaire, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+
+
+            </div>
+
+            <div class="card-footer">
                 <div class="card-footer-content">
                     {% include '_modal_manager.html.twig' %}
                     <a href="{{ path('fdb_index') }}" class="btn btn-info float-right"><i class="oi oi-home"></i> Retour</a>
                 </div>
             </div>
         </div>
-    {{ form_end(form) }}
-        </div>
+        {{ form_end(form) }}
+    </div>
 {% endblock %}

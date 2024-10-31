@@ -11,7 +11,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class JournalCaisseController extends AbstractController
+
 {
+
 //    #[Route('/journal-caisse', name: 'journal_caisse_index')]
 //    public function index(Request $request, JournalCaisseRepository $journalCaisseRepository): Response
 //    {

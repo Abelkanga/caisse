@@ -16,12 +16,12 @@
                         <tr>
                             <th>Date</th>
                             <th>Référence</th>
-{#                            <th>Emetteur</th>#}
-                            <th>Destinataire</th>
+                            <th>Emetteur</th>
+{#                            <th>Destinataire</th>#}
                             <th>Bénéficiaire</th>
                             <th>Nature de l'opération</th>
                             <th>Objet de dépense</th>
-                            <th>Montant (F cfa)</th>
+                            <th>Montant (F.CFA)</th>
                             <th>Statut</th>
                             <th>Action</th>
                         </tr>
@@ -31,8 +31,8 @@
                             <tr>
                                 <td class="text-center align-middle">{{ fdb.date ? fdb.date|date('d-m-Y') : '' }}</td>
                                 <td class="align-middle">{{ fdb.numeroFicheBesoin }}</td>
-{#                                <td class="align-middle">{{ fdb.emeteur }}</td>#}
-                                <td class="align-middle">{{ fdb.destinataire }}</td>
+                                <td class="align-middle">{{ fdb.validBy }}</td>
+{#                                <td class="align-middle">{{ fdb.destinataire }}</td>#}
                                 <td class="align-middle">{{ fdb.beneficiaire }}</td>
                                 <td class="align-middle">{{ fdb.Expense }}</td>
                                 <td class="align-middle">
@@ -48,7 +48,7 @@
                                         <span class="badge badge-danger">{{ fdb.status }}</span>
                                     {% elseif fdb.status == 'annulée' %}
                                         <span class="badge badge-warning">{{ fdb.status }}</span>
-                                    {% elseif fdb.status == 'approuvéed' %}
+                                    {% elseif fdb.status == 'approuvée' %}
                                         <span class="badge badge-primary">{{ fdb.status }}</span>
                                     {% elseif fdb.status == 'convertit' %}
                                         <span class="badge badge-success">{{ fdb.status }}</span>

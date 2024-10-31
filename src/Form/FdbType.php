@@ -67,12 +67,12 @@ class FdbType extends AbstractType
                         ->setParameter('responsable', '%"ROLE_RESPONSABLE"%');
                 },
             ])
-            ->add('destinataire', TextType::class, [
-                'attr' => [
-                    'readonly' => false
-                ],
-                'required' => true, 'empty_data' => ''
-            ])
+//            ->add('destinataire', TextType::class, [
+//                'attr' => [
+//                    'readonly' => false
+//                ],
+//                'required' => true, 'empty_data' => ''
+//            ])
             ->add('beneficiaire', TextType::class)
             ->add('typeExpense', EntityType::class, [
                 'class' => TypeExpense::class,

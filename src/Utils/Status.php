@@ -10,7 +10,7 @@ class Status
 
     const CONVERT = 'convertit'; // ROLE_MANAGER => Créer/Convertir Réçu de caisse et Bon de caisse
 
-    const APPROUVED = 'approuvéed'; // ROLE_MANAGER1 => Approuver Fiche de besoin
+    const APPROUVED = 'approuvée'; // ROLE_MANAGER1 => Approuver Fiche de besoin
 
     const VALIDATED = 'validée'; // ROLE_RESPONSABLE => valider/annuler Fiche de besoin
     const BROUILLON = 'brouillon'; //ROLE_USER => créer/modifier Fiche de besoin

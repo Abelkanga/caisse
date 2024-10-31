@@ -20,10 +20,17 @@
     <div class="row">
 
 
+        {#        <div class="col-4">#}
+        {#            <div class="form-group">#}
+        {#                <label for="destinataire">Destinataire</label>#}
+        {#                {{ form_widget(form.destinataire, {'attr' : {'class': 'form-control '}}) }}#}
+        {#            </div>#}
+        {#        </div>#}
+
         <div class="col-4">
             <div class="form-group">
-                <label for="destinataire">Destinataire</label>
-                {{ form_widget(form.destinataire, {'attr' : {'class': 'form-control '}}) }}
+                <label for="emetteur">Emetteur<span class="text-danger">*</span></label>
+                {{ form_widget(form.validBy, {'attr' : {'class': ' select2'}}) }}
             </div>
         </div>
 
@@ -34,12 +41,7 @@
                 {{ form_widget(form.beneficiaire, {'attr' : {'class': 'form-control'}}) }}
             </div>
         </div>
-        <div class="col-4">
-            <div class="form-group">
-                <label for="emetteur">Responsable<span class="text-danger">*</span></label>
-                {{ form_widget(form.validBy, {'attr' : {'class': ' select2'}}) }}
-            </div>
-        </div>
+
     </div>
 
     <div class="row">
@@ -71,7 +73,7 @@
             <th class="text-center">Objet de dépense</th>
             <th class="text-center">Quantité</th>
             <th class="text-center">Prix</th>
-            <th class="text-center">Montant</th>
+            <th class="text-center">Montant (F.CFA)</th>
             <th class="text-center">Action</th>
         </tr>
         </thead>

@@ -22,7 +22,7 @@ class CaisseType extends AbstractType
                 'attr' => ['readonly' => true],  // Rendre le champ non modifiable (grisé)
             ])
             ->add('intitule', TextType::class, [
-                'attr' => ['readonly' => true],  // Rendre le champ non modifiable (grisé)
+                'attr' => ['readonly' => false],  // Rendre le champ non modifiable (grisé)
             ])
             ->add('user', EntityType::class, [
                 'class' => User::class,
@@ -35,8 +35,9 @@ class CaisseType extends AbstractType
                 'expanded' => false,
                 'query_builder' => function (UserRepository $ur) {
                     return $ur->createQueryBuilder('u')
-                        ->where('u.roles LIKE :role')
-                        ->setParameter('role', '%"ROLE_MANAGER"%');
+                        ->where('u.roles LIKE :role_manager OR u.roles LIKE :role_manager1')
+                        ->setParameter('role_manager', '%"ROLE_MANAGER"%')
+                        ->setParameter('role_manager1', '%"ROLE_MANAGER1"%');
                 },
             ])
             ->add('plafond', NumberType::class);

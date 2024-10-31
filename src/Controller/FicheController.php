@@ -584,6 +584,62 @@ class FicheController extends AbstractController
                 return $this->redirectToRoute('fdb_index');
             }
 
+            // Annulation par ROLE_MANAGER1
+            if ($request->request->has('cancel_manager1') && $this->isGranted('ROLE_MANAGER1')) {
+                // Récupérer l'utilisateur qui a créé la fiche (le champ user de Fdb)
+                $userCreator = $fdb->getUser();
+
+
+                // Récupérer l'ancienne notification et la marquer comme lue
+                $oldNotification = $entityManager->getRepository(Notification::class)->findOneBy([
+                    'fdb' => $fdb,
+                    'unread' => true,
+                    'permission' => 'ROLE_MANAGER1'
+                ]);
+
+                if ($oldNotification) {
+                    $oldNotification->setUnread(false);
+                    $entityManager->persist($oldNotification);
+                }
+
+                // Vérifier si l'utilisateur existe
+                if ($userCreator) {
+                    // Création de la notification pour ROLE_USER (créateur de la Fdb)
+                    $cancelNotification = (new Notification())
+                        ->setUser($userCreator)
+                        ->setStatus(Status::CANCELLED)
+                        ->setUnread(true)
+                        ->setPermission('ROLE_USER')
+                        ->setFdb($fdb)
+                        ->setLink($generatorUrl->generate('fdb_show', ['id' => $fdb->getId()]))
+                        ->setMessage('Votre demande a été rejetée par le manager, veuillez contacter votre responsable.');
+
+                    $entityManager->persist($cancelNotification);
+
+                    // Envoi de la notification via Pusher
+                    $event = 'user' . $userCreator->getId();
+                    $pusher->trigger('notify', $event, [
+                        'message' => 'Fiche de besoin annulée par le manager.',
+                        'permission' => 'ROLE_USER',
+                        'link' => $cancelNotification->getLink()
+                    ]);
+                }
+
+                // Mise à jour du statut de la fiche de besoin
+                flash()
+                    ->options([
+                        'timeout' => 5000,
+                        'position' => 'bottom-right',
+                    ])
+                    ->success('Fiche de besoin annulée par le manager.');
+
+                $fdb->setStatus(Status::CANCELLED);
+                $entityManager->flush();
+
+                return $this->redirectToRoute('fdb_index');
+            }
+
+
         }
 
         return $this->render('fdb/show.html.twig', [
