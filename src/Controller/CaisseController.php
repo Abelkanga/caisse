@@ -127,7 +127,7 @@ class CaisseController extends AbstractController
         $dateFin = $request->query->get('date_fin');
 
         // Vérifier si la caisse de l'utilisateur est la caisse principale
-        $isCaissePrincipale = ($caisse->getCode() === 'C001');  // Assurez-vous d'avoir une méthode ou un champ pour distinguer les types de caisses
+        $isCaissePrincipale = ($caisse->getCode() === 'C001' or $caisse->getCode() === 'C003');  // Assurez-vous d'avoir une méthode ou un champ pour distinguer les types de caisses
 
         // Récupérer les journaux en fonction de la caisse
         if ($isCaissePrincipale) {

@@ -206,7 +206,6 @@ class BonapprovisionnementController extends AbstractController
     }
 
     #[Route('/bonapprovisionnement/{uuid}/convert', name: 'bonapprovisionnement_convert', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_MANAGER')]
     public function convert(
         Bonapprovisionnement $bonapprovisionnement,
         BonapprovisionnementRepository $bonapprovisionnementRepository,

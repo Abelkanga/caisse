@@ -1,16 +1,16 @@
-<fieldset>
+<fieldset class="form-container">
 
     <legend>Information bon d'approvisionnement</legend>
 
     <div class="row">
-        <div class="col-5">
+        <div class="col-12 col-md-5 mb-3">
             <div class="form-group">
                 <label for="date">Date</label>
                 {{ form_widget(form.date, {'attr' : {'class': 'form-control'}}) }}
             </div>
         </div>
 
-        <div class="col-5">
+        <div class="col-12 col-md-5 mb-3">
             <div class="form-group">
                 <label for="reference">Référence</label>
                 {{ form_widget(form.reference, {'attr' : {'class': 'form-control'}}) }}
@@ -19,14 +19,14 @@
     </div>
 
     <div class="row">
-        <div class="col-5">
+        <div class="col-12 col-md-5 mb-3">
             <div class="form-group">
                 <label for="modepaie">Bénéficiaire<span class="text-danger">*</span></label>
                 {{ form_widget(form.destinataire, {'attr' : {'class': 'form-control'}}) }}
             </div>
         </div>
 
-        <div class="col-5">
+        <div class="col-12 col-md-5 mb-3">
             <div class="form-group">
                 <label for="modepaie">Objet<span class="text-danger">*</span></label>
                 {{ form_widget(form.porteur, {'attr' : {'class': 'form-control'}}) }}
@@ -37,14 +37,14 @@
 
     <legend>Détail opération</legend>
     <div class="row">
-        <div class="col-5">
+        <div class="col-12 col-md-5 mb-3">
             <div class="form-group">
                 <label for="approvisionnement_modepaie">Source d'approvisionnement<span class="text-danger">*</span></label>
                 {{ form_widget(form.modepaie, {'attr': {'class': 'form-control select2', 'id': 'approvisionnement_modepaie'}}) }}
             </div>
         </div>
 
-        <div class="col-5">
+        <div class="col-12 col-md-5 mb-3">
             <div class="form-group">
                 <label for="montanttotal">Montant (F.CFA)<span class="text-danger">*</span></label>
                 {{ form_widget(form.montanttotal, {'attr' : {'class': 'form-control separator text-right'}}) }}
@@ -53,7 +53,7 @@
     </div>
     <div class="row">
 
-        <div class="col-5">
+        <div class="col-12 col-md-5 mb-3">
             <div class="form-group">
                 <label for="nomTiers">Référence de la source<span class="text-danger">*</span></label>
                 {{ form_widget(form.nomTiers, {'attr' : {'class': 'form-control'}}) }}

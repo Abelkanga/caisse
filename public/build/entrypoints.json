@@ -3,11 +3,11 @@
     "app": {
       "js": [
         "/build/runtime.js",
-        "/build/vendors-node_modules_inputmask_dist_inputmask_js-node_modules_datatables_net-bs4_css_dataTabl-613d26.js",
+        "/build/vendors-node_modules_inputmask_dist_inputmask_js-node_modules_datatables_net-bs4_css_dataTabl-49d957.js",
         "/build/app.js"
       ],
       "css": [
-        "/build/vendors-node_modules_inputmask_dist_inputmask_js-node_modules_datatables_net-bs4_css_dataTabl-613d26.css",
+        "/build/vendors-node_modules_inputmask_dist_inputmask_js-node_modules_datatables_net-bs4_css_dataTabl-49d957.css",
         "/build/app.css"
       ]
     }

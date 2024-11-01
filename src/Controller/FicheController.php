@@ -225,11 +225,12 @@ class FicheController extends AbstractController
 
 
     public function new(
-        Request $request,
+        Request                $request,
         EntityManagerInterface $entityManager,
-        CaisseRepository $caisseRepository,
-        CaisseService $service
-    ): Response {
+        CaisseRepository       $caisseRepository,
+        CaisseService          $service
+    ): Response
+    {
 
         /** @var User $user */
         $user = $this->getUser();
@@ -241,8 +242,6 @@ class FicheController extends AbstractController
             ->setNumeroFicheBesoin($refFiche)
             ->setDestinataire('Konan Gwladys')
             ->setBeneficiaire($beneficiaire);
-
-
 
 
         // Récupérer la caisse secondaire (ou principale selon votre logique)
@@ -337,7 +336,8 @@ class FicheController extends AbstractController
         EntityManagerInterface $entityManager,
         Pusher                 $pusher,
         UrlGeneratorInterface  $generatorUrl,
-        Request                $request
+        Request                $request,
+        CaisseRepository       $caisseRepository
     ): Response
     {
         $total = 0;
@@ -404,7 +404,7 @@ class FicheController extends AbstractController
                     $entityManager->persist($notification);
 
                     // Envoi de la notification via Pusher à ROLE_RESPONSABLE
-                    $event = 'responsable' . $responsableId;
+                    $event = 'responsable.' . $responsableId;
                     $pusher->trigger('notify', $event, [
                         'responsableId' => $responsableId,
                         'message' => 'Fiche de besoin en attente de validation.',
@@ -431,8 +431,7 @@ class FicheController extends AbstractController
             }
 
 
-
-        // Validation par ROLE_RESPONSABLE
+            // Validation par ROLE_RESPONSABLE
             if ($this->isGranted('ROLE_RESPONSABLE') && $request->request->has('confirm_responsable')) {
                 // Récupérer la notification actuelle et la marquer comme lue
                 $notification = $entityManager->getRepository(Notification::class)->findOneBy([
@@ -500,24 +499,24 @@ class FicheController extends AbstractController
                 // Vérifier si l'utilisateur existe
                 if ($userCreator) {
                     // Création de la notification pour ROLE_USER (créateur de la Fdb)
-                    $cancelNotification = (new Notification())
-                        ->setUser($userCreator)
-                        ->setStatus(Status::CANCELLED)
-                        ->setUnread(true)
-                        ->setPermission('ROLE_USER')
-                        ->setFdb($fdb)
-                        ->setLink($generatorUrl->generate('fdb_show', ['id' => $fdb->getId()]))
-                        ->setMessage('Votre demande a été rejetée, veuillez contacter votre responsable.');
-
-                    $entityManager->persist($cancelNotification);
-
-                    // Envoi de la notification via Pusher
-                    $event = 'user' . $userCreator->getId();
-                    $pusher->trigger('notify', $event, [
-                        'message' => 'Fiche de besoin annulée, veuillez la retirer',
-                        'permission' => 'ROLE_USER',
-                        'link' => $cancelNotification->getLink()
-                    ]);
+//                    $cancelNotification = (new Notification())
+//                        ->setUser($userCreator)
+//                        ->setStatus(Status::CANCELLED)
+//                        ->setUnread(true)
+//                        ->setPermission('ROLE_USER')
+//                        ->setFdb($fdb)
+//                        ->setLink($generatorUrl->generate('fdb_show', ['id' => $fdb->getId()]))
+//                        ->setMessage('Votre demande a été rejetée, veuillez contacter votre responsable.');
+//
+//                    $entityManager->persist($cancelNotification);
+//
+//                    // Envoi de la notification via Pusher
+//                    $event = 'user' . $userCreator->getId();
+//                    $pusher->trigger('notify', $event, [
+//                        'message' => 'Fiche de besoin annulée, veuillez la retirer',
+//                        'permission' => 'ROLE_USER',
+//                        'link' => $cancelNotification->getLink()
+//                    ]);
                 }
 
                 // Mise à jour du statut de la fiche de besoin
@@ -536,8 +535,9 @@ class FicheController extends AbstractController
             }
 
 
-            // Approvisionnement par ROLE_MANAGER1
+            // Approuver par ROLE_MANAGER1
             if ($request->request->has('confirm_manager1') && $this->isGranted('ROLE_MANAGER1')) {
+
                 // Récupérer la notification actuelle et la marquer comme lue
                 $notification = $entityManager->getRepository(Notification::class)->findOneBy([
                     'fdb' => $fdb,
@@ -558,12 +558,13 @@ class FicheController extends AbstractController
                     ->setPermission('ROLE_MANAGER')
                     ->setFdb($fdb)
                     ->setLink($generatorUrl->generate('fdb_show', ['id' => $fdb->getId()]))
-                    ->setMessage('La fiche de besoin en attente de décaissement.');
+                    ->setMessage('Fiche de besoin envoyée pour décaissement.');
 
                 $entityManager->persist($managerNotification);
 
                 // Envoi de la notification via Pusher
-                $event = 'manager';
+                $caisseId = $fdb->getCaisse()->getId();
+                $event = sprintf("caisse.%s", $caisseId);
                 $pusher->trigger('notify', $event, [
                     'message' => 'La fiche de besoin en attente de décaissement.',
                     'permission' => 'ROLE_MANAGER',
@@ -605,24 +606,24 @@ class FicheController extends AbstractController
                 // Vérifier si l'utilisateur existe
                 if ($userCreator) {
                     // Création de la notification pour ROLE_USER (créateur de la Fdb)
-                    $cancelNotification = (new Notification())
-                        ->setUser($userCreator)
-                        ->setStatus(Status::CANCELLED)
-                        ->setUnread(true)
-                        ->setPermission('ROLE_USER')
-                        ->setFdb($fdb)
-                        ->setLink($generatorUrl->generate('fdb_show', ['id' => $fdb->getId()]))
-                        ->setMessage('Votre demande a été rejetée par le manager, veuillez contacter votre responsable.');
-
-                    $entityManager->persist($cancelNotification);
-
-                    // Envoi de la notification via Pusher
-                    $event = 'user' . $userCreator->getId();
-                    $pusher->trigger('notify', $event, [
-                        'message' => 'Fiche de besoin annulée par le manager.',
-                        'permission' => 'ROLE_USER',
-                        'link' => $cancelNotification->getLink()
-                    ]);
+//                    $cancelNotification = (new Notification())
+//                        ->setUser($userCreator)
+//                        ->setStatus(Status::CANCELLED)
+//                        ->setUnread(true)
+//                        ->setPermission('ROLE_USER')
+//                        ->setFdb($fdb)
+//                        ->setLink($generatorUrl->generate('fdb_show', ['id' => $fdb->getId()]))
+//                        ->setMessage('Votre demande a été rejetée par le manager, veuillez contacter votre responsable.');
+//
+//                    $entityManager->persist($cancelNotification);
+//
+//                    // Envoi de la notification via Pusher
+//                    $event = 'user' . $userCreator->getId();
+//                    $pusher->trigger('notify', $event, [
+//                        'message' => 'Fiche de besoin annulée par le manager.',
+//                        'permission' => 'ROLE_USER',
+//                        'link' => $cancelNotification->getLink()
+//                    ]);
                 }
 
                 // Mise à jour du statut de la fiche de besoin

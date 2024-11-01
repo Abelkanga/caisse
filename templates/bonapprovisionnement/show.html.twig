@@ -43,7 +43,7 @@
                                 <th class="text-center">Date</th>
                                 <th>Caisse</th>
                                 <th>Objet</th>
-                                <th class="text-right">N° Bon d'approvisionnement</th>
+                                <th class="text-right">Référence Bon</th>
 
                             </tr>
                             </thead>
@@ -52,30 +52,30 @@
                                 <td class="text-center">{{ bonapprovisionnement.date ? bonapprovisionnement.date|date('d-m-Y') : ''  }}</td>
                                 <td class="align-middle">{{ bonapprovisionnement.caisse ? bonapprovisionnement.caisse.intitule : 'Caisse non définie' }}</td>
                                 <td class="align-middle">{{ bonapprovisionnement.porteur }}</td>
-                                <td class="text-right">{{ bonapprovisionnement.reference }}</td>
+                                <td class="text-center">{{ bonapprovisionnement.reference }}</td>
                             </tr>
                             </tbody>
                         </table>
                     </fieldset>
 
                     <fieldset>
-                        <legend>Détail réçu</legend>
+                        <legend>Détail Reçu</legend>
                         <table class="table table-sm bordered">
                             <thead class="thead-light">
                             <tr>
                                 <th class="text-center">Bénéficiaire</th>
-                                <th>Nom Caissier(e)</th>
-                                <th class="text-left">Source d'approvisionnement</th>
-                                <th class="text-left">Détail source d'approvisionnement</th>
+{#                                <th>Nom Caissier(e)</th>#}
+                                <th class="text-left">Origine des fonds</th>
+                                <th class="text-center">Référence Document</th>
                                 <th class="text-right">Montant Total (F.CFA)</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr>
                                 <td class="align-middle">{{ bonapprovisionnement.destinataire }}</td>
-                                <td class="align-middle">{{ bonapprovisionnement.caisse.user }}</td>
+{#                                <td class="align-middle">{{ bonapprovisionnement.caisse.user }}</td>#}
                                 <td class="text-left">{{ bonapprovisionnement.modepaie }}</td>
-                                <td class="text-left">{{ bonapprovisionnement.nomTiers }}</td>
+                                <td class="text-center">{{ bonapprovisionnement.nomTiers }}</td>
                                 <td class="text-right separator">{{ bonapprovisionnement.montanttotal }}</td>
                             </tr>
                             </tbody>
@@ -86,8 +86,9 @@
                         <div class="card-footer">
 
                             <div class="card-footer-content">
+
                                 {% if is_granted('ROLE_MANAGER') and bonapprovisionnement.status == 'en attente' %}
-{#                                    {% include '_modal_manager.html.twig' %}#}
+                                    {#                                    {% include '_modal_manager.html.twig' %}#}
 
                                     <a href="{{ path('bonapprovisionnement_convert', {'uuid': bonapprovisionnement.uuid}) }}" class="btn btn-primary float-right ml-2">
                                         <i class="fa-solid fa-repeat"></i> Convertir Reçu de caisse
@@ -101,7 +102,26 @@
                                     </a>
                                 {% endif %}
 
-{#                                <a target="_blank" href="{{ path('bonapprovisionnement_edit', {'id': bonapprovisionnement.id}) }}" class="btn btn-primary float-right ml-2">#}
+
+
+                                {% if is_granted('ROLE_MANAGER1') and bonapprovisionnement.status == 'en attente' %}
+{#                                    {% include '_modal_manager.html.twig' %}#}
+
+                                    <a href="{{ path('bonapprovisionnement_convert', {'uuid': bonapprovisionnement.uuid}) }}" class="btn btn-primary float-right ml-2">
+                                        <i class="fa-solid fa-repeat"></i> Convertir Reçu de caisse
+                                    </a>
+                                    <!-- Button trigger modal -->
+                                {% endif %}
+
+                                {% if is_granted('ROLE_MANAGER1') and bonapprovisionnement.status == 'convertit' %}
+                                    <a target="_blank" href="{{ path('print_bon', {'uuid': bonapprovisionnement.uuid}) }}" class="btn btn-primary float-right ml-2">
+                                        <i class="fa fa-print"></i> Imprimer
+                                    </a>
+                                {% endif %}
+
+
+
+                                {#                                <a target="_blank" href="{{ path('bonapprovisionnement_edit', {'id': bonapprovisionnement.id}) }}" class="btn btn-primary float-right ml-2">#}
 {#                                    <i class="fa fa-pencil-alt"></i> Modifier#}
 {#                                </a>#}
 

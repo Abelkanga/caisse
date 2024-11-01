@@ -36,7 +36,7 @@ import { runInputmask } from "./js/input-mask";
 
 
 
-const toastr = require('toastr/build/toastr.min');
+const toastr = require('toastr');
 global.toastr = toastr;
 
 window.Pusher = require('pusher-js');

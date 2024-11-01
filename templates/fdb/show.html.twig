@@ -64,7 +64,7 @@
                         <tr>
                             <th>Objet de dépense</th>
                             <th>Quantité</th>
-                            <th>Prix unitaire (F.CFA)</th>
+                            <th>Prix unitaire</th>
                             <th>Montant TTC (F.CFA)</th>
                         </tr>
                         </thead>
@@ -73,8 +73,8 @@
                             <tr>
                                 <td>{{ detail.designationproduit }}</td>
                                 <td class="text-right">{{ detail.quantite }}</td>
-                                <td class="separator text-right">{{ detail.price }} (F.CFA)</td>
-                                <td class="separator text-right">{{ detail.montant }} (F.CFA)</td>
+                                <td class="separator text-right">{{ detail.price }}</td>
+                                <td class="separator text-right">{{ detail.montant }} </td>
                             </tr>
                         {% endfor %}
                         </tbody>
@@ -109,16 +109,19 @@
                             {#                                </a>#}
                             {#                            {% endif %}#}
 
+
+                            {% if is_granted('ROLE_RESPONSABLE') and fdb.status == 'en attente' %}
+                                {% include '_modal_responsable.html.twig' %}
+                                {% include '_modal_responsable_annulation.html.twig' %}
+                            {% endif %}
+
                             {% if is_granted('ROLE_MANAGER1') and fdb.status == 'validée'%}
                                 <a class="btn btn-warning float-right ml-2" href="{{ path('fdb_edit', {'id': fdb.id}) }}">
                                     <i class="fa fa-pencil-alt"></i> Modifier
                                 </a>
                             {% endif %}
 
-                            {% if is_granted('ROLE_RESPONSABLE') and fdb.status == 'en attente' %}
-                                {% include '_modal_responsable.html.twig' %}
-                                {% include '_modal_responsable_annulation.html.twig' %}
-                            {% endif %}
+
 
                             {% if is_granted('ROLE_MANAGER1') and fdb.status == 'validée' %}
                                 {% include '_modal_manager1.html.twig' %}

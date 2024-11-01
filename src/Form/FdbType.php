@@ -55,7 +55,7 @@ class FdbType extends AbstractType
                 }, // Ou autre attribut utilisateur
                 'query_builder' => function (UserRepository $userRepository) {
                     // Si l'utilisateur est ROLE_IMPRESSION, retourner à la fois ROLE_RESPONSABLE et ROLE_MANAGER1
-                    if ($this->security->isGranted('ROLE_IMPRESSION') || $this->security->isGranted('ROLE_MANAGER')) {
+                    if ($this->security->isGranted('ROLE_IMPRESSION') || $this->security->isGranted('ROLE_MANAGER') || $this->security->isGranted('ROLE_RESPONSABLE')) {
                         return $userRepository->createQueryBuilder('u')
                             ->where('u.roles LIKE :manager1')
                             ->setParameter('manager1', '%"ROLE_MANAGER1"%');

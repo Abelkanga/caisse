@@ -18,7 +18,7 @@
     <!-- BEGIN THEME STYLES -->
     <link rel="stylesheet" href="{{ asset('css/theme.min.css') }}" data-skin="default">
     <link rel="stylesheet" href="{{ asset('css/theme-dark.min.css') }}" data-skin="dark">
-    <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
+    {#    <link rel="stylesheet" href="{{ asset('css/custom.css') }}"> #}
     {% block stylesheets %}
         <style>
             fieldset > legend {
@@ -112,7 +112,8 @@
     </main><!-- /.app-main -->
 
 </div><!-- /.app -->
-
+{% set userId = app.user.id %}
+{% set caisseId =  app.user.caisse ? app.user.caisse.id %}
 <script src="{{ asset('js/jquery.min.js') }}"></script>
 <script src="{{ asset('js/popper.min.js') }}"></script>
 <script src="{{ asset('js/bootstrap.min.js') }}"></script>
@@ -128,21 +129,9 @@
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<script>
-    var pusher = new Pusher('your-app-key', {
-        cluster: 'your-app-cluster',
-        encrypted: true
-    });
-
-    var channel = pusher.subscribe('my-channel');
-    channel.bind('my-event', function (data) {
-        alert('An event was triggered with message: ' + data.message);
-    });
-</script>
-
-
 <!-- BEGIN BASE JS -->
 <script src="{{ asset('js/theme.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 {% block javascripts %}
 {% endblock %}
 <script>
@@ -154,34 +143,55 @@
 </script>
 
 <script>
-    window.User = {id: {{ app.user.id }} };
+    window.User = {id: {{ userId }} };
+    window.Caisse = {id: {{ caisseId ? caisseId : 'null' }} }
     let permissions = [];
     {% for p in app.token.roleNames %}
     permissions.push('{{ p }}')
     {% endfor %}
 
-    const pusher = new Pusher('d1c1b712fda2bf24cba8', {
-        cluster: 'mt1'
-    });
+    const pusher = new Pusher('d1c1b712fda2bf24cba8', {cluster: 'mt1'});
+    Pusher.logToConsole = true;
     const channel = pusher.subscribe('notify');
-
     const userId = window.User.id;
+
+    const caisseId = window.Caisse.id
+
     channel.bind(`responsable.${userId}`, function (data) {
         if (data) {
-            const {message, link, responsableId, permission, caisseCode, montant, createdAt} = data;
-
-            // Si la notification est liée à un approvisionnement de caisse (vérifie si "caisseCode" et "montant" sont définis)
-            if (caisseCode && montant) {
-                toastr.success(`Votre caisse (${caisseCode}) a été approvisionnée de ${montant}`, null, {
-                    "closeButton": true,
-                    "preventDuplicates": false,
-                    "onclick": function () {
-                        window.location.href = link; // Redirection vers l'index d'approvisionnement
-                    }
-                });
+            const {message, link, responsableId, permission} = data;
+            toastr.success(`${message}`, 'Fiche de besoin', {
+                "closeButton": true,
+                "preventDuplicates": false,
+                "onclick": function () {
+                    window.location.href = link; // Redirection vers l'index d'approvisionnement
+                }
+            });
+            let $notification1 = $('#notification-body');
+            let notificationCount = $notification1.children().length;
+            if (!$notification1.hasClass('dropdown-scroll has-scrollable') && notificationCount > 3) {
+                $notification1.addClass('dropdown-scroll has-scrollable');
             }
-            // Autre type de notification (responsable ou autre)
-            else if (permissions.includes(permission)) {
+            if (notificationCount === 1) {
+                $notification1.empty();
+            }
+            if (!$('#header-notification').hasClass('has-notified')) {
+                $('#header-notification').addClass('has-notified');
+            }
+            $notification1.append(`<a href="${link}" class="dropdown-item unread">
+                <div class="user-avatar">
+                </div>
+                <div class="dropdown-item-body">
+                    <p class="subject">Notification</p>
+                    <p class="text text-truncate">${message}</p>
+                </div>
+            </a>`);
+        }
+    });
+    channel.bind(`manager1`, function (data) {
+        if (data) {
+            const {message, link, permission} = data;
+            if (permissions.includes(permission)) {
                 toastr.info(`${message}`, null, {
                     "closeButton": true,
                     "preventDuplicates": false,
@@ -201,22 +211,87 @@
                 if (!$('#header-notification').hasClass('has-notified')) {
                     $('#header-notification').addClass('has-notified');
                 }
-                $notification1.append(`
-            <a href="${link}" class="dropdown-item unread">
+                $notification1.append(`<a href="${link}" class="dropdown-item unread">
                 <div class="user-avatar">
                 </div>
                 <div class="dropdown-item-body">
                     <p class="subject">Notification</p>
                     <p class="text text-truncate">${message}</p>
-                    <span class="date">${moment(createdAt).fromNow()}</span>
                 </div>
             </a>`);
             }
         }
     });
+    if (caisseId) {
+        channel.bind(`caisse.${caisseId}`, function (data) {
+            if (data) {
+                const {message, link, permission} = data;
+                if (permissions.includes(permission)) {
+                    toastr.info(`${message}`, null, {
+                        "closeButton": true,
+                        "preventDuplicates": false,
+                        "onclick": function () {
+                            window.location.href = link;
+                        }
+                    });
 
+                    let $notification1 = $('#notification-body');
+                    let notificationCount = $notification1.children().length;
+                    if (!$notification1.hasClass('dropdown-scroll has-scrollable') && notificationCount > 3) {
+                        $notification1.addClass('dropdown-scroll has-scrollable');
+                    }
+                    if (notificationCount === 1) {
+                        $notification1.empty();
+                    }
+                    if (!$('#header-notification').hasClass('has-notified')) {
+                        $('#header-notification').addClass('has-notified');
+                    }
+                    $notification1.append(`<a href="${link}" class="dropdown-item unread">
+                <div class="user-avatar">
+                </div>
+                <div class="dropdown-item-body">
+                    <p class="subject">Notification</p>
+                    <p class="text text-truncate">${message}</p>
+                </div>
+            </a>`);
+                }
+            }
+        });
+    }
 
+    channel.bind(`user${userId}`, function (data) {
+        if (data) {
+            const {message, link, permission} = data;
+            if (permissions.includes('ROLE_USER')) {
+                toastr.info(`${message}`, 'Notification', {
+                    "closeButton": true,
+                    "preventDuplicates": false,
+                    "onclick": function () {
+                        window.location.href = link;
+                    }
+                });
 
+                let $notificationBody = $('#notification-body');
+                let notificationCount = $notificationBody.children().length;
+                if (!$notificationBody.hasClass('dropdown-scroll has-scrollable') && notificationCount > 3) {
+                    $notificationBody.addClass('dropdown-scroll has-scrollable');
+                }
+                if (notificationCount === 1) {
+                    $notificationBody.empty();
+                }
+                if (!$('#header-notification').hasClass('has-notified')) {
+                    $('#header-notification').addClass('has-notified');
+                }
+                $notificationBody.append(`<a href="${link}" class="dropdown-item unread">
+                    <div class="user-avatar"></div>
+                    <div class="dropdown-item-body">
+                        <p class="subject">Notification</p>
+                        <p class="text text-truncate">${message}</p>
+                    </div>
+                </a>`);
+            }
+        }
+    });
 </script>
 </body>
 </html>

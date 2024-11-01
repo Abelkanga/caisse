@@ -62,15 +62,15 @@
                     <th class="text-center">Date</th>
                     <th>Caisse</th>
                     <th>Objet</th>
-                    <th class="text-right">N° Recu de caisse</th>
+                    <th class="text-center">Référence Bon</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
                     <td class="text-center">{{ bonapprovisionnement.date ? bonapprovisionnement.date|date('d-m-Y') : ''  }}</td>
-                    <td class="align-middle">{{ bonapprovisionnement.caisse.intitule }}</td>
+                    <td class="text-center">{{ bonapprovisionnement.caisse.intitule }}</td>
                     <td class="align-middle">{{ bonapprovisionnement.porteur }}</td>
-                    <td class="text-right">{{ bonapprovisionnement.reference }}</td>
+                    <td class="text-center">{{ bonapprovisionnement.reference }}</td>
                 </tr>
                 </tbody>
             </table>
@@ -82,18 +82,18 @@
                 <thead class="thead-light">
                 <tr>
                     <th class="text-center">Bénéficiaire</th>
-                    <th>Nom Caissier(e)</th>
-                    <th class="text-left">Source d'approvisionnement</th>
-                    <th class="text-left">Détail source d'approvisionnement</th>
+{#                    <th>Nom Caissier(e)</th>#}
+                    <th class="text-left">Origine des fonds</th>
+                    <th class="text-left">Référence Document</th>
                     <th class="text-right">Montant Total (F.CFA)</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
                     <td class="align-middle">{{ bonapprovisionnement.destinataire }}</td>
-                    <td class="align-middle">{{ bonapprovisionnement.caisse.user }}</td>
+{#                    <td class="align-middle">{{ bonapprovisionnement.caisse.user }}</td>#}
                     <td class="text-left">{{ bonapprovisionnement.modepaie }}</td>
-                    <td class="text-left">{{ bonapprovisionnement.nomTiers }}</td>
+                    <td class="text-center">{{ bonapprovisionnement.nomTiers }}</td>
                     <td class="text-right separator">{{ bonapprovisionnement.montanttotal }}</td>
                 </tr>
                 </tbody>
