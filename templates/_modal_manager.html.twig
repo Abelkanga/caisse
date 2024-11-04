@@ -1,13 +1,13 @@
 <div id="modalManager" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalManagerLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header bg-secondary">
+            <div class="modal-header bg-warning">
                 <h5 class="modal-title text-dark" id="modalManagerLabel">
                     <span class="uil uil-question-circle"></span>
                     {% if operation_type == 'decaissement' %}
-                        Validation du Bon de caisse {{ bonCaisse.reference }}
+                        Validation Bon de caisse {{ bonCaisse.reference }}
                     {% else %}
-                        Validation du Reçu de caisse {{ recuCaisse.reference }}
+                        Validation Reçu de caisse {{ recuCaisse.reference }}
                     {% endif %}
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -22,12 +22,12 @@
                 {% endif %}
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-light font-weight-medium" data-dismiss="modal">NON</button>
+                <button type="button" class="btn btn-danger font-weight-medium" data-dismiss="modal">Annuler</button>
                 <button type="submit" class="btn btn-outline-success font-weight-medium" name="confirm_manager" value="confirm">
                     {% if operation_type == 'decaissement' %}
-                        OUI
+                        Confirmer
                     {% else %}
-                        OUI
+                        Confirmer
                     {% endif %}
                 </button>
             </div>

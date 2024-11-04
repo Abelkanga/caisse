@@ -1,27 +1,28 @@
 <div id="modalValidation" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalValidationLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header bg-secondary">
+            <div class="modal-header bg-warning">
                 <h5 class="modal-title text-dark" id="modalValidationLabel">
                     <span class="uil uil-question-circle"></span>
-                    Validation de la Fiche de besoin {{ fdb.numeroFicheBesoin }}
+                    Validation Fiche de besoin {{ fdb.numeroFicheBesoin }}
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
             <div class="modal-body font-size-14">
-                Confirmez la validation de cette fiche de besoin
+                Voulez-vous valider cette fiche de besoin ?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-light font-weight-medium" data-dismiss="modal">NON</button>
-                <button type="submit" class="btn btn-outline-success font-weight-medium" name="confirm_responsable" value="confirm">
-                    OUI
+                <button type="button" class="btn btn-danger font-weight-medium" data-dismiss="modal">Annuler</button>
+                <button type="submit" class="btn btn-success font-weight-medium" name="confirm_responsable" value="confirm">
+                    Confirmer
                 </button>
             </div>
         </div>
     </div>
 </div>
+
 <button type="button" class="btn btn-success float-right ml-2" data-toggle="modal" data-target="#modalValidation">
     <i class="fa fa-check"></i> Valider
 </button>
