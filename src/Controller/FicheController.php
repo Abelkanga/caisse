@@ -668,30 +668,30 @@ class FicheController extends AbstractController
         ]);
     }
 
-//    #[Route('/fdb/{id}/delete', name: 'fdb_delete', methods: ['GET'])]
-//    public function delete(EntityManagerInterface $manager, Fdb $fdb): Response
-//    {
-//        $user = $this->getUser();
-//        $roles = $user->getRoles();
-//
-//        // Vérifier que l'utilisateur a l'un des rôles nécessaires, que la fiche lui appartient, et qu'elle est annulée et active
-//        if ((in_array('ROLE_USER', $roles) || in_array('ROLE_RESPONSABLE', $roles) || in_array('ROLE_IMPRESSION', $roles))
-//            && $fdb->getUser() === $user
-//            && ($fdb->getStatus() === Status::CANCELLED || $fdb->getStatus() === Status::BROUILLON)
-//            && $fdb->getIsActive()) {
-//
-//            // Mettre à jour la propriété isActive à false pour désactiver la fiche
-//            $fdb->setIsActive(false);
-//            $manager->flush();
-//
-//            flash()->options(['timeout' => 5000, 'position' => 'bottom-right'])->success('Fiche de besoin supprimée avec succès !');
-//        } else {
-//            // Si les conditions ne sont pas respectées, afficher un message d'erreur
-//            flash()->options(['timeout' => 5000, 'position' => 'bottom-right'])->error('Vous ne pouvez supprimer que vos propres fiches annulées.');
-//        }
-//
-//        return $this->redirectToRoute('fdb_index');
-//    }
+    #[Route('/fdb/{id}/delete', name: 'fdb_delete', methods: ['GET'])]
+    public function delete(EntityManagerInterface $manager, Fdb $fdb): Response
+    {
+        $user = $this->getUser();
+        $roles = $user->getRoles();
+
+        // Vérifier que l'utilisateur a l'un des rôles nécessaires, que la fiche lui appartient, et qu'elle est annulée et active
+        if ((in_array('ROLE_USER', $roles) || in_array('ROLE_RESPONSABLE', $roles) || in_array('ROLE_IMPRESSION', $roles) || in_array('ROLE_MANAGER', $roles))
+            && $fdb->getUser() === $user
+            && ($fdb->getStatus() === Status::CANCELLED || $fdb->getStatus() === Status::BROUILLON)
+            && $fdb->getIsActive()) {
+
+            // Mettre à jour la propriété isActive à false pour désactiver la fiche
+            $fdb->setIsActive(false);
+            $manager->flush();
+
+            flash()->options(['timeout' => 5000, 'position' => 'bottom-right'])->success('Fiche de besoin supprimée avec succès !');
+        } else {
+            // Si les conditions ne sont pas respectées, afficher un message d'erreur
+            flash()->options(['timeout' => 5000, 'position' => 'bottom-right'])->error('Vous ne pouvez supprimer que vos propres fiches annulées.');
+        }
+
+        return $this->redirectToRoute('fdb_index');
+    }
 
     #[Route('/fdb/{uuid}/convert', name: 'fdb_convert', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_MANAGER')]

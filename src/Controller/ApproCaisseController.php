@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\ApproCaisse;
+use App\Entity\Caisse;
 use App\Entity\JournalCaisse;
 use App\Entity\Notification;
 use App\Entity\User;
@@ -345,7 +346,9 @@ class ApproCaisseController extends AbstractController
         CaisseRepository $caisseRepository,
         CaisseService $service,
         JourneeRepository $journeeRepository,
-        JournalCaisseRepository $jcRepo
+        JournalCaisseRepository $jcRepo,
+        Pusher                 $pusher,
+
     ): Response {
         $activeJournee = $journeeRepository->activeJournee();
         if (!$activeJournee) {
@@ -473,6 +476,30 @@ class ApproCaisseController extends AbstractController
                     'position' => 'bottom-right',
                 ])
                 ->success('Transfert effectué avec succès !');
+
+            // src/Controller/ApproCaisseController.php
+
+// Notification pour le responsable de la caisse réceptrice (caisse secondaire)
+            $responsableRecepteur = $caisseReceptrice->getUser(); // Utilisateur responsable de la caisse réceptrice
+
+            $notification = (new Notification())
+                ->setUser($responsableRecepteur)
+                ->setUnread(true)
+                ->setPermission('ROLE_MANAGER')
+                ->setMessage("Approvisionnement reçu de la caisse principale.")
+                ->setApprocaisse($approCaisse)
+                ->setLink($this->generateUrl('app_approcaisse_show', ['id' => $approCaisse->getId()]));
+
+            $manager->persist($notification);
+            $manager->flush(); // Sauvegarde de la notification
+
+// Envoi de la notification via Pusher
+            $pusher->trigger('notify', 'caisse.' . $caisseReceptrice->getId(), [
+                'message' => 'Approvisionnement reçu de la caisse principale.',
+                'permission' => 'ROLE_MANAGER',
+                'link' => $notification->getLink(),
+            ]);
+
 
             return $this->redirectToRoute('app_approcaisse_index');
         }

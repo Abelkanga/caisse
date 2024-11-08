@@ -2,7 +2,7 @@
 <div class="modal fade" id="openJourneeModal" tabindex="-1" aria-labelledby="openJourneeModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header bg-warning">
                 <h5 class="modal-title" id="openJourneeModalLabel">Ouverture de la caisse</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -13,7 +13,7 @@
                 <div class="modal-body">
                     <input type="hidden" value="{{ csrf_token('open_journee') }}" name="_token">
                     <div class="form-group">
-                        <label class="control-label" for="flatpickr01">Date de la journée</label>
+                        <label class="control-label" for="flatpickr01"></label>
                         <input name="date_journee" type="date" value="{{ 'now'|date('Y-m-d') }}" class="form-control">
                     </div>
                 </div>

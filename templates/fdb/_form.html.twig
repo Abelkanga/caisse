@@ -20,12 +20,12 @@
 {#    <div class="row">#}
 
 
-{#        #}{#        <div class="col-4">#}
-{#        #}{#            <div class="form-group">#}
-{#        #}{#                <label for="destinataire">Destinataire</label>#}
-{#        #}{#                {{ form_widget(form.destinataire, {'attr' : {'class': 'form-control '}}) }}#}
-{#        #}{#            </div>#}
-{#        #}{#        </div>#}
+{#                <div class="col-4">#}
+{#                    <div class="form-group">#}
+{#                        <label for="destinataire">Destinataire</label>#}
+{#                        {{ form_widget(form.destinataire, {'attr' : {'class': 'form-control '}}) }}#}
+{#                    </div>#}
+{#                </div>#}
 
 {#        <div class="col-4">#}
 {#            <div class="form-group">#}
@@ -35,7 +35,7 @@
 {#        </div>#}
 
 {#        <div class="col-4">#}
-{#            #}{#                <div class="col-3 offset-1"> #}
+{#                            <div class="col-3 offset-1">#}
 {#            <div class="form-group">#}
 {#                <label for="beneficiaire">Bénéficiaire<span class="text-danger">*</span></label>#}
 {#                {{ form_widget(form.beneficiaire, {'attr' : {'class': 'form-control'}}) }}#}
@@ -61,7 +61,7 @@
 
 {#    </div>#}
 
-{#</fieldset>#}
+</fieldset>
 
 <fieldset class="form-container">
     <legend>Information fiche de besoin</legend>
@@ -123,11 +123,11 @@
     <table class="table table-sm bordered" id="">
         <thead>
         <tr>
-            <th class="text-center">Objet de dépense</th>
-            <th class="text-center">Quantité</th>
-            <th class="text-center">Prix</th>
-            <th class="text-center">Montant (F.CFA)</th>
-            <th class="text-center">Action</th>
+            <th class="text-center col-8">Objet de dépense</th>
+            <th class="text-center col-1">Quantité</th>
+            <th class="text-center col-1">Prix</th>
+            <th class="text-center col-1">Montant (F.CFA)</th>
+            <th class="text-center col-1">Action</th>
         </tr>
         </thead>
         <tbody id="tablefdb_details">
@@ -144,5 +144,84 @@
     </table>
 </fieldset>
 
+{#<fieldset class="form-container">#}
+{#    <legend>Information fiche de besoin</legend>#}
+
+{#    <div class="row">#}
+{#        <div class="col-12 col-md-4 mb-3">#}
+{#            <div class="form-group">#}
+{#                <label for="date_etablissement">Date</label>#}
+{#                {{ form_widget(form.date, {'attr' : {'class': 'form-control'}}) }}#}
+{#            </div>#}
+{#        </div>#}
+
+{#        <div class="col-12 col-md-4 mb-3">#}
+{#            <div class="form-group">#}
+{#                <label for="numero_fiche_besoin">N° Fiche de besoin</label>#}
+{#                {{ form_widget(form.numero_fiche_besoin, {'attr' : {'class': 'form-control js-datepicker'}}) }}#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+
+{#    <div class="row">#}
+{#        <div class="col-12 col-md-4 mb-3">#}
+{#            <div class="form-group">#}
+{#                <label for="emetteur">Emetteur<span class="text-danger">*</span></label>#}
+{#                {{ form_widget(form.validBy, {'attr' : {'class': 'select2 form-control'}}) }}#}
+{#            </div>#}
+{#        </div>#}
+
+{#        <div class="col-12 col-md-4 mb-3">#}
+{#            <div class="form-group">#}
+{#                <label for="beneficiaire">Bénéficiaire<span class="text-danger">*</span></label>#}
+{#                {{ form_widget(form.beneficiaire, {'attr' : {'class': 'form-control'}}) }}#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+
+{#    <div class="row">#}
+{#        <div class="col-12 col-md-4 mb-3">#}
+{#            <div class="form-group">#}
+{#                <label for="typeExpense">Type opération<span class="text-danger">*</span></label>#}
+{#                {{ form_widget(form.typeExpense, {'attr' : {'class': 'form-control select2', 'data-dependent-element' : '#fdb_expense'}}) }}#}
+{#            </div>#}
+{#        </div>#}
+
+{#        <div class="col-12 col-md-4 mb-3">#}
+{#            <div class="form-group">#}
+{#                <label for="expense">Nature opération<span class="text-danger">*</span></label>#}
+{#                {{ form_widget(form.expense, {'attr' : {'class': 'form-control select2'}}) }}#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+{#</fieldset>#}
+
+{#<fieldset>#}
+{#    <legend>Détail opération</legend>#}
+{#    <div class="table-responsive"> <!-- Ajoute une table responsive -->#}
+{#        <table class="table table-sm bordered">#}
+{#            <thead>#}
+{#            <tr>#}
+{#                <th class="text-center col-8">Objet de dépense</th>#}
+{#                <th class="text-center col-1">Quantité</th>#}
+{#                <th class="text-center col-1">Prix</th>#}
+{#                <th class="text-center col-1">Montant (F.CFA)</th>#}
+{#                <th class="text-center col-1">Action</th>#}
+{#            </tr>#}
+{#            </thead>#}
+{#            <tbody id="tablefdb_details">#}
+{#            {{ form_widget(form.details) }}#}
+{#            </tbody>#}
+{#            <tfoot>#}
+{#            <tr>#}
+{#                <th colspan="2">Total</th>#}
+{#                <th class="text-right"><span id="total_price"></span></th>#}
+{#                <th class="text-right"><span id="total_montant"></span></th>#}
+{#                <th></th>#}
+{#            </tr>#}
+{#            </tfoot>#}
+{#        </table>#}
+{#    </div>#}
+{#</fieldset>#}
 
 

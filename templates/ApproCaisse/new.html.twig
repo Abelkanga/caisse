@@ -33,7 +33,7 @@
     <div id="modalValidation" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalValidationLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header bg-secondary">
+                <div class="modal-header bg-warning">
                     <h5 class="modal-title text-dark" id="modalValidationLabel">
                         <span class="uil uil-question-circle"></span>
                         Confirmation de décaissement {{ approCaisse.reference }}
@@ -43,13 +43,13 @@
                     </button>
                 </div>
                 <div class="modal-body font-size-14">
-                    Confirmer l'approvisionnement vers une autre caisse
+                    Voulez-vous approvisionner une autre caisse ?
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-light font-weight-medium" data-dismiss="modal">NON</button>
+                    <button type="button" class="btn btn-danger font-weight-medium" data-dismiss="modal">Annuler</button>
                     <!-- Remplacer par un vrai bouton submit -->
-                    <button type="submit" class="btn btn-outline-success font-weight-medium" form="appro-caisse-form">
-                        OUI
+                    <button type="submit" class="btn btn-success font-weight-medium" form="appro-caisse-form">
+                        Confirmer
                     </button>
                 </div>
             </div>

@@ -157,6 +157,35 @@
 
     const caisseId = window.Caisse.id
 
+    // Fonction pour mettre à jour le compteur de notifications non lues et le badge d'application
+        function updateNotificationCount() {
+        let unreadCount = $('#notification-body').children('.dropdown-item.unread').length;
+
+        // Mets à jour le compteur dans la boîte de notification
+        $('#notification-count').text(unreadCount > 0 ? unreadCount : '');
+
+        // Mets à jour le badge de l'application avec le nombre de notifications non lues
+        if ('setAppBadge' in navigator) {
+            if (unreadCount > 0) {
+                navigator.setAppBadge(unreadCount).catch((error) => console.warn('Erreur App Badge', error));
+            } else {
+                navigator.clearAppBadge();
+            }
+        }
+    }
+
+    // Initialiser le compteur au chargement de la page
+    $(document).ready(function() {
+        updateNotificationCount();
+    });
+
+    // Event listener pour marquer les notifications comme lues lorsqu'elles sont cliquées
+    $(document).on('click', '#notification-body .dropdown-item.unread', function() {
+        $(this).removeClass('unread');  // Retire la classe 'unread'
+        updateNotificationCount();      // Mets à jour le compteur
+    });
+
+    // Gestion des notifications pour chaque channel
     channel.bind(`responsable.${userId}`, function (data) {
         if (data) {
             const {message, link, responsableId, permission} = data;
@@ -186,6 +215,8 @@
                     <p class="text text-truncate">${message}</p>
                 </div>
             </a>`);
+
+            updateNotificationCount(); // Met à jour le compteur après ajout
         }
     });
     channel.bind(`manager1`, function (data) {
@@ -219,6 +250,8 @@
                     <p class="text text-truncate">${message}</p>
                 </div>
             </a>`);
+
+                updateNotificationCount(); // Met à jour le compteur après ajout
             }
         }
     });
@@ -254,6 +287,8 @@
                     <p class="text text-truncate">${message}</p>
                 </div>
             </a>`);
+
+                    updateNotificationCount(); // Met à jour le compteur après ajout
                 }
             }
         });
@@ -289,9 +324,71 @@
                         <p class="text text-truncate">${message}</p>
                     </div>
                 </a>`);
+
+                updateNotificationCount(); // Met à jour le compteur après ajout
             }
         }
     });
+
+    // Event listener pour marquer les notifications comme lues lorsqu'elles sont cliquées
+    $(document).on('click', '#notification-body .dropdown-item.unread', function () {
+        const notificationElement = $(this);
+        const notificationId = notificationElement.data('id'); // Assurez-vous que chaque notification a un attribut data-id
+
+        // Envoie une requête AJAX pour marquer la notification comme lue
+        $.ajax({
+            url: `/notification/read/${notificationId}`,
+            type: 'POST',
+            success: function () {
+                notificationElement.removeClass('unread');  // Retire la classe 'unread'
+                updateNotificationCount();                  // Mets à jour le compteur
+            },
+            error: function (xhr, status, error) {
+                console.error('Erreur lors de la mise à jour de la notification :', error);
+            }
+        });
+    });
+
+    if (caisseId) {
+        channel.bind(`caisse.${caisseId}`, function(data) {
+            if (data) {
+                const {message, link, permission} = data;
+                if (permissions.includes('ROLE_MANAGER')) {
+                    toastr.info(`${message}`, 'Notification', {
+                        "closeButton": true,
+                        "preventDuplicates": false,
+                        "onclick": function () {
+                            window.location.href = link;
+                        }
+                    });
+
+                    let $notificationBody = $('#notification-body');
+                    let notificationCount = $notificationBody.children().length;
+                    if (!$notificationBody.hasClass('dropdown-scroll has-scrollable') && notificationCount > 3) {
+                        $notificationBody.addClass('dropdown-scroll has-scrollable');
+                    }
+                    if (notificationCount === 1) {
+                        $notificationBody.empty();
+                    }
+                    if (!$('#header-notification').hasClass('has-notified')) {
+                        $('#header-notification').addClass('has-notified');
+                    }
+                    $notificationBody.append(`<a href="${link}" class="dropdown-item unread">
+                    <div class="user-avatar"></div>
+                    <div class="dropdown-item-body">
+                        <p class="subject">Notification</p>
+                        <p class="text text-truncate">${message}</p>
+                    </div>
+                </a>`);
+
+                    updateNotificationCount(); // Met à jour le compteur après ajout
+                }
+            }
+        });
+    }
+
+
+
 </script>
 </body>
 </html>

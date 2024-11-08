@@ -33,7 +33,7 @@
                             <tbody>
                             <tr>
                                 <td class="text-center">{{ billetage.date ? billetage.date|date('d/m/Y') : '' }}</td>
-                                <td class="text-left">{{ billetage.reference }}</td>
+                                <td class="text-center">{{ billetage.reference }}</td>
                                 <td class="text-left">{{ billetage.caisse }}</td>
                                 <td class="text-right">{{ billetage.balance | number_format(0, ',', ' ') }}</td>
                                 <td class="text-right">{{ billetage.amount | number_format(0, ',', ' ') }}</td>

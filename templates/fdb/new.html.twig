@@ -1,40 +1,12 @@
-{#{% extends 'base.html.twig' %}#}
-
-{#{% block title %}Nouvelle fiche de besoin{% endblock %}#}
-
-
-
-{#{% block body %}#}
-
-{#    <div class="col-12">#}
-{#        {{ form_start(form) }}#}
-{#        <div class="card card-fluid">#}
-{#            <div class="card-header bg-soft-custom">#}
-{#                <h6>Créer une fiche de besoin</h6>#}
-{#            </div>#}
-{#            <div class="card-body">#}
-{#                {{ include('fdb/_form.html.twig') }}#}
-{#            </div>#}
-{#            <div class="card-footer">#}
-{#                <div class="card-footer-content">#}
-{#                    <button type="submit" class="btn btn-primary float-right ml-2">Enregistrer</button>#}
-{#                    <a href="{{ path('fdb_index') }}" class="btn btn-info float-right"><i class="oi oi-home"></i> Retour</a>#}
-{#                </div>#}
-{#            </div>#}
-{#        </div>#}
-{#        {{ form_end(form) }}#}
-{#    </div>#}
-
-{#{% endblock %}#}
-
-
 {% extends 'base.html.twig' %}
 
 {% block title %}Nouvelle fiche de besoin{% endblock %}
 
+
+
 {% block body %}
 
-    <div class="container-fluid">
+    <div class="col-12">
         {{ form_start(form) }}
         <div class="card card-fluid">
             <div class="card-header bg-soft-custom">
@@ -43,11 +15,11 @@
             <div class="card-body">
                 {{ include('fdb/_form.html.twig') }}
             </div>
-            <div class="card-footer d-flex flex-column flex-md-row justify-content-end">
-                <a href="{{ path('fdb_index') }}" class="btn btn-info mb-2 mb-md-0 mr-md-2">
-                    <i class="oi oi-home"></i> Retour
-                </a>
-                <button type="submit" class="btn btn-primary">Enregistrer</button>
+            <div class="card-footer">
+                <div class="card-footer-content">
+                    <button type="submit" class="btn btn-primary float-right ml-2">Enregistrer</button>
+                    <a href="{{ path('fdb_index') }}" class="btn btn-info float-right"><i class="oi oi-home"></i> Retour</a>
+                </div>
             </div>
         </div>
         {{ form_end(form) }}
@@ -55,3 +27,57 @@
 
 {% endblock %}
 
+
+{#{% extends 'base.html.twig' %}#}
+
+{#{% block title %}Nouvelle fiche de besoin{% endblock %}#}
+
+{#{% block body %}#}
+
+{#    <div class="container-fluid">#}
+{#        {{ form_start(form) }}#}
+{#        <div class="card card-fluid">#}
+{#            <div class="card-header bg-soft-custom">#}
+{#                <h6>Créer une fiche de besoin</h6>#}
+{#            </div>#}
+{#            <div class="card-body">#}
+{#                {{ include('fdb/_form.html.twig') }}#}
+{#            </div>#}
+{#            <div class="card-footer d-flex flex-column flex-md-row justify-content-end">#}
+{#                <a href="{{ path('fdb_index') }}" class="btn btn-info mb-2 mb-md-0 mr-md-2">#}
+{#                    <i class="oi oi-home"></i> Retour#}
+{#                </a>#}
+{#                <button type="submit" class="btn btn-primary">Enregistrer</button>#}
+{#            </div>#}
+{#        </div>#}
+{#        {{ form_end(form) }}#}
+{#    </div>#}
+
+{#{% endblock %}#}
+
+{#{% extends 'base.html.twig' %}#}
+
+{#{% block title %}Nouvelle fiche de besoin{% endblock %}#}
+
+{#{% block body %}#}
+{#    <div class="container">#}
+{#        <div class="row justify-content-center">#}
+{#            <div class="col-12 col-lg-8"> <!-- Limite la largeur du formulaire sur les grands écrans -->#}
+{#                {{ form_start(form) }}#}
+{#                <div class="card card-fluid">#}
+{#                    <div class="card-header bg-soft-custom">#}
+{#                        <h6>Créer une fiche de besoin</h6>#}
+{#                    </div>#}
+{#                    <div class="card-body">#}
+{#                        {{ include('fdb/_form.html.twig') }}#}
+{#                    </div>#}
+{#                    <div class="card-footer d-flex justify-content-end">#}
+{#                        <button type="submit" class="btn btn-primary ml-2">Enregistrer</button>#}
+{#                        <a href="{{ path('fdb_index') }}" class="btn btn-info"><i class="oi oi-home"></i> Retour</a>#}
+{#                    </div>#}
+{#                </div>#}
+{#                {{ form_end(form) }}#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+{#{% endblock %}#}
