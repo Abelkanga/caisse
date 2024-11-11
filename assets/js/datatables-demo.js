@@ -19,7 +19,6 @@ $('.report-datatable').dataTable({
 });
 
 
-
 const $formJournalCaisse = $('form[name="form_journal_caisse"]');
 $formJournalCaisse.submit(function (e) {
     e.preventDefault();

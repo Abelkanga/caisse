@@ -61,6 +61,9 @@
                 .btn-print, .btn-home {
                     display: none;
                 }
+                .print-button {
+                    display: none !important;
+                }
                 .btn-back {
                     display: none;
                 }
@@ -69,99 +72,146 @@
                     float: right !important;
                     width: 100px;
                 }
-
-                /* Définir la taille de la page en A5 */
-                @page {
-                    size: A5;
-                    margin: 1cm;
-                }
-
+                /* Augmentation de la taille de police globale */
                 body {
-                    font-size: 12px;
+                    font-size: 16px; /* Augmentation de la taille globale */
                 }
 
-                .receipt-container {
-                    margin: 10px;
-                }
-
+                /* Augmenter la taille des paragraphes et éléments dans le header */
                 .header p {
-                    font-size: 10px;
+                    font-size: 14px;
                 }
 
+                /* Augmenter la taille du titre */
                 .title-box {
                     margin: 10px 0;
                     padding: 5px;
-                    font-size: 14px;
+                    font-size: 20px; /* Taille augmentée pour le titre */
                 }
 
-                fieldset {
-                    margin-top: 10px;
-                    padding: 5px;
-                }
-
+                /* Augmenter la taille de la légende et des textes de la div principale */
                 legend {
-                    font-size: 14px;
+                    font-size: 18px; /* Taille augmentée pour les légendes */
                 }
 
                 .main-content div {
                     margin-bottom: 3px;
-                }
-
-                .table th, .table td {
-                    padding: 3px;
-                }
-
-                .approved-by p {
-                    font-size: 10px;
-                }
-
-                /* Style spécifique pour l'impression */
-                .card-body {
-                    margin: 0;
-                    padding: 0;
-                    border: none;
-                    width: 100%;
-                    height: auto;
-                    page-break-after: always;
-                }
-
-                #header {
-                    padding: 2px;
-                    width: 100%;
-                    white-space: nowrap;
-                    text-align: center;
-                    color: black;
-                    margin-left: 60px;
-                }
-
-                #secendhead {
-                    padding: 2px;
-                    width: 100%;
-                    white-space: nowrap;
-                    text-align: center;
-                    color: black;
-                    margin-left: 160px;
+                    font-size: 16px; /* Taille augmentée pour les détails principaux */
                 }
 
                 .table {
                     width: 100%;
                     border-collapse: collapse;
                     margin-bottom: 20px;
-                    font-size: 12px;
+                    font-size: 14px; /* Taille de police augmentée pour la table */
                     border: solid 1px black;
                 }
 
-                .table th,
-                .table td {
-                    padding: 10px;
+                .table th, .table td {
+                    padding: 8px;
                     text-align: center;
+                    font-size: 14px; /* Taille augmentée pour les cellules de table */
                     white-space: nowrap;
                 }
 
-                .table thead th,
-                .table tbody td {
-                    width: 100%;
+                /* Ajuster la section d'approbation pour la rendre plus lisible */
+                .approved-by p {
+                    font-size: 14px;
                 }
+            }
+
+            /* Définir la taille de la page en A5 */
+            @page {
+                size: A5;
+                margin: 1cm;
+            }
+
+            body {
+                font-size: 12px;
+            }
+
+            .receipt-container {
+                margin: 10px;
+            }
+
+            .header p {
+                font-size: 10px;
+            }
+
+            .title-box {
+                margin: 10px 0;
+                padding: 5px;
+                font-size: 14px;
+            }
+
+            fieldset {
+                margin-top: 10px;
+                padding: 5px;
+            }
+
+            legend {
+                font-size: 14px;
+            }
+
+            .main-content div {
+                margin-bottom: 3px;
+            }
+
+            .table th, .table td {
+                padding: 3px;
+            }
+
+            .approved-by p {
+                font-size: 10px;
+            }
+
+            /* Style spécifique pour l'impression */
+            .card-body {
+                margin: 0;
+                padding: 0;
+                border: none;
+                width: 100%;
+                height: auto;
+                page-break-after: always;
+            }
+
+            #header {
+                padding: 2px;
+                width: 100%;
+                white-space: nowrap;
+                text-align: center;
+                color: black;
+                margin-left: 60px;
+            }
+
+            #secendhead {
+                padding: 2px;
+                width: 100%;
+                white-space: nowrap;
+                text-align: center;
+                color: black;
+                margin-left: 160px;
+            }
+
+            .table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: 20px;
+                font-size: 12px;
+                border: solid 1px black;
+            }
+
+            .table th,
+            .table td {
+                padding: 10px;
+                text-align: center;
+                white-space: nowrap;
+            }
+
+            .table thead th,
+            .table tbody td {
+                width: 100%;
+            }
             }
         </style>
     {% endblock %}
@@ -179,6 +229,7 @@
 
 <!-- Bouton "Imprimer" centré -->
 <button class="print-button" onclick="window.print()">Imprimer</button>
+
 
 <script type="text/javascript">
     // window.addEventListener("load", ev => window.print());

@@ -27,7 +27,7 @@
             border: 1px solid #ddd;
         }
         legend {
-            font-size: 16px;
+            font-size: 36px;
             font-weight: bold;
             margin-bottom: 10px;
         }
@@ -43,6 +43,81 @@
         .separator {
             text-align: right;
         }
+        @media print {
+            .btn-print, .btn-home, .btn-back, .print-button {
+                display: none !important;
+            }
+
+            /* Augmentation de la taille de police globale */
+            body {
+                font-size: 26px; /* Augmentation de la taille globale */
+            }
+
+            /* Augmenter la taille des paragraphes et éléments dans le header */
+            .header p {
+                font-size: 14px;
+            }
+
+            /* Augmenter la taille du titre */
+            .title-box {
+                margin: 10px 0;
+                padding: 5px;
+                font-size: 30px; /* Taille augmentée pour le titre */
+            }
+
+            /* Augmenter la taille de la légende et des textes de la div principale */
+            legend {
+                font-size: 58px; /* Taille augmentée pour les légendes */
+            }
+
+            .main-content div {
+                margin-bottom: 3px;
+                font-size: 20px; /* Taille augmentée pour les détails principaux */
+            }
+
+            .table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: 20px;
+                font-size: 44px; /* Taille de police augmentée pour la table */
+                border: solid 1px black;
+            }
+
+            .table th, .table td {
+                padding: 8px;
+                text-align: center;
+                font-size: 30px; /* Taille augmentée pour les cellules de table */
+                white-space: nowrap;
+            }
+
+            /* Augmenter la taille de la légende */
+            fieldset legend {
+                font-size: 20px !important; /* Taille plus grande pour la légende */
+                font-weight: bold;
+            }
+
+            /* Augmenter la taille de la table et des cellules */
+            fieldset .table {
+                font-size: 20px !important; /* Augmenter la taille des textes de la table */
+                border: solid 1px black !important;
+            }
+
+            fieldset .table th,
+            fieldset .table td {
+                padding: 8px !important; /* Ajuster l'espace des cellules */
+                font-size: 20px !important; /* Taille plus grande pour le texte des cellules */
+                text-align: center;
+                border: solid 1px #808080 !important; /* Bordure visible */
+            }
+
+            /* Ajuster la section d'approbation pour la rendre plus lisible */
+            .approved-by p {
+                font-size: 20px;
+            }
+        }
+
+
+
     </style>
 
     <div class="receipt-container">

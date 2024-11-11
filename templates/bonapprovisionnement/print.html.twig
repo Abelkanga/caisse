@@ -37,6 +37,55 @@
         .separator {
             text-align: right;
         }
+        @media print {
+            .table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: 20px;
+                font-size: 44px; /* Taille de police augmentée pour la table */
+                border: solid 1px black;
+            }
+            .title-box {
+                margin: 10px 0;
+                padding: 5px;
+                font-size: 30px; /* Taille augmentée pour le titre */
+            }
+            .header p {
+                font-size: 14px;
+            }
+            .table th, .table td {
+                padding: 8px;
+                text-align: center;
+                font-size: 30px; /* Taille augmentée pour les cellules de table */
+                white-space: nowrap;
+            }
+
+            /* Augmenter la taille de la légende */
+            fieldset legend {
+                font-size: 20px !important; /* Taille plus grande pour la légende */
+                font-weight: bold;
+            }
+
+            /* Augmenter la taille de la table et des cellules */
+            fieldset .table {
+                font-size: 20px !important; /* Augmenter la taille des textes de la table */
+                border: solid 1px black !important;
+            }
+
+            fieldset .table th,
+            fieldset .table td {
+                padding: 8px !important; /* Ajuster l'espace des cellules */
+                font-size: 20px !important; /* Taille plus grande pour le texte des cellules */
+                text-align: center;
+                border: solid 1px #808080 !important; /* Bordure visible */
+            }
+
+            /* Ajuster la section d'approbation pour la rendre plus lisible */
+            .approved-by p {
+                font-size: 20px;
+            }
+        }
+
     </style>
 
     <div class="receipt-container">
@@ -53,6 +102,7 @@
         <div class="title-box">
             RECU DE CAISSE
         </div>
+
 
         <fieldset>
             <legend>Information du bon d'approvisionnement</legend>
