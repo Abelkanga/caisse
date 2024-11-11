@@ -9,7 +9,7 @@ class NumberToWordsService
         $conjunction = ' et ';
         $separator   = ', ';
         $negative    = 'moins ';
-        $decimal     = '  ';
+        $decimal     = ' virgule ';
         $dictionary  = array(
             0                   => 'zéro',
             1                   => 'un',

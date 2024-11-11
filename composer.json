@@ -14,6 +14,7 @@
         "doctrine/orm": "^3.1",
         "dompdf/dompdf": "^3.0",
         "knplabs/knp-snappy-bundle": "^1.10",
+        "kwn/number-to-words": "^2.11",
         "mpdf/mpdf": "^8.2",
         "php-flasher/flasher-symfony": "^2.0",
         "phpdocumentor/reflection-docblock": "^5.4",

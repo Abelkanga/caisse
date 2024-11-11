@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "44b91dadafcc5e4e3f3fe99a35780dd8",
+    "content-hash": "7c1ff751b5195d427604aa13a9592f90",
     "packages": [
         {
             "name": "beberlei/doctrineextensions",
@@ -2039,6 +2039,59 @@
                 "source": "https://github.com/KnpLabs/KnpSnappyBundle/tree/v1.10.2"
             },
             "time": "2024-06-10T12:38:45+00:00"
+        },
+        {
+            "name": "kwn/number-to-words",
+            "version": "2.11.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kwn/number-to-words.git",
+                "reference": "4eecd25251335114f0f9fb9cea5d141609a07f21"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kwn/number-to-words/zipball/4eecd25251335114f0f9fb9cea5d141609a07f21",
+                "reference": "4eecd25251335114f0f9fb9cea5d141609a07f21",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.6",
+                "squizlabs/php_codesniffer": "^3.7.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "NumberToWords\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Karol Wnuk",
+                    "email": "k.wnuk@ascetic.pl"
+                }
+            ],
+            "description": "Multi language standalone PHP number to words converter. Fully tested, open for extensions and new languages.",
+            "keywords": [
+                "currency",
+                "money",
+                "number",
+                "numbers",
+                "string",
+                "to",
+                "words"
+            ],
+            "support": {
+                "issues": "https://github.com/kwn/number-to-words/issues",
+                "source": "https://github.com/kwn/number-to-words/tree/2.11.0"
+            },
+            "time": "2024-11-04T21:09:14+00:00"
         },
         {
             "name": "lorenzo/pinky",
