@@ -148,7 +148,9 @@
                     <strong>Libellé :</strong> {{ fdb.Expense }}
                 </div>
                 <div>
-                    <strong>Montant en lettres :</strong> {{ numberToWords.convertNumberToWords(fdb.total) }} francs
+{#                    <strong>Montant en lettres :</strong> {{ numberToWords.convertNumberToWords(fdb.total) }} francs#}
+
+                    <strong>Montant en lettres :</strong> {{ fdb.total|format_spellout_number(locale='fr') }} francs
                 </div>
                 <div>
                     <strong>Statut :</strong> Validé
