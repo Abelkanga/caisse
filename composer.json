@@ -62,6 +62,7 @@
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/inky-extra": "^3.10",
         "twig/intl-extra": "^3.9",
+        "twig/string-extra": "*",
         "twig/twig": "^2.12|^3.0"
     },
     "config": {
