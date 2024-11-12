@@ -7,9 +7,9 @@ class NumberToWordsService
     public function convertNumberToWords($number) {
         $hyphen      = '-';
         $conjunction = ' et ';
-        $separator   = ', ';
+        $separator   = ' ';
         $negative    = 'moins ';
-        $decimal     = ' virgule ';
+        $decimal     = '  ';
         $dictionary  = array(
             0                   => 'zéro',
             1                   => 'un',
@@ -95,13 +95,14 @@ class NumberToWordsService
                 }
                 break;
             case $number < 1000000:
-                $thousands = $number / 1000;
+                $thousands = (int) ($number / 1000);
                 $remainder = $number % 1000;
                 if ($thousands > 1) {
                     $string = $this->convertNumberToWords($thousands) . ' ' . $dictionary[1000];
                 } else {
                     $string = $dictionary[1000];
                 }
+                // Ajout pour éviter la répétition des milliers inutiles
                 if ($remainder) {
                     $string .= $separator . $this->convertNumberToWords($remainder);
                 }
