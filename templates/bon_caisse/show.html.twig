@@ -44,7 +44,7 @@
                                 <td class="align-middle">{{ bonCaisse.fdb.numeroFicheBesoin }}</td>
                                 <td class="text-left">{{ bonCaisse.fdb.typeExpense.name }}</td> <!-- Assuming typeExpense has a "nom" field -->
                                 <td class="text-left">{{ bonCaisse.fdb.expense.name }}</td> <!-- Assuming expense has a "nom" field -->
-                                <td class="text-right separator">{{ bonCaisse.fdb.total }}</td>
+                                <td class="text-right separator">{{ bonCaisse.fdb.total | number_format(2, ',', ' ')}}</td>
                             </tr>
                             </tbody>
                         </table>

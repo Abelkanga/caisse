@@ -40,7 +40,7 @@
                                         {{ detail.designationproduit }} <br>
                                     {% endfor %}
                                 </td>
-                                <td class="separator text-right align-middle">{{ fdb.total }}</td>
+                                <td class="separator text-right align-middle">{{ fdb.total | number_format(2, ',', ' ') }}</td>
                                 <td class="text-center align-middle">
                                     {% if fdb.status == 'validée' %}
                                         <span class="badge badge-info">{{ fdb.status }}</span>

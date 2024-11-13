@@ -110,199 +110,199 @@
     </style>
 
 
-<div class="receipt-container">
-    <div class="header text-center">
-        <img src="{{ asset('images/offset.png') }}" alt="Offset Consulting" style="max-width: 170px;">
-        <p><b><i>Cabinet Offset Consulting</i></b></p>
-        <p><b><i>Audit et Conseil en Organisation Management</i></b></p>
-        <p><b><i>08 BP 2941 Abidjan 08, République de Côte d'Ivoire</i></b></p>
-        <p><b><i>Tél: (225) 27 22 01 59 71  Cél: (225) 07 78 63 63 06</i></b></p>
-        <p><b><i>Email: info@offset-consulting.com</i></b></p>
-        <p><b><i>www.offset-consulting.com</i></b></p>
+    <div class="receipt-container">
+        <div class="header text-center">
+            <img src="{{ asset('images/offset.png') }}" alt="Offset Consulting" style="max-width: 170px;">
+            <p><b><i>Cabinet Offset Consulting</i></b></p>
+            <p><b><i>Audit et Conseil en Organisation Management</i></b></p>
+            <p><b><i>08 BP 2941 Abidjan 08, République de Côte d'Ivoire</i></b></p>
+            <p><b><i>Tél: (225) 27 22 01 59 71  Cél: (225) 07 78 63 63 06</i></b></p>
+            <p><b><i>Email: info@offset-consulting.com</i></b></p>
+            <p><b><i>www.offset-consulting.com</i></b></p>
+        </div>
+
+        <div class="title-box">
+            BILLETAGE
+        </div>
+
+        <fieldset>
+            <legend>Information du billetage</legend>
+            <table class="table table-bordered table-highlight-head bordered table-condensed">
+                <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Référence</th>
+                    <th>Caisse</th>
+                    <th>Solde théorique</th>
+                    <th>Solde réel</th>
+                    <th>Ecart</th>
+                    <th>Statut</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr>
+                    <td class="text-center">{{ billetage.date ? billetage.date|date('d/m/Y') : '' }}</td>
+                    <td class="text-center">{{ billetage.reference }}</td>
+                    <td class="text-left">{{ billetage.caisse }}</td>
+                    <td class="text-right">{{ billetage.balance | number_format(0, ',', ' ') }}</td>
+                    <td class="text-right">{{ billetage.amount | number_format(0, ',', ' ') }}</td>
+                    <td class="text-right">{{ billetage.ecart | number_format(0, ',', ' ') }}</td>
+                    <td class="text-center">
+                        <span class="label label-{{ billetage.status == 'VALIDATED' ? 'success': (billetage.status == 'DRAFT' ? 'info' : 'primary') }}">
+                            validé
+                        </span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </fieldset>
+        <hr>
+        <fieldset>
+            {% set bt = billetage %}
+            <legend>Détail du billetage</legend>
+            <table class="table table-bordered table-highlight-head bordered table-condensed">
+                <thead>
+                <tr>
+                    <th class="align-center">Nominal</th>
+                    <th class="align-center">Montant disponible</th>
+                    <th class="align-center">Total</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td colspan="3">Billet</td>
+                </tr>
+                <tr>
+                    <td>
+                        <output>10 000</output>
+                    </td>
+                    <td class="text-right">
+                        {{ bt.b10000 }}
+                    </td>
+                    <td class="text-right">{{ (bt.b10000 * 10000)|number_format(0, ',', ' ') }}</td>
+                </tr>
+                <tr>
+                    <td>
+                        <output>5 000</output>
+                    </td>
+                    <td class="text-right">
+                        {{ bt.b5000 }}
+                    </td>
+                    <td class="text-right">{{ (bt.b5000 * 5000)|number_format(0, ',', ' ') }}</td>
+                </tr>
+                <tr>
+                    <td>
+                        <output>2 000</output>
+                    </td>
+                    <td class="text-right">
+                        {{ bt.b2000 }}
+                    </td>
+                    <td class="text-right">{{ (bt.b2000 * 2000)|number_format(0, ',', ' ') }}</td>
+                </tr>
+                <tr>
+                    <td>
+                        <output>1 000</output>
+                    </td>
+                    <td class="text-right">
+                        {{ bt.b1000 }}
+                    </td>
+                    <td class="text-right">{{ (bt.b1000 * 1000)|number_format(0, ',', ' ') }}</td>
+                </tr>
+                <tr>
+                    <td>
+                        <output>500</output>
+                    </td>
+                    <td class="text-right">
+                        {{ bt.b500 }}
+                    </td>
+                    <td class="text-right">{{ (bt.b500 * 500)|number_format(0, ',', ' ') }}</td>
+                </tr>
+                <tr style="font-weight: 600">
+                    <td colspan="2">Sous Total</td>
+                    <td class="text-right">
+                        {% set sousTotal1 = (bt.b10000 * 10000) + (bt.b5000 * 5000) + (bt.b2000 * 2000) + (bt.b1000 * 1000) + (bt.b500 * 500) %}
+                        {{ sousTotal1 | number_format(0, ',', ' ') }}
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">Monnaie</td>
+                </tr>
+                <tr>
+                    <td>
+                        <output>500</output>
+                    </td>
+                    <td class="text-right">
+                        {{ bt.m500 }}
+                    </td>
+                    <td class="text-right">{{ (bt.m500 * 500)|number_format(0, ',', ' ') }}</td>
+                </tr>
+                <tr>
+                    <td>
+                        <output>250</output>
+                    </td>
+                    <td class="text-right">
+                        {{ bt.m250 }}
+                    </td>
+                    <td class="text-right">{{ (bt.m250 * 250)|number_format(0, ',', ' ') }}</td>
+                </tr>
+                <tr>
+                    <td>
+                        <output>200</output>
+                    </td>
+                    <td class="text-right">
+                        {{ bt.m200 }}
+                    </td>
+                    <td class="text-right">{{ (bt.m200 * 200)|number_format(0, ',', ' ') }}</td>
+                </tr>
+                <tr>
+                    <td>
+                        <output>100</output>
+                    </td>
+                    <td class="text-right">
+                        {{ bt.m100 }}
+                    </td>
+                    <td class="text-right">{{ (bt.m100 * 100)|number_format(0, ',', ' ') }}</td>
+                </tr>
+                <tr>
+                    <td>
+                        <output>50</output>
+                    </td>
+                    <td class="text-right">
+                        {{ bt.m50 }}
+                    </td>
+                    <td class="text-right">{{ (bt.m50 * 50)|number_format(0, ',', ' ') }}</td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <output>10</output>
+                    </td>
+                    <td class="text-right">
+                        {{ bt.m10 }}
+                    </td>
+                    <td class="text-right">{{ (bt.m10 * 10)|number_format(0, ',', ' ') }}</td>
+                </tr>
+                <tr>
+                    <td>
+                        <output>5</output>
+                    </td>
+                    <td class="text-right">
+                        {{ bt.m5 }}
+                    </td>
+                    <td class="text-right">{{ (bt.m5 * 5)|number_format(0, ',', ' ') }}</td>
+                </tr>
+
+                <tr style="font-weight: 600">
+                    <td colspan="2">Sous Total 2</td>
+                    <td class="text-right">
+                        {% set sousTotal2 = (bt.m500 * 500) + (bt.m250 * 250) + (bt.m200 * 200) + (bt.m100 * 100) + (bt.m50 * 50) + (bt.m10 * 10) + (bt.m5 * 5) %}
+                        {{ sousTotal2 | number_format(0, ',', ' ') }}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </fieldset>
     </div>
-
-    <div class="title-box">
-        BILLETAGE
-    </div>
-
-    <fieldset>
-        <legend>Information du billetage</legend>
-        <table class="table table-bordered table-highlight-head bordered table-condensed">
-            <thead>
-            <tr>
-                <th>Date</th>
-                <th>Référence</th>
-                <th>Caisse</th>
-                <th>Solde théorique</th>
-                <th>Solde réel</th>
-                <th>Ecart</th>
-                <th>Statut</th>
-            </tr>
-            </thead>
-
-            <tbody>
-            <tr>
-                <td class="text-center">{{ billetage.date ? billetage.date|date('d/m/Y') : '' }}</td>
-                <td class="text-center">{{ billetage.reference }}</td>
-                <td class="text-left">{{ billetage.caisse }}</td>
-                <td class="text-right">{{ billetage.balance | number_format(0, ',', ' ') }}</td>
-                <td class="text-right">{{ billetage.amount | number_format(0, ',', ' ') }}</td>
-                <td class="text-right">{{ billetage.ecart | number_format(0, ',', ' ') }}</td>
-                <td class="text-center">
-                                    <span class="label label-{{ billetage.status == 'VALIDATED' ? 'success': (billetage.status == 'DRAFT' ? 'info' : 'primary') }}">
-                                        validé
-                                    </span>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </fieldset>
-    <hr>
-    <fieldset>
-        {% set bt = billetage %}
-        <legend>Détail du billetage</legend>
-        <table class="table table-bordered table-highlight-head bordered table-condensed">
-            <thead>
-            <tr>
-                <th class="align-center">Nominal</th>
-                <th class="align-center">Montant disponible</th>
-                <th class="align-center">Total</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td colspan="3">Billet</td>
-            </tr>
-            <tr>
-                <td>
-                    <output>10 000</output>
-                </td>
-                <td class="text-right">
-                    {{ bt.b10000 }}
-                </td>
-                <td class="text-right">{{ (bt.b10000 * 10000)|number_format(0, ',', ' ') }}</td>
-            </tr>
-            <tr>
-                <td>
-                    <output>5 000</output>
-                </td>
-                <td class="text-right">
-                    {{ bt.b5000 }}
-                </td>
-                <td class="text-right">{{ (bt.b5000 * 5000)|number_format(0, ',', ' ') }}</td>
-            </tr>
-            <tr>
-                <td>
-                    <output>2 000</output>
-                </td>
-                <td class="text-right">
-                    {{ bt.b2000 }}
-                </td>
-                <td class="text-right">{{ (bt.b2000 * 2000)|number_format(0, ',', ' ') }}</td>
-            </tr>
-            <tr>
-                <td>
-                    <output>1 000</output>
-                </td>
-                <td class="text-right">
-                    {{ bt.b1000 }}
-                </td>
-                <td class="text-right">{{ (bt.b1000 * 1000)|number_format(0, ',', ' ') }}</td>
-            </tr>
-            <tr>
-                <td>
-                    <output>500</output>
-                </td>
-                <td class="text-right">
-                    {{ bt.b500 }}
-                </td>
-                <td class="text-right">{{ (bt.b500 * 500)|number_format(0, ',', ' ') }}</td>
-            </tr>
-            <tr style="font-weight: 600">
-                <td colspan="2">Sous Total</td>
-                <td class="text-right">
-                    {% set sousTotal1 = (bt.b10000 * 10000) + (bt.b5000 * 5000) + (bt.b2000 * 2000) + (bt.b1000 * 1000) + (bt.b500 * 500) %}
-                    {{ sousTotal1 | number_format(0, ',', ' ') }}
-                </td>
-            </tr>
-            <tr>
-                <td colspan="3">Monnaie</td>
-            </tr>
-            <tr>
-                <td>
-                    <output>500</output>
-                </td>
-                <td class="text-right">
-                    {{ bt.m500 }}
-                </td>
-                <td class="text-right">{{ (bt.m500 * 500)|number_format(0, ',', ' ') }}</td>
-            </tr>
-            <tr>
-                <td>
-                    <output>250</output>
-                </td>
-                <td class="text-right">
-                    {{ bt.m250 }}
-                </td>
-                <td class="text-right">{{ (bt.m250 * 250)|number_format(0, ',', ' ') }}</td>
-            </tr>
-            <tr>
-                <td>
-                    <output>200</output>
-                </td>
-                <td class="text-right">
-                    {{ bt.m200 }}
-                </td>
-                <td class="text-right">{{ (bt.m200 * 200)|number_format(0, ',', ' ') }}</td>
-            </tr>
-            <tr>
-                <td>
-                    <output>100</output>
-                </td>
-                <td class="text-right">
-                    {{ bt.m100 }}
-                </td>
-                <td class="text-right">{{ (bt.m100 * 100)|number_format(0, ',', ' ') }}</td>
-            </tr>
-            <tr>
-                <td>
-                    <output>50</output>
-                </td>
-                <td class="text-right">
-                    {{ bt.m50 }}
-                </td>
-                <td class="text-right">{{ (bt.m50 * 50)|number_format(0, ',', ' ') }}</td>
-            </tr>
-
-            <tr>
-                <td>
-                    <output>10</output>
-                </td>
-                <td class="text-right">
-                    {{ bt.m10 }}
-                </td>
-                <td class="text-right">{{ (bt.m10 * 10)|number_format(0, ',', ' ') }}</td>
-            </tr>
-            <tr>
-                <td>
-                    <output>5</output>
-                </td>
-                <td class="text-right">
-                    {{ bt.m5 }}
-                </td>
-                <td class="text-right">{{ (bt.m5 * 5)|number_format(0, ',', ' ') }}</td>
-            </tr>
-
-            <tr style="font-weight: 600">
-                <td colspan="2">Sous Total 2</td>
-                <td class="text-right">
-                    {% set sousTotal2 = (bt.m500 * 500) + (bt.m250 * 250) + (bt.m200 * 200) + (bt.m100 * 100) + (bt.m50 * 50) + (bt.m10 * 10) + (bt.m5 * 5) %}
-                    {{ sousTotal2 | number_format(0, ',', ' ') }}
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </fieldset>
-</div>
 
 {% endblock %}

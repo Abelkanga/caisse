@@ -44,7 +44,7 @@
                                 <td class="align-middle">{{ recuCaisse.bonapprovisionnement.reference }}</td>
                                 <td class="text-left">{{ recuCaisse.bonapprovisionnement.destinataire}}</td> <!-- Assuming typeExpense has a "nom" field -->
                                 <td class="text-left">{{ recuCaisse.bonapprovisionnement.porteur}}</td> <!-- Assuming expense has a "nom" field -->
-                                <td class="text-right separator">{{ recuCaisse.bonapprovisionnement.montanttotal }}</td>
+                                <td class="text-right separator">{{ recuCaisse.bonapprovisionnement.montanttotal | number_format(2, ',', ' ')}}</td>
                             </tr>
                             </tbody>
                         </table>

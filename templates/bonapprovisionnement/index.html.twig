@@ -33,7 +33,7 @@
                                 <td class="align-middle">{{ bonapprovisionnement.porteur }}</td>
                                 <td class="align-middle">{{ bonapprovisionnement.modepaie }}</td>
                                 <td class="align-middle">{{ bonapprovisionnement.nomTiers }}</td>
-                                <td class="separator text-right align-middle">{{ bonapprovisionnement.montanttotal }} (F cfa)</td>
+                                <td class="separator text-right align-middle">{{ bonapprovisionnement.montanttotal | number_format(2, ',', ' ')}} (F cfa)</td>
                                 <td class="text-center align-middle">
                                     {% if bonapprovisionnement.status == 'validée' %}
                                         <span class="badge badge-info">{{ bonapprovisionnement.status }}</span>
