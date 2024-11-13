@@ -27,7 +27,7 @@
                                 <td class="text-center align-middle">{{ approCaisses.date ? approCaisses.date|date('d-m-Y') : '' }}</td>
                                 <td class="align-middle">{{ approCaisses.reference }}</td>
                                 <td class="align-middle">{{ approCaisses.objet }}</td>
-                                <td class="separator text-right align-middle">{{ approCaisses.montant | number_format(2, ',', ' ')}} (F cfa)</td>
+                                <td class="separator text-right align-middle">{{ approCaisses.montant | number_format(0, ',', ' ')}} (F cfa)</td>
 
                                 <td class="text-center align-middle">
                                     {% if approCaisses.status == 'validée' %}

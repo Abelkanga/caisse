@@ -24,7 +24,7 @@
                     <tr>
                         <td class="text-center align-middle">{{ billetage.date|date('d/m/Y') }}</td>
                         <td class="align-middle">{{ billetage.reference }}</td>
-                        <td class="separator text-right align-middle">{{ billetage.balance | number_format(2, ',', ' ')}}</td>
+                        <td class="separator text-right align-middle">{{ billetage.balance | number_format(0, ',', ' ')}}</td>
                         <td class="text-center align-middle">
                             <a class="btn btn-sm btn-icon btn-secondary" data-toggle="tooltip" data-html="true" title="Voir" href="{{ path('billetage_inventaire_print', {uuid: billetage.uuid}) }}">
                                 <i class="fas fa-eye"></i>
