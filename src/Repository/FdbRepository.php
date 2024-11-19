@@ -203,11 +203,10 @@ class FdbRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findFicheByStatus(string $status = Status::EN_ATTENTE, User $user )
+    public function findFicheByStatus(string $status = Status::EN_ATTENTE)
     {
         return $this->createQueryBuilder('f')
             ->where('f.status = :status')
-            ->andWhere()
             ->setParameter('status', $status)
             ->orderBy('f.date', 'DESC')
             ->getQuery()
