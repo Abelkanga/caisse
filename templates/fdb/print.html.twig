@@ -81,13 +81,29 @@
                 margin-bottom: 20px;
                 font-size: 44px; /* Taille de police augmentée pour la table */
                 border: solid 1px black;
+
             }
 
             .table th, .table td {
-                padding: 8px;
+                padding: 5px;
                 text-align: center;
-                font-size: 30px; /* Taille augmentée pour les cellules de table */
+                font-size: 20px; /* Taille augmentée pour les cellules de table */
                 white-space: nowrap;
+                border: solid 1px black;
+                vertical-align: top;
+            }
+
+            .table td:first-child {
+                white-space: normal; /* Permet le retour à la ligne */
+                word-wrap: break-word; /* Coupe le texte en cas de dépassement */
+                max-width: 40%; /* Limite la largeur pour éviter les débordements */
+            }
+
+            .table td:nth-child(2),
+            .table td:nth-child(3),
+            .table td:nth-child(4) {
+                max-width: 15%; /* Ajuste la largeur */
+                white-space: nowrap; /* Empêche la coupure automatique pour les nombres */
             }
 
             /* Augmenter la taille de la légende */
