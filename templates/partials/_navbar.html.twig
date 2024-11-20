@@ -39,8 +39,8 @@
 			<li class="menu-item {{ app.request.get('_route') == 'fdb_pending' ? 'has-active': '' }}">
 				<a href="{{ path('fdb_pending') }}" class="menu-link">Fiche en attente</a>
 			</li>
-			<li class="menu-item {{ app.request.get('_route') == 'fdb_validate' ? 'has-active': '' }}">
-				<a href="{{ path('fdb_validate') }}" class="menu-link">Fiche validée</a>
+			<li class="menu-item {{ app.request.get('_route') == 'fdb_validated_by_user' ? 'has-active': '' }}">
+				<a href="{{ path('fdb_validated_by_user') }}" class="menu-link">Fiche validée</a>
 			</li>
 
 		</ul>

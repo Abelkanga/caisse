@@ -213,6 +213,22 @@ class FdbRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+
+    public function findValidatedByRoleUser()
+    {
+        return $this->createQueryBuilder('f')
+            ->join('f.user', 'u') // Jointure avec la table utilisateur
+            ->where('f.status = :status')
+            ->andWhere('u.roles LIKE :role') // Vérification du rôle ROLE_USER
+            ->setParameter('status', Status::VALIDATED)
+            ->setParameter('role', '%"ROLE_USER"%') // Recherche du rôle au format JSON
+            ->orderBy('f.date', 'DESC') // Tri par date décroissante
+            ->getQuery()
+            ->getResult();
+    }
+
+
+
     public function findLastId()
     {
         return $this->createQueryBuilder('f')

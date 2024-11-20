@@ -111,6 +111,15 @@ class FicheController extends AbstractController
         ]);
     }
 
+    #[Route('/fdb/validated-by-user', name: 'fdb_validated_by_user', methods: ['GET'])]
+    public function validatedByUser(FdbRepository $fdbRepository): Response
+    {
+        $fdb = $fdbRepository->findValidatedByRoleUser();
+
+        return $this->render('fdb/index.html.twig', [
+            'fdb' => $fdb
+        ]);
+    }
 
     #[Route('/fdb/new', name: 'fdb_new', methods: ['GET', 'POST'])]
 //    public function new(
