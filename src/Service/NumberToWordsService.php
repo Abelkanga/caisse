@@ -6,7 +6,7 @@ class NumberToWordsService
 {
     public function convertNumberToWords($number) {
         $hyphen      = '-';
-        $conjunction = ' et ';
+        $conjunction = '  ';
         $separator   = ' ';
         $negative    = 'moins ';
         $decimal     = '  ';

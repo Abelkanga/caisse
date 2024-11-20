@@ -74,9 +74,17 @@ class FdbType extends AbstractType
 //                'required' => true, 'empty_data' => ''
 //            ])
             ->add('beneficiaire', TextType::class)
+//            ->add('typeExpense', EntityType::class, [
+//                'class' => TypeExpense::class,
+//                'placeholder' => 'Sélectionnez un type de dépense',
+//            ])
             ->add('typeExpense', EntityType::class, [
                 'class' => TypeExpense::class,
                 'placeholder' => 'Sélectionnez un type de dépense',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('te')
+                        ->orderBy('te.name', 'ASC'); // Tri par ordre croissant
+                },
             ])
             ->add('details', CollectionType::class, [
                 'entry_type' => DetailType::class,
@@ -94,7 +102,8 @@ class FdbType extends AbstractType
                     return $er
                         ->createQueryBuilder('e')
                         ->where("e.typeExpense = :type")
-                        ->setParameter("type", $typeExpense);
+                        ->setParameter("type", $typeExpense)
+                        ->orderBy('e.name', 'ASC'); // Tri par ordre croissant
                 },
             ]);
         };
