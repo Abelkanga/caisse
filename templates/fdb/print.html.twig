@@ -154,7 +154,9 @@
         </div>
 
         <fieldset>
-            <legend>Information Décaissement {{ fdb.numeroFicheBesoin }}</legend>
+            {% for bonCaisse in fdb.bonCaisses %}
+                <legend>Information Décaissement {{ bonCaisse.reference }}</legend>
+            {% endfor %}
             <div class="main-content">
                 <div>
                     <strong>Date :</strong> {{ fdb.date ? fdb.date|date('d-m-Y') : '' }}

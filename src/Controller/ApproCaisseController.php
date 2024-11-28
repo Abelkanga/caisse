@@ -532,3 +532,4 @@ class ApproCaisseController extends AbstractController
         ]);
     }
 }
+
