@@ -97,6 +97,9 @@
 			<li class="menu-item {{ app.request.get('_route') == 'fdb_approuve' ? 'has-active': '' }}">
 				<a href="{{ path('fdb_approuve') }}" class="menu-link">Fiche décaissée</a>
 			</li>
+			<li class="menu-item {{ app.request.get('_route') == 'bon_caisse_index' ? 'has-active': '' }}">
+				<a href="{{ path('bon_caisse_index') }}" class="menu-link">Bon de caisse converti</a>
+			</li>
 
 		</ul>
 		<!-- /child menu -->

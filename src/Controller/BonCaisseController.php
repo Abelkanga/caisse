@@ -18,6 +18,17 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class BonCaisseController extends AbstractController
 {
+
+    #[Route('/bon-caisse', name: 'bon_caisse_index', methods:['GET'])]
+    public function index(EntityManagerInterface $entityManager): Response
+    {
+        $bonCaisse = $entityManager->getRepository(BonCaisse::class)->findAll();
+
+        return $this->render('bon_caisse/index.html.twig', [
+            'bonCaisse' => $bonCaisse,
+        ]);
+    }
+
     #[Route('/bon-caisse/{uuid}', name: 'bon_caisse_show', methods: ['GET', 'POST'])]
     public function show(
         BonCaisse $bonCaisse,
@@ -113,4 +124,14 @@ class BonCaisseController extends AbstractController
             'operation_type' => 'decaissement',
         ]);
     }
+    #[Route('//bon-caisse/{uuid}/print', name: 'print_bon', methods: ['GET'])]
+    public function print(BonCaisse $bonCaisse, Fdb $fdb): Response
+    {
+        return $this->render('fdb/print.html.twig', [
+            'bonCaisse' => $bonCaisse,
+            'fdb' => $fdb
+        ]);
+    }
+
+
 }
