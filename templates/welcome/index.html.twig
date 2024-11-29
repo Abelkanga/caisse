@@ -4,6 +4,7 @@
 
 {% block body %}
     <style>
+        /* Styles généraux */
         .card {
             background-color: #f8f9fa;
             border-radius: 8px;
@@ -11,36 +12,172 @@
             padding: 20px;
             margin-bottom: 20px;
         }
+
         .card-head {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
+
         .card-progress {
             margin-top: 10px;
         }
+
         .card-indicator {
             background-color: #e9ecef;
             border-radius: 5px;
             height: 5px;
         }
+
         .indicator {
             height: 6px;
             border-radius: 5px;
         }
+
         .indicator.one {
             background-color: #007bff;
         }
+
         .indicator.two {
             background-color: #28a745;
         }
+
         .indicator.three {
             background-color: #ffc107;
         }
+
         .indicator.four {
             background-color: #dc3545;
         }
+
+        /* Masquer le card par défaut */
+        .mobile-only {
+            display: none;
+        }
+
+        /* Afficher uniquement sur mobile (largeur max : 768px) */
+        @media (max-width: 768px) {
+            .mobile-only {
+                display: block;
+            }
+        }
+
+
+             /* Conteneur pour centrer */
+         .welcome-message {
+             text-align: center;
+             margin: 30px 0;
+             animation: fadeIn 1.5s ease-in-out;
+         }
+
+        /* Style du texte */
+        .welcome-message h6 {
+            font-size: 1.8rem; /* Taille agréable */
+            font-weight: bold; /* Texte en gras */
+            background: linear-gradient(to right, #0a0685, #007bff, #009efd); /* Dégradé */
+            -webkit-background-clip: text; /* Applique le dégradé au texte */
+            -webkit-text-fill-color: transparent; /* Texte transparent pour le dégradé */
+            text-transform: uppercase; /* Texte en majuscules */
+            letter-spacing: 1.5px; /* Espacement des lettres */
+            margin: 0;
+        }
+
+        /* Effet secondaire pour plus d'impact */
+        .welcome-message h6 span {
+            font-style: italic; /* Texte en italique */
+            color: #28a745; /* Vert pour le prénom */
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2); /* Ombre subtile */
+        }
+
+        /* Animation de fade-in */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Conteneur pour le style responsive */
+        .mobile-only {
+            display: none; /* Masqué par défaut */
+        }
+
+        @media (max-width: 768px) { /* Visible uniquement sur mobiles */
+            .mobile-only {
+                display: block;
+            }
+        }
+
+        /* Style de la carte */
+        .card {
+            background: linear-gradient(145deg, #f3f3f3, #e1e1e1); /* Dégradé subtil pour effet 3D */
+            border: 1px solid #ddd; /* Bordure claire */
+            border-radius: 15px; /* Coins arrondis */
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2), -5px -5px 15px rgba(255, 255, 255, 0.8); /* Ombres internes et externes pour un effet 3D */
+            padding: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease; /* Animation d’interaction */
+        }
+
+        .card:hover {
+            transform: translateY(-10px); /* Légère élévation */
+            box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.3), -10px -10px 20px rgba(255, 255, 255, 0.8); /* Accentuation des ombres */
+        }
+
+        .card-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .card-head h3 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333; /* Couleur sombre pour un bon contraste */
+        }
+
+        .card-head .menu-icon {
+            font-size: 1.8rem;
+            color: #007bff; /* Couleur bleue pour l’icône */
+        }
+
+        .card-progress {
+            margin-top: 10px;
+        }
+
+        .card-progress a {
+            color: #0e308d; /* Vert pour un ton positif */
+            font-weight: bold;
+            text-decoration: none; /* Supprime le soulignement */
+        }
+
+        .card-progress a:hover {
+            text-decoration: underline; /* Soulignement au survol */
+        }
+
+        .welcome-message {
+            background-color: #f8f9fa;
+            padding: 10px 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+
+        .welcome-message span {
+            font-weight: bold;
+            color: #007bff; /* Couleur pour le pseudo */
+        }
+
     </style>
+
 
     <div class="container mt-5">
         <div class="row">
@@ -77,6 +214,273 @@
 
                 <!-- Graphique pour les utilisateurs par rôle -->
                 <canvas id="userChart"></canvas>
+            {% endif %}
+
+            {% if is_granted('ROLE_MANAGER') or is_granted('ROLE_MANAGER1')%}
+                {% set j = journee_service.getActive() %}
+
+            {% if j is null %}
+
+                <div class="col-md-4 mobile-only">
+                    <div class="welcome-message" id="welcomeMessage">
+                        <h6>Bienvenue sur ORBIS CAISSE <span>{{ app.user.pseudo }}</span> !</h6>
+                    </div>
+                    <div class="card">
+                        <div class="card-head">
+                            <h3>Caisse fermée</h3>
+                            <span class="menu-icon fa fa-solid fa-wallet"></span>
+                        </div>
+                        <div class="card-progress">
+                            <strong class="pt-1"></strong>
+                            <a href="{{ path('app_comptability_caisse_journee_open') }}" class="menu-link">Appuyer pour l'ouvrir</a>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="col-md-4 mobile-only">
+                    <div class="welcome-message" id="welcomeMessage">
+                        <h6>Bienvenue sur ORBIS CAISSE <span>{{ app.user.pseudo }}</span> !</h6>
+                    </div>
+                    <div class="card">
+                        <div class="card-head">
+                            <h3>Ouverture de caisse</h3>
+                            <span class="menu-icon fa fa-solid fa-wallet"></span>
+                        </div>
+                        <div class="card-progress">
+                            <strong class="pt-1">Date : {{ j.startedAt|date('d-m-Y H:i:s') }}</strong>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+                <div class="col-md-4 mobile-only">
+                    <div class="card">
+                        <div class="card-head">
+                            <h3>{{ app.user.caisse.intitule }}</h3>
+                            <span class="menu-icon fa fa-solid fa-wallet"></span>
+                        </div>
+                        <div class="card-progress">
+                            <small><a href="#" class="separator">Solde : {{ soldeCaisse ?? 0 }} </a></small>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if is_granted('ROLE_USER')%}
+
+                    <div class="col-md-4 mobile-only">
+                        <div class="welcome-message" id="welcomeMessage">
+                            <h6>Bienvenue sur ORBIS CAISSE <span>{{ app.user.pseudo }}</span> !</h6>
+                        </div>
+                        <div class="card">
+                            <div class="card-head">
+                                <h3>Fiche de besoin</h3>
+                                <span class="fa-solid fa-file-alt p-2"></span>
+                            </div>
+                            <div class="card-progress">
+                                <strong class="pt-1"></strong>
+                                <a href="{{ path('fdb_new') }}" class="menu-link">Créer</a>
+                            </div>
+                        </div>
+                    </div>
+
+                <div class="col-md-4 mobile-only">
+                    <div class="card">
+                        <div class="card-head">
+                            <h3>Liste Fiche de besoin</h3>
+                            <span class="fa-solid fa-file-alt p-2"></span>
+                        </div>
+                        <div class="card-progress">
+                            <strong class="pt-1"></strong>
+                            <a href="{{ path('fdb_index') }}" class="menu-link">Consulter</a>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+
+            {% if app.user and app.user.caisse and app.user.caisse.code == 'C001' %}
+
+                <div class="col-md-4 mobile-only">
+                    <div class="card">
+                        <div class="card-head">
+                            <h3>Encaissement</h3>
+                            <span class="fa-solid fa-file-alt p-2"></span>
+                        </div>
+                        <div class="card-progress">
+                            <strong class="pt-1"></strong>
+                            <a href="{{ path('bonapprovisionnement_new') }}" class="menu-link">Approvisionner sa caisse</a>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-4 mobile-only">
+                    <div class="card">
+                        <div class="card-head">
+                            <h3>Décaissement</h3>
+                            <span class="fa-solid fa-file-alt p-2"></span>
+                        </div>
+                        <div class="card-progress">
+                            <strong class="pt-1"></strong>
+                            <a href="{{ path('app_approcaisse_new') }}" class="menu-link">Approvisionner une autre caisse</a>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if app.user and app.user.caisse and app.user.caisse.code == 'C002' %}
+
+                <div class="col-md-4 mobile-only">
+                    <div class="card">
+                        <div class="card-head">
+                            <h3>Fiche de besoin</h3>
+                            <span class="fa-solid fa-file-alt p-2"></span>
+                        </div>
+                        <div class="card-progress">
+                            <strong class="pt-1"></strong>
+                            <a href="{{ path('fdb_new') }}" class="menu-link">Créer</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mobile-only">
+                    <div class="card">
+                        <div class="card-head">
+                            <h3>Fiche de besoin approuvée</h3>
+                            <span class="fa-solid fa-file-alt p-2"></span>
+                        </div>
+                        <div class="card-progress">
+                            <strong class="pt-1"></strong>
+                            <a href="{{ path('fdb_approuved') }}" class="menu-link">Consulter</a>
+                        </div>
+                    </div>
+                </div>
+
+            {% endif %}
+
+
+            {% if is_granted('ROLE_IMPRESSION')%}
+
+                <div class="col-md-4 mobile-only">
+                    <div class="welcome-message" id="welcomeMessage">
+                        <h6>Bienvenue sur ORBIS CAISSE <span>{{ app.user.pseudo }}</span> !</h6>
+                    </div>
+                    <div class="card">
+                        <div class="card-head">
+                            <h3>Fiche de besoin</h3>
+                            <span class="fa-solid fa-file-alt p-2"></span>
+                        </div>
+                        <div class="card-progress">
+                            <strong class="pt-1"></strong>
+                            <a href="{{ path('fdb_new') }}" class="menu-link">Créer</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mobile-only">
+                    <div class="card">
+                        <div class="card-head">
+                            <h3>Liste Fiche de besoin</h3>
+                            <span class="fa-solid fa-file-alt p-2"></span>
+                        </div>
+                        <div class="card-progress">
+                            <strong class="pt-1"></strong>
+                            <a href="{{ path('fdb_index') }}" class="menu-link">Consulter</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mobile-only">
+                    <div class="card">
+                        <div class="card-head">
+                            <h3>Bon de caisse</h3>
+                            <span class="fa-solid fa-file-alt p-2"></span>
+                        </div>
+                        <div class="card-progress">
+                            <strong class="pt-1"></strong>
+                            <a href="{{ path('fdb_approuve') }}" class="menu-link">Imprimer</a>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if is_granted('ROLE_RESPONSABLE')%}
+
+                <div class="col-md-4 mobile-only">
+                    <div class="welcome-message" id="welcomeMessage">
+                        <h6>Bienvenue sur ORBIS CAISSE <span>{{ app.user.pseudo }}</span> !</h6>
+                    </div>
+                    <div class="card">
+                        <div class="card-head">
+                            <h3>Fiche de besoin</h3>
+                            <span class="fa-solid fa-file-alt p-2"></span>
+                        </div>
+                        <div class="card-progress">
+                            <strong class="pt-1"></strong>
+                            <a href="{{ path('fdb_new') }}" class="menu-link">Créer</a>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-4 mobile-only">
+                    <div class="card">
+                        <div class="card-head">
+                            <h3>Fiche de besoin en attente</h3>
+                            <span class="fa-solid fa-file-alt p-2"></span>
+                        </div>
+                        <div class="card-progress">
+                            <strong class="pt-1"></strong>
+                            <a href="{{ path('fdb_pending') }}" class="menu-link">Consulter</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mobile-only">
+                    <div class="card">
+                        <div class="card-head">
+                            <h3>Fiche de besoin validée</h3>
+                            <span class="fa-solid fa-file-alt p-2"></span>
+                        </div>
+                        <div class="card-progress">
+                            <strong class="pt-1"></strong>
+                            <a href="{{ path('fdb_validated_by_user') }}" class="menu-link">Consulter</a>
+                        </div>
+                    </div>
+                </div>
+
+            {% endif %}
+
+
+            {% if is_granted('ROLE_MANAGER1')%}
+
+                <div class="col-md-4 mobile-only">
+                    <div class="card">
+                        <div class="card-head">
+                            <h3>Fiche de besoin</h3>
+                            <span class="fa-solid fa-file-alt p-2"></span>
+                        </div>
+                        <div class="card-progress">
+                            <strong class="pt-1"></strong>
+                            <a href="{{ path('fdb_index') }}" class="menu-link">Liste</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mobile-only">
+                    <div class="card">
+                        <div class="card-head">
+                            <h3>Journal de caisse</h3>
+                            <span class="fa-solid fa-file-alt p-2"></span>
+                        </div>
+                        <div class="card-progress">
+                            <strong class="pt-1"></strong>
+                            <a href="{{ path('app_reporting_journal_caisse') }}" class="menu-link">Consulter</a>
+                        </div>
+                    </div>
+                </div>
+
             {% endif %}
 
 {#            {% if is_granted('ROLE_MANAGER') %}#}
@@ -217,7 +621,21 @@
                 }
             }
         });
+
+
     </script>
 
+
+    <script>
+        // JavaScript pour masquer le message après 30 secondes
+        setTimeout(() => {
+            const message = document.getElementById('welcomeMessage');
+            if (message) {
+                message.style.transition = 'opacity 0.5s ease'; // Animation de disparition
+                message.style.opacity = '0'; // Disparaît progressivement
+                setTimeout(() => message.remove(), 500); // Supprime complètement après l'animation
+            }
+        }, 5000); // 5 secondes
+    </script>
 
 {% endblock %}

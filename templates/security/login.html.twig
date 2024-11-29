@@ -1,3 +1,169 @@
+{#<!doctype html>#}
+{#<html lang="fr">#}
+{#<head>#}
+{#    <title>ORBIS CAISSE</title>#}
+{#    <meta charset="utf-8">#}
+{#    <meta http-equiv="X-UA-Compatible" content="IE=Edge">#}
+{#    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">#}
+{#    <!-- BEGIN THEME STYLES -->#}
+{#    <link rel="stylesheet" href="{{ asset('css/theme.min.css') }}" data-skin="default">#}
+{#    <link rel="stylesheet" href="{{ asset('css/custom.css') }}">#}
+{#    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">#}
+{#    <title>Login : Se connecter</title>#}
+
+{#    <style>#}
+{#        header.auth-header {#}
+{#            background-color: #232754;#}
+{#            padding-bottom: 7.5%;#}
+{#        }#}
+
+{#        button.submit {#}
+{#            background-color: #232754;#}
+{#            color: #FFFFFF;#}
+{#        }#}
+
+{#        button.submit:hover {#}
+{#            background-color: #232754;#}
+{#            color: #FFFFFF;#}
+{#        }#}
+
+{#        .title {#}
+{#            text-align: center;#}
+{#            font-size: 3rem;#}
+{#            color: #ffffff;#}
+{#            margin-bottom: -5rem;#}
+{#            margin-top: 7rem;#}
+{#            padding-top: -5rem;#}
+{#            display: flex;#}
+{#            align-items: center;#}
+{#            justify-content: center;#}
+{#        }#}
+
+{#        .password-container {#}
+{#            position: relative;#}
+{#            display: flex;#}
+{#            align-items: center;#}
+{#            margin-top: 0.5rem;#}
+{#        }#}
+
+{#        .password-container input {#}
+{#            flex: 1;#}
+{#            padding-right: 2.5rem;#}
+{#        }#}
+
+{#        .password-container .toggle-password {#}
+{#            position: absolute;#}
+{#            right: 1rem;#}
+{#            top: 50%;#}
+{#            transform: translateY(-50%);#}
+{#            cursor: pointer;#}
+{#            color: #000;#}
+{#        }#}
+{#    </style>#}
+{#</head>#}
+
+{#<body class="">#}
+{#<!-- WRAPPER -->#}
+
+{#<main class="auth">#}
+{#    <header id="auth-header" class="auth-header">#}
+{#        <h3 class="title">ORBIS CAISSE</h3>#}
+{#        <img src="#" height="150" alt="">#}
+{#    </header>#}
+{#    <br>#}
+{#    <!-- Title -->#}
+
+{#    <!-- form -->#}
+{#    <form class="auth-form" method="post" action="{{ path('app_login') }}">#}
+{#        <div class="mb-4">#}
+{#            {% if error %}#}
+{#                <p class="text-danger text-center">{{ error.messageKey|trans(error.messageData, 'security') }}</p>#}
+{#            {% endif %}#}
+
+{#            {% for label, messages in app.flashes %}#}
+{#                {% for message in messages %}#}
+{#                    <div class="alert alert-{{ label }}">{{ message }}</div>#}
+{#                {% endfor %}#}
+{#            {% endfor %}#}
+{#        </div>#}
+
+{#        <div class="form-group mb-4">#}
+{#            <label class="d-block text-left" for="inputUser">Nom d'utilisateur</label>#}
+{#            <input type="text" id="inputUser"#}
+{#                   name="_username"#}
+{#                   value="{{ last_username }}"#}
+{#                   class="form-control form-control-lg"#}
+{#                   required="" autofocus="">#}
+{#        </div>#}
+
+{#        <!-- /.form-group -->#}
+{#        <!-- .form-group -->#}
+{#        <div class="form-group mb-4">#}
+{#            <label class="d-block text-left" for="inputPassword">Mot de passe</label>#}
+{#            <div class="password-container">#}
+{#                <input type="password" id="inputPassword" name="_password" autocomplete="current-password"#}
+{#                       class="form-control form-control-lg" required="">#}
+{#                <i class="fas fa-eye toggle-password"></i>#}
+{#            </div>#}
+{#        </div>#}
+{#        <!-- /.form-group -->#}
+{#        <!-- .form-group -->#}
+{#        <div class="form-group mb-4">#}
+{#            <button class="btn btn-lg btn-block submit" type="submit">S'identifier</button>#}
+{#        </div><!-- /.form-group -->#}
+{#        <!-- .form-group -->#}
+{#        <div class="form-group text-center">#}
+{#            <div class="custom-control custom-control-inline custom-checkbox">#}
+{#                <input type="checkbox" class="custom-control-input" id="remember_me" name="_remember_me">#}
+{#                <label class="custom-control-label small" for="remember_me">Se souvenir de moi</label>#}
+{#            </div>#}
+{#        </div>#}
+
+
+{#        <input type="hidden" name="_csrf_token"#}
+{#               value="{{ csrf_token('authenticate') }}"#}
+{#        >#}
+{#        <!-- /.form-group -->#}
+{#        <!-- recovery links -->#}
+{#        <p class="py-2 text-center">#}
+{#            <a href="{{ path('app_forgot_password_request') }}" class="small">Mot de passe oublié ?</a>#}
+{#        </p>#}
+{#        <!-- /recovery links -->#}
+{#        <!-- copyright -->#}
+{#        <p class="mb-0 px-3 text-muted text-center"> Copyright © {{ 'now'| date('Y') }} Designed by#}
+{#            <a href="https://www.offset-consulting.com/" target="_blank"> Offset Consulting.</a><br>#}
+{#            All right reserved.#}
+{#        </p>#}
+{#    </form>#}
+{#    <!-- /.auth-form -->#}
+{#    <!-- .auth-announcement -->#}
+{#    <div id="announcement" class="auth-announcement"#}
+{#         style="">#}
+{#        <div class="announcement-body">#}
+{#        </div>#}
+{#    </div>#}
+{#    <!-- /.auth-announcement -->#}
+{#</main>#}
+{#<script src="{{ asset('js/jquery.min.js') }}"></script>#}
+{#<script src="{{ asset('js/popper.min.js') }}"></script>#}
+{#<script src="{{ asset('js/bootstrap.min.js') }}"></script>#}
+{#<script>#}
+{#    $(document).ready(function() {#}
+{#        $('.toggle-password').on('click', function() {#}
+{#            let input = $('#inputPassword');#}
+{#            if (input.attr('type') === 'password') {#}
+{#                input.attr('type', 'text');#}
+{#                $(this).removeClass('fa-eye').addClass('fa-eye-slash');#}
+{#            } else {#}
+{#                input.attr('type', 'password');#}
+{#                $(this).removeClass('fa-eye-slash').addClass('fa-eye');#}
+{#            }#}
+{#        });#}
+{#    });#}
+{#</script>#}
+{#</body>#}
+{#</html>#}
+
 <!doctype html>
 <html lang="fr">
 <head>
@@ -5,16 +171,34 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <!-- BEGIN THEME STYLES -->
     <link rel="stylesheet" href="{{ asset('css/theme.min.css') }}" data-skin="default">
     <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <title>Login : Se connecter</title>
-
     <style>
+        /* Styling général */
         header.auth-header {
             background-color: #232754;
             padding-bottom: 7.5%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        h3.title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #ffffff;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+            word-wrap: break-word;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
         }
 
         button.submit {
@@ -25,18 +209,6 @@
         button.submit:hover {
             background-color: #232754;
             color: #FFFFFF;
-        }
-
-        .title {
-            text-align: center;
-            font-size: 3rem;
-            color: #ffffff;
-            margin-bottom: -5rem;
-            margin-top: 7rem;
-            padding-top: -5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
         .password-container {
@@ -59,90 +231,86 @@
             cursor: pointer;
             color: #000;
         }
+
+        /* Responsivité */
+        @media (max-width: 768px) {
+            h3.title {
+                font-size: 2rem;
+                margin-top: 1rem;
+            }
+
+            header.auth-header {
+                padding-bottom: 5%;
+            }
+
+            .auth-form {
+                padding: 1rem;
+            }
+
+            button.submit {
+                font-size: 1rem;
+                padding: 0.75rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h3.title {
+                font-size: 1.8rem;
+                margin-top: 0.5rem;
+            }
+
+            header.auth-header {
+                padding-bottom: 3%;
+            }
+
+            .auth-form {
+                padding: 0.5rem;
+            }
+
+            button.submit {
+                font-size: 0.9rem;
+                padding: 0.5rem;
+            }
+        }
     </style>
 </head>
 
-<body class="">
-<!-- WRAPPER -->
-
+<body>
 <main class="auth">
     <header id="auth-header" class="auth-header">
         <h3 class="title">ORBIS CAISSE</h3>
-        <img src="#" height="150" alt="">
+{#        <img src="#" height="150" alt="Logo">#}
     </header>
-    <br>
-    <!-- Title -->
-
-    <!-- form -->
     <form class="auth-form" method="post" action="{{ path('app_login') }}">
-        <div class="mb-4">
-            {% if error %}
-                <p class="text-danger text-center">{{ error.messageKey|trans(error.messageData, 'security') }}</p>
-            {% endif %}
-
-            {% for label, messages in app.flashes %}
-                {% for message in messages %}
-                    <div class="alert alert-{{ label }}">{{ message }}</div>
-                {% endfor %}
-            {% endfor %}
-        </div>
-
         <div class="form-group mb-4">
-            <label class="d-block text-left" for="inputUser">Nom d'utilisateur</label>
-            <input type="text" id="inputUser"
-                   name="_username"
-                   value="{{ last_username }}"
-                   class="form-control form-control-lg"
-                   required="" autofocus="">
+            <label for="inputUser">Nom d'utilisateur</label>
+            <input type="text" id="inputUser" name="_username" value="{{ last_username }}"
+                   class="form-control form-control-lg" required autofocus>
         </div>
-
-        <!-- /.form-group -->
-        <!-- .form-group -->
         <div class="form-group mb-4">
-            <label class="d-block text-left" for="inputPassword">Mot de passe</label>
+            <label for="inputPassword">Mot de passe</label>
             <div class="password-container">
-                <input type="password" id="inputPassword" name="_password" autocomplete="current-password"
-                       class="form-control form-control-lg" required="">
+                <input type="password" id="inputPassword" name="_password" class="form-control form-control-lg" required>
                 <i class="fas fa-eye toggle-password"></i>
             </div>
         </div>
-        <!-- /.form-group -->
-        <!-- .form-group -->
         <div class="form-group mb-4">
             <button class="btn btn-lg btn-block submit" type="submit">S'identifier</button>
-        </div><!-- /.form-group -->
-        <!-- .form-group -->
-        <div class="form-group text-center">
-            <div class="custom-control custom-control-inline custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="remember_me" name="_remember_me">
-                <label class="custom-control-label small" for="remember_me">Se souvenir de moi</label>
-            </div>
         </div>
-
-
+        <div class="form-group text-center">
+            <input type="checkbox" id="remember_me" name="_remember_me">
+            <label for="remember_me">Se souvenir de moi</label>
+        </div>
         <input type="hidden" name="_csrf_token"
                value="{{ csrf_token('authenticate') }}"
         >
-        <!-- /.form-group -->
-        <!-- recovery links -->
         <p class="py-2 text-center">
-            <a href="{{ path('app_forgot_password_request') }}" class="small">Mot de passe oublié ?</a>
+            <a href="{{ path('app_forgot_password_request') }}">Mot de passe oublié ?</a>
         </p>
-        <!-- /recovery links -->
-        <!-- copyright -->
-        <p class="mb-0 px-3 text-muted text-center"> Copyright © {{ 'now'| date('Y') }} Designed by
-            <a href="https://www.offset-consulting.com/" target="_blank"> Offset Consulting.</a><br>
-            All right reserved.
+        <p class="text-center text-muted">Copyright © {{ 'now'|date('Y') }} Designed by
+            <a href="https://www.offset-consulting.com/">Offset Consulting</a>.
         </p>
     </form>
-    <!-- /.auth-form -->
-    <!-- .auth-announcement -->
-    <div id="announcement" class="auth-announcement"
-         style="">
-        <div class="announcement-body">
-        </div>
-    </div>
-    <!-- /.auth-announcement -->
 </main>
 <script src="{{ asset('js/jquery.min.js') }}"></script>
 <script src="{{ asset('js/popper.min.js') }}"></script>
@@ -151,13 +319,9 @@
     $(document).ready(function() {
         $('.toggle-password').on('click', function() {
             let input = $('#inputPassword');
-            if (input.attr('type') === 'password') {
-                input.attr('type', 'text');
-                $(this).removeClass('fa-eye').addClass('fa-eye-slash');
-            } else {
-                input.attr('type', 'password');
-                $(this).removeClass('fa-eye-slash').addClass('fa-eye');
-            }
+            const isPassword = input.attr('type') === 'password';
+            input.attr('type', isPassword ? 'text' : 'password');
+            $(this).toggleClass('fa-eye fa-eye-slash');
         });
     });
 </script>
