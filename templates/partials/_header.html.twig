@@ -46,6 +46,7 @@
                     {% if societe %}
                         <button class="btn-account d-flex align-items-center" type="button">
                             <span class="fa-solid fa-building p-2"></span>
+
                             <strong class="pt-1">{{ societe.RaisonSociale }}</strong>
                         </button>
 
@@ -107,7 +108,11 @@
             <!-- .top-bar-item -->
             <div class="top-bar-item top-bar-item-right px-0 d-none d-sm-flex">
                 <ul class="header-nav nav">
-                    {% if is_granted('ROLE_MANAGER') and app.user.caisse.code == 'C002' or is_granted('ROLE_MANAGER1') or is_granted('ROLE_RESPONSABLE')%}
+{#                    {% if is_granted('ROLE_MANAGER') and app.user.caisse.code == 'C002' or is_granted('ROLE_MANAGER1') or is_granted('ROLE_RESPONSABLE')%}#}
+
+                    {% if is_granted('ROLE_MANAGER') and app.user.caisse is not null or is_granted('ROLE_MANAGER1') or is_granted('ROLE_RESPONSABLE') %}
+
+
                         {% set notifications = notify.notifies %}
                         <li class="nav-item dropdown header-nav-dropdown {{ notifications|length > 0 ? 'has-notified' : '' }}" id="header-notification">
                             <a class="nav-link" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

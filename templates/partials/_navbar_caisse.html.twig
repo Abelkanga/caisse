@@ -1,4 +1,4 @@
-{% if app.user and app.user.caisse and app.user.caisse.code == 'C002' %}
+{% if app.user and app.user.caisse %}
 	<li class="menu-header">Créer une fiche de besoin </li>
 	<!-- /.menu-header -->
 	<!-- .menu-item -->
@@ -18,6 +18,7 @@
 			<li class="menu-item {{ app.request.get('_route') == 'fdb_index' ? 'has-active': '' }}">
 				<a href="{{ path('fdb_index') }}" class="menu-link">Liste</a>
 			</li>
+
 
 		</ul>
 		<!-- /child menu -->
@@ -71,6 +72,7 @@
 		<!-- child menu -->
 		<ul class="menu">
 
+
 			<li class="menu-item {{ app.request.get('_route') == 'app_approcaisse_new' ? 'has-active': '' }}">
 				<a href="{{ path('app_approcaisse_new') }}" class="menu-link">Approvisionner</a>
 			</li>
@@ -81,7 +83,7 @@
 		</ul>
 	</li>
 {% endif %}
-{% if app.user and app.user.caisse and app.user.caisse.code == 'C002' %}
+{% if app.user and app.user.caisse and app.user.caisse.code == 'C002' or app.user.caisse.code == 'C001'%}
 	<li class="menu-item has-child">
 		<a href="#" class="menu-link">
 			<span class="fa-solid fa-wallet p-2"></span>
@@ -100,6 +102,12 @@
 			<li class="menu-item {{ app.request.get('_route') == 'bon_caisse_index' ? 'has-active': '' }}">
 				<a href="{{ path('bon_caisse_index') }}" class="menu-link">Bon de caisse converti</a>
 			</li>
+{#			<li class="menu-item {{ app.request.get('_route') == 'fdb_approuved' ? 'has-active': '' }}">#}
+{#				<a href="{{ path('app_order_mission_approuved') }}" class="menu-link">Ordre approuvé</a>#}
+{#			</li>#}
+{#			<li class="menu-item {{ app.request.get('_route') == 'fdb_approuve' ? 'has-active': '' }}">#}
+{#				<a href="{{ path('app_order_mission_approuve') }}" class="menu-link">Ordre décaissé</a>#}
+{#			</li>#}
 
 		</ul>
 		<!-- /child menu -->

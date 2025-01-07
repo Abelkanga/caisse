@@ -6,9 +6,11 @@ use App\Entity\BonCaisse;
 use App\Entity\Fdb;
 use App\Entity\JournalCaisse;
 use App\Entity\Notification;
+use App\Entity\OrderMission;
 use App\Entity\User;
 use App\Form\BonCaisseType;
 use App\Form\FdbType;
+use App\Form\OrderMissionType;
 use App\Repository\CaisseRepository;
 use App\Repository\FdbRepository;
 use App\Repository\JournalCaisseRepository;
@@ -246,6 +248,7 @@ class FicheController extends AbstractController
         $beneficiaire = $user->getFullName() . ' ' . $user->getPrenom(); // Concaténation prénom + nom
 
         $refFiche = $service->refFdb();
+
         $fdb = new Fdb();
         $fdb->setDate(new \DateTime())
             ->setNumeroFicheBesoin($refFiche)
@@ -254,8 +257,11 @@ class FicheController extends AbstractController
 
 
         // Récupérer la caisse secondaire (ou principale selon votre logique)
-        $caisseSecondaire = $caisseRepository->findOneBy(['code' => 'C002']);
-        $fdb->setCaisse($caisseSecondaire);
+//        $caisseSecondaire = $caisseRepository->findOneBy(['code' => 'C002']);
+//        $fdb->setCaisse($caisseSecondaire);
+
+        $caissePrimaire = $caisseRepository->findOneBy(['code' => 'C001']);
+        $fdb->setCaisse($caissePrimaire);
 
         // Création du formulaire
         $form = $this->createForm(FdbType::class, $fdb);
@@ -702,6 +708,126 @@ class FicheController extends AbstractController
         return $this->redirectToRoute('fdb_index');
     }
 
+//    #[Route('/fdb/{uuid}/convert/orderMission', name: 'fdb_convert_orderMission', methods: ['GET', 'POST'])]
+//    public function convert_orderMission(
+//        Fdb $fdb,
+//        Request $request,
+//        EntityManagerInterface $entityManager,
+//        JournalCaisseRepository $journalCaisseRepository,
+//        JourneeRepository       $journeeRepository,
+//        CaisseService $service
+//    ): Response
+//    {
+//
+//        // Récupération de la caisse liée au manager
+//        /** @var User $user */
+//        $user = $this->getUser();
+//        $caisse = $user->getCaisse();
+//
+//        if (!$caisse) {
+//            $this->addFlash('error', 'Vous n\'êtes pas associé à une caisse.');
+//            return $this->redirectToRoute('fdb_show', ['uuid' => $fdb->getUuid()]);
+//        }
+//
+//
+//        // Générer la référence du bon de caisse
+//        $num_orderMission = $service->refOrderMission();
+//
+//        $orderMission = (new OrderMission())
+//            ->setReference($num_orderMission)
+//            ->setDate(new \DateTime())
+//            ->setStatus(Status::EN_ATTENTE)
+//            ->setBeneficiaire($fdb->getBeneficiaire())
+//            ->setFdb($fdb)
+//            ->setFdb($fdb->setStatus(Status::EN_ATTENTE))
+//            ->setMontant($fdb->getTotal());
+//
+//            if (!$orderMission->getUuid()) {
+//                $orderMission->setUuid(Uuid::v4());
+//            }
+//
+//        // Création du formulaire avant la condition
+//        $form = $this->createForm(OrderMissionType::class, $orderMission, [
+//            'fdb' => $fdb,
+//        ]);
+//
+//        $form->handleRequest($request);
+//
+//        // Si la requête contient 'confirm_manager'
+//        if ($request->request->has('confirm_manager')) {
+//            $solde = $caisse->getSoldedispo();
+//            $total = $fdb->getTotal();
+//
+//            if ($solde < $total) {
+//                flash()
+//                    ->options([
+//                        'timeout' => 5000, // 3 seconds
+//                        'position' => 'bottom-right',
+//                    ])
+//                    ->error('Pas de fond disponible pour effectuer cette opération');
+//
+//                return $this->redirectToRoute('app_welcome');
+//            }
+//
+//
+//            $amount = $fdb->getTotal();
+//
+//            $caisseCode = $caisse->getCode();
+//
+//            $numJournalCaisse = $service->refJournalCaisse($caisseCode);
+//
+//            $lastSolde = $journalCaisseRepository->getLastSolde($caisse->getId());
+//
+//            $journalCaisse = (new JournalCaisse())
+//                ->setNumPiece($numJournalCaisse)
+//                ->setDate(new \DateTime())
+//                ->setCaisse($caisse)
+//                ->setOrderMission($orderMission)
+//                ->setSortie($fdb->getTotal())
+//                ->setIntitule($fdb->getTypeExpense())
+//                ->setSolde($lastSolde - $total)
+//                ->setFdb($fdb);
+//
+//            $caisse->setSoldedispo($solde - $total);
+//            $fdb->setStatus(Status::CONVERT);
+//            $orderMission->setStatus(Status::CONVERT);
+//
+//            $active = $journeeRepository->activeJournee();
+//            $active->setCredit($amount + $active->getCredit())
+//                ->setSolde($active->getDebit() - $active->getCredit());
+//
+//            // Ajout des entités à persister
+//            $entityManager->persist($orderMission);
+//            $entityManager->persist($caisse);
+//            $entityManager->persist($journalCaisse);
+//            $entityManager->persist($active);
+//            $entityManager->persist($fdb);
+//
+//            $entityManager->flush();
+//
+//            flash()
+//                ->options([
+//                    'timeout' => 5000, // 3 seconds
+//                    'position' => 'bottom-right',
+//                ])
+//                ->success('Bon de caisse décaissé avec succès.');
+//
+//            return $this->redirectToRoute('fdb_show', [
+//                'id' => $fdb->getId()
+//            ], Response::HTTP_SEE_OTHER);
+//        }
+//
+//        // Affichage du formulaire sur la vue show de la fiche de besoin
+//        return $this->render('order_mission/new.html.twig', [
+//            'form' => $form->createView(),
+//            'fdb' => $fdb,
+//            'orderMission' => $orderMission,
+//            'operation_type' => 'decaissement',
+//        ]);
+//
+//    }
+
+
     #[Route('/fdb/{uuid}/convert', name: 'fdb_convert', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_MANAGER')]
     public function convert(
@@ -753,6 +879,7 @@ class FicheController extends AbstractController
         if ($request->request->has('confirm_manager')) {
             $solde = $caisse->getSoldedispo();
             $total = $fdb->getTotal();
+
 
             if ($solde < $total) {
                 flash()
@@ -821,5 +948,8 @@ class FicheController extends AbstractController
             'operation_type' => 'decaissement',
         ]);
     }
+
+
+
 
 }
