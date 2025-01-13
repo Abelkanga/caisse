@@ -116,7 +116,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->billetages = new ArrayCollection();
         $this->approCaisses = new ArrayCollection();
         $this->notifications = new ArrayCollection();
-        $this->users = new ArrayCollection();
+//        $this->users = new ArrayCollection();
         $this->orderMissions = new ArrayCollection();
     }
 

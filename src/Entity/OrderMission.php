@@ -83,7 +83,6 @@ class OrderMission
     #[ORM\ManyToOne(inversedBy: 'orderMissions')]
     private ?User $user = null;
 
-
     #[ORM\ManyToOne(inversedBy: 'orderMissions')]
     private ?Expense $expense = null;
 
@@ -96,8 +95,8 @@ class OrderMission
     #[ORM\ManyToOne(inversedBy: 'orderMissions')]
     private ?Journee $journee = null;
 
-    #[ORM\ManyToOne(inversedBy: 'orderMissions')]
-    private ?User $validBy = null;
+//    #[ORM\ManyToOne(inversedBy: 'orderMissions')]
+//    private ?User $validBy = null;
 
     /**
      * @var Collection<int, DetailMission>
@@ -456,17 +455,17 @@ class OrderMission
         return $this;
     }
 
-    public function getValidBy(): ?User
-    {
-        return $this->validBy;
-    }
-
-    public function setValidBy(?User $validBy): static
-    {
-        $this->validBy = $validBy;
-
-        return $this;
-    }
+//    public function getValidBy(): ?User
+//    {
+//        return $this->validBy;
+//    }
+//
+//    public function setValidBy(?User $validBy): static
+//    {
+//        $this->validBy = $validBy;
+//
+//        return $this;
+//    }
 
     /**
      * @return Collection<int, DetailMission>
