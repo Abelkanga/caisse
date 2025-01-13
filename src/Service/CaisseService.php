@@ -2,16 +2,19 @@
 
 namespace App\Service;
 
+use App\Entity\BonMission;
 use App\Entity\Caisse;
 use App\Entity\Fdb;
 use App\Repository\ApproCaisseRepository;
 use App\Repository\BilletageRepository;
 use App\Repository\BonapprovisionnementRepository;
 use App\Repository\BonCaisseRepository;
+use App\Repository\BonMissionRepository;
 use App\Repository\CaisseRepository;
 use App\Repository\DepenseRepository;
 use App\Repository\FdbRepository;
 use App\Repository\JournalCaisseRepository;
+use App\Repository\OrderMissionRepository;
 use App\Repository\RecuCaisseRepository;
 
 class CaisseService
@@ -24,7 +27,9 @@ class CaisseService
                                 RecuCaisseRepository $recuCaisseRepository,
                                 BilletageRepository $billetageRepository,
                                 ApproCaisseRepository $approCaisseRepository,
-                                CaisseRepository $caisseRepository
+                                CaisseRepository $caisseRepository,
+                                OrderMissionRepository $orderMissionRepository,
+                                BonMissionRepository   $BonMissionRepository
     )
     {
         $this->fdbRepository = $fdbRepository;
@@ -35,6 +40,8 @@ class CaisseService
         $this->JournalCaisseRepository = $journalCaisseRepository;
         $this->ApproCaisseRepository = $approCaisseRepository;
         $this->CaisseRepository = $caisseRepository;
+        $this->OrderMissionRepository = $orderMissionRepository;
+        $this->BonMissionRepository = $BonMissionRepository;
     }
 
     public function refFdb(): string
@@ -66,6 +73,28 @@ class CaisseService
         $lastId++;
         $year = date_format(new \DateTime(),'Y');
         $suffix = 'N°APC'.$year.'';
+        $id = $this->countOp($lastId);
+        return $suffix.$id;
+
+    }
+
+    public function refOrder(): string
+    {
+        $lastId = (int)$this->OrderMissionRepository->findLastId() ?? 0;
+        $lastId++;
+        $year = date_format(new \DateTime(),'Y');
+        $suffix = 'N°OM'.$year.'';
+        $id = $this->countOp($lastId);
+        return $suffix.$id;
+
+    }
+
+    public function refBonMission(): string
+    {
+        $lastId = (int)$this->BonMissionRepository->findLastId() ?? 0;
+        $lastId++;
+        $year = date_format(new \DateTime(),'Y');
+        $suffix = 'N°BM'.$year.'';
         $id = $this->countOp($lastId);
         return $suffix.$id;
 
@@ -108,6 +137,17 @@ class CaisseService
         $lastId++;
         $year = date_format(new \DateTime(),'Y');
         $suffix = 'N°BC'.$year.'';
+        $id = $this->countOp($lastId);
+        return $suffix.$id;
+
+    }
+
+    public function refOrderMission(): string
+    {
+        $lastId = (int)$this->OrderMissionRepository->findLastId() ?? 0;
+        $lastId++;
+        $year = date_format(new \DateTime(),'Y');
+        $suffix = 'N°OM'.$year.'';
         $id = $this->countOp($lastId);
         return $suffix.$id;
 

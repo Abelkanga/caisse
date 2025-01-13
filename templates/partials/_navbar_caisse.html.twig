@@ -61,28 +61,28 @@
 </li>
 <li class="menu-header">DECAISSEMENT</li>
 
-{% if app.user and app.user.caisse and app.user.caisse.code == 'C001' %}
-	<li class="menu-item has-child">
+{#{% if app.user and app.user.caisse and app.user.caisse.code == 'C001' %}#}
+{#	<li class="menu-item has-child">#}
 
-		<a href="#" class="menu-link">
-			<span class="fa-solid fa-wallet p-2"></span>
+{#		<a href="#" class="menu-link">#}
+{#			<span class="fa-solid fa-wallet p-2"></span>#}
 
-			<span class="menu-text">Caisse à caisse</span>
-		</a>
-		<!-- child menu -->
-		<ul class="menu">
+{#			<span class="menu-text">Caisse à caisse</span>#}
+{#		</a>#}
+{#		<!-- child menu -->#}
+{#		<ul class="menu">#}
 
+{#			<li class="menu-item {{ app.request.get('_route') == 'app_approcaisse_new' ? 'has-active': '' }}">#}
+{#				<a href="{{ path('app_approcaisse_new') }}" class="menu-link">Approvisionner</a>#}
+{#			</li>#}
+{#			<li class="menu-item {{ app.request.get('_route') == 'app_approcaisse_index' ? 'has-active': '' }}">#}
+{#				<a href="{{ path('app_approcaisse_index') }}" class="menu-link">Liste</a>#}
+{#			</li>#}
 
-			<li class="menu-item {{ app.request.get('_route') == 'app_approcaisse_new' ? 'has-active': '' }}">
-				<a href="{{ path('app_approcaisse_new') }}" class="menu-link">Approvisionner</a>
-			</li>
-			<li class="menu-item {{ app.request.get('_route') == 'app_approcaisse_index' ? 'has-active': '' }}">
-				<a href="{{ path('app_approcaisse_index') }}" class="menu-link">Liste</a>
-			</li>
+{#		</ul>#}
+{#	</li>#}
+{#{% endif %}#}
 
-		</ul>
-	</li>
-{% endif %}
 {% if app.user and app.user.caisse and app.user.caisse.code == 'C002' or app.user.caisse.code == 'C001'%}
 	<li class="menu-item has-child">
 		<a href="#" class="menu-link">
@@ -99,8 +99,11 @@
 			<li class="menu-item {{ app.request.get('_route') == 'fdb_approuve' ? 'has-active': '' }}">
 				<a href="{{ path('fdb_approuve') }}" class="menu-link">Fiche décaissée</a>
 			</li>
-			<li class="menu-item {{ app.request.get('_route') == 'bon_caisse_index' ? 'has-active': '' }}">
-				<a href="{{ path('bon_caisse_index') }}" class="menu-link">Bon de caisse converti</a>
+{#			<li class="menu-item {{ app.request.get('_route') == 'bon_caisse_index' ? 'has-active': '' }}">#}
+{#				<a href="{{ path('bon_caisse_index') }}" class="menu-link">Bon de caisse</a>#}
+{#			</li>#}
+			<li class="menu-item {{ app.request.get('_route') == 'bon_mission_index' ? 'has-active': '' }}">
+				<a href="{{ path('bon_mission_index') }}" class="menu-link">Bon de mission</a>
 			</li>
 {#			<li class="menu-item {{ app.request.get('_route') == 'fdb_approuved' ? 'has-active': '' }}">#}
 {#				<a href="{{ path('app_order_mission_approuved') }}" class="menu-link">Ordre approuvé</a>#}

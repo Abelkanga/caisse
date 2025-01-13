@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ordre de mission{% endblock %}
+
+{% block body %}
+
+    <div class="col-12 col-md-12">
+        <div class="card">
+            <div class="card-header bg-soft-custom">
+                Liste des ordres de missions
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover bordered table-sm basic-datatable">
+                        <thead class="thead-light">
+                        <tr>
+                            <th>Date</th>
+                            <th>Référence</th>
+                            <th>Gerant</th>
+                            <th>Donne ordre à</th>
+                            <th>De se rendre à</th>
+                            <th>Type opération</th>
+                            <th>Nature opération</th>
+                            <th>Objet de la mission</th>
+                            <th>Date depart</th>
+                            <th>Date retour</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for order_mission in order_missions %}
+                            <tr>
+                                <td class="text-center align-middle">{{ order_mission.date ? order_mission.date|date('d-m-Y') : '' }}</td>
+                                <td class="align-middle">{{ order_mission.reference }}</td>
+                                <td class="align-middle">{{ order_mission.gerant }}</td>
+                                <td class="align-middle">{{ order_mission.orderTo }}</td>
+                                <td class="align-middle">{{ order_mission.getTo }}</td>
+                                <td class="align-middle">{{ order_mission.fonction }}</td>
+                                <td class="align-middle">{{ order_mission.service }}</td>
+                                <td class="align-middle">{{ order_mission.fullName }}</td>
+                                <td class="align-middle">{{ order_mission.dateDepart ? order_mission.dateDepart|date('Y-m-d H:i:s') : '' }}</td>
+                                <td class="align-middle">{{ order_mission.dateRetour ? order_mission.dateRetour|date('Y-m-d H:i:s') : '' }}</td>
+                                <td class="text-center align-middle">
+                                    {% if order_mission.status == 'en attente' %}
+                                        <span class="badge badge-danger">{{ order_mission.status }}</span>
+                                    {% elseif order_mission.status == 'validée' %}
+                                        <span class="badge badge-info">{{ order_mission.status }}</span>
+                                    {% elseif order_mission.status == 'annulée' %}
+                                        <span class="badge badge-warning">{{ order_mission.status }}</span>
+                                    {% elseif order_mission.status == 'approuvée' %}
+                                        <span class="badge badge-primary">{{ order_mission.status }}</span>
+                                    {% elseif order_mission.status == 'convertit' %}
+                                        <span class="badge badge-success">{{ order_mission.status }}</span>
+                                    {% else %}
+                                        <span class="badge">{{ order_mission.status }}</span>
+                                    {% endif %}
+                                </td>
+
+                                <td class="text-center align-middle">
+
+{#                                    <a class="btn btn-sm btn-icon btn-secondary" data-toggle="tooltip" data-html="true" title="Voir" href="{{ path('app_order_mission_edit', {'id': order_mission.id}) }}">#}
+{#                                        <i class="fas fa-eye"></i>#}
+{#                                    </a>#}
+
+                                    <a class="btn btn-sm btn-icon btn-secondary" data-toggle="tooltip" data-html="true" title="Voir" href="{{ path('app_order_mission_show', {'id': order_mission.id}) }}">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="card-footer-content">
+
+                    <a href="{{ path('app_order_mission_new') }}" class="btn btn-primary float-right ml-2">
+                        Nouveau</a>
+                    <a href="{{ path('app_welcome') }}" class="btn btn-success float-right ml-3">
+                        <i class="oi oi-home"></i>
+                        Accueil</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

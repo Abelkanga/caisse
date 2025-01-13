@@ -1,0 +1,313 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ordre de mission{% endblock %}
+
+{% block stylesheets %}
+
+    <style>
+        td{
+            font-size: 13px !important;
+        }
+
+        th{
+            font-size: 13px !important;
+        }
+
+        /* --- Boutons Desktop et Mobile --- */
+        .card-footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end; /* Aligne à droite par défaut */
+            gap: 10px; /* Espacement entre les boutons */
+        }
+
+        /* Boutons sur Mobile */
+        @media (max-width: 768px) {
+            .card-footer-content {
+                flex-direction: column; /* Boutons empilés */
+                align-items: center; /* Centrer les boutons */
+                justify-content: center;
+                gap: 15px; /* Plus d'espace entre les boutons sur mobile */
+            }
+
+            .card-footer-content .btn {
+                width: 100%; /* Boutons pleine largeur sur mobile */
+                max-width: 300px; /* Limite la taille pour un meilleur rendu */
+            }
+        }
+
+
+    </style>
+{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+    <div class="col-sm-12">
+        <div class="card card-fluid">
+            <div class="card-header bg-soft-custom">
+                <h6>Ordre de mission {{ order_mission.reference }}</h6>
+            </div>
+
+            <div class="card-body">
+                <div class="row">
+                </div>
+                <br>
+                <fieldset>
+                    <legend>Information Ordre de mission</legend>
+                    <table class="table table-sm bordered">
+                        <tbody>
+                        <tr>
+                            <th>Date</th>
+                            <td>{{ order_mission.date ? order_mission.date|date('d-m-Y') : '' }}</td>
+                        </tr>
+                        <tr>
+                            <th>Gérant</th>
+                            <td>{{ order_mission.gerant}}</td>
+                        </tr>
+                        <tr>
+                            <th>Donne ordre à</th>
+                            <td>{{ order_mission.orderTo}}</td>
+                        </tr>
+                        <tr>
+                            <th>De se rendre à</th>
+                            <td>{{ order_mission.getTo}}</td>
+                        </tr>
+                        <tr>
+                            <th>Objet de la mission</th>
+                            <td>{{ order_mission.fullName}}</td>
+                        </tr>
+                        <tr>
+                            <th>Date départ</th>
+                            <td>{{ order_mission.dateDepart ? order_mission.dateDepart|date('d-m-Y') : '' }}</td>
+                        </tr>
+                        <tr>
+                            <th>Date retour</th>
+                            <td>{{ order_mission.dateRetour ? order_mission.dateRetour|date('d-m-Y') : '' }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </fieldset>
+                <fieldset>
+                    <legend> Agent (s)/ prestataire (s) concerné (s)</legend>
+                    <table class="table bordered table-sm">
+                        <thead>
+                        <tr>
+                            <th>N°</th>
+                            <th>Nom et prénoms</th>
+                            <th>Fonction</th>
+                            <th>Service</th>
+                        </tr>
+                        </thead>
+                        <tbody id="tableorder_mission_detailMission">
+                        {% for detailMission in order_mission.detailMission %}
+                            <tr>
+                                <td>{{ detailMission.reference }}</td>
+                                <td>{{ detailMission.fullName }}</td>
+                                <td>{{ detailMission.fonction }}</td>
+                                <td>{{ detailMission.service }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </fieldset>
+
+{#                <form method="post" action="{{ path('app_order_mission_approve', {'id': order_mission.id}) }}">#}
+{#                <form method="post" action="{{ path('app_order_mission_process', {'id': order_mission.id}) }}">#}
+                    <div class="card-footer">
+                        <div class="card-footer-content">
+
+{#                            {% if is_granted('ROLE_MANAGER1') and order_mission.status == 'validée' %}#}
+{#                                <input type="hidden" name="_token" value="{{ csrf_token('approve' ~ order_mission.id) }}">#}
+{#                                <button type="submit" class="btn btn-success">#}
+{#                                    <i class="fa fa-check"></i> Approuver#}
+{#                                </button>#}
+{#                            {% endif %}#}
+
+
+{#                            {% if is_granted('ROLE_MANAGER1') and order_mission.status == 'validée' %}#}
+{#                                <input type="hidden" name="_token" value="{{ csrf_token('cancel' ~ order_mission.id) }}">#}
+{#                                <button type="submit" class="btn btn-danger">#}
+{#                                    <i class="fa fa-times"></i> Annuler#}
+{#                                </button>#}
+{#                            {% endif %}#}
+
+
+{#                            {% if is_granted('ROLE_MANAGER1') and order_mission.status == 'validée' %}#}
+{#                                <input type="hidden" name="_token" value="{{ csrf_token('process' ~ order_mission.id) }}">#}
+
+{#                                <!-- Bouton pour approuver -->#}
+{#                                <input type="hidden" name="action" value="approve">#}
+{#                                <button type="submit" class="btn btn-success">#}
+{#                                    <i class="fa fa-check"></i> Approuver#}
+{#                                </button>#}
+{#                            {% endif %}#}
+
+{#                            {% if is_granted('ROLE_MANAGER1') and order_mission.status == 'validée' %}#}
+{#                                <input type="hidden" name="_token" value="{{ csrf_token('process' ~ order_mission.id) }}">#}
+
+{#                                <!-- Bouton pour annuler -->#}
+{#                                <input type="hidden" name="action" value="cancel">#}
+{#                                <button type="submit" class="btn btn-danger">#}
+{#                                    <i class="fa fa-times"></i> Annuler#}
+{#                                </button>#}
+{#                            {% endif %}#}
+
+                            <!-- Formulaire pour approuver -->
+{#                            {% if is_granted('ROLE_MANAGER1') and order_mission.status == 'validée' %}#}
+{#                                <form method="post" action="{{ path('app_order_mission_process', {'id': order_mission.id}) }}"#}
+{#                                    onsubmit="return confirm('Êtes-vous sûr de vouloir approuver cet ordre de mission ?');">#}
+{#                                    <input type="hidden" name="_token" value="{{ csrf_token('process' ~ order_mission.id) }}">#}
+{#                                    <input type="hidden" name="action" value="approve">#}
+{#                                    <button type="submit" class="btn btn-success">#}
+{#                                        <i class="fa fa-check"></i> Approuver#}
+{#                                    </button>#}
+{#                                </form>#}
+{#                            {% endif %}#}
+
+                            {% if is_granted('ROLE_MANAGER1') and order_mission.status == 'validée' %}
+                                <!-- Bouton de validation qui déclenche le modal -->
+                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalValidation">
+                                    <i class="fa fa-check"></i> Approuver
+                                </button>
+
+                                <!-- Modal de confirmation -->
+                                <div id="modalValidation" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalValidationLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header bg-warning">
+                                                <h5 class="modal-title text-dark" id="modalValidationLabel">
+                                                    <span class="uil uil-question-circle"></span>
+                                                    Validation de l'ordre de mission {{ order_mission.reference }}
+                                                </h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body font-size-14">
+                                                Voulez-vous approuver cet ordre de mission ?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-danger font-weight-medium" data-dismiss="modal">Annuler</button>
+                                                <!-- Formulaire de soumission -->
+                                                <form method="post" action="{{ path('app_order_mission_process', {'id': order_mission.id}) }}">
+                                                    <input type="hidden" name="_token" value="{{ csrf_token('process' ~ order_mission.id) }}">
+                                                    <input type="hidden" name="action" value="approve">
+                                                    <button type="submit" class="btn btn-success font-weight-medium">
+                                                        Confirmer
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+
+
+                            <!-- Formulaire pour annuler -->
+{#                            {% if is_granted('ROLE_MANAGER1') and order_mission.status == 'validée' %}#}
+{#                                <form method="post" action="{{ path('app_order_mission_process', {'id': order_mission.id}) }}"#}
+{#                                      onsubmit="return confirm('Êtes-vous sûr de vouloir annuler cet ordre de mission ?');">#}
+{#                                    <input type="hidden" name="_token" value="{{ csrf_token('process' ~ order_mission.id) }}">#}
+{#                                    <input type="hidden" name="action" value="cancel">#}
+{#                                    <button type="submit" class="btn btn-danger">#}
+{#                                        <i class="fa fa-times"></i> Annuler#}
+{#                                    </button>#}
+{#                                </form>#}
+{#                            {% endif %}#}
+
+
+                            {% if is_granted('ROLE_MANAGER1') and order_mission.status == 'validée' %}
+                                <!-- Bouton d'annulation qui déclenche le modal -->
+                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalAnnulation">
+                                    <i class="fa fa-times"></i> Annuler
+                                </button>
+
+                                <!-- Modal de confirmation d'annulation -->
+                                <div id="modalAnnulation" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalAnnulationLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header bg-danger">
+                                                <h5 class="modal-title text-light" id="modalAnnulationLabel">
+                                                    <span class="uil uil-exclamation-triangle"></span>
+                                                    Annulation de l'ordre de mission {{ order_mission.reference }}
+                                                </h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body font-size-14">
+                                                Voulez-vous vraiment annuler cet ordre de mission ?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary font-weight-medium" data-dismiss="modal">Annuler</button>
+                                                <!-- Formulaire de soumission -->
+                                                <form method="post" action="{{ path('app_order_mission_process', {'id': order_mission.id}) }}">
+                                                    <input type="hidden" name="_token" value="{{ csrf_token('process' ~ order_mission.id) }}">
+                                                    <input type="hidden" name="action" value="cancel">
+                                                    <button type="submit" class="btn btn-danger font-weight-medium">
+                                                        Confirmer
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+
+
+                            {% if is_granted('ROLE_MANAGER1') and order_mission.status == 'validée' %}
+                                <a class="btn btn-warning float-right ml-2" href="{{ path('app_order_mission_edit', {'id': order_mission.id}) }}">
+                                    <i class="fa fa-pencil-alt"></i> Modifier
+                                </a>
+                            {% endif %}
+
+                            {% if is_granted('ROLE_RESPONSABLE') and order_mission.status == 'validée' %}
+                                <a class="btn btn-warning float-right ml-2" href="{{ path('app_order_mission_edit', {'id': order_mission.id}) }}">
+                                    <i class="fa fa-pencil-alt"></i> Modifier
+                                </a>
+                            {% endif %}
+
+                            {% if is_granted('ROLE_MANAGER1') and order_mission.status == 'en attente' %}
+                                <input type="hidden" name="_token" value="{{ csrf_token('approve' ~ order_mission.id) }}">
+                                <button type="submit" class="btn btn-success">
+                                    Approuver
+                                </button>
+                            {% endif %}
+
+                            {% if is_granted('ROLE_MANAGER1') and order_mission.status == 'approuvée' %}
+                                <a href="{{ path("app_order_mission_convert", {'id': order_mission.id}) }}" class="btn btn-primary float-right ml-2">
+                                    <i class="fa-solid fa-repeat"></i> Convertir
+                                </a>
+                            {% endif %}
+
+                            {% if is_granted('ROLE_IMPRESSION') and order_mission.status == 'convertit' %}
+                                <a target="_blank" href="{{ path('app_order_mission_print', {'id': order_mission.id}) }}" class="btn btn-primary float-right ml-2">
+                                    <i class="fa fa-print"></i> Imprimer
+                                </a>
+                            {% endif %}
+
+
+{#                            {% if is_granted('ROLE_MANAGER1') and order_mission.status == 'annulée' %}#}
+{#                                <form method="post" action="{{ path('app_order_mission_delete', {'id': order_mission.id}) }}">#}
+{#                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ order_mission.id) }}">#}
+{#                                    <button type="submit" class="btn btn-danger">#}
+{#                                        <i class="fa fa-trash"></i> Supprimer#}
+{#                                    </button>#}
+{#                                </form>#}
+{#                            {% endif %}#}
+
+
+                            <a href="{{ path('app_welcome') }}" class="btn btn-info float-right">
+                                <i class="oi oi-home"></i> Retour
+                            </a>
+
+                        </div>
+                    </div>
+
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

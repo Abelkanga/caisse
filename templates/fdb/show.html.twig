@@ -12,6 +12,31 @@
         th{
             font-size: 13px !important;
         }
+
+        /* --- Boutons Desktop et Mobile --- */
+        .card-footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end; /* Aligne à droite par défaut */
+            gap: 10px; /* Espacement entre les boutons */
+        }
+
+        /* Boutons sur Mobile */
+        @media (max-width: 768px) {
+            .card-footer-content {
+                flex-direction: column; /* Boutons empilés */
+                align-items: center; /* Centrer les boutons */
+                justify-content: center;
+                gap: 15px; /* Plus d'espace entre les boutons sur mobile */
+            }
+
+            .card-footer-content .btn {
+                width: 100%; /* Boutons pleine largeur sur mobile */
+                max-width: 300px; /* Limite la taille pour un meilleur rendu */
+            }
+        }
+
+
     </style>
 {% endblock %}
 
@@ -34,10 +59,6 @@
                             <th>Date</th>
                             <td>{{ fdb.date ? fdb.date|date('d-m-Y') : '' }}</td>
                         </tr>
-                        {#                        <tr>#}
-                        {#                            <th>Emetteur</th>#}
-                        {#                            <td>{{ fdb.emeteur }}</td>#}
-                        {#                        </tr>#}
                         <tr>
                             <th>Emetteur</th>
                             <td>{{ fdb.validBy }}</td>
@@ -88,7 +109,6 @@
                     </table>
                 </fieldset>
 
-
                 <form method="post" action="{{ path('fdb_show', {'id': fdb.id}) }}">
                     <div class="card-footer">
                         <div class="card-footer-content">
@@ -101,7 +121,6 @@
                                     <i class="fa fa-paper-plane"></i> Envoyer
                                 </button>
                             {% endif %}
-
 
                             {% if is_granted('ROLE_USER') and fdb.status == 'en attente' %}
                                 <a class="btn btn-warning float-right ml-2" href="{{ path('fdb_edit', {'id': fdb.id}) }}">
@@ -132,8 +151,6 @@
                                 </a>
                             {% endif %}
 
-
-
                             {% if is_granted('ROLE_MANAGER1') and fdb.status == 'validée' %}
                                 {% include '_modal_manager1.html.twig' %}
                                 {% include '_modal_manager1_annulation.html.twig' %}
@@ -158,15 +175,6 @@
                                     <i class="fa fa-print"></i> Imprimer
                                 </a>
                             {% endif %}
-
-
-                            {#                            {% if is_granted('ROLE_IMPRESSION') or is_granted('ROLE_USER') and fdb.status == 'annulée' %}#}
-                            {#                                <a href="{{ path('fdb_delete', {'id': fdb.id}) }}" class="btn btn-danger float-right ml-2">#}
-                            {#                                    <i class="fas fa-trash"></i> Supprimer#}
-                            {#                                </a>#}
-
-                            {#                            {% endif %}#}
-
 
                             {% if is_granted('ROLE_USER') and fdb.status == 'annulée' %}
                                 <a href="{{ path('fdb_delete', {'id': fdb.id}) }}" class="btn btn-danger float-right ml-2">

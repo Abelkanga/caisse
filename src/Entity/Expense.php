@@ -42,10 +42,17 @@ class Expense
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $autre = null;
 
+    /**
+     * @var Collection<int, OrderMission>
+     */
+    #[ORM\OneToMany(targetEntity: OrderMission::class, mappedBy: 'expense')]
+    private Collection $orderMissions;
+
     public function __construct()
     {
         $this->depenses = new ArrayCollection();
         $this->fdbs = new ArrayCollection();
+        $this->orderMissions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -174,6 +181,36 @@ class Expense
     public function setAutre(?string $autre): static
     {
         $this->autre = $autre;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, OrderMission>
+     */
+    public function getOrderMissions(): Collection
+    {
+        return $this->orderMissions;
+    }
+
+    public function addOrderMission(OrderMission $orderMission): static
+    {
+        if (!$this->orderMissions->contains($orderMission)) {
+            $this->orderMissions->add($orderMission);
+            $orderMission->setExpense($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrderMission(OrderMission $orderMission): static
+    {
+        if ($this->orderMissions->removeElement($orderMission)) {
+            // set the owning side to null (unless already changed)
+            if ($orderMission->getExpense() === $this) {
+                $orderMission->setExpense(null);
+            }
+        }
 
         return $this;
     }

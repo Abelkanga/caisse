@@ -1,0 +1,32 @@
+<div id="modalValidationOrder" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalValidationOrderLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <h5 class="modal-title text-dark" id="modalValidationOrderLabel">
+                    <span class="uil uil-question-circle"></span>
+                    Validation Ordre de Mission {{ order_mission.reference }}
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body font-size-14">
+                Voulez-vous valider cet ordre de mission ?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger font-weight-medium" data-dismiss="modal">Annuler</button>
+                <form method="post" action="{{ path('app_order_mission_show', {'id': order_mission.id}) }}">
+                    <input type="hidden" name="_token" value="{{ csrf_token('validate-ordre-mission') }}">
+                    <button type="submit" class="btn btn-success font-weight-medium" name="confirm_order_responsable" value="confirm">
+                        Confirmer
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bouton de déclenchement du modal -->
+<button type="button" class="btn btn-success float-right ml-2" data-toggle="modal" data-target="#modalValidationOrder">
+    <i class="fa fa-check"></i> Valider
+</button>

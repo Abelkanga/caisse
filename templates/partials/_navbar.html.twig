@@ -25,7 +25,9 @@
 		<!-- .menu-item -->
 	</li>
 
+
 {% endif %}
+
 {% if is_granted('ROLE_RESPONSABLE') %}
 	<li class="menu-header">VALIDATION</li>
 	<li class="menu-item has-child">
@@ -47,7 +49,33 @@
 		<!-- /child menu -->
 		<!-- .menu-item -->
 	</li>
+
+	<li class="menu-header">Créer un ordre de mission</li>
+	<li class="menu-item has-child">
+		<a href="#" class="menu-link">
+			<span class="fa-solid fa-wallet p-2"></span>
+
+			<span class="menu-text">Ordre de mission</span>
+		</a>
+		<!-- child menu -->
+		<ul class="menu">
+			<li class="menu-item {{ app.request.get('_route') == 'order_mission_new' ? 'has-active': '' }}">
+				<a href="{{ path('app_order_mission_new') }}" class="menu-link">Créer</a>
+			</li>
+			<li class="menu-item {{ app.request.get('_route') == 'app_order_mission_pending' ? 'has-active': '' }}">
+				<a href="{{ path('app_order_mission_index') }}" class="menu-link">Liste</a>
+			</li>
+			{#			<li class="menu-item {{ app.request.get('_route') == 'app_order_mission_validated_by_user' ? 'has-active': '' }}">#}
+			{#				<a href="{{ path('app_order_mission_validated_by_user') }}" class="menu-link">Liste validé</a>#}
+			{#			</li>#}
+
+		</ul>
+		<!-- /child menu -->
+		<!-- .menu-item -->
+	</li>
+
 {% endif %}
+
 {% if is_granted('ROLE_IMPRESSION') %}
 	<li class="menu-header">IMPRESSION</li>
 	<li class="menu-item has-child">
@@ -58,7 +86,23 @@
 		<!-- child menu -->
 		<ul class="menu">
 			<li class="menu-item {{ app.request.get('_route') == 'fdb_approuve' ? 'has-active': '' }}">
-				<a href="{{ path('fdb_approuve') }}" class="menu-link">Fiche de besoin converties</a>
+				<a href="{{ path('fdb_approuve') }}" class="menu-link">Fiche convertie</a>
+			</li>
+
+		</ul>
+		<!-- /child menu -->
+		<!-- .menu-item -->
+	</li>
+
+	<li class="menu-item has-child">
+		<a href="#" class="menu-link">
+			<span class="fa-solid fa-file-alt p-2"></span>
+			<span class="menu-text">Bon de mission</span>
+		</a>
+		<!-- child menu -->
+		<ul class="menu">
+			<li class="menu-item {{ app.request.get('_route') == 'app_order_mission_index' ? 'has-active': '' }}">
+				<a href="{{ path('app_order_mission_index') }}" class="menu-link">Bon converti</a>
 			</li>
 
 		</ul>
@@ -89,8 +133,6 @@
 	{#	<!-- .menu-item -->#}
 	{#</li>#}
 
-
-
 {% endif %}
 
 	{% if is_granted('ROLE_MANAGER1') %}
@@ -110,9 +152,49 @@
 				<li class="menu-item {{ app.request.get('_route') == 'fdb_validate' ? 'has-active': '' }}">
 					<a href="{{ path('fdb_validate') }}" class="menu-link">Fiche validée</a>
 				</li>
+{#				<li class="menu-item {{ app.request.get('_route') == 'app_order_mission_pending' ? 'has-active': '' }}">#}
+{#					<a href="{{ path('app_order_mission_index') }}" class="menu-link">Liste</a>#}
+{#				</li>#}
 {#				<li class="menu-item {{ app.request.get('_route') == 'fdb_approuved' ? 'has-active': '' }}">#}
 {#					<a href="{{ path('fdb_approuved') }}" class="menu-link">Fiche approuvée</a>#}
 {#				</li>#}
+			</ul>
+			<!-- /child menu -->
+			<!-- .menu-item -->
+		</li>
+
+		<li class="menu-item has-child">
+			<a href="#" class="menu-link">
+				<span class="fa-solid fa-wallet p-2"></span>
+
+				<span class="menu-text">Ordre de mission</span>
+			</a>
+			<!-- child menu -->
+			<ul class="menu">
+				<li class="menu-item {{ app.request.get('_route') == 'order_mission_index' ? 'has-active': '' }}">
+					<a href="{{ path('app_order_mission_index') }}" class="menu-link">Liste</a>
+				</li>
+{#				<li class="menu-item {{ app.request.get('_route') == 'app_order_mission_validate' ? 'has-active': '' }}">#}
+{#					<a href="{{ path('app_order_mission_index') }}" class="menu-link">Ordre validée</a>#}
+{#				</li>#}
+			</ul>
+			<!-- /child menu -->
+			<!-- .menu-item -->
+		</li>
+
+		<li class="menu-item has-child">
+			<a href="#" class="menu-link">
+				<span class="fa-solid fa-wallet p-2"></span>
+
+				<span class="menu-text">Bon de mission</span>
+			</a>
+			<!-- child menu -->
+			<ul class="menu">
+
+				<li class="menu-item {{ app.request.get('_route') == 'bon_mission_index' ? 'has-active': '' }}">
+					<a href="{{ path('bon_mission_index') }}" class="menu-link">Liste</a>
+				</li>
+
 			</ul>
 			<!-- /child menu -->
 			<!-- .menu-item -->

@@ -19,7 +19,7 @@ class RecuCaisseType extends AbstractType
         $builder
             ->add('date', DateType::class, [
                 'widget' => 'single_text',
-                'label' => 'Date d\'établissement',
+                'label' => 'Date',
                 'attr' => ['class' => 'form-control'],
             ])
             ->add('reference', TextType::class, [

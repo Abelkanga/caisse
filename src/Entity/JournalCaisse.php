@@ -62,6 +62,12 @@ class JournalCaisse
     #[ORM\ManyToOne(inversedBy: 'journalCaisse')]
     private ?ApproCaisse $approCaisse = null;
 
+    #[ORM\ManyToOne(inversedBy: 'journalCaisse')]
+    private ?OrderMission $orderMission = null;
+
+    #[ORM\ManyToOne(inversedBy: 'JournalCaisse')]
+    private ?BonMission $bonMission = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -250,6 +256,30 @@ class JournalCaisse
     public function setApproCaisse(?ApproCaisse $approCaisse): static
     {
         $this->approCaisse = $approCaisse;
+
+        return $this;
+    }
+
+    public function getOrderMission(): ?OrderMission
+    {
+        return $this->orderMission;
+    }
+
+    public function setOrderMission(?OrderMission $orderMission): static
+    {
+        $this->orderMission = $orderMission;
+
+        return $this;
+    }
+
+    public function getBonMission(): ?BonMission
+    {
+        return $this->bonMission;
+    }
+
+    public function setBonMission(?BonMission $bonMission): static
+    {
+        $this->bonMission = $bonMission;
 
         return $this;
     }

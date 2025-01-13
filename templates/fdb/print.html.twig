@@ -191,16 +191,17 @@
                 {% for detail in fdb.details %}
                     <tr>
                         <td>{{ detail.designationproduit }}</td>
-                        <td>{{ detail.quantite }}</td>
-                        <td class="separator">{{ detail.price|number_format(0, ',', ' ') }} </td>
-                        <td class="separator">{{ detail.montant|number_format(0, ',', ' ') }} </td>
+                        <td class="text-center">{{ detail.quantite }}</td>
+                        <td class="separator text-right">{{ detail.price|number_format(0, ',', ' ') }} </td>
+                        <td class="separator text-right">{{ detail.montant|number_format(0, ',', ' ') }} </td>
                     </tr>
                 {% endfor %}
+
                 </tbody>
                 <tfoot>
                 <tr>
                     <th colspan="3">Total</th>
-                    <th class="separator">{{ fdb.total|number_format(0, ',', ' ') }}</th>
+                    <th class="separator text-right">{{ fdb.total|number_format(0, ',', ' ') }}</th>
                 </tr>
                 </tfoot>
             </table>

@@ -97,6 +97,18 @@ class Caisse
     #[ORM\OneToMany(targetEntity: ApproCaisse::class, mappedBy: 'caisseReceptrice')]
     private Collection $approCaissesReceptrices;
 
+    /**
+     * @var Collection<int, OrderMission>
+     */
+    #[ORM\OneToMany(targetEntity: OrderMission::class, mappedBy: 'caisse')]
+    private Collection $orderMissions;
+
+    /**
+     * @var Collection<int, BonMission>
+     */
+    #[ORM\OneToMany(targetEntity: BonMission::class, mappedBy: 'Caisse')]
+    private Collection $bonMissions;
+
 
     public function __construct()
     {
@@ -110,6 +122,8 @@ class Caisse
         $this->journalCaisses = new ArrayCollection();
         $this->approCaissesEmettrices = new ArrayCollection();
         $this->approCaissesReceptrices = new ArrayCollection();
+        $this->orderMissions = new ArrayCollection();
+        $this->bonMissions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -509,6 +523,66 @@ class Caisse
             // set the owning side to null (unless already changed)
             if ($approCaisse->getCaisseReceptrice() === $this) {
                 $approCaisse->setCaisseReceptrice(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, OrderMission>
+     */
+    public function getOrderMissions(): Collection
+    {
+        return $this->orderMissions;
+    }
+
+    public function addOrderMission(OrderMission $orderMission): static
+    {
+        if (!$this->orderMissions->contains($orderMission)) {
+            $this->orderMissions->add($orderMission);
+            $orderMission->setCaisse($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrderMission(OrderMission $orderMission): static
+    {
+        if ($this->orderMissions->removeElement($orderMission)) {
+            // set the owning side to null (unless already changed)
+            if ($orderMission->getCaisse() === $this) {
+                $orderMission->setCaisse(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, BonMission>
+     */
+    public function getBonMissions(): Collection
+    {
+        return $this->bonMissions;
+    }
+
+    public function addBonMission(BonMission $bonMission): static
+    {
+        if (!$this->bonMissions->contains($bonMission)) {
+            $this->bonMissions->add($bonMission);
+            $bonMission->setCaisse($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBonMission(BonMission $bonMission): static
+    {
+        if ($this->bonMissions->removeElement($bonMission)) {
+            // set the owning side to null (unless already changed)
+            if ($bonMission->getCaisse() === $this) {
+                $bonMission->setCaisse(null);
             }
         }
 

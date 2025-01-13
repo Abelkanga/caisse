@@ -42,7 +42,7 @@
                             <tr>
                                 <th class="text-center">Date</th>
                                 <th>Référence</th>
-                                <th class="text-right">Objet</th>
+
                                 <th class="text-right">Caisse emettrice</th>
                                 <th class="text-right">Nom Caissier</th>
 
@@ -52,7 +52,7 @@
                             <tr>
                                 <td class="text-center">{{ approCaisses.date ? approCaisses.date|date('d-m-Y') : ''  }}</td>
                                 <td class="align-middle">{{ approCaisses.reference }}</td>
-                                <td class="align-middle">{{ approCaisses.objet }}</td>
+
                                 <td class="align-middle">{{ approCaisses.caisseEmettrice }}</td>
                                 <td class="align-middle">{{ approCaisses.caisseEmettrice.user }}</td>
                             </tr>
@@ -65,6 +65,7 @@
                         <table class="table table-sm bordered">
                             <thead class="thead-light">
                             <tr>
+                                <th class="text-right">Objet</th>
                                 <th class="text-center">Caisse receptrice</th>
                                 <th>Nom Caissier</th>
                                 <th class="text-right">Montant Total (F.CFA)</th>
@@ -72,6 +73,7 @@
                             </thead>
                             <tbody>
                             <tr>
+                                <td class="align-middle">{{ approCaisses.objet }}</td>
                                 <td class="align-middle">{{ approCaisses.caisseReceptrice.intitule }}</td>
                                 <td class="align-middle">{{ approCaisses.caisseReceptrice.user }}</td>
                                 <td class="text-right separator">{{ approCaisses.montant | number_format(0, ',', ' ')}}</td>

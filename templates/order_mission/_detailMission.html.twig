@@ -1,0 +1,50 @@
+{% block _order_mission_detailMission_entry_row %}
+    {{ form_widget(form) }}
+{% endblock %}
+
+{% block _order_mission_detailMission_widget %}
+    <div class="col-md-12">
+        <div class="form-group float-right">
+            <button type="button"
+                    data-remove-target="block_{{ id }}"
+                    data-list-selector="#order_mission_detailMission"
+                    data-target="#tableorder_mission_detailMission"
+                    data-index="{{ form | length > 0 ? form | last.vars.name + 1 : 0 }}"
+                    class="btn btn-outline-primary add_item_link">
+                Nouvelle ligne
+            </button>
+        </div>
+    </div>
+    {{ form_widget(form) }}
+{% endblock %}
+
+{% block _order_mission_detailMission_entry_widget %}
+    <tr id="block_{{ id }}" data-id="{{ id }}">
+        <td class="text-center">
+            {{ form_widget(form.reference, {'attr': {'class': 'form-control ref-input text-center'}}) }}
+            {{ form_errors(form.reference) }}
+        </td>
+        <td>
+            {{ form_widget(form.fullName,{'attr': {"class": 'form-control'}}) }}
+            {{ form_errors(form.fullName) }}
+        </td>
+        <td>
+            {{ form_widget(form.fonction,{'attr': {"class": 'form-control'}}) }}
+            {{ form_errors(form.fonction) }}
+        </td>
+        <td>
+            {{ form_widget(form.service,{'attr': {"class": 'form-control'}}) }}
+            {{ form_errors(form.service) }}
+        </td>
+
+        <td class="text-center">
+            <button type="button"
+                    class="btn btn-sm btn-icon btn-secondary del_item_link"
+                    data-action="delete"
+                    data-target="#block_{{ id }}">
+                <i class="oi oi-trash"></i>
+            </button>
+        </td>
+    </tr>
+
+{% endblock %}

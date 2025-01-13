@@ -42,11 +42,18 @@ class TypeExpense
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $status = null;
 
+    /**
+     * @var Collection<int, OrderMission>
+     */
+    #[ORM\OneToMany(targetEntity: OrderMission::class, mappedBy: 'typeExpense')]
+    private Collection $orderMissions;
+
     public function __construct()
     {
         $this->expenses = new ArrayCollection();
         $this->depenses = new ArrayCollection();
         $this->fdbs = new ArrayCollection();
+        $this->orderMissions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -181,6 +188,36 @@ class TypeExpense
     public function setStatus(?string $status): static
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, OrderMission>
+     */
+    public function getOrderMissions(): Collection
+    {
+        return $this->orderMissions;
+    }
+
+    public function addOrderMission(OrderMission $orderMission): static
+    {
+        if (!$this->orderMissions->contains($orderMission)) {
+            $this->orderMissions->add($orderMission);
+            $orderMission->setTypeExpense($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrderMission(OrderMission $orderMission): static
+    {
+        if ($this->orderMissions->removeElement($orderMission)) {
+            // set the owning side to null (unless already changed)
+            if ($orderMission->getTypeExpense() === $this) {
+                $orderMission->setTypeExpense(null);
+            }
+        }
 
         return $this;
     }

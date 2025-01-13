@@ -101,6 +101,12 @@ class Fdb
     #[ORM\ManyToOne]
     private ?User $validBy = null;
 
+    /**
+     * @var Collection<int, OrderMission>
+     */
+    #[ORM\OneToMany(targetEntity: OrderMission::class, mappedBy: 'fdb')]
+    private Collection $orderMissions;
+
 //    #[ORM\Column(nullable: true)]
 //    private ?bool $IsActive = null;
 
@@ -114,6 +120,7 @@ class Fdb
         $this->details = new ArrayCollection();
         $this->bonCaisses = new ArrayCollection();
         $this->journalCaisses = new ArrayCollection();
+        $this->orderMissions = new ArrayCollection();
 
     }
 
@@ -462,6 +469,36 @@ class Fdb
     public function setValidBy(?User $validBy): static
     {
         $this->validBy = $validBy;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, OrderMission>
+     */
+    public function getOrderMissions(): Collection
+    {
+        return $this->orderMissions;
+    }
+
+    public function addOrderMission(OrderMission $orderMission): static
+    {
+        if (!$this->orderMissions->contains($orderMission)) {
+            $this->orderMissions->add($orderMission);
+            $orderMission->setFdb($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrderMission(OrderMission $orderMission): static
+    {
+        if ($this->orderMissions->removeElement($orderMission)) {
+            // set the owning side to null (unless already changed)
+            if ($orderMission->getFdb() === $this) {
+                $orderMission->setFdb(null);
+            }
+        }
 
         return $this;
     }

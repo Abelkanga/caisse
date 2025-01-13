@@ -31,6 +31,10 @@ class Detail
     #[ORM\ManyToOne(inversedBy: 'details')]
     private ?Depense $depense = null;
 
+    #[ORM\ManyToOne(inversedBy: 'detail')]
+    private ?OrderMission $orderMission = null;
+
+
 //    #[ORM\ManyToOne(inversedBy: 'details')]
 //    private ?Bonapprovisionnement $bonapprovisionnement = null;
 
@@ -122,4 +126,18 @@ class Detail
 //
 //        return $this;
 //    }
+
+public function getOrderMission(): ?OrderMission
+{
+    return $this->orderMission;
+}
+
+public function setOrderMission(?OrderMission $orderMission): static
+{
+    $this->orderMission = $orderMission;
+
+    return $this;
+}
+
+
 }

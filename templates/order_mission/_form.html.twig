@@ -1,0 +1,111 @@
+{#{{ form_start(form) }}#}
+{#    {{ form_widget(form) }}#}
+{#    <button class="btn">{{ button_label|default('Save') }}</button>#}
+{#{{ form_end(form) }}#}
+
+<fieldset class="form-container">
+    <legend>Information Ordre de mission</legend>
+
+    <div class="row">
+        <div class="col-12 col-md-4 mb-3">
+            <div class="form-group">
+                <label for="date">Date</label>
+                {{ form_widget(form.date, {'attr' : {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="col-12 col-md-4 mb-3">
+            <div class="form-group">
+                <label for="reference">Numéro d'ordre</label>
+                {{ form_widget(form.reference, {'attr' : {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-12 col-md-4 mb-3">
+            <div class="form-group">
+                <label for="gerant">Gérant</label>
+                {{ form_widget(form.gerant, {'attr' : {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="col-12 col-md-4 mb-3">
+            <div class="form-group">
+                <label for="orderTo">Donne ordre à</label>
+                {{ form_widget(form.orderTo, {'attr' : {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="col-12 col-md-4 mb-3">
+            <div class="form-group">
+                <label for="getTo">De se rendre à</label>
+                {{ form_widget(form.getTo, {'attr' : {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="row">
+        <div class="col-12 col-md-4 mb-3">
+            <div class="form-group">
+                <label for="fonction">Type de l'opération</label>
+                {{ form_widget(form.fonction, {'attr' : {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="col-12 col-md-4 mb-3">
+            <div class="form-group">
+                <label for="service">Nature de l'opération</label>
+                {{ form_widget(form.service, {'attr' : {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-12 col-md-4 mb-3">
+            <div class="form-group">
+                <label for="fullName">Objet de la mission</label>
+                {{ form_widget(form.fullName, {'attr' : {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="col-12 col-md-4 mb-3">
+            <div class="form-group">
+                <label for="dateDepart">Date départ</label>
+                {{ form_widget(form.dateDepart, {'attr' : {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="col-12 col-md-4 mb-3">
+            <div class="form-group">
+                <label for="dateRetour">Date retour</label>
+                {{ form_widget(form.dateRetour, {'attr' : {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+    </div>
+</fieldset>
+
+{% form_theme form 'order_mission/_detailMission.html.twig' %}
+
+<fieldset>
+    <legend>Agent (s)/ Prestataire (s) concerné (s) </legend>
+    <table class="table table-sm bordered" id="">
+        <thead>
+        <tr>
+            <th class="text-center col-1">N°</th>
+            <th class="text-center col-4">Nom et prénoms</th>
+            <th class="text-center col-3">Fonction</th>
+            <th class="text-center col-3">Service</th>
+            <th class="text-center col-1">Action</th>
+        </tr>
+        </thead>
+        <tbody id="tableorder_mission_detailMission">
+        {{ form_widget(form.detailMission) }}
+        </tbody>
+    </table>
+</fieldset>

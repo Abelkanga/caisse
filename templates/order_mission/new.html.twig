@@ -1,0 +1,39 @@
+{#{% extends 'base.html.twig' %}#}
+
+{#{% block title %}New OrderMission{% endblock %}#}
+
+{#{% block body %}#}
+{#    <h1>Create new OrderMission</h1>#}
+
+{#    {{ include('order_mission/_form.html.twig') }}#}
+
+{#    <a href="{{ path('app_order_mission_index') }}">back to list</a>#}
+{#{% endblock %}#}
+
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvel Ordre de mission{% endblock %}
+
+{% block body %}
+
+    <div class="col-12">
+        {{ form_start(form) }}
+        <div class="card card-fluid">
+            <div class="card-header bg-soft-custom">
+                <h6>Créer un ordre de mission</h6>
+            </div>
+            <div class="card-body">
+                {{ include('order_mission/_form.html.twig') }}
+            </div>
+            <div class="card-footer">
+                <div class="card-footer-content">
+                    <button type="submit" class="btn btn-primary float-right ml-2">Enregistrer</button>
+                    <a href="{{ path('app_order_mission_index') }}" class="btn btn-info float-right"><i class="oi oi-home"></i> Retour</a>
+                </div>
+            </div>
+        </div>
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}

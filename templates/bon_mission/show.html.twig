@@ -1,0 +1,110 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bon de mission{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        td{
+            font-size: 13px !important;
+        }
+
+        th{
+            font-size: 13px !important;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-sm-12">
+
+            <div class="card card-fluid">
+                <div class="card-header bg-soft-custom">
+                    <h6>Bon de mission {{ bonMission.reference }}</h6>
+                </div>
+                <div class="card-body">
+
+                    <fieldset>
+                        <legend>Détail de l'ordre de mission</legend>
+                        <table class="table table-sm bordered">
+                            <thead class="thead-light">
+                            <tr>
+                                <th class="text-center">Date</th>
+                                <th>Numéro d'ordre</th>
+                                <th class="text-left">Donne ordre à</th>
+                                <th class="text-left">De se rendre à</th>
+                                <th class="text-right">Objet de la mission</th>
+                                <th class="text-right">Date départ</th>
+                                <th class="text-right">Date retour</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="align-middle">{{ bonMission.orderMission.date ? bonMission.orderMission.date|date('d-m-Y') : '' }}</td>
+                                <td class="align-middle">{{ bonMission.orderMission.reference }}</td>
+                                <td class="align-middle">{{ bonMission.orderMission.orderTo }}</td>
+                                <td class="align-middle">{{ bonMission.orderMission.getTo }}</td>
+                                <td class="text-left">{{bonMission.orderMission.fullName }}</td> <!-- Assuming typeExpense has a "nom" field -->
+                                <td class="text-center">{{ bonMission.orderMission.dateDepart ? bonMission.orderMission.dateDepart|date('d-m-Y') : ''}}</td> <!-- Assuming expense has a "nom" field -->
+                                <td class="text-center">{{ bonMission.orderMission.dateRetour ? bonMission.orderMission.dateRetour|date('d-m-Y') : ''}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </fieldset>
+
+                    <!-- Information du Bon de Caisse -->
+                    <fieldset>
+                        <legend>Information du bon de mission</legend>
+                        <table class="table table-sm bordered">
+                            <thead class="thead-light">
+                            <tr>
+                                <th class="text-center">Date</th>
+                                <th>Référence</th>
+                                <th>Bénéficiaire</th>
+                                <th>Montant (F.CFA)</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="text-center">{{ bonMission.date ? bonMission.date|date('d-m-Y') : '' }}</td>
+                                <td class="align-middle">{{ bonMission.reference }}</td>
+                                <td class="align-middle">{{ bonMission.beneficiaire }}</td>
+                                <td class="text-right separator ">{{ bonMission.total }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </fieldset>
+
+                    <!-- Détail de la Fiche de Besoin associée -->
+
+
+                    <form method="post" action="{{ path('bon_mission_show', {'id': bonMission.id}) }}">
+                        <div class="card-footer">
+
+                            <div class="card-footer-content">
+
+                                {% if is_granted('ROLE_MANAGER') and bonMission.status == 'en attente' %}
+                                    {% include '_modal_order_manager.html.twig' %}
+                                    <!-- Button trigger modal -->
+                                {% endif %}
+
+                                {% if is_granted('ROLE_MANAGER') and bonMission.status == 'convertit' %}
+                                    <a target="_blank" href="{{ path('bon_mission_print', {'id': bonMission.id}) }}" class="btn btn-primary float-right ml-2">
+                                        <i class="fa fa-print"></i> Imprimer
+                                    </a>
+                                {% endif %}
+
+                                <a href="{{ path('app_welcome') }}" class="btn btn-info float-right">
+                                    <i class="oi oi-home"></i> Retour
+                                </a>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

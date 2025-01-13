@@ -39,11 +39,18 @@ class Emeteur
     #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'emeteur')]
     private Collection $users;
 
+    /**
+     * @var Collection<int, OrderMission>
+     */
+    #[ORM\OneToMany(targetEntity: OrderMission::class, mappedBy: 'emeteur')]
+    private Collection $orderMissions;
+
     public function __construct()
     {
         $this->fdb = new ArrayCollection();
         $this->bonapprovisionnements = new ArrayCollection();
         $this->users = new ArrayCollection();
+        $this->orderMissions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -164,6 +171,36 @@ class Emeteur
             // set the owning side to null (unless already changed)
             if ($user->getEmeteur() === $this) {
                 $user->setEmeteur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, OrderMission>
+     */
+    public function getOrderMissions(): Collection
+    {
+        return $this->orderMissions;
+    }
+
+    public function addOrderMission(OrderMission $orderMission): static
+    {
+        if (!$this->orderMissions->contains($orderMission)) {
+            $this->orderMissions->add($orderMission);
+            $orderMission->setEmeteur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrderMission(OrderMission $orderMission): static
+    {
+        if ($this->orderMissions->removeElement($orderMission)) {
+            // set the owning side to null (unless already changed)
+            if ($orderMission->getEmeteur() === $this) {
+                $orderMission->setEmeteur(null);
             }
         }
 

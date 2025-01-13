@@ -103,6 +103,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $prenom = null;
 
+    /**
+     * @var Collection<int, OrderMission>
+     */
+    #[ORM\OneToMany(targetEntity: OrderMission::class, mappedBy: 'user')]
+    private Collection $orderMissions;
+
     public function __construct()
     {
         $this->depenses = new ArrayCollection();
@@ -111,6 +117,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->approCaisses = new ArrayCollection();
         $this->notifications = new ArrayCollection();
         $this->users = new ArrayCollection();
+        $this->orderMissions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -505,6 +512,36 @@ public function setPrenom(?string $prenom): static
     public function getNomComplet(): string
     {
         return $this->prenom . ' ' . $this->fullName;
+    }
+
+    /**
+     * @return Collection<int, OrderMission>
+     */
+    public function getOrderMissions(): Collection
+    {
+        return $this->orderMissions;
+    }
+
+    public function addOrderMission(OrderMission $orderMission): static
+    {
+        if (!$this->orderMissions->contains($orderMission)) {
+            $this->orderMissions->add($orderMission);
+            $orderMission->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrderMission(OrderMission $orderMission): static
+    {
+        if ($this->orderMissions->removeElement($orderMission)) {
+            // set the owning side to null (unless already changed)
+            if ($orderMission->getUser() === $this) {
+                $orderMission->setUser(null);
+            }
+        }
+
+        return $this;
     }
 
 }
