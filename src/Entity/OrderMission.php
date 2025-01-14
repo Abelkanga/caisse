@@ -104,11 +104,11 @@ class OrderMission
     #[ORM\OneToMany(targetEntity: DetailMission::class, mappedBy: 'orderMission')]
     private Collection $detailMission;
 
-    /**
-     * @var Collection<int, Detail>
-     */
-    #[ORM\OneToMany(targetEntity: Detail::class, mappedBy: 'orderMission')]
-    private Collection $detail;
+//    /**
+//     * @var Collection<int, Detail>
+//     */
+//    #[ORM\OneToMany(targetEntity: Detail::class, mappedBy: 'orderMission')]
+//    private Collection $detail;
 
     /**
      * @var Collection<int, DetailBonMission>
@@ -121,7 +121,7 @@ class OrderMission
         $this->journalCaisse = new ArrayCollection();
         $this->bonMissions = new ArrayCollection();
         $this->detailMission = new ArrayCollection();
-        $this->detail = new ArrayCollection();
+//        $this->detail = new ArrayCollection();
         $this->DetailBonMission = new ArrayCollection();
     }
 
@@ -497,35 +497,35 @@ class OrderMission
         return $this;
     }
 
-    /**
-     * @return Collection<int, Detail>
-     */
-    public function getDetail(): Collection
-    {
-        return $this->detail;
-    }
-
-    public function addDetail(Detail $detail): static
-    {
-        if (!$this->detail->contains($detail)) {
-            $this->detail->add($detail);
-            $detail->setOrderMission($this);
-        }
-
-        return $this;
-    }
-
-    public function removeDetail(Detail $detail): static
-    {
-        if ($this->detail->removeElement($detail)) {
-            // set the owning side to null (unless already changed)
-            if ($detail->getOrderMission() === $this) {
-                $detail->setOrderMission(null);
-            }
-        }
-
-        return $this;
-    }
+//    /**
+//     * @return Collection<int, Detail>
+//     */
+//    public function getDetail(): Collection
+//    {
+//        return $this->detail;
+//    }
+//
+//    public function addDetail(Detail $detail): static
+//    {
+//        if (!$this->detail->contains($detail)) {
+//            $this->detail->add($detail);
+//            $detail->setOrderMission($this);
+//        }
+//
+//        return $this;
+//    }
+//
+//    public function removeDetail(Detail $detail): static
+//    {
+//        if ($this->detail->removeElement($detail)) {
+//            // set the owning side to null (unless already changed)
+//            if ($detail->getOrderMission() === $this) {
+//                $detail->setOrderMission(null);
+//            }
+//        }
+//
+//        return $this;
+//    }
 
     /**
      * @return Collection<int, DetailBonMission>
