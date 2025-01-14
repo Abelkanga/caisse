@@ -39,10 +39,10 @@
 		<!-- child menu -->
 		<ul class="menu">
 			<li class="menu-item {{ app.request.get('_route') == 'fdb_pending' ? 'has-active': '' }}">
-				<a href="{{ path('fdb_pending') }}" class="menu-link">Fiche en attente</a>
+				<a href="{{ path('fdb_pending') }}" class="menu-link">Besoin en attente</a>
 			</li>
 			<li class="menu-item {{ app.request.get('_route') == 'fdb_validated_by_user' ? 'has-active': '' }}">
-				<a href="{{ path('fdb_validated_by_user') }}" class="menu-link">Fiche validée</a>
+				<a href="{{ path('fdb_validated_by_user') }}" class="menu-link">Besoin validé</a>
 			</li>
 
 		</ul>
@@ -150,14 +150,15 @@
 					<a href="{{ path('fdb_index') }}" class="menu-link">Liste</a>
 				</li>
 				<li class="menu-item {{ app.request.get('_route') == 'fdb_validate' ? 'has-active': '' }}">
-					<a href="{{ path('fdb_validate') }}" class="menu-link">Fiche validée</a>
+					<a href="{{ path('fdb_validate') }}" class="menu-link">Besoin validé</a>
 				</li>
+
 {#				<li class="menu-item {{ app.request.get('_route') == 'app_order_mission_pending' ? 'has-active': '' }}">#}
 {#					<a href="{{ path('app_order_mission_index') }}" class="menu-link">Liste</a>#}
 {#				</li>#}
-{#				<li class="menu-item {{ app.request.get('_route') == 'fdb_approuved' ? 'has-active': '' }}">#}
-{#					<a href="{{ path('fdb_approuved') }}" class="menu-link">Fiche approuvée</a>#}
-{#				</li>#}
+				<li class="menu-item {{ app.request.get('_route') == 'fdb_approuved' ? 'has-active': '' }}">
+					<a href="{{ path('fdb_approuved') }}" class="menu-link">Besoin approuvé</a>
+				</li>
 			</ul>
 			<!-- /child menu -->
 			<!-- .menu-item -->

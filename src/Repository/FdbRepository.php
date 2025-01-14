@@ -167,16 +167,46 @@ class FdbRepository extends ServiceEntityRepository
 //            ->getResult();
 //    }
 
+//    public function findFdbApprouvedByUserRoleAndCaisse(User $user): array
+//    {
+//        $qb = $this->createQueryBuilder('f')
+//            ->andWhere('f.status = :status')
+//            ->setParameter('status', Status::APPROUVED);
+//
+//        // Si l'utilisateur a le rôle 'ROLE_USER', on filtre par l'utilisateur
+//        if (in_array('ROLE_USER', $user->getRoles())) {
+//            $qb->andWhere('f.user = :user')
+//                ->setParameter('user', $user);
+//        } else {
+//            // Sinon, on filtre par la caisse associée à l'utilisateur
+//            $caisse = $user->getCaisse();
+//
+//            if ($caisse) {
+//                $qb->andWhere('f.caisse = :caisse')
+//                    ->setParameter('caisse', $caisse);
+//            }
+//        }
+//
+//        return $qb->orderBy('f.date', 'DESC')
+//            ->getQuery()
+//            ->getResult();
+//    }
+
     public function findFdbApprouvedByUserRoleAndCaisse(User $user): array
     {
         $qb = $this->createQueryBuilder('f')
             ->andWhere('f.status = :status')
             ->setParameter('status', Status::APPROUVED);
 
-        // Si l'utilisateur a le rôle 'ROLE_USER', on filtre par l'utilisateur
-        if (in_array('ROLE_USER', $user->getRoles())) {
+        $roles = $user->getRoles();
+
+        if (in_array('ROLE_USER', $roles)) {
+            // Si l'utilisateur a le rôle 'ROLE_USER', on filtre par utilisateur
             $qb->andWhere('f.user = :user')
                 ->setParameter('user', $user);
+        } elseif (in_array('ROLE_MANAGER1', $roles)) {
+            // Si l'utilisateur a le rôle 'ROLE_MANAGER1', on récupère toutes les fiches approuvées
+            // Aucune condition supplémentaire
         } else {
             // Sinon, on filtre par la caisse associée à l'utilisateur
             $caisse = $user->getCaisse();

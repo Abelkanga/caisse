@@ -116,6 +116,12 @@ class OrderMission
     #[ORM\OneToMany(targetEntity: DetailBonMission::class, mappedBy: 'orderMission')]
     private Collection $DetailBonMission;
 
+//    /**
+//     * @var Collection<int, Notification>
+//     */
+//    #[ORM\OneToMany(targetEntity: Notification::class, mappedBy: 'OrderMission')]
+//    private Collection $notifications;
+
     public function __construct()
     {
         $this->journalCaisse = new ArrayCollection();
@@ -123,6 +129,7 @@ class OrderMission
         $this->detailMission = new ArrayCollection();
 //        $this->detail = new ArrayCollection();
         $this->DetailBonMission = new ArrayCollection();
+//        $this->notifications = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -556,4 +563,34 @@ class OrderMission
 
         return $this;
     }
+//
+//    /**
+//     * @return Collection<int, Notification>
+//     */
+//    public function getNotifications(): Collection
+//    {
+//        return $this->notifications;
+//    }
+//
+//    public function addNotification(Notification $notification): static
+//    {
+//        if (!$this->notifications->contains($notification)) {
+//            $this->notifications->add($notification);
+//            $notification->setOrderMission($this);
+//        }
+//
+//        return $this;
+//    }
+//
+//    public function removeNotification(Notification $notification): static
+//    {
+//        if ($this->notifications->removeElement($notification)) {
+//            // set the owning side to null (unless already changed)
+//            if ($notification->getOrderMission() === $this) {
+//                $notification->setOrderMission(null);
+//            }
+//        }
+//
+//        return $this;
+//    }
 }
