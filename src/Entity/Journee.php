@@ -79,11 +79,11 @@ class Journee
     #[ORM\OneToMany(targetEntity: ApproCaisse::class, mappedBy: 'journee')]
     private Collection $approCaisses;
 
-    /**
-     * @var Collection<int, OrderMission>
-     */
-    #[ORM\OneToMany(targetEntity: OrderMission::class, mappedBy: 'journee')]
-    private Collection $orderMissions;
+//    /**
+//     * @var Collection<int, OrderMission>
+//     */
+//    #[ORM\OneToMany(targetEntity: OrderMission::class, mappedBy: 'journee')]
+//    private Collection $orderMissions;
 
 
     public function __construct()
@@ -91,7 +91,7 @@ class Journee
         $this->bonapprovisionnements = new ArrayCollection();
         $this->fdbs = new ArrayCollection();
         $this->approCaisses = new ArrayCollection();
-        $this->orderMissions = new ArrayCollection();
+//        $this->orderMissions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -356,34 +356,34 @@ class Journee
         return $this;
     }
 
-    /**
-     * @return Collection<int, OrderMission>
-     */
-    public function getOrderMissions(): Collection
-    {
-        return $this->orderMissions;
-    }
-
-    public function addOrderMission(OrderMission $orderMission): static
-    {
-        if (!$this->orderMissions->contains($orderMission)) {
-            $this->orderMissions->add($orderMission);
-            $orderMission->setJournee($this);
-        }
-
-        return $this;
-    }
-
-    public function removeOrderMission(OrderMission $orderMission): static
-    {
-        if ($this->orderMissions->removeElement($orderMission)) {
-            // set the owning side to null (unless already changed)
-            if ($orderMission->getJournee() === $this) {
-                $orderMission->setJournee(null);
-            }
-        }
-
-        return $this;
-    }
+//    /**
+//     * @return Collection<int, OrderMission>
+//     */
+//    public function getOrderMissions(): Collection
+//    {
+//        return $this->orderMissions;
+//    }
+//
+//    public function addOrderMission(OrderMission $orderMission): static
+//    {
+//        if (!$this->orderMissions->contains($orderMission)) {
+//            $this->orderMissions->add($orderMission);
+//            $orderMission->setJournee($this);
+//        }
+//
+//        return $this;
+//    }
+//
+//    public function removeOrderMission(OrderMission $orderMission): static
+//    {
+//        if ($this->orderMissions->removeElement($orderMission)) {
+//            // set the owning side to null (unless already changed)
+//            if ($orderMission->getJournee() === $this) {
+//                $orderMission->setJournee(null);
+//            }
+//        }
+//
+//        return $this;
+//    }
 
 }

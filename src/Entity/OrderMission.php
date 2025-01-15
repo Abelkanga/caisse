@@ -92,8 +92,8 @@ class OrderMission
     #[ORM\ManyToOne(inversedBy: 'orderMissions')]
     private ?Emeteur $emeteur = null;
 
-    #[ORM\ManyToOne(inversedBy: 'orderMissions')]
-    private ?Journee $journee = null;
+//    #[ORM\ManyToOne(inversedBy: 'orderMissions')]
+//    private ?Journee $journee = null;
 
 //    #[ORM\ManyToOne(inversedBy: 'orderMissions')]
 //    private ?User $validBy = null;
@@ -450,17 +450,17 @@ class OrderMission
         return $this;
     }
 
-    public function getJournee(): ?Journee
-    {
-        return $this->journee;
-    }
-
-    public function setJournee(?Journee $journee): static
-    {
-        $this->journee = $journee;
-
-        return $this;
-    }
+//    public function getJournee(): ?Journee
+//    {
+//        return $this->journee;
+//    }
+//
+//    public function setJournee(?Journee $journee): static
+//    {
+//        $this->journee = $journee;
+//
+//        return $this;
+//    }
 
 //    public function getValidBy(): ?User
 //    {
