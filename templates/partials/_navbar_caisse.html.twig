@@ -88,20 +88,21 @@
 		<a href="#" class="menu-link">
 			<span class="fa-solid fa-wallet p-2"></span>
 
+
 			<span class="menu-text">Dépenses</span>
 		</a>
 		<!-- child menu -->
 		<ul class="menu">
 
-			<li class="menu-item {{ app.request.get('_route') == 'fdb_approuved' ? 'has-active': '' }}">
-				<a href="{{ path('fdb_approuved') }}" class="menu-link">Besoin approuvé</a>
+			<li class="menu-item {{ app.request.get('_route') == 'fdb_approuveNotConvert' ? 'has-active': '' }}">
+				<a href="{{ path('fdb_approuveNotConvert') }}" class="menu-link">Besoin approuvé</a>
 			</li>
-			<li class="menu-item {{ app.request.get('_route') == 'fdb_approuve' ? 'has-active': '' }}">
-				<a href="{{ path('fdb_approuve') }}" class="menu-link">Besoin décaissé</a>
-			</li>
-{#			<li class="menu-item {{ app.request.get('_route') == 'bon_caisse_index' ? 'has-active': '' }}">#}
-{#				<a href="{{ path('bon_caisse_index') }}" class="menu-link">Bon de caisse</a>#}
+{#			<li class="menu-item {{ app.request.get('_route') == 'fdb_approuve' ? 'has-active': '' }}">#}
+{#				<a href="{{ path('fdb_approuve') }}" class="menu-link">Besoin décaissé</a>#}
 {#			</li>#}
+			<li class="menu-item {{ app.request.get('_route') == 'bon_caisse_index' ? 'has-active': '' }}">
+				<a href="{{ path('bon_caisse_index') }}" class="menu-link">Bon de caisse</a>
+			</li>
 			<li class="menu-item {{ app.request.get('_route') == 'bon_mission_index' ? 'has-active': '' }}">
 				<a href="{{ path('bon_mission_index') }}" class="menu-link">Bon de mission</a>
 			</li>

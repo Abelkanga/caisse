@@ -192,31 +192,120 @@ class FdbRepository extends ServiceEntityRepository
 //            ->getResult();
 //    }
 
-    public function findFdbApprouvedByUserRoleAndCaisse(User $user): array
+//    public function findFdbApprouvedByUserRoleAndCaisse(User $user): array
+//    {
+//        $qb = $this->createQueryBuilder('f')
+//            ->andWhere('f.status = :status')
+//            ->setParameter('status', Status::APPROUVED);
+//
+//        $roles = $user->getRoles();
+//
+//        if (in_array('ROLE_USER', $roles)) {
+//            // Si l'utilisateur a le rôle 'ROLE_USER', on filtre par utilisateur
+//            $qb->andWhere('f.user = :user')
+//                ->setParameter('user', $user);
+//        } elseif (in_array('ROLE_MANAGER1', $roles)) {
+//            // Si l'utilisateur a le rôle 'ROLE_MANAGER1', on récupère toutes les fiches approuvées
+//            // Aucune condition supplémentaire
+//        } else {
+//            // Sinon, on filtre par la caisse associée à l'utilisateur
+//            $caisse = $user->getCaisse();
+//
+//            if ($caisse) {
+//                $qb->andWhere('f.caisse = :caisse')
+//                    ->setParameter('caisse', $caisse);
+//            }
+//        }
+//
+//        return $qb->orderBy('f.date', 'DESC')
+//            ->getQuery()
+//            ->getResult();
+//    }
+
+
+    public function findFdbApprouvedByRoleManager1(User $user): array
     {
         $qb = $this->createQueryBuilder('f')
-            ->andWhere('f.status = :status')
+            ->andWhere('f.status = :status') // Filtrer les fiches approuvées
             ->setParameter('status', Status::APPROUVED);
 
+        // Vérifier si l'utilisateur a le rôle ROLE_MANAGER1
         $roles = $user->getRoles();
-
-        if (in_array('ROLE_USER', $roles)) {
-            // Si l'utilisateur a le rôle 'ROLE_USER', on filtre par utilisateur
-            $qb->andWhere('f.user = :user')
-                ->setParameter('user', $user);
-        } elseif (in_array('ROLE_MANAGER1', $roles)) {
-            // Si l'utilisateur a le rôle 'ROLE_MANAGER1', on récupère toutes les fiches approuvées
-            // Aucune condition supplémentaire
-        } else {
-            // Sinon, on filtre par la caisse associée à l'utilisateur
-            $caisse = $user->getCaisse();
-
-            if ($caisse) {
-                $qb->andWhere('f.caisse = :caisse')
-                    ->setParameter('caisse', $caisse);
-            }
+        if (in_array('ROLE_MANAGER1', $roles)) {
+            // Aucune restriction supplémentaire pour ROLE_MANAGER1 : toutes les fiches approuvées, converties ou non
+            $qb->andWhere('f.isConverted = true OR f.isConverted = false');
         }
 
+        // Tri par date décroissante
+        return $qb->orderBy('f.date', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findFdbApprouvedNotConvertedByRoleManager(User $user): array
+    {
+        $qb = $this->createQueryBuilder('f')
+            ->andWhere('f.status = :status') // Filtrer les fiches approuvées
+            ->setParameter('status', Status::APPROUVED);
+
+        // Vérifier si l'utilisateur a le rôle ROLE_MANAGER
+        $roles = $user->getRoles();
+        if (in_array('ROLE_MANAGER', $roles)) {
+            // Ajouter une condition pour ROLE_MANAGER : uniquement les fiches non converties
+            $qb->andWhere('f.isConverted = false');
+        } else {
+            // Si l'utilisateur n'a pas le rôle ROLE_MANAGER, on retourne une liste vide
+            return [];
+        }
+
+        // Trier par date décroissante
+        return $qb->orderBy('f.date', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+
+//    public function findFdbApprouvedNotConvertedForRoleManager(User $user): array
+//    {
+//        $qb = $this->createQueryBuilder('f')
+//            ->andWhere('f.status = :status') // Fiches approuvées uniquement
+//            ->setParameter('status', Status::APPROUVED)
+//            ->andWhere('f.isConverted = false'); // Fiches non converties uniquement
+//
+//        // Filtrer par caisse associée à l'utilisateur
+//        $caisse = $user->getCaisse();
+//        if ($caisse) {
+//            $qb->andWhere('f.caisse = :caisse')
+//                ->setParameter('caisse', $caisse);
+//        }
+//
+//        return $qb->orderBy('f.date', 'DESC') // Trier par date décroissante
+//        ->getQuery()
+//            ->getResult();
+//    }
+
+    public function findFdbApprouvedNotConvertedForRoleManager(User $user): array
+    {
+        $qb = $this->createQueryBuilder('f')
+            ->andWhere('f.status = :status') // Filtrer les fiches approuvées
+            ->setParameter('status', Status::APPROUVED)
+            ->andWhere('f.isConverted = false'); // Filtrer les fiches non converties
+
+        // Vérifier si l'utilisateur a le rôle ROLE_MANAGER
+        $roles = $user->getRoles();
+        if (in_array('ROLE_MANAGER', $roles)) {
+            // Ajouter une condition spécifique si ROLE_MANAGER a des restrictions supplémentaires
+            $caisse = $user->getCaisse();
+            if ($caisse) {
+                $qb->andWhere('f.caisse = :caisse') // Filtrer par la caisse associée
+                ->setParameter('caisse', $caisse);
+            }
+        } else {
+            // Si l'utilisateur n'a pas le rôle ROLE_MANAGER, on retourne une liste vide
+            return [];
+        }
+
+        // Trier par date décroissante
         return $qb->orderBy('f.date', 'DESC')
             ->getQuery()
             ->getResult();

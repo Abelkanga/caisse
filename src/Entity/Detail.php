@@ -25,7 +25,11 @@ class Detail
     #[ORM\Column]
     private ?int $montant = null;
 
-    #[ORM\ManyToOne(inversedBy: 'details')]
+//    #[ORM\ManyToOne(inversedBy: 'details')]
+//    private ?Fdb $fdb = null;
+
+    #[ORM\ManyToOne(targetEntity: Fdb::class, inversedBy: 'details')]
+    #[ORM\JoinColumn(nullable: false, onDelete: "CASCADE")]
     private ?Fdb $fdb = null;
 
     #[ORM\ManyToOne(inversedBy: 'details')]

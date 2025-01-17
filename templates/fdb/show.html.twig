@@ -156,7 +156,7 @@
                                 {% include '_modal_manager1_annulation.html.twig' %}
                             {% endif %}
 
-                            {% if is_granted('ROLE_MANAGER') and fdb.status == 'approuvée' %}
+                            {% if is_granted('ROLE_MANAGER') and fdb.status == 'approuvée' and not fdb.converted %}
 
                                 {#                                {% include '_modal_manager.html.twig' %}#}
                                 <a href="{{ path('fdb_convert', {'uuid': fdb.uuid}) }}" class="btn btn-primary float-right ml-2">

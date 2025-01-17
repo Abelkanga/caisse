@@ -91,8 +91,12 @@ class BonCaisseController extends AbstractController
                     ->setFdb($fdb);
 
                 $caisse->setSoldedispo($solde - $total);
-                $fdb->setStatus(Status::CONVERT);
+                $fdb->setStatus(Status::APPROUVED);
+                $fdb->setConverted(true);
                 $bonCaisse->setStatus(Status::CONVERT);
+
+
+
 
 
                 $active = $journeeRepository->activeJournee();

@@ -42,8 +42,12 @@ class Fdb
      * @var Collection<int, Detail>
      */
 
-    #[ORM\OneToMany(targetEntity: Detail::class, mappedBy: 'fdb')]
+//    #[ORM\OneToMany(targetEntity: Detail::class, mappedBy: 'fdb')]
+//    private Collection $details;
+
+    #[ORM\OneToMany(targetEntity: Detail::class, mappedBy: 'fdb', cascade: ['persist', 'remove'])]
     private Collection $details;
+
 
     #[ORM\Column(length: 255)]
     private ?string $status = null;
@@ -106,6 +110,9 @@ class Fdb
      */
     #[ORM\OneToMany(targetEntity: OrderMission::class, mappedBy: 'fdb')]
     private Collection $orderMissions;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $isConverted = null;
 
 //    #[ORM\Column(nullable: true)]
 //    private ?bool $IsActive = null;
@@ -499,6 +506,18 @@ class Fdb
                 $orderMission->setFdb(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isConverted(): ?bool
+    {
+        return $this->isConverted;
+    }
+
+    public function setConverted(?bool $isConverted): static
+    {
+        $this->isConverted = $isConverted;
 
         return $this;
     }

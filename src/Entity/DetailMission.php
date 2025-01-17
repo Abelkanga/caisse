@@ -25,7 +25,8 @@ class DetailMission
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $reference = null;
 
-    #[ORM\ManyToOne(inversedBy: 'detailMission')]
+    #[ORM\ManyToOne(targetEntity: OrderMission::class, inversedBy: 'detailMission')]
+    #[ORM\JoinColumn(nullable: false, onDelete: "CASCADE")]
     private ?OrderMission $orderMission = null;
 
     public function getId(): ?int

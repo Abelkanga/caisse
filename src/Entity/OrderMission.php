@@ -101,7 +101,7 @@ class OrderMission
     /**
      * @var Collection<int, DetailMission>
      */
-    #[ORM\OneToMany(targetEntity: DetailMission::class, mappedBy: 'orderMission')]
+    #[ORM\OneToMany(targetEntity: DetailMission::class, mappedBy: 'orderMission', cascade: ['persist', 'remove'])]
     private Collection $detailMission;
 
 //    /**

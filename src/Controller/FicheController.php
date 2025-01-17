@@ -88,6 +88,18 @@ class FicheController extends AbstractController
         ]);
     }
 
+    #[Route('/fdb/approuve', name: 'fdb_approuveA', methods: ['GET'])]
+    public function approvedA(FdbRepository $fdbRepository): Response
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+        $fdb = $fdbRepository->findFdbApprouvedNotConvertedForRoleManager($user);
+
+        return $this->render('fdb/index.html.twig', [
+            'fdb' => $fdb
+        ]);
+    }
+
 
     #[Route('/fdb/approuved', name: 'fdb_approuved', methods: ['GET'])]
     public function approvedUserCash(FdbRepository $fdbRepository): Response
@@ -96,7 +108,22 @@ class FicheController extends AbstractController
         $user = $this->getUser();
 
         // Récupérer les fiches de besoin approuvées en fonction du rôle de l'utilisateur et de la caisse
-        $fdb = $fdbRepository->findFdbApprouvedByUserRoleAndCaisse($user);
+        $fdb = $fdbRepository->findFdbApprouvedByRoleManager1($user);
+
+        return $this->render('fdb/index.html.twig', [
+            'fdb' => $fdb
+        ]);
+    }
+
+
+    #[Route('/fdb/approuveNotConvert', name: 'fdb_approuveNotConvert', methods: ['GET'])]
+    public function approveNoConvert(FdbRepository $fdbRepository): Response
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+
+        // Récupérer les fiches de besoin approuvées en fonction du rôle de l'utilisateur et de la caisse
+        $fdb = $fdbRepository->findFdbApprouvedNotConvertedByRoleManager($user);
 
         return $this->render('fdb/index.html.twig', [
             'fdb' => $fdb
@@ -253,6 +280,7 @@ class FicheController extends AbstractController
         $fdb->setDate(new \DateTime())
             ->setNumeroFicheBesoin($refFiche)
             ->setDestinataire('Konan Gwladys')
+            ->setConverted(false)
             ->setBeneficiaire($beneficiaire);
 
 
@@ -912,7 +940,8 @@ class FicheController extends AbstractController
                 ->setFdb($fdb);
 
             $caisse->setSoldedispo($solde - $total);
-            $fdb->setStatus(Status::CONVERT);
+            $fdb->setStatus(Status::APPROUVED);
+            $fdb->setConverted(true);
             $bonCaisse->setStatus(Status::CONVERT);
 
             $active = $journeeRepository->activeJournee();
