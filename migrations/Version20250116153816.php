@@ -20,16 +20,16 @@ final class Version20250116153816 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE detail_mission CHANGE order_mission_id order_mission_id INT NOT NULL');
-        $this->addSql('ALTER TABLE detail_mission ADD CONSTRAINT FK_F7A872E9DB653C5 FOREIGN KEY (order_mission_id) REFERENCES order_mission (id) ON DELETE CASCADE');
-        $this->addSql('ALTER TABLE fdb ADD is_converted TINYINT(1) DEFAULT NULL');
+//        $this->addSql('ALTER TABLE detail_mission CHANGE order_mission_id order_mission_id INT NOT NULL');
+//        $this->addSql('ALTER TABLE detail_mission ADD CONSTRAINT FK_F7A872E9DB653C5 FOREIGN KEY (order_mission_id) REFERENCES order_mission (id) ON DELETE CASCADE');
+//        $this->addSql('ALTER TABLE fdb ADD is_converted TINYINT(1) DEFAULT NULL');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE fdb DROP is_converted');
-        $this->addSql('ALTER TABLE detail_mission DROP FOREIGN KEY FK_F7A872E9DB653C5');
-        $this->addSql('ALTER TABLE detail_mission CHANGE order_mission_id order_mission_id INT DEFAULT NULL');
+//        $this->addSql('ALTER TABLE fdb DROP is_converted');
+//        $this->addSql('ALTER TABLE detail_mission DROP FOREIGN KEY FK_F7A872E9DB653C5');
+//        $this->addSql('ALTER TABLE detail_mission CHANGE order_mission_id order_mission_id INT DEFAULT NULL');
     }
 }
