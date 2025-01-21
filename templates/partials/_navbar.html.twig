@@ -85,10 +85,12 @@
 		</a>
 		<!-- child menu -->
 		<ul class="menu">
-			<li class="menu-item {{ app.request.get('_route') == 'fdb_approuve' ? 'has-active': '' }}">
-				<a href="{{ path('fdb_approuve') }}" class="menu-link">Fiche convertie</a>
+			<li class="menu-item {{ app.request.get('_route') == 'fdb_approuved' ? 'has-active': '' }}">
+				<a href="{{ path('fdb_approuved') }}" class="menu-link">Fiche convertie</a>
 			</li>
-
+{#			<li class="menu-item {{ app.request.get('_route') == 'bon_caisse_index' ? 'has-active': '' }}">#}
+{#				<a href="{{ path('bon_caisse_index') }}" class="menu-link">Bon de caisse</a>#}
+{#			</li>#}
 		</ul>
 		<!-- /child menu -->
 		<!-- .menu-item -->
@@ -146,9 +148,9 @@
 			</a>
 			<!-- child menu -->
 			<ul class="menu">
-{#				<li class="menu-item {{ app.request.get('_route') == 'fdb_index' ? 'has-active': '' }}">#}
-{#					<a href="{{ path('fdb_index') }}" class="menu-link">Liste</a>#}
-{#				</li>#}
+				<li class="menu-item {{ app.request.get('_route') == 'fdb_index' ? 'has-active': '' }}">
+					<a href="{{ path('fdb_index') }}" class="menu-link">Liste</a>
+				</li>
 				<li class="menu-item {{ app.request.get('_route') == 'fdb_validate' ? 'has-active': '' }}">
 					<a href="{{ path('fdb_validate') }}" class="menu-link">Besoin validé</a>
 				</li>
