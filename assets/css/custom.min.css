@@ -37,3 +37,17 @@ table.bordered>thead>tr>th {
     text-align: center !important;
     vertical-align: middle;
 }
+
+.form-control:disabled, .form-control[readonly] {
+    background-color: #f6f7f9;
+    opacity: 1;
+}
+
+table.dataTable {
+    border-collapse: separate!important;
+    border-spacing: 0;
+    clear: both;
+    margin-bottom: 6px!important;
+    margin-top: 6px!important;
+    max-width: none!important
+}

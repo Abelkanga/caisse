@@ -6,12 +6,10 @@
 
 
 import './css/app.css';
-require('datatables.net-bs4/css/dataTables.bootstrap4.css')
-require('datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css')
-require('datatables.net-fixedheader-bs4/css/fixedHeader.bootstrap4.min.css')
-require('datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css')
+import  'bootstrap'
 import './js/dataTables.bootstrap';
 import 'select2/dist/js/select2.min'
+
 require('inputmask');
 import './js/datatables-demo';
 import './js/select2-demo';
@@ -27,12 +25,20 @@ import './js/fdb/form-expense'
 import './js/page/billetage'
 import './js/page/index'
 import './js/page/userNameAuto'
-import 'datatables.net-bs4/js/dataTables.bootstrap4.min'
-import 'datatables.net-buttons/js/buttons.print'
-import 'datatables.net-fixedheader-bs4/js/fixedHeader.bootstrap4.min'
-import 'datatables.net-responsive-bs4/js/responsive.bootstrap4.min'
+
 
 import { runInputmask } from "./js/input-mask";
+
+import $ from 'jquery';
+
+global.$ = global.jQuery = $;
+require('datatables.net-bs4')
+require('datatables.net-responsive-bs4')
+require("datatables.net-buttons-bs4")
+require('datatables.net-buttons/js/buttons.html5');
+require('datatables.net-buttons/js/buttons.print');
+require('datatables.net-buttons/js/buttons.colVis');
+require('datatables.net-searchbuilder-bs4');
 
 
 
