@@ -14,6 +14,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -33,15 +34,32 @@ class OrderMissionType extends AbstractType
 
             ])
             ->add('reference')
+
             ->add('gerant')
             ->add('orderTo')
-            ->add('getTo')
-            ->add('fullName')
-            ->add('dateDepart', null, [
-                'widget' => 'single_text',
+            ->add('getTo', TextType::class, [
+                'required' => true,
             ])
-            ->add('dateRetour', null, [
+            ->add('fullName', TextType::class, [
+                'required' => true,
+            ])
+            ->add('dateDepart', DateType::class, [
                 'widget' => 'single_text',
+                'html5' => true,
+                'attr' => [
+                    'class' => 'js-datepicker form-control',
+                ],
+                'required' => true,
+
+            ])
+            ->add('dateRetour', DateType::class, [
+                'widget' => 'single_text',
+                'html5' => true,
+                'attr' => [
+                    'class' => 'js-datepicker form-control',
+                ],
+                'required' => true,
+
             ])
             ->add('fonction')
             ->add('service')

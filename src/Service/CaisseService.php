@@ -6,6 +6,7 @@ use App\Entity\BonMission;
 use App\Entity\Caisse;
 use App\Entity\Fdb;
 use App\Repository\ApproCaisseRepository;
+use App\Repository\BackCashRepository;
 use App\Repository\BilletageRepository;
 use App\Repository\BonapprovisionnementRepository;
 use App\Repository\BonCaisseRepository;
@@ -29,7 +30,8 @@ class CaisseService
                                 ApproCaisseRepository $approCaisseRepository,
                                 CaisseRepository $caisseRepository,
                                 OrderMissionRepository $orderMissionRepository,
-                                BonMissionRepository   $BonMissionRepository
+                                BonMissionRepository   $BonMissionRepository,
+                                BackCashRepository $backCashRepository
     )
     {
         $this->fdbRepository = $fdbRepository;
@@ -42,6 +44,7 @@ class CaisseService
         $this->CaisseRepository = $caisseRepository;
         $this->OrderMissionRepository = $orderMissionRepository;
         $this->BonMissionRepository = $BonMissionRepository;
+        $this->BackCashRepository = $backCashRepository;
     }
 
     public function refFdb(): string
@@ -73,6 +76,17 @@ class CaisseService
         $lastId++;
         $year = date_format(new \DateTime(),'Y');
         $suffix = 'N°APC'.$year.'';
+        $id = $this->countOp($lastId);
+        return $suffix.$id;
+
+    }
+
+    public function refBackCash(): string
+    {
+        $lastId = (int)$this->BackCashRepository->findLastId() ?? 0;
+        $lastId++;
+        $year = date_format(new \DateTime(),'Y');
+        $suffix = 'N°RF'.$year.'';
         $id = $this->countOp($lastId);
         return $suffix.$id;
 

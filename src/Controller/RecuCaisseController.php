@@ -56,7 +56,9 @@ class RecuCaisseController extends AbstractController
 
                     $amount = $bonapprovisionnement->getMontanttotal();
 
-                    $num_journalCaisse = $service->refJournalCaisse();
+                    $caisseCode = $caisse->getCode();
+
+                    $num_journalCaisse = $service->refJournalCaisse($caisseCode);
 
                     $lastSolde = $jcRepo->getLastSolde($caisse->getId());
                     $journalCaisse = new JournalCaisse();

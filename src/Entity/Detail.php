@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\DetailRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: DetailRepository::class)]
@@ -34,6 +36,17 @@ class Detail
 
     #[ORM\ManyToOne(inversedBy: 'details')]
     private ?Depense $depense = null;
+
+    /**
+     * @var Collection<int, JournalCaisse>
+     */
+    #[ORM\OneToMany(targetEntity: JournalCaisse::class, mappedBy: 'detail')]
+    private Collection $journalCaisses;
+
+    public function __construct()
+    {
+        $this->journalCaisses = new ArrayCollection();
+    }
 
 //    #[ORM\ManyToOne(inversedBy: 'detail')]
 //    private ?OrderMission $orderMission = null;
@@ -142,6 +155,36 @@ class Detail
 //
 //    return $this;
 //}
+
+/**
+ * @return Collection<int, JournalCaisse>
+ */
+public function getJournalCaisses(): Collection
+{
+    return $this->journalCaisses;
+}
+
+public function addJournalCaiss(JournalCaisse $journalCaiss): static
+{
+    if (!$this->journalCaisses->contains($journalCaiss)) {
+        $this->journalCaisses->add($journalCaiss);
+        $journalCaiss->setDetail($this);
+    }
+
+    return $this;
+}
+
+public function removeJournalCaiss(JournalCaisse $journalCaiss): static
+{
+    if ($this->journalCaisses->removeElement($journalCaiss)) {
+        // set the owning side to null (unless already changed)
+        if ($journalCaiss->getDetail() === $this) {
+            $journalCaiss->setDetail(null);
+        }
+    }
+
+    return $this;
+}
 
 
 }

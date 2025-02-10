@@ -35,7 +35,6 @@ class FicheController extends AbstractController
         /** @var User $user */
         $user = $this->getUser();
         $fdb = $repository->findByUserRole($user);  // Utilise la méthode filtrant les fiches actives uniquement
-
         return $this->render('fdb/index.html.twig', [
             'fdb' => $fdb,
         ]);

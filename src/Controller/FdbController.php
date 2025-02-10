@@ -52,75 +52,75 @@ class FdbController extends AbstractController
     }
 
     //#[Route('/fdb/pending', name: 'fdb_pending', methods: ['GET'])]
-    public function index_pending(FdbRepository $fdbRepository): Response
-    {
-        /** @var User $user */
-        $user = $this->getUser();
-        $fdb = $fdbRepository->findPendingByUserRole($user);
-
-        return $this->render('fdb/index.html.twig', [
-            'fdb' => $fdb
-        ]);
-    }
+//    public function index_pending(FdbRepository $fdbRepository): Response
+//    {
+//        /** @var User $user */
+//        $user = $this->getUser();
+//        $fdb = $fdbRepository->findPendingByUserRole($user);
+//
+//        return $this->render('fdb/index.html.twig', [
+//            'fdb' => $fdb
+//        ]);
+//    }
 
     //#[Route('/fdb/brouillon', name: 'fdb_brouillon', methods: ['GET'])]
-    public function index_brouillon(FdbRepository $fdbRepository): Response
-    {
-        $fdb = $fdbRepository->findFicheByStatus(Status::BROUILLON);
-
-        return $this->render('fdb/index.html.twig', [
-            'fdb' => $fdb
-        ]);
-    }
+//    public function index_brouillon(FdbRepository $fdbRepository): Response
+//    {
+//        $fdb = $fdbRepository->findFicheByStatus(Status::BROUILLON);
+//
+//        return $this->render('fdb/index.html.twig', [
+//            'fdb' => $fdb
+//        ]);
+//    }
 
     //#[Route('/fdb/cancel', name: 'fdb_cancel', methods: ['GET'])]
-    public function index_canceled(FdbRepository $fdbRepository): Response
-    {
-        /** @var User $user */
-        $user = $this->getUser();
-        $fdb = $fdbRepository->findFdbCancelByUserRole($user);
-
-        return $this->render('fdb/index.html.twig', [
-            'fdb' => $fdb
-        ]);
-    }
+//    public function index_canceled(FdbRepository $fdbRepository): Response
+//    {
+//        /** @var User $user */
+//        $user = $this->getUser();
+//        $fdb = $fdbRepository->findFdbCancelByUserRole($user);
+//
+//        return $this->render('fdb/index.html.twig', [
+//            'fdb' => $fdb
+//        ]);
+//    }
 
     //#[Route('/fdb/approuve', name: 'fdb_approuve', methods: ['GET'])]
-    public function index_approuve(FdbRepository $fdbRepository): Response
-    {
-        /** @var User $user */
-        $user = $this->getUser();
-        $fdb = $fdbRepository->findFdbApprouveByUserRole($user);
-
-        return $this->render('fdb/index.html.twig', [
-            'fdb' => $fdb
-        ]);
-    }
+//    public function index_approuve(FdbRepository $fdbRepository): Response
+//    {
+//        /** @var User $user */
+//        $user = $this->getUser();
+//        $fdb = $fdbRepository->findFdbApprouveByUserRole($user);
+//
+//        return $this->render('fdb/index.html.twig', [
+//            'fdb' => $fdb
+//        ]);
+//    }
 
 
     //#[Route('/fdb/approuved', name: 'fdb_approuved', methods: ['GET'])]
-    public function index_approuved(FdbRepository $fdbRepository): Response
-    {
-        /** @var User $user */
-        $user = $this->getUser();
-
-        // Récupérer les fiches de besoin approuvées en fonction du rôle de l'utilisateur et de la caisse
-        $fdb = $fdbRepository->findFdbApprouvedByUserRoleAndCaisse($user);
-
-        return $this->render('fdb/index.html.twig', [
-            'fdb' => $fdb
-        ]);
-    }
+//    public function index_approuved(FdbRepository $fdbRepository): Response
+//    {
+//        /** @var User $user */
+//        $user = $this->getUser();
+//
+//        // Récupérer les fiches de besoin approuvées en fonction du rôle de l'utilisateur et de la caisse
+//        $fdb = $fdbRepository->findFdbApprouvedByUserRoleAndCaisse($user);
+//
+//        return $this->render('fdb/index.html.twig', [
+//            'fdb' => $fdb
+//        ]);
+//    }
 
     //#[Route('/fdb/validate', name: 'fdb_validate', methods: ['GET'])]
-    public function index_validated(FdbRepository $fdbRepository): Response
-    {
-        $fdb = $fdbRepository->findFicheByStatus(Status::VALIDATED);
-
-        return $this->render('fdb/index.html.twig', [
-            'fdb' => $fdb
-        ]);
-    }
+//    public function index_validated(FdbRepository $fdbRepository): Response
+//    {
+//        $fdb = $fdbRepository->findFicheByStatus(Status::VALIDATED);
+//
+//        return $this->render('fdb/index.html.twig', [
+//            'fdb' => $fdb
+//        ]);
+//    }
 
     //#[Route('/fdb/new', name: 'fdb_new', methods: ['GET', 'POST'])]
     public function new(Request                $request,

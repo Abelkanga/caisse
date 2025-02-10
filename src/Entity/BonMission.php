@@ -53,7 +53,7 @@ class BonMission
     /**
      * @var Collection<int, DetailBonMission>
      */
-    #[ORM\OneToMany(targetEntity: DetailBonMission::class, mappedBy: 'bonMission')]
+    #[ORM\OneToMany(targetEntity: DetailBonMission::class, mappedBy: 'bonMission', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $DetailBonMission;
 
 //    #[ORM\Column(length: 255, nullable: true)]
@@ -61,11 +61,34 @@ class BonMission
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
     private ?string $total = null;
 
+    #[ORM\ManyToOne(inversedBy: 'bonMission')]
+    private ?City $city = null;
+
+    /**
+     * @var Collection<int, Notification>
+     */
+    #[ORM\OneToMany(targetEntity: Notification::class, mappedBy: 'bonMission')]
+    private Collection $notifications;
+
+    #[ORM\ManyToOne(inversedBy: 'bonMissions')]
+    private ?User $user = null;
+
+    #[ORM\ManyToOne]
+    private ?User $validBy = null;
+
+    /**
+     * @var Collection<int, BackCash>
+     */
+    #[ORM\OneToMany(targetEntity: BackCash::class, mappedBy: 'bonMission')]
+    private Collection $backCashes;
+
 
     public function __construct()
     {
         $this->JournalCaisse = new ArrayCollection();
         $this->DetailBonMission = new ArrayCollection();
+        $this->notifications = new ArrayCollection();
+        $this->backCashes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -264,5 +287,103 @@ class BonMission
 
         return $this;
     }
+
+    public function getCity(): ?City
+    {
+        return $this->city;
+    }
+
+    public function setCity(?City $city): static
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Notification>
+     */
+    public function getNotifications(): Collection
+    {
+        return $this->notifications;
+    }
+
+    public function addNotification(Notification $notification): static
+    {
+        if (!$this->notifications->contains($notification)) {
+            $this->notifications->add($notification);
+            $notification->setBonMission($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNotification(Notification $notification): static
+    {
+        if ($this->notifications->removeElement($notification)) {
+            // set the owning side to null (unless already changed)
+            if ($notification->getBonMission() === $this) {
+                $notification->setBonMission(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getValidBy(): ?User
+    {
+        return $this->validBy;
+    }
+
+    public function setValidBy(?User $validBy): static
+    {
+        $this->validBy = $validBy;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, BackCash>
+     */
+    public function getBackCashes(): Collection
+    {
+        return $this->backCashes;
+    }
+
+    public function addBackCash(BackCash $backCash): static
+    {
+        if (!$this->backCashes->contains($backCash)) {
+            $this->backCashes->add($backCash);
+            $backCash->setBonMission($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBackCash(BackCash $backCash): static
+    {
+        if ($this->backCashes->removeElement($backCash)) {
+            // set the owning side to null (unless already changed)
+            if ($backCash->getBonMission() === $this) {
+                $backCash->setBonMission(null);
+            }
+        }
+
+        return $this;
+    }
+
+
 
 }

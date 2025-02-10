@@ -88,7 +88,6 @@
 		<a href="#" class="menu-link">
 			<span class="fa-solid fa-wallet p-2"></span>
 
-
 			<span class="menu-text">Dépenses</span>
 		</a>
 		<!-- child menu -->
@@ -117,6 +116,29 @@
 		<!-- /child menu -->
 		<!-- .menu-item -->
 	</li>
+
+
+	<li class="menu-item has-child">
+		<a href="#" class="menu-link">
+			<span class="fa-solid fa-wallet p-2"></span>
+
+			<span class="menu-text">Retour de fond</span>
+		</a>
+		<!-- child menu -->
+		<ul class="menu">
+
+			<li class="menu-item {{ app.request.get('_route') == 'back_cash_new' ? 'has-active': '' }}">
+				<a href="{{ path('back_cash_new') }}" class="menu-link">Ajouter</a>
+			</li>
+			<li class="menu-item {{ app.request.get('_route') == 'back_cash_index' ? 'has-active': '' }}">
+				<a href="{{ path('back_cash_index') }}" class="menu-link">Liste</a>
+			</li>
+
+		</ul>
+		<!-- /child menu -->
+		<!-- .menu-item -->
+	</li>
+
 {% endif %}
 
 <li class="menu-header">JOURNAL DE CAISSE</li>
@@ -173,3 +195,4 @@
 	<!-- /child menu -->
 	<!-- .menu-item -->
 </li>
+

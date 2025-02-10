@@ -40,7 +40,7 @@
 
         <div class="col-12 col-md-4 mb-3">
             <div class="form-group">
-                <label for="getTo">De se rendre à</label>
+                <label for="getTo">De se rendre à<span class="text-danger">*</span></label>
                 {{ form_widget(form.getTo, {'attr' : {'class': 'form-control'}}) }}
             </div>
         </div>
@@ -68,21 +68,21 @@
     <div class="row">
         <div class="col-12 col-md-4 mb-3">
             <div class="form-group">
-                <label for="fullName">Objet de la mission</label>
+                <label for="fullName">Objet de la mission<span class="text-danger">*</span></label>
                 {{ form_widget(form.fullName, {'attr' : {'class': 'form-control'}}) }}
             </div>
         </div>
 
         <div class="col-12 col-md-4 mb-3">
             <div class="form-group">
-                <label for="dateDepart">Date départ</label>
+                <label for="dateDepart">Date départ<span class="text-danger">*</span></label>
                 {{ form_widget(form.dateDepart, {'attr' : {'class': 'form-control'}}) }}
             </div>
         </div>
 
         <div class="col-12 col-md-4 mb-3">
             <div class="form-group">
-                <label for="dateRetour">Date retour</label>
+                <label for="dateRetour">Date retour<span class="text-danger">*</span></label>
                 {{ form_widget(form.dateRetour, {'attr' : {'class': 'form-control'}}) }}
             </div>
         </div>

@@ -165,43 +165,43 @@
 {#                                </form>#}
 {#                            {% endif %}#}
 
-                            {% if is_granted('ROLE_MANAGER1') and order_mission.status == 'validée' %}
-                                <!-- Bouton de validation qui déclenche le modal -->
-                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalValidation">
-                                    <i class="fa fa-check"></i> Approuver
-                                </button>
+{#                            {% if is_granted('ROLE_MANAGER1') and order_mission.status == 'validée' %}#}
+{#                                <!-- Bouton de validation qui déclenche le modal -->#}
+{#                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalValidation">#}
+{#                                    <i class="fa fa-check"></i> Approuver#}
+{#                                </button>#}
 
-                                <!-- Modal de confirmation -->
-                                <div id="modalValidation" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalValidationLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header bg-warning">
-                                                <h5 class="modal-title text-dark" id="modalValidationLabel">
-                                                    <span class="uil uil-question-circle"></span>
-                                                    Validation de l'ordre de mission {{ order_mission.reference }}
-                                                </h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body font-size-14">
-                                                Voulez-vous approuver cet ordre de mission ?
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-danger font-weight-medium" data-dismiss="modal">Annuler</button>
-                                                <!-- Formulaire de soumission -->
-                                                <form method="post" action="{{ path('app_order_mission_process', {'id': order_mission.id}) }}">
-                                                    <input type="hidden" name="_token" value="{{ csrf_token('process' ~ order_mission.id) }}">
-                                                    <input type="hidden" name="action" value="approve">
-                                                    <button type="submit" class="btn btn-success font-weight-medium">
-                                                        Confirmer
-                                                    </button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            {% endif %}
+{#                                <!-- Modal de confirmation -->#}
+{#                                <div id="modalValidation" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalValidationLabel" aria-hidden="true">#}
+{#                                    <div class="modal-dialog">#}
+{#                                        <div class="modal-content">#}
+{#                                            <div class="modal-header bg-warning">#}
+{#                                                <h5 class="modal-title text-dark" id="modalValidationLabel">#}
+{#                                                    <span class="uil uil-question-circle"></span>#}
+{#                                                    Validation de l'ordre de mission {{ order_mission.reference }}#}
+{#                                                </h5>#}
+{#                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">#}
+{#                                                    <span aria-hidden="true">&times;</span>#}
+{#                                                </button>#}
+{#                                            </div>#}
+{#                                            <div class="modal-body font-size-14">#}
+{#                                                Voulez-vous approuver cet ordre de mission ?#}
+{#                                            </div>#}
+{#                                            <div class="modal-footer">#}
+{#                                                <button type="button" class="btn btn-danger font-weight-medium" data-dismiss="modal">Annuler</button>#}
+{#                                                <!-- Formulaire de soumission -->#}
+{#                                                <form method="post" action="{{ path('app_order_mission_process', {'id': order_mission.id}) }}">#}
+{#                                                    <input type="hidden" name="_token" value="{{ csrf_token('process' ~ order_mission.id) }}">#}
+{#                                                    <input type="hidden" name="action" value="approve">#}
+{#                                                    <button type="submit" class="btn btn-success font-weight-medium">#}
+{#                                                        Confirmer#}
+{#                                                    </button>#}
+{#                                                </form>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                            {% endif %}#}
 
 
                             <!-- Formulaire pour annuler -->
@@ -217,52 +217,58 @@
 {#                            {% endif %}#}
 
 
-                            {% if is_granted('ROLE_MANAGER1') and order_mission.status == 'validée' %}
-                                <!-- Bouton d'annulation qui déclenche le modal -->
-                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalAnnulation">
-                                    <i class="fa fa-times"></i> Annuler
-                                </button>
+{#                            {% if is_granted('ROLE_MANAGER1') and order_mission.status == 'validée' %}#}
+{#                                <!-- Bouton d'annulation qui déclenche le modal -->#}
+{#                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalAnnulation">#}
+{#                                    <i class="fa fa-times"></i> Annuler#}
+{#                                </button>#}
 
-                                <!-- Modal de confirmation d'annulation -->
-                                <div id="modalAnnulation" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalAnnulationLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header bg-danger">
-                                                <h5 class="modal-title text-light" id="modalAnnulationLabel">
-                                                    <span class="uil uil-exclamation-triangle"></span>
-                                                    Annulation de l'ordre de mission {{ order_mission.reference }}
-                                                </h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body font-size-14">
-                                                Voulez-vous vraiment annuler cet ordre de mission ?
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary font-weight-medium" data-dismiss="modal">Annuler</button>
-                                                <!-- Formulaire de soumission -->
-                                                <form method="post" action="{{ path('app_order_mission_process', {'id': order_mission.id}) }}">
-                                                    <input type="hidden" name="_token" value="{{ csrf_token('process' ~ order_mission.id) }}">
-                                                    <input type="hidden" name="action" value="cancel">
-                                                    <button type="submit" class="btn btn-danger font-weight-medium">
-                                                        Confirmer
-                                                    </button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            {% endif %}
+{#                                <!-- Modal de confirmation d'annulation -->#}
+{#                                <div id="modalAnnulation" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalAnnulationLabel" aria-hidden="true">#}
+{#                                    <div class="modal-dialog">#}
+{#                                        <div class="modal-content">#}
+{#                                            <div class="modal-header bg-danger">#}
+{#                                                <h5 class="modal-title text-light" id="modalAnnulationLabel">#}
+{#                                                    <span class="uil uil-exclamation-triangle"></span>#}
+{#                                                    Annulation de l'ordre de mission {{ order_mission.reference }}#}
+{#                                                </h5>#}
+{#                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">#}
+{#                                                    <span aria-hidden="true">&times;</span>#}
+{#                                                </button>#}
+{#                                            </div>#}
+{#                                            <div class="modal-body font-size-14">#}
+{#                                                Voulez-vous vraiment annuler cet ordre de mission ?#}
+{#                                            </div>#}
+{#                                            <div class="modal-footer">#}
+{#                                                <button type="button" class="btn btn-secondary font-weight-medium" data-dismiss="modal">Annuler</button>#}
+{#                                                <!-- Formulaire de soumission -->#}
+{#                                                <form method="post" action="{{ path('app_order_mission_process', {'id': order_mission.id}) }}">#}
+{#                                                    <input type="hidden" name="_token" value="{{ csrf_token('process' ~ order_mission.id) }}">#}
+{#                                                    <input type="hidden" name="action" value="cancel">#}
+{#                                                    <button type="submit" class="btn btn-danger font-weight-medium">#}
+{#                                                        Confirmer#}
+{#                                                    </button>#}
+{#                                                </form>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                            {% endif %}#}
 
 
-                            {% if is_granted('ROLE_MANAGER1') and order_mission.status == 'validée' %}
+{#                            {% if is_granted('ROLE_MANAGER1') and order_mission.status == 'validée' %}#}
+{#                                <a class="btn btn-warning float-right ml-2" href="{{ path('app_order_mission_edit', {'id': order_mission.id}) }}">#}
+{#                                    <i class="fa fa-pencil-alt"></i> Modifier#}
+{#                                </a>#}
+{#                            {% endif %}#}
+
+                            {% if is_granted('ROLE_RESPONSABLE') and order_mission.status == 'brouillon' %}
                                 <a class="btn btn-warning float-right ml-2" href="{{ path('app_order_mission_edit', {'id': order_mission.id}) }}">
                                     <i class="fa fa-pencil-alt"></i> Modifier
                                 </a>
                             {% endif %}
 
-                            {% if is_granted('ROLE_RESPONSABLE') and order_mission.status == 'validée' %}
+                            {% if is_granted('ROLE_IMPRESSION') and order_mission.status == 'brouillon' %}
                                 <a class="btn btn-warning float-right ml-2" href="{{ path('app_order_mission_edit', {'id': order_mission.id}) }}">
                                     <i class="fa fa-pencil-alt"></i> Modifier
                                 </a>
@@ -275,7 +281,13 @@
                                 </button>
                             {% endif %}
 
-                            {% if is_granted('ROLE_MANAGER1') and order_mission.status == 'approuvée' %}
+                            {% if is_granted('ROLE_IMPRESSION') and order_mission.status == 'brouillon' %}
+                                <a href="{{ path("app_order_mission_convert", {'id': order_mission.id}) }}" class="btn btn-primary float-right ml-2">
+                                    <i class="fa-solid fa-repeat"></i> Convertir
+                                </a>
+                            {% endif %}
+
+                            {% if is_granted('ROLE_RESPONSABLE') and order_mission.status == 'brouillon' %}
                                 <a href="{{ path("app_order_mission_convert", {'id': order_mission.id}) }}" class="btn btn-primary float-right ml-2">
                                     <i class="fa-solid fa-repeat"></i> Convertir
                                 </a>
@@ -287,16 +299,12 @@
                                 </a>
                             {% endif %}
 
-
-{#                            {% if is_granted('ROLE_MANAGER1') and order_mission.status == 'annulée' %}#}
-{#                                <form method="post" action="{{ path('app_order_mission_delete', {'id': order_mission.id}) }}">#}
-{#                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ order_mission.id) }}">#}
-{#                                    <button type="submit" class="btn btn-danger">#}
-{#                                        <i class="fa fa-trash"></i> Supprimer#}
-{#                                    </button>#}
+{#                            {% if (is_granted('ROLE_IMPRESSION') or is_granted('ROLE_MANAGER') or is_granted('ROLE_RESPONSABLE')) and order_mission.status == 'convertit' %}#}
+{#                                <form method="post" action="{{ path('app_order_mission_envoyer', {id: order_mission.id}) }}">#}
+{#                                    <input type="hidden" name="_token" value="{{ csrf_token('envoyer' ~ order_mission.id) }}">#}
+{#                                    <button class="btn btn-success float-right ml-2"> <i class="fa fa-paper-plane"></i> Envoyer</button>#}
 {#                                </form>#}
 {#                            {% endif %}#}
-
 
                             <a href="{{ path('app_welcome') }}" class="btn btn-info float-right">
                                 <i class="oi oi-home"></i> Retour

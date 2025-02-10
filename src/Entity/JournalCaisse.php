@@ -68,6 +68,15 @@ class JournalCaisse
     #[ORM\ManyToOne(inversedBy: 'JournalCaisse')]
     private ?BonMission $bonMission = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $libell�e = null;
+
+    #[ORM\ManyToOne(inversedBy: 'journalCaisses')]
+    private ?Detail $detail = null;
+
+    #[ORM\ManyToOne(inversedBy: 'journalCaisses')]
+    private ?BackCash $backClash = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -280,6 +289,42 @@ class JournalCaisse
     public function setBonMission(?BonMission $bonMission): static
     {
         $this->bonMission = $bonMission;
+
+        return $this;
+    }
+
+    public function getLibell�e(): ?string
+    {
+        return $this->libell�e;
+    }
+
+    public function setLibell�e(?string $libell�e): static
+    {
+        $this->libell�e = $libell�e;
+
+        return $this;
+    }
+
+    public function getDetail(): ?Detail
+    {
+        return $this->detail;
+    }
+
+    public function setDetail(?Detail $detail): static
+    {
+        $this->detail = $detail;
+
+        return $this;
+    }
+
+    public function getBackClash(): ?BackCash
+    {
+        return $this->backClash;
+    }
+
+    public function setBackClash(?BackCash $backClash): static
+    {
+        $this->backClash = $backClash;
 
         return $this;
     }

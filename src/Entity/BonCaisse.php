@@ -59,6 +59,12 @@ class BonCaisse
     #[ORM\OneToMany(targetEntity: JournalCaisse::class, mappedBy: 'bonCaisse')]
     private Collection $journalCaisses;
 
+    /**
+     * @var Collection<int, BackCash>
+     */
+    #[ORM\OneToMany(targetEntity: BackCash::class, mappedBy: 'bonCaisse')]
+    private Collection $backCashes;
+
 //    #[ORM\ManyToOne(inversedBy: 'bonCaisse')]
 //    private ?JournalCaisse $journalCaisse = null;
 
@@ -218,6 +224,7 @@ class BonCaisse
         // Générer automatiquement un UUID lors de la création d'un bon de caisse
         $this->uuid = Uuid::v4();  // Génération d'un UUID v4
         $this->journalCaisses = new ArrayCollection();
+        $this->backCashes = new ArrayCollection();
     }
 
 //    public function getJournalCaisse(): ?JournalCaisse
@@ -256,6 +263,36 @@ class BonCaisse
             // set the owning side to null (unless already changed)
             if ($journalCaiss->getBonCaisse() === $this) {
                 $journalCaiss->setBonCaisse(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, BackCash>
+     */
+    public function getBackCashes(): Collection
+    {
+        return $this->backCashes;
+    }
+
+    public function addBackCash(BackCash $backCash): static
+    {
+        if (!$this->backCashes->contains($backCash)) {
+            $this->backCashes->add($backCash);
+            $backCash->setBonCaisse($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBackCash(BackCash $backCash): static
+    {
+        if ($this->backCashes->removeElement($backCash)) {
+            // set the owning side to null (unless already changed)
+            if ($backCash->getBonCaisse() === $this) {
+                $backCash->setBonCaisse(null);
             }
         }
 

@@ -92,13 +92,19 @@
                                 {{ form_widget(form.beneficiaire, {'attr': {'class': 'form-control'}}) }}
                             </div>
                         </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                {{ form_label(form.city) }}
+                                {{ form_widget(form.city, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+                        </div>
                     </div>
                 </fieldset>
 
                 {% form_theme form 'bon_mission/_detailBonMission.html.twig' %}
 
                 <fieldset>
-                    <legend>Bon de caisse mission</legend>
+                    <legend>Frais de mission</legend>
                     <table class="table table-sm bordered" id="">
                         <thead>
                         <tr>

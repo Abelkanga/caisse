@@ -51,6 +51,9 @@ class Notification
     #[ORM\ManyToOne(inversedBy: 'notifications')]
     private ?ApproCaisse $approcaisse = null;
 
+    #[ORM\ManyToOne(inversedBy: 'notifications')]
+    private ?BonMission $bonMission = null;
+
 //    #[ORM\ManyToOne(inversedBy: 'notifications')]
 //    private ?OrderMission $OrderMission = null;
 
@@ -217,4 +220,16 @@ class Notification
 //
 //        return $this;
 //    }
+
+public function getBonMission(): ?BonMission
+{
+    return $this->bonMission;
+}
+
+public function setBonMission(?BonMission $bonMission): static
+{
+    $this->bonMission = $bonMission;
+
+    return $this;
+}
 }
