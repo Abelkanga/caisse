@@ -35,6 +35,9 @@ class City
     #[ORM\OneToMany(targetEntity: BonMission::class, mappedBy: 'city')]
     private Collection $bonMission;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $bp = null;
+
     public function __construct()
     {
         $this->detailBonMission = new ArrayCollection();
@@ -133,5 +136,17 @@ class City
     public function __toString(): string
     {
         return $this->name ?? ''; // Remplacez "nom" par la propriété que vous voulez afficher (par exemple, le nom ou une autre valeur textuelle).
+    }
+
+    public function getBp(): ?string
+    {
+        return $this->bp;
+    }
+
+    public function setBp(?string $bp): static
+    {
+        $this->bp = $bp;
+
+        return $this;
     }
 }
