@@ -1,0 +1,112 @@
+<fieldset class="form-container">
+    <legend>Information du retour de fond</legend>
+
+    <div class="row ">
+
+        <div class="col-4">
+            <div class="form-group">
+                <label for="date_etablissement">Date</label>
+                {{ form_widget(form.date, {'attr' : {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="col-4">
+            <div class="form-group">
+                <label for="reference">Référence</label>
+                {{ form_widget(form.reference, {'attr' : {'class': 'form-control js-datepicker'}}) }}
+            </div>
+        </div>
+
+    </div>
+</fieldset>
+
+<fieldset class="form-container">
+    <legend>Détail</legend>
+    <div class="row">
+
+        <div class="col-3">
+            <div class="form-group">
+                <label for="typeDepense">Type dépense<span class="text-danger">*</span></label>
+                {{ form_widget(form.typeDepense, {'attr': {'class': 'form-control select2'}}) }}
+            </div>
+        </div>
+
+        <div class="col-3">
+            <div class="form-group">
+                <label for="referenceDepense">Référence de la dépense<span class="text-danger">*</span></label>
+                {{ form_widget(form.referenceDepense, {'attr' : {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+
+
+        <div class="col-3">
+            <div class="form-group">
+                <label for="montant">Montant sortie</label>
+                {{ form_widget(form.montant, {'attr' : {'class': 'form-control separator text-right'}}) }}
+            </div>
+        </div>
+
+        <div class="col-3">
+            <div class="form-group">
+                <label for="montantRetour">Montant à retourner<span class="text-danger">*</span></label>
+                {{ form_widget(form.montantRetour, {'attr' : {'class': 'form-control separator text-right'}}) }}
+            </div>
+        </div>
+    </div>
+
+</fieldset>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const typeDepense = document.getElementById("type-depense");
+        const referenceDepense = document.getElementById("reference-depense");
+        const montantField = document.getElementById("montant");
+
+        typeDepense.addEventListener("change", function () {
+            const type = this.value;
+
+            fetch(`/get-references?type=${type}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Création d'une liste déroulante dynamique
+                    let select = document.createElement("select");
+                    select.id = "select-reference";
+                    select.classList.add("form-control");
+                    select.innerHTML = '<option value="">Saisir manuellement</option>';
+
+                    data.forEach(item => {
+                        let option = document.createElement("option");
+                        option.value = item.reference;
+                        option.textContent = item.reference;
+                        option.setAttribute("data-montant", item.montant);
+                        select.appendChild(option);
+                    });
+
+                    // Remplacement du champ texte par le select + input
+                    let input = document.createElement("input");
+                    input.type = "text";
+                    input.id = "input-reference";
+                    input.classList.add("form-control");
+                    input.placeholder = "Ou entrez une référence manuellement";
+
+                    referenceDepense.replaceWith(select);
+                    select.insertAdjacentElement("afterend", input);
+
+                    // Gestion de la mise à jour du montant
+                    select.addEventListener("change", function () {
+                        const selectedOption = this.options[this.selectedIndex];
+                        const montant = selectedOption.getAttribute("data-montant") || "";
+                        montantField.value = montant;
+                    });
+
+                    // Remettre l'id pour la récupération des données lors de la soumission
+                    select.name = referenceDepense.name;
+                    input.name = referenceDepense.name;
+                });
+        });
+    });
+</script>
+
+
+

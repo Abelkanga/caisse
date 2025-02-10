@@ -92,6 +92,8 @@ class FdbRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+
+
     public function findFdbCancelByUserRole(User $user): array
     {
         $qb = $this->createQueryBuilder('f')

@@ -41,8 +41,15 @@ class DetailBonMission
     #[ORM\ManyToOne(inversedBy: 'DetailBonMission')]
     private ?Produit $produit = null;
 
-    #[ORM\ManyToOne(inversedBy: 'DetailBonMission')]
+    #[ORM\ManyToOne(targetEntity: BonMission::class, inversedBy: 'DetailBonMission')]
+    #[ORM\JoinColumn(nullable: false, onDelete: "CASCADE")]
     private ?BonMission $bonMission = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $ville = null;
+
+    #[ORM\ManyToOne(inversedBy: 'detailBonMission')]
+    private ?City $city = null;
 
     public function getId(): ?int
     {
@@ -167,6 +174,30 @@ class DetailBonMission
     public function setBonMission(?BonMission $bonMission): static
     {
         $this->bonMission = $bonMission;
+
+        return $this;
+    }
+
+    public function getVille(): ?string
+    {
+        return $this->ville;
+    }
+
+    public function setVille(?string $ville): static
+    {
+        $this->ville = $ville;
+
+        return $this;
+    }
+
+    public function getCity(): ?City
+    {
+        return $this->city;
+    }
+
+    public function setCity(?City $city): static
+    {
+        $this->city = $city;
 
         return $this;
     }

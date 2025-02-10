@@ -128,7 +128,7 @@ class BonCaisseController extends AbstractController
             'operation_type' => 'decaissement',
         ]);
     }
-    #[Route('//bon-caisse/{uuid}/print', name: 'print_bon', methods: ['GET'])]
+    #[Route('/bon-caisse/{uuid}/print', name: 'print_bon', methods: ['GET'])]
     public function print(BonCaisse $bonCaisse, Fdb $fdb): Response
     {
         return $this->render('fdb/print.html.twig', [

@@ -109,6 +109,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: OrderMission::class, mappedBy: 'user')]
     private Collection $orderMissions;
 
+    /**
+     * @var Collection<int, BonMission>
+     */
+    #[ORM\OneToMany(targetEntity: BonMission::class, mappedBy: 'user')]
+    private Collection $bonMissions;
+
+    /**
+     * @var Collection<int, BackCash>
+     */
+    #[ORM\OneToMany(targetEntity: BackCash::class, mappedBy: 'user')]
+    private Collection $backCashes;
+
     public function __construct()
     {
         $this->depenses = new ArrayCollection();
@@ -118,6 +130,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->notifications = new ArrayCollection();
 //        $this->users = new ArrayCollection();
         $this->orderMissions = new ArrayCollection();
+        $this->bonMissions = new ArrayCollection();
+        $this->backCashes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -411,35 +425,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 //        return $pseudo;
 //    }
 
-/**
- * @return Collection<int, ApproCaisse>
- */
-public function getApproCaisses(): Collection
-{
-    return $this->approCaisses;
-}
-
-public function addApproCaiss(ApproCaisse $approCaiss): static
-{
-    if (!$this->approCaisses->contains($approCaiss)) {
-        $this->approCaisses->add($approCaiss);
-        $approCaiss->setUser($this);
+    /**
+     * @return Collection<int, ApproCaisse>
+     */
+    public function getApproCaisses(): Collection
+    {
+        return $this->approCaisses;
     }
 
-    return $this;
-}
-
-public function removeApproCaiss(ApproCaisse $approCaiss): static
-{
-    if ($this->approCaisses->removeElement($approCaiss)) {
-        // set the owning side to null (unless already changed)
-        if ($approCaiss->getUser() === $this) {
-            $approCaiss->setUser(null);
+    public function addApproCaiss(ApproCaisse $approCaiss): static
+    {
+        if (!$this->approCaisses->contains($approCaiss)) {
+            $this->approCaisses->add($approCaiss);
+            $approCaiss->setUser($this);
         }
+
+        return $this;
     }
 
-    return $this;
-}
+    public function removeApproCaiss(ApproCaisse $approCaiss): static
+    {
+        if ($this->approCaisses->removeElement($approCaiss)) {
+            // set the owning side to null (unless already changed)
+            if ($approCaiss->getUser() === $this) {
+                $approCaiss->setUser(null);
+            }
+        }
+
+        return $this;
+    }
 
 
     /**
@@ -473,41 +487,41 @@ public function removeApproCaiss(ApproCaisse $approCaiss): static
     }
 
 
-public function isResponsable(): ?bool
-{
-    return $this->isResponsable;
-}
+    public function isResponsable(): ?bool
+    {
+        return $this->isResponsable;
+    }
 
-public function setResponsable(?bool $isResponsable): static
-{
-    $this->isResponsable = $isResponsable;
+    public function setResponsable(?bool $isResponsable): static
+    {
+        $this->isResponsable = $isResponsable;
 
-    return $this;
-}
+        return $this;
+    }
 
-public function getEmeteur(): ?Emeteur
-{
-    return $this->emeteur;
-}
+    public function getEmeteur(): ?Emeteur
+    {
+        return $this->emeteur;
+    }
 
-public function setEmeteur(?Emeteur $emeteur): static
-{
-    $this->emeteur = $emeteur;
+    public function setEmeteur(?Emeteur $emeteur): static
+    {
+        $this->emeteur = $emeteur;
 
-    return $this;
-}
+        return $this;
+    }
 
-public function getPrenom(): ?string
-{
-    return $this->prenom;
-}
+    public function getPrenom(): ?string
+    {
+        return $this->prenom;
+    }
 
-public function setPrenom(?string $prenom): static
-{
-    $this->prenom = $prenom;
+    public function setPrenom(?string $prenom): static
+    {
+        $this->prenom = $prenom;
 
-    return $this;
-}
+        return $this;
+    }
 
     public function getNomComplet(): string
     {
@@ -538,6 +552,66 @@ public function setPrenom(?string $prenom): static
             // set the owning side to null (unless already changed)
             if ($orderMission->getUser() === $this) {
                 $orderMission->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, BonMission>
+     */
+    public function getBonMissions(): Collection
+    {
+        return $this->bonMissions;
+    }
+
+    public function addBonMission(BonMission $bonMission): static
+    {
+        if (!$this->bonMissions->contains($bonMission)) {
+            $this->bonMissions->add($bonMission);
+            $bonMission->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBonMission(BonMission $bonMission): static
+    {
+        if ($this->bonMissions->removeElement($bonMission)) {
+            // set the owning side to null (unless already changed)
+            if ($bonMission->getUser() === $this) {
+                $bonMission->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, BackCash>
+     */
+    public function getBackCashes(): Collection
+    {
+        return $this->backCashes;
+    }
+
+    public function addBackCash(BackCash $backCash): static
+    {
+        if (!$this->backCashes->contains($backCash)) {
+            $this->backCashes->add($backCash);
+            $backCash->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBackCash(BackCash $backCash): static
+    {
+        if ($this->backCashes->removeElement($backCash)) {
+            // set the owning side to null (unless already changed)
+            if ($backCash->getUser() === $this) {
+                $backCash->setUser(null);
             }
         }
 

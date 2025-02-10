@@ -1,4 +1,4 @@
-{% if is_granted('ROLE_USER') or is_granted('ROLE_RESPONSABLE') or is_granted('ROLE_IMPRESSION')%}
+{% if is_granted('ROLE_USER') or is_granted('ROLE_RESPONSABLE')%}
 	<!-- .menu-header -->
 	<li class="menu-header">Créer une fiche de besoin </li>
 	<!-- /.menu-header -->
@@ -63,11 +63,14 @@
 				<a href="{{ path('app_order_mission_new') }}" class="menu-link">Créer</a>
 			</li>
 			<li class="menu-item {{ app.request.get('_route') == 'app_order_mission_pending' ? 'has-active': '' }}">
-				<a href="{{ path('app_order_mission_index') }}" class="menu-link">Liste</a>
+				<a href="{{ path('app_order_mission_index') }}" class="menu-link">Liste Ordre de mission</a>
 			</li>
 			{#			<li class="menu-item {{ app.request.get('_route') == 'app_order_mission_validated_by_user' ? 'has-active': '' }}">#}
 			{#				<a href="{{ path('app_order_mission_validated_by_user') }}" class="menu-link">Liste validé</a>#}
 			{#			</li>#}
+			<li class="menu-item {{ app.request.get('_route') == 'bon_mission_index' ? 'has-active': '' }}">
+				<a href="{{ path('bon_mission_index') }}" class="menu-link">Liste Bon de mission</a>
+			</li>
 
 		</ul>
 		<!-- /child menu -->
@@ -77,6 +80,60 @@
 {% endif %}
 
 {% if is_granted('ROLE_IMPRESSION') %}
+
+	<!-- .menu-header -->
+	<li class="menu-header">Créer une fiche de besoin </li>
+	<!-- /.menu-header -->
+	<!-- .menu-item -->
+	<!-- .menu-item -->
+
+	<li class="menu-item has-child">
+		<a href="#" class="menu-link">
+			<span class="fa-solid fa-file-alt p-2"></span>
+
+			<span class="menu-text">Fiche de besoin</span>
+		</a>
+		<!-- child menu -->
+		<ul class="menu">
+			<li class="menu-item {{ app.request.get('_route') == 'fdb_new' ? 'has-active': '' }}">
+				<a href="{{ path('fdb_new') }}" class="menu-link">Créer</a>
+			</li>
+			<li class="menu-item {{ app.request.get('_route') == 'fdb_index' ? 'has-active': '' }}">
+				<a href="{{ path('fdb_index') }}" class="menu-link">Liste</a>
+			</li>
+
+		</ul>
+		<!-- /child menu -->
+		<!-- .menu-item -->
+	</li>
+
+	<li class="menu-header">Créer un ordre de mission</li>
+	<li class="menu-item has-child">
+		<a href="#" class="menu-link">
+			<span class="fa-solid fa-wallet p-2"></span>
+
+			<span class="menu-text">Ordre de mission</span>
+		</a>
+		<!-- child menu -->
+		<ul class="menu">
+			<li class="menu-item {{ app.request.get('_route') == 'order_mission_new' ? 'has-active': '' }}">
+				<a href="{{ path('app_order_mission_new') }}" class="menu-link">Créer</a>
+			</li>
+			<li class="menu-item {{ app.request.get('_route') == 'app_order_mission_pending' ? 'has-active': '' }}">
+				<a href="{{ path('app_order_mission_index') }}" class="menu-link">Liste Ordre de mission</a>
+			</li>
+			{#			<li class="menu-item {{ app.request.get('_route') == 'app_order_mission_validated_by_user' ? 'has-active': '' }}">#}
+			{#				<a href="{{ path('app_order_mission_validated_by_user') }}" class="menu-link">Liste validé</a>#}
+			{#			</li>#}
+			<li class="menu-item {{ app.request.get('_route') == 'bon_mission_index' ? 'has-active': '' }}">
+				<a href="{{ path('bon_mission_index') }}" class="menu-link">Liste Bon de mission</a>
+			</li>
+
+		</ul>
+		<!-- /child menu -->
+		<!-- .menu-item -->
+	</li>
+
 	<li class="menu-header">IMPRESSION</li>
 	<li class="menu-item has-child">
 		<a href="#" class="menu-link">
@@ -96,6 +153,8 @@
 		<!-- .menu-item -->
 	</li>
 
+
+
 	<li class="menu-item has-child">
 		<a href="#" class="menu-link">
 			<span class="fa-solid fa-file-alt p-2"></span>
@@ -111,6 +170,7 @@
 		<!-- /child menu -->
 		<!-- .menu-item -->
 	</li>
+
 
 	{#<li class="menu-item has-child">#}
 	{#	<a href="#" class="menu-link">#}
@@ -166,24 +226,24 @@
 			<!-- .menu-item -->
 		</li>
 
-		<li class="menu-item has-child">
-			<a href="#" class="menu-link">
-				<span class="fa-solid fa-wallet p-2"></span>
+{#		<li class="menu-item has-child">#}
+{#			<a href="#" class="menu-link">#}
+{#				<span class="fa-solid fa-wallet p-2"></span>#}
 
-				<span class="menu-text">Ordre de mission</span>
-			</a>
-			<!-- child menu -->
-			<ul class="menu">
-				<li class="menu-item {{ app.request.get('_route') == 'order_mission_index' ? 'has-active': '' }}">
-					<a href="{{ path('app_order_mission_index') }}" class="menu-link">Liste</a>
-				</li>
+{#				<span class="menu-text">Ordre de mission</span>#}
+{#			</a>#}
+{#			<!-- child menu -->#}
+{#			<ul class="menu">#}
+{#				<li class="menu-item {{ app.request.get('_route') == 'order_mission_index' ? 'has-active': '' }}">#}
+{#					<a href="{{ path('app_order_mission_index') }}" class="menu-link">Liste</a>#}
+{#				</li>#}
 {#				<li class="menu-item {{ app.request.get('_route') == 'app_order_mission_validate' ? 'has-active': '' }}">#}
 {#					<a href="{{ path('app_order_mission_index') }}" class="menu-link">Ordre validée</a>#}
 {#				</li>#}
-			</ul>
-			<!-- /child menu -->
-			<!-- .menu-item -->
-		</li>
+{#			</ul>#}
+{#			<!-- /child menu -->#}
+{#			<!-- .menu-item -->#}
+{#		</li>#}
 
 		<li class="menu-item has-child">
 			<a href="#" class="menu-link">

@@ -527,13 +527,78 @@ class OrderMissionController extends AbstractController
 
 
 
-    #[Route('/new', name: 'app_order_mission_new', methods: ['GET', 'POST'])]
-    public function new(Request                $request,
-                        EntityManagerInterface $entityManager,
-                        CaisseService          $service,
-                        CaisseRepository       $caisseRepository): Response
-    {
+//    #[Route('/new', name: 'app_order_mission_new', methods: ['GET', 'POST'])]
+//    public function new(Request                $request,
+//                        EntityManagerInterface $entityManager,
+//                        CaisseService          $service,
+//                        CaisseRepository       $caisseRepository): Response
+//    {
+//
+//        /** @var User $user */
+//        $user = $this->getUser();
+//        $beneficiaire = $user->getFullName() . ' ' . $user->getPrenom(); // Concaténation prénom + nom
+//
+//        $refOrder = $service->refOrder();
+//
+//        $orderMission = new OrderMission();
+//        $orderMission->setGerant('OFFSET CONSULTING')
+//            ->setDate(new \DateTime())
+//            ->setOrderTo($beneficiaire)
+//            ->setFonction('638 - Autres charges externes')
+//            ->setService('638400 -  Missions')
+//            ->setReference($refOrder);
+//
+//        // Récupérer la caisse secondaire (ou principale selon votre logique)
+//        $caisseSecondaire = $caisseRepository->findOneBy(['code' => 'C002']);
+//        $orderMission->setCaisse($caisseSecondaire);
+//
+//
+//        $form = $this->createForm(OrderMissionType::class, $orderMission);
+//        $form->handleRequest($request);
+//
+//        if ($form->isSubmitted() && $form->isValid()) {
+//            /** @var User $user */
+//            $user = $this->getUser();
+//            // Déterminer le statut en fonction du rôle de l'utilisateur
+//            if ($this->isGranted('ROLE_USER')) {
+//                $orderMission->setStatus(Status::EN_ATTENTE);
+//            } elseif ($this->isGranted('ROLE_RESPONSABLE') || $this->isGranted('ROLE_MANAGER')) {
+//                $orderMission->setStatus(Status::VALIDATED);
+//            }
+//
+//
+//            $orderMission->setUser($user);
+//            foreach ($orderMission->getDetailMission() as $detailMission) {
+//                $detailMission->setOrderMission($orderMission);
+//                $entityManager->persist($detailMission);
+//            }
+//
+//            flash()
+//                ->options([
+//                    'timeout' => 5000,
+//                    'position' => 'bottom-right',
+//                ])
+//                ->success('Ordre de mission créé avec succès.');
+//
+//            $entityManager->persist($orderMission);
+//            $entityManager->flush();
+//
+//            return $this->redirectToRoute('app_order_mission_index');
+//        }
+//
+//        return $this->render('order_mission/new.html.twig', [
+//            'orderMission' => $orderMission,
+//            'form' => $form->createView(),
+//        ]);
+//    }
 
+    #[Route('/new', name: 'app_order_mission_new', methods: ['GET', 'POST'])]
+    public function new(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        CaisseService $service,
+        CaisseRepository $caisseRepository
+    ): Response {
         /** @var User $user */
         $user = $this->getUser();
         $beneficiaire = $user->getFullName() . ' ' . $user->getPrenom(); // Concaténation prénom + nom
@@ -545,13 +610,12 @@ class OrderMissionController extends AbstractController
             ->setDate(new \DateTime())
             ->setOrderTo($beneficiaire)
             ->setFonction('638 - Autres charges externes')
-            ->setService('638400 -  Missions')
+            ->setService('638400 - Missions')
             ->setReference($refOrder);
 
         // Récupérer la caisse secondaire (ou principale selon votre logique)
-        $caisseSecondaire = $caisseRepository->findOneBy(['code' => 'C002']);
+        $caisseSecondaire = $caisseRepository->findOneBy(['code' => 'C001']);
         $orderMission->setCaisse($caisseSecondaire);
-
 
         $form = $this->createForm(OrderMissionType::class, $orderMission);
         $form->handleRequest($request);
@@ -559,13 +623,9 @@ class OrderMissionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var User $user */
             $user = $this->getUser();
-            // Déterminer le statut en fonction du rôle de l'utilisateur
-            if ($this->isGranted('ROLE_USER')) {
-                $orderMission->setStatus(Status::EN_ATTENTE);
-            } elseif ($this->isGranted('ROLE_RESPONSABLE') || $this->isGranted('ROLE_MANAGER')) {
-                $orderMission->setStatus(Status::VALIDATED);
-            }
 
+            // Définit le statut initial à BROUILLON pour tous les rôles
+            $orderMission->setStatus(Status::BROUILLON);
 
             $orderMission->setUser($user);
             foreach ($orderMission->getDetailMission() as $detailMission) {
@@ -591,6 +651,48 @@ class OrderMissionController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    #[Route('/{id}/envoyer', name: 'app_order_mission_envoyer', methods: ['POST'])]
+    public function envoyer(
+        Request $request,
+        OrderMission $orderMission,
+        EntityManagerInterface $entityManager
+    ): Response {
+        // Vérification manuelle de l'utilisateur ou de ses permissions
+        $user = $this->getUser();
+
+        // Exemple : vérifier si l'utilisateur est lié à la mission ou possède un rôle spécifique
+        if ($user === $orderMission->getUser() || in_array('ROLE_MANAGER', $user->getRoles())) {
+            // Changer le statut à VALIDÉ
+            $orderMission->setStatus(Status::VALIDATED);
+
+            // Validation du CSRF Token
+            if (!$this->isCsrfTokenValid('envoyer' . $orderMission->getId(), $request->request->get('_token'))) {
+                throw $this->createAccessDeniedException('Invalid CSRF token.');
+            }
+
+            $entityManager->flush();
+
+            flash()
+                ->options([
+                    'timeout' => 5000,
+                    'position' => 'bottom-right',
+                ])
+                ->success('Ordre de mission envoyé avec succès.');
+        } else {
+            // L'utilisateur n'a pas les droits
+            flash()
+                ->options([
+                    'timeout' => 5000,
+                    'position' => 'bottom-right',
+                ])
+                ->error('Vous n’avez pas les droits pour envoyer cet ordre de mission.');
+        }
+
+        return $this->redirectToRoute('app_order_mission_index', ['id' => $orderMission->getId()]);
+    }
+
+
 
     #[Route('/{id}', name: 'app_order_mission_show', methods: ['GET'])]
     public function show(OrderMission $orderMission, EntityManagerInterface $entityManager, Request $request,): Response
@@ -644,44 +746,44 @@ class OrderMissionController extends AbstractController
 //        return $this->redirectToRoute('app_order_mission_show', ['id' => $orderMission->getId()]);
 //    }
 
-    #[Route('/{id}/process', name: 'app_order_mission_process', methods: ['POST'])]
-    #[IsGranted('ROLE_MANAGER1')]
-    public function process(
-        OrderMission $orderMission,
-        Request $request,
-        EntityManagerInterface $entityManager
-    ): Response {
-        // Récupérer l'action (approve ou cancel) depuis la requête
-        $action = $request->request->get('action');
-
-        if ($this->isGranted('ROLE_MANAGER1')) {
-            if ($action === 'approve') {
-                $orderMission->setStatus(Status::APPROUVED);
-
-                flash()
-                    ->options([
-                        'timeout' => 5000,
-                        'position' => 'bottom-right',
-                    ])
-                    ->success('Ordre de mission approuvé avec succès.');
-            }
-
-            elseif ($action === 'cancel') {
-                $orderMission->setStatus(Status::CANCELLED);
-
-                flash()
-                    ->options([
-                        'timeout' => 5000,
-                        'position' => 'bottom-right',
-                    ])
-                    ->error('Ordre de mission annulé avec succès.');
-            }
-
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('app_order_mission_show', ['id' => $orderMission->getId()]);
-    }
+//    #[Route('/{id}/process', name: 'app_order_mission_process', methods: ['POST'])]
+//    #[IsGranted('ROLE_MANAGER1')]
+//    public function process(
+//        OrderMission $orderMission,
+//        Request $request,
+//        EntityManagerInterface $entityManager
+//    ): Response {
+//        // Récupérer l'action (approve ou cancel) depuis la requête
+//        $action = $request->request->get('action');
+//
+//        if ($this->isGranted('ROLE_MANAGER1')) {
+//            if ($action === 'approve') {
+//                $orderMission->setStatus(Status::APPROUVED);
+//
+//                flash()
+//                    ->options([
+//                        'timeout' => 5000,
+//                        'position' => 'bottom-right',
+//                    ])
+//                    ->success('Ordre de mission approuvé avec succès.');
+//            }
+//
+//            elseif ($action === 'cancel') {
+//                $orderMission->setStatus(Status::CANCELLED);
+//
+//                flash()
+//                    ->options([
+//                        'timeout' => 5000,
+//                        'position' => 'bottom-right',
+//                    ])
+//                    ->error('Ordre de mission annulé avec succès.');
+//            }
+//
+//            $entityManager->flush();
+//        }
+//
+//        return $this->redirectToRoute('app_order_mission_show', ['id' => $orderMission->getId()]);
+//    }
 
 
     #[Route('/{id}/edit', name: 'app_order_mission_edit', methods: ['GET', 'POST'])]
@@ -727,6 +829,7 @@ class OrderMissionController extends AbstractController
         EntityManagerInterface  $entityManager,
         JourneeRepository       $journeeRepository,
         JournalCaisseRepository $jcRepository,
+        CaisseRepository $caisseRepository,
         CaisseService           $service
     ): Response
     {
@@ -734,12 +837,12 @@ class OrderMissionController extends AbstractController
         // Récupération de la caisse liée au manager
         /** @var User $user */
         $user = $this->getUser();
-        $caisse = $user->getCaisse();
+//        $caisse = $user->getCaisse();
 
-        if (!$caisse) {
-            $this->addFlash('error', 'Vous n\'êtes pas associé à une caisse.');
-            return $this->redirectToRoute('app_order_mission_show', ['id' => $orderMission->getId()]);
-        }
+//        if (!$caisse) {
+//            $this->addFlash('error', 'Vous n\'êtes pas associé à une caisse.');
+//            return $this->redirectToRoute('app_order_mission_show', ['id' => $orderMission->getId()]);
+//        }
 
         $num_bonMission = $service->refBonMission();
 
@@ -750,9 +853,12 @@ class OrderMissionController extends AbstractController
             ->setBeneficiaire($orderMission->getOrderTo())
             ->setOrderMission($orderMission)
             ->setMontant($orderMission->getGetTo()) //champ montant sert de variable pour stocker entité
-            ->setOrderMission($orderMission->setStatus(Status::APPROUVED))
-            ->setCaisse($caisse);
+            ->setOrderMission($orderMission->setStatus(Status::APPROUVED));
+//            ->setCaisse($caisse);
 
+        // Récupérer la caisse secondaire (ou principale selon votre logique)
+        $caisseSecondaire = $caisseRepository->findOneBy(['code' => 'C001']);
+        $bonMission->setCaisse($caisseSecondaire);
 
         // Création du formulaire avant la condition
         $form = $this->createForm(BonMissionType::class, $bonMission, [
@@ -762,11 +868,15 @@ class OrderMissionController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var User $user */
+            $user = $this->getUser();
 
             foreach ($bonMission->getDetailBonMission() as $detail) {
                 $detail->setBonMission($bonMission);
                 $entityManager->persist($detail);
             }
+
+            $bonMission->setUser($user);
 
             $orderMission->setStatus(Status::CONVERT);
             $entityManager->persist($bonMission);
@@ -781,7 +891,7 @@ class OrderMissionController extends AbstractController
                 ])
                 ->success('Bon de mission créé avec succès !');
 
-            return $this->redirectToRoute('app_order_mission_show', ['id' => $orderMission->getId()]);
+            return $this->redirectToRoute('bon_mission_show', ['id' => $bonMission->getId()]);
         }
 
         return $this->render('bon_mission/new.html.twig', [

@@ -109,6 +109,12 @@ class Caisse
     #[ORM\OneToMany(targetEntity: BonMission::class, mappedBy: 'Caisse')]
     private Collection $bonMissions;
 
+    /**
+     * @var Collection<int, BackCash>
+     */
+    #[ORM\OneToMany(targetEntity: BackCash::class, mappedBy: 'caisse')]
+    private Collection $backCashes;
+
 
     public function __construct()
     {
@@ -124,6 +130,7 @@ class Caisse
         $this->approCaissesReceptrices = new ArrayCollection();
         $this->orderMissions = new ArrayCollection();
         $this->bonMissions = new ArrayCollection();
+        $this->backCashes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -583,6 +590,36 @@ class Caisse
             // set the owning side to null (unless already changed)
             if ($bonMission->getCaisse() === $this) {
                 $bonMission->setCaisse(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, BackCash>
+     */
+    public function getBackCashes(): Collection
+    {
+        return $this->backCashes;
+    }
+
+    public function addBackCash(BackCash $backCash): static
+    {
+        if (!$this->backCashes->contains($backCash)) {
+            $this->backCashes->add($backCash);
+            $backCash->setCaisse($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBackCash(BackCash $backCash): static
+    {
+        if ($this->backCashes->removeElement($backCash)) {
+            // set the owning side to null (unless already changed)
+            if ($backCash->getCaisse() === $this) {
+                $backCash->setCaisse(null);
             }
         }
 

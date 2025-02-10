@@ -3,8 +3,10 @@
 namespace App\Form;
 
 use App\Entity\BonMission;
+use App\Entity\City;
 use App\Entity\Expense;
 use App\Entity\TypeExpense;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -43,6 +45,7 @@ class BonMissionType extends AbstractType
                 'entry_options' => ['label' => false],
                 'allow_add' => true,
                 'allow_delete' => true,
+                'by_reference' => false, // Important pour la gestion correcte des relations
             ])
 
 //            ->add('montant', TextType::class, [
@@ -50,6 +53,15 @@ class BonMissionType extends AbstractType
 //                'required' => true,
 //                'attr' => ['class' => 'form-control'],
 //            ])
+
+            ->add('city', EntityType::class, [
+                'class' => City::class,
+                'placeholder' => 'Sélectionnez une ville',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('te')
+                        ->orderBy('te.name', 'ASC'); // Tri par ordre croissant
+                },
+            ])
         ;
 
 

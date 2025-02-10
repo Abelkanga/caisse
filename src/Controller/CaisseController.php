@@ -144,6 +144,7 @@ class CaisseController extends AbstractController
                 'date' => date_format($journal->getDate(), 'd/m/Y'),
                 'num_piece' => $journal->getNumPiece(),
                 'libelle' => $journal->getFdb()?->getExpense()->getName() ?? $journal->getIntitule(),
+                'intitule' => $journal->getFdb()?->getDetails()->first()?->getDesignationproduit(),
                 'debit' => $journal->getEntree() ?? 0,
                 'credit' => $journal->getSortie() ?? 0,
                 'solde' => $journal->getSolde() ?? 0,
