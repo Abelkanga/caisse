@@ -6,6 +6,7 @@ use App\Entity\BonMission;
 use App\Entity\City;
 use App\Entity\Expense;
 use App\Entity\TypeExpense;
+use App\Entity\Ville;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -54,8 +55,8 @@ class BonMissionType extends AbstractType
 //                'attr' => ['class' => 'form-control'],
 //            ])
 
-            ->add('city', EntityType::class, [
-                'class' => City::class,
+            ->add('ville', EntityType::class, [
+                'class' => Ville::class,
                 'placeholder' => 'Sélectionnez une ville',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('te')

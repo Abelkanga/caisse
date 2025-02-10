@@ -61,8 +61,6 @@ class BonMission
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
     private ?string $total = null;
 
-    #[ORM\ManyToOne(inversedBy: 'bonMission')]
-    private ?City $city = null;
 
     /**
      * @var Collection<int, Notification>
@@ -81,6 +79,9 @@ class BonMission
      */
     #[ORM\OneToMany(targetEntity: BackCash::class, mappedBy: 'bonMission')]
     private Collection $backCashes;
+
+    #[ORM\ManyToOne(inversedBy: 'bonMission')]
+    private ?Ville $ville = null;
 
 
     public function __construct()
@@ -288,18 +289,6 @@ class BonMission
         return $this;
     }
 
-    public function getCity(): ?City
-    {
-        return $this->city;
-    }
-
-    public function setCity(?City $city): static
-    {
-        $this->city = $city;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Notification>
      */
@@ -380,6 +369,18 @@ class BonMission
                 $backCash->setBonMission(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getVille(): ?Ville
+    {
+        return $this->ville;
+    }
+
+    public function setVille(?Ville $ville): static
+    {
+        $this->ville = $ville;
 
         return $this;
     }

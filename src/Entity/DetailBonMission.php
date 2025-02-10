@@ -48,9 +48,6 @@ class DetailBonMission
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $ville = null;
 
-    #[ORM\ManyToOne(inversedBy: 'detailBonMission')]
-    private ?City $city = null;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -190,15 +187,4 @@ class DetailBonMission
         return $this;
     }
 
-    public function getCity(): ?City
-    {
-        return $this->city;
-    }
-
-    public function setCity(?City $city): static
-    {
-        $this->city = $city;
-
-        return $this;
-    }
 }
