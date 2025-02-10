@@ -185,9 +185,6 @@
       <path value="$PROJECT_DIR$/vendor/twig/intl-extra" />
       <path value="$PROJECT_DIR$/vendor/kwn/number-to-words" />
       <path value="$PROJECT_DIR$/vendor/twig/string-extra" />
-      <path value="$PROJECT_DIR$/vendor/lcobucci/jwt" />
-      <path value="$PROJECT_DIR$/vendor/symfony/mercure-bundle" />
-      <path value="$PROJECT_DIR$/vendor/symfony/mercure" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.2" />
