@@ -69,7 +69,7 @@ class JournalCaisse
     private ?BonMission $bonMission = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $libell�e = null;
+    private ?string $libelle = null;
 
     #[ORM\ManyToOne(inversedBy: 'journalCaisses')]
     private ?Detail $detail = null;
@@ -293,14 +293,14 @@ class JournalCaisse
         return $this;
     }
 
-    public function getLibell�e(): ?string
+    public function getLibelle(): ?string
     {
-        return $this->libell�e;
+        return $this->libelle;
     }
 
-    public function setLibell�e(?string $libell�e): static
+    public function setLibelle(?string $libelle): static
     {
-        $this->libell�e = $libell�e;
+        $this->libelle = $libelle;
 
         return $this;
     }
