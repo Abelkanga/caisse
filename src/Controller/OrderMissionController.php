@@ -794,6 +794,11 @@ class OrderMissionController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            foreach ($orderMission->getDetailMission() as $detailMission) {
+                $detailMission->setOrderMission($orderMission); // Associe chaque détail à l'ordre
+                $entityManager->persist($detailMission);
+            }
+
             $entityManager->flush();
 
             flash()
@@ -820,6 +825,13 @@ class OrderMissionController extends AbstractController
         ]);
     }
 
+    #[Route('/{id}/printA', name: 'app_order_mission_printA', methods: ['GET'])]
+    public function printA(OrderMission $orderMission) : Response {
+
+        return $this->render('order_mission/printA.html.twig', [
+            'order' => $orderMission
+        ]);
+    }
 
 
     #[Route('/{id}/convert', name: 'app_order_mission_convert', methods: ['GET', 'POST'])]

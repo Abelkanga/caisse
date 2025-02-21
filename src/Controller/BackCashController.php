@@ -139,9 +139,13 @@ class BackCashController extends AbstractController
             $backCash->setCaisse($caisse);
             $backCash->setUser($user);
             $backCash->setReference($reference);
+//            $backCash->setBonCaisse($bonCaisse);
+//            $backCash->setBonMission($bonMission);
             $backCash->setDate(new \DateTime());
             $backCash->setStatus('Validée');
 
+//            $entityManager->persist($bonCaisse);
+//            $entityManager->persist($bonMission);
             $entityManager->persist($backCash);
 
             $caisseCode = $caisse->getCode();
@@ -149,6 +153,31 @@ class BackCashController extends AbstractController
             $num_journalCaisse = $service->refJournalCaisse($caisseCode);
 
             $lastSolde = $jcRepository->getLastSolde($caisse->getId());
+
+
+            $intitule = 'Retour de fond - ';
+
+            if ($typeDepense === 'bon_mission') {
+                $bonMission = $entityManager->getRepository(BonMission::class)->findOneBy(['reference' => $reference]);
+                if (!$bonMission) {
+                    flash()->options(['timeout' => 5000, 'position' => 'bottom-right'])->error('Bon de mission introuvable.');
+                    return $this->redirectToRoute('back_cash_new');
+                }
+                $montantSortie = $bonMission->getTotal();
+                $intitule .= 'Bon de mission (Réf: ' . $bonMission->getReference() . ')';
+            } elseif ($typeDepense === 'bon_caisse') {
+                $bonCaisse = $entityManager->getRepository(BonCaisse::class)->findOneBy(['reference' => $reference]);
+                if (!$bonCaisse) {
+                    flash()->options(['timeout' => 5000, 'position' => 'bottom-right'])->error('Bon de caisse introuvable.');
+                    return $this->redirectToRoute('back_cash_new');
+                }
+                $montantSortie = $bonCaisse->getMontant();
+                $intitule .= 'Bon de caisse (Réf: ' . $bonCaisse->getReference() . ')';
+            } else {
+                flash()->options(['timeout' => 5000, 'position' => 'bottom-right'])->error('Type de dépense invalide.');
+                return $this->redirectToRoute('back_cash_new');
+            }
+
 //            // Ajouter une entrée dans le journal de caisse
             $journal = (new JournalCaisse())
                 ->setNumPiece($num_journalCaisse)
@@ -156,10 +185,11 @@ class BackCashController extends AbstractController
                 ->setCaisse($caisse)
                 ->setBackClash($backCash)
                 ->setEntree($montantRetour)
-                ->setIntitule('Retour de fond')
+//                ->setIntitule('Retour de fond')
+                ->setIntitule($intitule) // Personnalisation ici
                 ->setSolde($lastSolde + $montantRetour)
                 ->setDate(new \DateTime())
-                ;
+            ;
 
             $entityManager->persist($journal);
 

@@ -58,13 +58,11 @@ class FdbRepository extends ServiceEntityRepository
         if (in_array('ROLE_MANAGER', $roles)) {
             $qb->andWhere('f.user = :user')
                 ->setParameter('user', $user);
-//        } elseif (in_array('ROLE_MANAGER1', $roles) || in_array('ROLE_IMPRESSION', $roles)) {
-//            // Exclure les brouillons pour ROLE_RESPONSABLE et ROLE_MANAGER1
-//            $qb->andWhere('f.status != :status')
-//                ->setParameter('status', Status::BROUILLON);
-//        } elseif (in_array('ROLE_USER', $roles) || in_array('ROLE_RESPONSABLE', $roles)
-////            || in_array('ROLE_IMPRESSION', $roles)
-//        ) {
+        } elseif (in_array('ROLE_MANAGER1', $roles)) {
+            // Exclure les brouillons pour ROLE_RESPONSABLE et ROLE_MANAGER1
+            $qb->andWhere('f.status != :status')
+                ->setParameter('status', Status::BROUILLON);
+        } elseif (in_array('ROLE_USER', $roles) || in_array('ROLE_RESPONSABLE', $roles) || in_array('ROLE_IMPRESSION', $roles)) {
             // Filtrer uniquement les fiches créées par l'utilisateur pour ROLE_USER et ROLE_IMPRESSION
             $qb->andWhere('f.user = :user')
                 ->setParameter('user', $user);

@@ -29,6 +29,9 @@ class DetailMission
     #[ORM\JoinColumn(nullable: false, onDelete: "CASCADE")]
     private ?OrderMission $orderMission = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $signature = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -90,6 +93,18 @@ class DetailMission
     public function setOrderMission(?OrderMission $orderMission): static
     {
         $this->orderMission = $orderMission;
+
+        return $this;
+    }
+
+    public function getSignature(): ?string
+    {
+        return $this->signature;
+    }
+
+    public function setSignature(?string $signature): static
+    {
+        $this->signature = $signature;
 
         return $this;
     }

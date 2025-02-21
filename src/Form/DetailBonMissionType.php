@@ -26,18 +26,6 @@ class DetailBonMissionType extends AbstractType
                         ->orderBy('te.libelle', 'ASC'); // Tri par ordre croissant
                 },
             ])
-//            ->add('rubrique', EntityType::class, [
-//                'class' => Produit::class,
-//                'placeholder' => 'Sélectionnez une rubrique',
-//                'query_builder' => function (EntityRepository $er) {
-//                    return $er->createQueryBuilder('te')
-//                        ->orderBy('te.libelle', 'ASC'); // Tri par ordre croissant
-//                },
-//                'choice_label' => function (Produit $produit) {
-//                    return sprintf('%s (%s)', $produit->getLibelle(), $produit->getTypeProduit());
-//                },
-//                'attr' => ['class' => 'form-control'], // Ajoutez des classes CSS si nécessaire
-//            ])
             ->add('quantite')
             ->add('price',TextType::class)
             ->add('montant',TextType::class)

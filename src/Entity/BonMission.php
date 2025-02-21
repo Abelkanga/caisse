@@ -53,8 +53,12 @@ class BonMission
     /**
      * @var Collection<int, DetailBonMission>
      */
+//    #[ORM\OneToMany(targetEntity: DetailBonMission::class, mappedBy: 'bonMission', cascade: ['persist', 'remove'], orphanRemoval: true)]
+//    private Collection $DetailBonMission;
+
     #[ORM\OneToMany(targetEntity: DetailBonMission::class, mappedBy: 'bonMission', cascade: ['persist', 'remove'], orphanRemoval: true)]
-    private Collection $DetailBonMission;
+    private Collection $detailBonMission;
+
 
 //    #[ORM\Column(length: 255, nullable: true)]
 //    private ?string $total = null;
@@ -87,7 +91,7 @@ class BonMission
     public function __construct()
     {
         $this->JournalCaisse = new ArrayCollection();
-        $this->DetailBonMission = new ArrayCollection();
+        $this->detailBonMission = new ArrayCollection();
         $this->notifications = new ArrayCollection();
         $this->backCashes = new ArrayCollection();
     }
@@ -240,13 +244,13 @@ class BonMission
      */
     public function getDetailBonMission(): Collection
     {
-        return $this->DetailBonMission;
+        return $this->detailBonMission;
     }
 
     public function addDetailBonMission(DetailBonMission $detailBonMission): static
     {
-        if (!$this->DetailBonMission->contains($detailBonMission)) {
-            $this->DetailBonMission->add($detailBonMission);
+        if (!$this->detailBonMission->contains($detailBonMission)) {
+            $this->detailBonMission->add($detailBonMission);
             $detailBonMission->setBonMission($this);
         }
 
@@ -255,7 +259,7 @@ class BonMission
 
     public function removeDetailBonMission(DetailBonMission $detailBonMission): static
     {
-        if ($this->DetailBonMission->removeElement($detailBonMission)) {
+        if ($this->detailBonMission->removeElement($detailBonMission)) {
             // set the owning side to null (unless already changed)
             if ($detailBonMission->getBonMission() === $this) {
                 $detailBonMission->setBonMission(null);

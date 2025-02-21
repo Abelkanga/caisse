@@ -68,6 +68,7 @@ class OrderMissionType extends AbstractType
                 'entry_options' => ['label' => false],
                 'allow_add' => true,
                 'allow_delete' => true,
+                'by_reference' => false, // Important pour assurer la mise à jour correcte des objets
             ])
 //            ->add('status')
 //            ->add('beneficiaire')

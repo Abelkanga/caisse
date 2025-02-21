@@ -41,9 +41,12 @@ class DetailBonMission
     #[ORM\ManyToOne(inversedBy: 'DetailBonMission')]
     private ?Produit $produit = null;
 
-    #[ORM\ManyToOne(targetEntity: BonMission::class, inversedBy: 'DetailBonMission')]
+    #[ORM\ManyToOne(targetEntity: BonMission::class, inversedBy: 'detailBonMission')]
     #[ORM\JoinColumn(nullable: false, onDelete: "CASCADE")]
     private ?BonMission $bonMission = null;
+
+
+
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $ville = null;

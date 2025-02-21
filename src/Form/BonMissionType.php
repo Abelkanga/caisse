@@ -25,7 +25,7 @@ class BonMissionType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        // Champ du Bon de Caisse
+        // Champ du Bon de Mission
         $builder
             ->add('date', DateType::class, [
                 'widget' => 'single_text',

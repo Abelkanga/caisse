@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>ORBIS CAISSE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    {{ encore_entry_link_tags('app') }}
+    <link rel="stylesheet" href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="//pro.fontawesome.com/releases/v5.10.0/css/all.css"
+          integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="{{ asset('css/theme.min.css') }}" data-skin="default">
+    <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
+
+    {% block stylesheet %}
+        <style>
+            /* Styles de base */
+            body {
+                font-family: 'Open Sans', sans-serif;
+                font-size: 14px;
+                margin: 0;
+                padding: 0;
+            }
+
+            .wrapper {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            .container {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            .receipt-container {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 20px;
+                box-sizing: border-box;
+            }
+
+            .title-box {
+                text-align: center;
+                font-size: 24px;
+                font-weight: bold;
+                margin-bottom: 20px;
+            }
+
+            fieldset {
+                border: 1px solid #000;
+                padding: 10px;
+                margin-bottom: 20px;
+            }
+
+            legend {
+                font-size: 18px;
+                font-weight: bold;
+                padding: 0 10px;
+            }
+
+            .main-content div {
+                margin-bottom: 10px;
+            }
+
+            .table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: 20px;
+            }
+
+            .table th, .table td {
+                border: 1px solid #000;
+                padding: 8px;
+                text-align: center;
+            }
+
+            .approved-by {
+                margin-top: 20px;
+                text-align: center;
+            }
+
+            .approved-by p {
+                margin: 5px 0;
+            }
+
+            /* Styles spécifiques pour l'impression */
+            @media print {
+                body {
+                    font-size: 12px;
+                }
+
+                .title-box {
+                    font-size: 20px;
+                }
+
+                legend {
+                    font-size: 16px;
+                }
+
+                .table th, .table td {
+                    padding: 6px;
+                }
+
+                .approved-by p {
+                    font-size: 12px;
+                }
+
+                /* Masquer le bouton d'impression */
+                .print-button {
+                    display: none;
+                }
+            }
+
+            /* Définir la taille de la page en A4 */
+            @page {
+                size: A4;
+                margin: 1cm;
+            }
+
+            @page {
+                size: A4;
+                margin: 1cm; /* Vous pouvez ajuster les marges selon vos besoins */
+            }
+
+            @media print {
+                body {
+                    font-size: 12px;
+                    margin: 0;
+                    padding: 0;
+                }
+
+                .receipt-container {
+                    width: 100%;
+                    height: 100%;
+                    margin: 0;
+                    padding: 0;
+                }
+
+                .title-box {
+                    font-size: 20px;
+                    margin-bottom: 15px;
+                }
+
+                fieldset {
+                    border: 1px solid #000;
+                    padding: 10px;
+                    margin-bottom: 15px;
+                }
+
+                legend {
+                    font-size: 16px;
+                    padding: 0 10px;
+                }
+
+                .table th, .table td {
+                    padding: 6px;
+                }
+
+                .approved-by p {
+                    font-size: 12px;
+                }
+
+                /* Masquer le bouton d'impression */
+                .print-button {
+                    display: none;
+                }
+            }
+
+            .receipt-container {
+                padding: 2em; /* Utilisez des unités relatives */
+            }
+
+            .main-content div {
+                margin-bottom: 1em; /* Utilisez des unités relatives */
+            }
+        </style>
+    {% endblock %}
+</head>
+<body>
+<div class="wrapper">
+    <section class="container">
+        {% block body %}{% endblock %}
+    </section>
+</div>
+
+{{ encore_entry_script_tags('app') }}
+
+<!-- Bouton "Imprimer" -->
+<button class="print-button" onclick="window.print()">Imprimer</button>
+
+<script type="text/javascript">
+    // window.addEventListener("load", ev => window.print());
+</script>
+</body>
+</html>
