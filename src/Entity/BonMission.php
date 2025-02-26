@@ -23,8 +23,8 @@ class BonMission
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $montant = null;
 
-    #[ORM\Column(type: 'uuid', nullable: true)]
-    private ?Uuid $uuid = null;
+    #[ORM\Column(type: Types::STRING, nullable: true)]
+    private ?string $uuid = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $reference = null;
@@ -60,8 +60,8 @@ class BonMission
     private Collection $detailBonMission;
 
 
-//    #[ORM\Column(length: 255, nullable: true)]
-//    private ?string $total = null;
+    //    #[ORM\Column(length: 255, nullable: true)]
+    //    private ?string $total = null;
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
     private ?string $total = null;
 
@@ -125,12 +125,12 @@ class BonMission
         return $this;
     }
 
-    public function getUuid(): ?Uuid
+    public function getUuid(): ?string
     {
         return $this->uuid;
     }
 
-    public function setUuid(?Uuid $uuid): static
+    public function setUuid(?string $uuid): static
     {
         $this->uuid = $uuid;
 
@@ -269,17 +269,17 @@ class BonMission
         return $this;
     }
 
-//    public function getTotal(): ?string
-//    {
-//        return $this->total;
-//    }
-//
-//    public function setTotal(?string $total): static
-//    {
-//        $this->total = $total;
-//
-//        return $this;
-//    }
+    //    public function getTotal(): ?string
+    //    {
+    //        return $this->total;
+    //    }
+    //
+    //    public function setTotal(?string $total): static
+    //    {
+    //        $this->total = $total;
+    //
+    //        return $this;
+    //    }
 
     public function getTotal(): ?string
     {
@@ -388,7 +388,4 @@ class BonMission
 
         return $this;
     }
-
-
-
 }

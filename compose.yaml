@@ -19,7 +19,7 @@ services:
       # You should definitely change the password in production
       MYSQL_ROOT_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
     ports:
-      - "3307:3306"
+      - "3306:3306"
     volumes:
       - db:/var/lib/mysql:rw
       # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
