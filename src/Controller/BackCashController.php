@@ -62,7 +62,6 @@ class BackCashController extends AbstractController
         CaisseService $service,
         JournalCaisseRepository $jcRepository,
         JourneeRepository $journeeRepository,
-
     ): Response {
         /** @var User $user */
         $user = $this->getUser();
@@ -89,45 +88,42 @@ class BackCashController extends AbstractController
             if ($typeDepense === 'bon_mission') {
                 $bonMission = $entityManager->getRepository(BonMission::class)->findOneBy(['reference' => $reference]);
                 if (!$bonMission) {
-//                    $this->addFlash('error', 'Bon de mission introuvable.');
-
-                    flash()
-                        ->options(['timeout' => 5000, 'position' => 'bottom-right'])
-                        ->error('Bon de mission introuvable.');
-
+                    flash()->options(['timeout' => 5000, 'position' => 'bottom-right'])->error('Bon de mission introuvable.');
                     return $this->redirectToRoute('back_cash_new');
                 }
                 $montantSortie = $bonMission->getTotal();
             } elseif ($typeDepense === 'bon_caisse') {
                 $bonCaisse = $entityManager->getRepository(BonCaisse::class)->findOneBy(['reference' => $reference]);
                 if (!$bonCaisse) {
-//                    $this->addFlash('error', 'Bon de caisse introuvable.');
-
-                    flash()
-                        ->options(['timeout' => 5000, 'position' => 'bottom-right'])
-                        ->error('Bon de caisse introuvable.');
-
+                    flash()->options(['timeout' => 5000, 'position' => 'bottom-right'])->error('Bon de caisse introuvable.');
                     return $this->redirectToRoute('back_cash_new');
                 }
                 $montantSortie = $bonCaisse->getMontant();
             } else {
-//                $this->addFlash('error', 'Type de dépense invalide.');
-
-                flash()
-                    ->options(['timeout' => 5000, 'position' => 'bottom-right'])
-                    ->error('Type de dépense invalide.');
-
+                flash()->options(['timeout' => 5000, 'position' => 'bottom-right'])->error('Type de dépense invalide.');
                 return $this->redirectToRoute('back_cash_new');
             }
 
             // Vérifier que le montant retourné est valide
-            if ($montantRetour <= 0 || $montantRetour > $montantSortie) {
-//                $this->addFlash('error', 'Le montant retourné est invalide.');
+            if ($montantRetour <= 0) {
+                flash()->options(['timeout' => 5000, 'position' => 'bottom-right'])->error('Le montant retourné doit être supérieur à zéro.');
+                return $this->redirectToRoute('back_cash_new');
+            }
 
-                flash()
-                    ->options(['timeout' => 5000, 'position' => 'bottom-right'])
-                    ->error('Le montant retourné est invalide.');
+            // Récupérer le total des retours déjà effectués pour cette dépense
+            $totalRetourne = $entityManager->getRepository(BackCash::class)
+                ->getTotalRetourne($reference, $typeDepense);
 
+            // Vérifier que le montant retourné ne dépasse pas le montant initial
+            if ($montantRetour > $montantSortie) {
+                flash()->options(['timeout' => 5000, 'position' => 'bottom-right'])->error('Le montant retourné dépasse le montant initial de la dépense.');
+                return $this->redirectToRoute('back_cash_new');
+            }
+
+            // Vérifier que le montant retourné ne dépasse pas le montant restant
+            $montantRestant = $montantSortie - $totalRetourne;
+            if ($montantRetour > $montantRestant) {
+                flash()->options(['timeout' => 5000, 'position' => 'bottom-right'])->error('Le montant retourné dépasse le montant restant pour cette dépense.');
                 return $this->redirectToRoute('back_cash_new');
             }
 
@@ -139,69 +135,39 @@ class BackCashController extends AbstractController
             $backCash->setCaisse($caisse);
             $backCash->setUser($user);
             $backCash->setReference($reference);
-//            $backCash->setBonCaisse($bonCaisse);
-//            $backCash->setBonMission($bonMission);
             $backCash->setDate(new \DateTime());
             $backCash->setStatus('Validée');
 
-//            $entityManager->persist($bonCaisse);
-//            $entityManager->persist($bonMission);
             $entityManager->persist($backCash);
 
             $caisseCode = $caisse->getCode();
-
             $num_journalCaisse = $service->refJournalCaisse($caisseCode);
-
             $lastSolde = $jcRepository->getLastSolde($caisse->getId());
 
-
             $intitule = 'Retour de fond - ';
-
             if ($typeDepense === 'bon_mission') {
-                $bonMission = $entityManager->getRepository(BonMission::class)->findOneBy(['reference' => $reference]);
-                if (!$bonMission) {
-                    flash()->options(['timeout' => 5000, 'position' => 'bottom-right'])->error('Bon de mission introuvable.');
-                    return $this->redirectToRoute('back_cash_new');
-                }
-                $montantSortie = $bonMission->getTotal();
                 $intitule .= 'Bon de mission (Réf: ' . $bonMission->getReference() . ')';
             } elseif ($typeDepense === 'bon_caisse') {
-                $bonCaisse = $entityManager->getRepository(BonCaisse::class)->findOneBy(['reference' => $reference]);
-                if (!$bonCaisse) {
-                    flash()->options(['timeout' => 5000, 'position' => 'bottom-right'])->error('Bon de caisse introuvable.');
-                    return $this->redirectToRoute('back_cash_new');
-                }
-                $montantSortie = $bonCaisse->getMontant();
                 $intitule .= 'Bon de caisse (Réf: ' . $bonCaisse->getReference() . ')';
-            } else {
-                flash()->options(['timeout' => 5000, 'position' => 'bottom-right'])->error('Type de dépense invalide.');
-                return $this->redirectToRoute('back_cash_new');
             }
 
-//            // Ajouter une entrée dans le journal de caisse
+            // Ajouter une entrée dans le journal de caisse
             $journal = (new JournalCaisse())
                 ->setNumPiece($num_journalCaisse)
                 ->setDate(new \DateTime())
                 ->setCaisse($caisse)
                 ->setBackClash($backCash)
                 ->setEntree($montantRetour)
-//                ->setIntitule('Retour de fond')
-                ->setIntitule($intitule) // Personnalisation ici
+                ->setIntitule($intitule)
                 ->setSolde($lastSolde + $montantRetour)
-                ->setDate(new \DateTime())
-            ;
+                ->setDate(new \DateTime());
 
             $entityManager->persist($journal);
 
             // Sauvegarde en base de données
             $entityManager->flush();
 
-//            $this->addFlash('success', 'Retour de fonds enregistré avec succès.');
-
-            flash()
-                ->options(['timeout' => 5000, 'position' => 'bottom-right'])
-                ->success('Retour de fonds enregistré avec succès.');
-
+            flash()->options(['timeout' => 5000, 'position' => 'bottom-right'])->success('Retour de fonds enregistré avec succès.');
             return $this->redirectToRoute('app_welcome');
         }
 

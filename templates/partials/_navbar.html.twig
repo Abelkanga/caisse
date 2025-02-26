@@ -68,8 +68,8 @@
 			{#			<li class="menu-item {{ app.request.get('_route') == 'app_order_mission_validated_by_user' ? 'has-active': '' }}">#}
 			{#				<a href="{{ path('app_order_mission_validated_by_user') }}" class="menu-link">Liste validé</a>#}
 			{#			</li>#}
-			<li class="menu-item {{ app.request.get('_route') == 'bon_mission_index' ? 'has-active': '' }}">
-				<a href="{{ path('bon_mission_index') }}" class="menu-link">Liste Bon de mission</a>
+			<li class="menu-item {{ app.request.get('_route') == 'bon_mission_responsable' ? 'has-active': '' }}">
+				<a href="{{ path('bon_mission_responsable') }}" class="menu-link">Liste Bon de mission</a>
 			</li>
 
 		</ul>
@@ -162,8 +162,8 @@
 		</a>
 		<!-- child menu -->
 		<ul class="menu">
-			<li class="menu-item {{ app.request.get('_route') == 'app_order_mission_index' ? 'has-active': '' }}">
-				<a href="{{ path('app_order_mission_index') }}" class="menu-link">Bon converti</a>
+			<li class="menu-item {{ app.request.get('_route') == 'app_order_mission_converted' ? 'has-active': '' }}">
+				<a href="{{ path('app_order_mission_converted') }}" class="menu-link">Bon converti</a>
 			</li>
 
 		</ul>

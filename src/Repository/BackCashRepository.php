@@ -41,6 +41,18 @@ class BackCashRepository extends ServiceEntityRepository
     //        ;
     //    }
 
+    // src/Repository/BackCashRepository.php
+    public function getTotalRetourne(string $reference, string $typeDepense): float
+    {
+        return $this->createQueryBuilder('b')
+            ->andWhere('b.reference = :reference')
+            ->andWhere('b.typeDepense = :typeDepense')
+            ->setParameter('reference', $reference)
+            ->setParameter('typeDepense', $typeDepense)
+            ->select('SUM(b.montantRetour) as total')
+            ->getQuery()
+            ->getSingleScalarResult() ?? 0;
+    }
 
     public function findLastId()
     {

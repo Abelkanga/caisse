@@ -65,6 +65,11 @@ services:
     App\Twig\AgoExtension:
         tags: [ 'twig.extension' ]
 
+    App\Validator\MontantSortieValideValidator:
+        arguments:
+            $entityManager: '@doctrine.orm.entity_manager'
+        tags:
+            - { name: validator.constraint_validator, alias: montant_sortie_valide_validator }
 
     #    App\Controller\:
 #        resource: '../src/Controller/'

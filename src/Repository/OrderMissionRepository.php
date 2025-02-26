@@ -174,7 +174,24 @@ class OrderMissionRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findByCreatorRole(string $role): array
+    {
+        return $this->createQueryBuilder('om')
+            ->join('om.user', 'u') // 'createdBy' est la relation vers l'utilisateur dans OrderMission
+            ->andWhere('u.roles LIKE :role')
+            ->setParameter('role', '%' . $role . '%')
+            ->getQuery()
+            ->getResult();
+    }
 
+    public function findByConvertedStatus(): array
+    {
+        return $this->createQueryBuilder('om')
+            ->andWhere('om.status = :status') // Filtre par statut "converti"
+            ->setParameter('status', 'convertit') // Remplace 'converti' par le statut souhaité
+            ->getQuery()
+            ->getResult();
+    }
 
     public function findLastId()
     {

@@ -49,7 +49,15 @@ class BonMissionRepository extends ServiceEntityRepository
             ->getSingleScalarResult();
     }
 
-
+    public function findByResponsable(): array
+    {
+        return $this->createQueryBuilder('bm')
+            ->join('bm.user', 'u') // Jointure avec l'utilisateur qui a créé le bon de mission
+            ->andWhere('u.roles LIKE :role') // Filtre par rôle
+            ->setParameter('role', '%ROLE_RESPONSABLE%') // Recherche le rôle ROLE_RESPONSABLE
+            ->getQuery()
+            ->getResult();
+    }
 
     /**
      * Retourne les bons de mission convertis.

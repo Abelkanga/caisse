@@ -11,6 +11,7 @@ use App\Entity\OrderMission;
 use App\Entity\User;
 use App\Form\BonMissionType;
 use App\Form\OrderMissionType;
+use App\Repository\BonMissionRepository;
 use App\Repository\JournalCaisseRepository;
 use App\Repository\JourneeRepository;
 use App\Service\CaisseService;
@@ -30,6 +31,17 @@ class BonMissionController extends AbstractController
     public function index(EntityManagerInterface $entityManager): Response
     {
         $bonMission = $entityManager->getRepository(BonMission::class)->findAll();
+
+        return $this->render('bon_mission/index.html.twig', [
+            'bonMission' => $bonMission,
+        ]);
+    }
+
+    #[Route('/bon-mission/responsable', name: 'bon_mission_responsable', methods: ['GET'])]
+    public function responsable(BonMissionRepository $bonMissionRepository): Response
+    {
+        // Récupérer les bons de mission créés par des responsables
+        $bonMission = $bonMissionRepository->findByResponsable();
 
         return $this->render('bon_mission/index.html.twig', [
             'bonMission' => $bonMission,

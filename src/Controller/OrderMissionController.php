@@ -492,6 +492,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use FontLib\Table\Type\name;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -502,17 +503,51 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class OrderMissionController extends AbstractController
 {
 
+//    #[Route('/', name: 'app_order_mission_index', methods: ['GET'])]
+//    public function index(
+//        EntityManagerInterface $entityManager
+//    ): Response
+//    {
+//        $orderMission = $entityManager->getRepository(OrderMission::class)->findAll();
+//
+//        return $this->render('order_mission/index.html.twig', [
+//            'order_missions' => $orderMission,
+//        ]);
+//
+//    }
+
     #[Route('/', name: 'app_order_mission_index', methods: ['GET'])]
     public function index(
-        EntityManagerInterface $entityManager
+        OrderMissionRepository $orderMissionRepository,
+        Security $security
     ): Response
     {
-        $orderMission = $entityManager->getRepository(OrderMission::class)->findAll();
+        // Récupérer l'utilisateur connecté
+        $user = $security->getUser();
+
+        // Récupérer les ordres de mission en fonction du rôle de l'utilisateur
+        $orderMissions = [];
+        if ($user && in_array('ROLE_IMPRESSION', $user->getRoles())) {
+            $orderMissions = $orderMissionRepository->findByCreatorRole('ROLE_IMPRESSION');
+        } elseif ($user && in_array('ROLE_RESPONSABLE', $user->getRoles())) {
+            $orderMissions = $orderMissionRepository->findByCreatorRole('ROLE_RESPONSABLE');
+        }
 
         return $this->render('order_mission/index.html.twig', [
-            'order_missions' => $orderMission,
+            'order_missions' => $orderMissions,
         ]);
+    }
 
+    // Nouvelle route pour lister les ordres de mission ayant le statut "converti"
+    #[Route('/converted', name: 'app_order_mission_converted', methods: ['GET'])]
+    public function converted(OrderMissionRepository $orderMissionRepository): Response
+    {
+        // Récupérer les ordres de mission ayant le statut "converti"
+        $orderMissions = $orderMissionRepository->findByConvertedStatus();
+
+        return $this->render('order_mission/index.html.twig', [
+            'order_missions' => $orderMissions,
+        ]);
     }
 
     #[Route('/', name: 'app_order_mission_index_active', methods: ['GET'])]
