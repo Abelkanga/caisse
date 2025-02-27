@@ -293,11 +293,21 @@
                                 </a>
                             {% endif %}
 
-                            {% if is_granted('ROLE_IMPRESSION') and order_mission.status == 'convertit' %}
-                                <a target="_blank" href="{{ path('app_order_mission_print', {'id': order_mission.id}) }}" class="btn btn-primary float-right ml-2">
-                                    <i class="fa fa-print"></i> Imprimer Bon de mission
-                                </a>
-                            {% endif %}
+{#                            {% if is_granted('ROLE_IMPRESSION') and order_mission.status == 'convertit' %}#}
+{#                                <a target="_blank" href="{{ path('app_order_mission_print', {'id': order_mission.id}) }}" class="btn btn-primary float-right ml-2">#}
+{#                                    <i class="fa fa-print"></i> Imprimer Bon de mission#}
+{#                                </a>#}
+{#                            {% endif %}#}
+
+
+                            {% for bonMission in order_mission.bonMissions %}
+                                {% if is_granted('ROLE_IMPRESSION') and bonMission.status == 'convertit' %}
+                                    <a target="_blank" href="{{ path('app_order_mission_print', {'id': order_mission.id}) }}" class="btn btn-primary float-right ml-2">
+                                        <i class="fa fa-print"></i> Imprimer Bon de mission
+                                    </a>
+                                {% endif %}
+                            {% endfor %}
+
 
                             {% if is_granted('ROLE_IMPRESSION') and order_mission.status == 'convertit' %}
                                 <a target="_blank" href="{{ path('app_order_mission_printA', {'id': order_mission.id}) }}" class="btn btn-primary float-right ml-2">
