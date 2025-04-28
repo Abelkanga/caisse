@@ -45,7 +45,7 @@ class CaisseController extends AbstractController
 
         $code_caisse = $service->refCaisse();
 
-        $caisse = (new Caisse())->setCode($code_caisse);
+        $caisse = (new Caisse())->setCode($code_caisse)->setResponsable('');
 
         $form = $this->createForm(CaisseType::class, $caisse);
         $form->handleRequest($request);
