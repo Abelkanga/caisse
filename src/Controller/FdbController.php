@@ -2,33 +2,32 @@
 
 namespace App\Controller;
 
-use App\Entity\BonCaisse;
-use App\Entity\Caisse;
-use App\Entity\Expense;
-use App\Entity\Fdb;
-use App\Entity\JournalCaisse;
-use App\Entity\Notification;
-use App\Entity\User;
-use App\Form\BonCaisseType;
-use App\Form\FdbType;
-use App\Repository\BonCaisseRepository;
-use App\Repository\CaisseRepository;
-use App\Repository\FdbRepository;
-use App\Repository\JournalCaisseRepository;
-use App\Repository\JourneeRepository;
-use App\Service\CaisseService;
-use App\Service\NotificationService;
-use App\Utils\Status;
-use Doctrine\ORM\EntityManagerInterface;
 use Pusher\Pusher;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Entity\Fdb;
+use App\Entity\User;
+use App\Form\FdbType;
+use App\Utils\Status;
+use App\Entity\Expense;
+use App\Entity\BonCaisse;
+use App\Form\BonCaisseType;
+use App\Entity\Notification;
+use App\Entity\JournalCaisse;
+use App\Service\CaisseService;
+use App\Service\SocieteService;
+use Symfony\Component\Uid\Uuid;
+use App\Repository\FdbRepository;
+use App\Repository\CaisseRepository;
+use App\Service\NotificationService;
+use App\Repository\JourneeRepository;
+use App\Repository\BonCaisseRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\JournalCaisseRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class FdbController extends AbstractController
 {
@@ -52,100 +51,102 @@ class FdbController extends AbstractController
     }
 
     //#[Route('/fdb/pending', name: 'fdb_pending', methods: ['GET'])]
-//    public function index_pending(FdbRepository $fdbRepository): Response
-//    {
-//        /** @var User $user */
-//        $user = $this->getUser();
-//        $fdb = $fdbRepository->findPendingByUserRole($user);
-//
-//        return $this->render('fdb/index.html.twig', [
-//            'fdb' => $fdb
-//        ]);
-//    }
+    //    public function index_pending(FdbRepository $fdbRepository): Response
+    //    {
+    //        /** @var User $user */
+    //        $user = $this->getUser();
+    //        $fdb = $fdbRepository->findPendingByUserRole($user);
+    //
+    //        return $this->render('fdb/index.html.twig', [
+    //            'fdb' => $fdb
+    //        ]);
+    //    }
 
     //#[Route('/fdb/brouillon', name: 'fdb_brouillon', methods: ['GET'])]
-//    public function index_brouillon(FdbRepository $fdbRepository): Response
-//    {
-//        $fdb = $fdbRepository->findFicheByStatus(Status::BROUILLON);
-//
-//        return $this->render('fdb/index.html.twig', [
-//            'fdb' => $fdb
-//        ]);
-//    }
+    //    public function index_brouillon(FdbRepository $fdbRepository): Response
+    //    {
+    //        $fdb = $fdbRepository->findFicheByStatus(Status::BROUILLON);
+    //
+    //        return $this->render('fdb/index.html.twig', [
+    //            'fdb' => $fdb
+    //        ]);
+    //    }
 
     //#[Route('/fdb/cancel', name: 'fdb_cancel', methods: ['GET'])]
-//    public function index_canceled(FdbRepository $fdbRepository): Response
-//    {
-//        /** @var User $user */
-//        $user = $this->getUser();
-//        $fdb = $fdbRepository->findFdbCancelByUserRole($user);
-//
-//        return $this->render('fdb/index.html.twig', [
-//            'fdb' => $fdb
-//        ]);
-//    }
+    //    public function index_canceled(FdbRepository $fdbRepository): Response
+    //    {
+    //        /** @var User $user */
+    //        $user = $this->getUser();
+    //        $fdb = $fdbRepository->findFdbCancelByUserRole($user);
+    //
+    //        return $this->render('fdb/index.html.twig', [
+    //            'fdb' => $fdb
+    //        ]);
+    //    }
 
     //#[Route('/fdb/approuve', name: 'fdb_approuve', methods: ['GET'])]
-//    public function index_approuve(FdbRepository $fdbRepository): Response
-//    {
-//        /** @var User $user */
-//        $user = $this->getUser();
-//        $fdb = $fdbRepository->findFdbApprouveByUserRole($user);
-//
-//        return $this->render('fdb/index.html.twig', [
-//            'fdb' => $fdb
-//        ]);
-//    }
+    //    public function index_approuve(FdbRepository $fdbRepository): Response
+    //    {
+    //        /** @var User $user */
+    //        $user = $this->getUser();
+    //        $fdb = $fdbRepository->findFdbApprouveByUserRole($user);
+    //
+    //        return $this->render('fdb/index.html.twig', [
+    //            'fdb' => $fdb
+    //        ]);
+    //    }
 
 
     //#[Route('/fdb/approuved', name: 'fdb_approuved', methods: ['GET'])]
-//    public function index_approuved(FdbRepository $fdbRepository): Response
-//    {
-//        /** @var User $user */
-//        $user = $this->getUser();
-//
-//        // Récupérer les fiches de besoin approuvées en fonction du rôle de l'utilisateur et de la caisse
-//        $fdb = $fdbRepository->findFdbApprouvedByUserRoleAndCaisse($user);
-//
-//        return $this->render('fdb/index.html.twig', [
-//            'fdb' => $fdb
-//        ]);
-//    }
+    //    public function index_approuved(FdbRepository $fdbRepository): Response
+    //    {
+    //        /** @var User $user */
+    //        $user = $this->getUser();
+    //
+    //        // Récupérer les fiches de besoin approuvées en fonction du rôle de l'utilisateur et de la caisse
+    //        $fdb = $fdbRepository->findFdbApprouvedByUserRoleAndCaisse($user);
+    //
+    //        return $this->render('fdb/index.html.twig', [
+    //            'fdb' => $fdb
+    //        ]);
+    //    }
 
     //#[Route('/fdb/validate', name: 'fdb_validate', methods: ['GET'])]
-//    public function index_validated(FdbRepository $fdbRepository): Response
-//    {
-//        $fdb = $fdbRepository->findFicheByStatus(Status::VALIDATED);
-//
-//        return $this->render('fdb/index.html.twig', [
-//            'fdb' => $fdb
-//        ]);
-//    }
+    //    public function index_validated(FdbRepository $fdbRepository): Response
+    //    {
+    //        $fdb = $fdbRepository->findFicheByStatus(Status::VALIDATED);
+    //
+    //        return $this->render('fdb/index.html.twig', [
+    //            'fdb' => $fdb
+    //        ]);
+    //    }
 
     //#[Route('/fdb/new', name: 'fdb_new', methods: ['GET', 'POST'])]
-    public function new(Request                $request,
-                        EntityManagerInterface $entityManager,
-                        CaisseRepository       $caisseRepository,
-                        CaisseService          $service,
-                        JourneeRepository      $journeeRepository): Response
-    {
+    public function new(
+        Request                $request,
+        EntityManagerInterface $entityManager,
+        CaisseRepository       $caisseRepository,
+        CaisseService          $service,
+        JourneeRepository      $journeeRepository,
+        SocieteService $societeService
+    ): Response {
         $activeJournee = $journeeRepository->activeJournee();
         $num_fdb = $service->refFdb();
-
+        $company = $societeService->info();
         // Créer une nouvelle fiche de besoin
         $fdb = (new Fdb())
             ->setDate(new \DateTime())
             ->setNumeroFicheBesoin($num_fdb)
-            ->setDestinataire('Konan Gwladys');
+            ->setDestinataire($company->getManager());
 
         // Récupérer la caisse secondaire
         $caisseSecondaire = $caisseRepository->findOneBy(['code' => 'C002']);
 
         // Vérifier que la caisse secondaire existe
-//        if (!$caisseSecondaire) {
-//            flash()->error('Caisse secondaire non trouvée.');
-//            return $this->redirectToRoute('fdb_new');
-//        }
+        //        if (!$caisseSecondaire) {
+        //            flash()->error('Caisse secondaire non trouvée.');
+        //            return $this->redirectToRoute('fdb_new');
+        //        }
 
         // Assigner la caisse secondaire à la fiche de besoin
         $fdb->setCaisse($caisseSecondaire);
@@ -209,7 +210,6 @@ class FdbController extends AbstractController
                     ->success('Fiche de besoin envoyée avec succès ! ');
 
                 return $this->redirectToRoute('fdb_index');
-
             } else {
                 $this->addFlash('warning', 'Cette fiche de besoin ne peut pas être envoyée.');
             }
@@ -218,37 +218,37 @@ class FdbController extends AbstractController
         return $this->redirectToRoute('fdb_show', ['id' => $fdb->getId()]);
     }
 
-    public function sentNotification(): Response
+    public function sentNotification(): void
     {
-        if($this->isGranted('ROLE_RESPONSABLE')) {
+        if ($this->isGranted('ROLE_RESPONSABLE')) {
             $status = 'VALIDATED';
         }
     }
 
 
-//    //#[Route('/fdb/expenses', name: 'f_expenses_by_type', methods: ['POST'])]
-//    public function getExpensesByType(Request $request): JsonResponse
-//    {
-//        $typeExpenseId = $request->request->get('typeExpense');
-//
-//        if ($typeExpenseId) {
-//            $expenses = $this->entityManager
-//                ->getRepository(Expense::class)
-//                ->findBy(['typeExpense' => $typeExpenseId]);
-//
-//            $responseArray = [];
-//            foreach ($expenses as $expense) {
-//                $responseArray[] = [
-//                    'id' => $expense->getId(),
-//                    'name' => $expense->getName(),
-//                ];
-//            }
-//
-//            return new JsonResponse($responseArray);
-//        }
-//
-//        return new JsonResponse([]);
-//    }
+    //    //#[Route('/fdb/expenses', name: 'f_expenses_by_type', methods: ['POST'])]
+    //    public function getExpensesByType(Request $request): JsonResponse
+    //    {
+    //        $typeExpenseId = $request->request->get('typeExpense');
+    //
+    //        if ($typeExpenseId) {
+    //            $expenses = $this->entityManager
+    //                ->getRepository(Expense::class)
+    //                ->findBy(['typeExpense' => $typeExpenseId]);
+    //
+    //            $responseArray = [];
+    //            foreach ($expenses as $expense) {
+    //                $responseArray[] = [
+    //                    'id' => $expense->getId(),
+    //                    'name' => $expense->getName(),
+    //                ];
+    //            }
+    //
+    //            return new JsonResponse($responseArray);
+    //        }
+    //
+    //        return new JsonResponse([]);
+    //    }
 
     //#[Route("/fdb/{id}/show", name: 'fdb_show', methods: ['GET', 'POST'])]
     public function show(
@@ -259,8 +259,7 @@ class FdbController extends AbstractController
         NotificationService    $notificationService,
         Pusher                 $pusher,
         UrlGeneratorInterface  $generatorUrl
-    ): Response
-    {
+    ): Response {
         $total = 0;
         foreach ($fdb->getDetails() as $detail) {
             $montant = $detail->getMontant();
@@ -269,6 +268,7 @@ class FdbController extends AbstractController
             }
         }
 
+        /** @var User $user */
         $user = $this->getUser();
 
         //send responsable notification
@@ -293,11 +293,9 @@ class FdbController extends AbstractController
 
         // Validation bon fiche besoin
         if ($this->isGranted('ROLE_RESPONSABLE') && $fdb->getValidBy() === $user) {
-
         }
         // Confirmation fiche de besoin
         if ($this->isGranted('ROLE_MANAGER1')) {
-
         }
 
         if ($this->isGranted('ROLE_MANAGER')) {
@@ -333,6 +331,7 @@ class FdbController extends AbstractController
 
 
         if ($request->isMethod('POST') && $this->isCsrfTokenValid('validate-caisse-fdb', $request->request->get('_token'))) {
+            /** @var User $user */
             $user = $this->getUser();
 
             if ($request->request->has('confirm_responsable') && ($this->isGranted('ROLE_RESPONSABLE') || $user->getIsTemporary())) {
@@ -348,20 +347,20 @@ class FdbController extends AbstractController
                 );
 
 
-//                $data = [];
-//                $notification = $notificationRepository->findOneBy(['document' => $fdb]);
-//
-//                if ($notification) {
-//                    $data = [
-//                        'id' => $notification->getId(),
-//                        'link' => $notification->getLinkTo(),
-//                        'message' => "Fiche de besoin validée.",
-//                        'reference' => $notification->getDocument()->getReference(),
-//                        'user_id' => $notification->getOwner()->getId()
-//                    ];
-//                    $pusher->trigger('notification', 'notify-me', $data);
-//                }
-//                $notification->setUnread(true);
+                //                $data = [];
+                //                $notification = $notificationRepository->findOneBy(['document' => $fdb]);
+                //
+                //                if ($notification) {
+                //                    $data = [
+                //                        'id' => $notification->getId(),
+                //                        'link' => $notification->getLinkTo(),
+                //                        'message' => "Fiche de besoin validée.",
+                //                        'reference' => $notification->getDocument()->getReference(),
+                //                        'user_id' => $notification->getOwner()->getId()
+                //                    ];
+                //                    $pusher->trigger('notification', 'notify-me', $data);
+                //                }
+                //                $notification->setUnread(true);
 
 
                 $entityManager->flush();
@@ -438,7 +437,6 @@ class FdbController extends AbstractController
 
                 return $this->redirectToRoute('app_welcome');
             }
-
         }
 
         return $this->render('fdb/show.html.twig', [
@@ -446,7 +444,6 @@ class FdbController extends AbstractController
             'total' => $total,
             'operation_type' => 'decaissement', // ajout de cette variable
         ]);
-
     }
 
 
@@ -461,8 +458,7 @@ class FdbController extends AbstractController
         JourneeRepository       $journeeRepository,
         JournalCaisseRepository $jcRepository,
         CaisseService           $service
-    ): Response
-    {
+    ): Response {
         // Récupération de la caisse liée au manager
         /** @var User $user */
         $user = $this->getUser();
@@ -657,7 +653,8 @@ class FdbController extends AbstractController
         if ((in_array('ROLE_USER', $roles) || in_array('ROLE_RESPONSABLE', $roles) || in_array('ROLE_IMPRESSION', $roles))
             && $fdb->getUser() === $user
             && $fdb->getStatus() === Status::CANCELLED
-            && $fdb->getIsActive()) {
+            && $fdb->getIsActive()
+        ) {
 
             // Mettre à jour la propriété isActive à false pour désactiver la fiche
             $fdb->setIsActive(false);
@@ -671,5 +668,4 @@ class FdbController extends AbstractController
 
         return $this->redirectToRoute('fdb_index');
     }
-
 }

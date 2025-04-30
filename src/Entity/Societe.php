@@ -68,6 +68,9 @@ class Societe
     #[ORM\ManyToOne(inversedBy: 'societes')]
     private ?Fonction $fonction = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $manager = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -285,6 +288,18 @@ class Societe
     public function setFonction(?Fonction $fonction): static
     {
         $this->fonction = $fonction;
+
+        return $this;
+    }
+
+    public function getManager(): ?string
+    {
+        return $this->manager;
+    }
+
+    public function setManager(?string $manager): static
+    {
+        $this->manager = $manager;
 
         return $this;
     }

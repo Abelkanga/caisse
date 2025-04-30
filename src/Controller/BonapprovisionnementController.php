@@ -3,63 +3,59 @@
 namespace App\Controller;
 
 use App\Entity\Bonapprovisionnement;
-use App\Entity\BonCaisse;
 use App\Entity\JournalCaisse;
-use App\Entity\Journee;
 use App\Entity\RecuCaisse;
 use App\Entity\User;
 use App\Form\BonapprovisionnementType;
-use App\Form\CaisseType;
 use App\Form\RecuCaisseType;
 use App\Repository\BonapprovisionnementRepository;
 use App\Repository\JournalCaisseRepository;
 use App\Repository\JourneeRepository;
-use App\Repository\RecuCaisseRepository;
 use App\Service\CaisseService;
+use App\Service\SocieteService;
 use App\Utils\Status;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Uid\Uuid;
 
 
 class BonapprovisionnementController extends AbstractController
 {
-//    #[Route('/bonapprovisionnement', name: 'bonapprovisionnement_index', methods:['GET'])]
-//    public function index(BonapprovisionnementRepository $bonapprovisionnementRepository): Response
-//    {
-//        $bonapprovisionnement = $bonapprovisionnementRepository->findAll();
-//
-//
-//        return $this->render('bonapprovisionnement/index.html.twig', [
-//            'bonapprovisionnement' => $bonapprovisionnement,
-//        ]);
-//    }
+    //    #[Route('/bonapprovisionnement', name: 'bonapprovisionnement_index', methods:['GET'])]
+    //    public function index(BonapprovisionnementRepository $bonapprovisionnementRepository): Response
+    //    {
+    //        $bonapprovisionnement = $bonapprovisionnementRepository->findAll();
+    //
+    //
+    //        return $this->render('bonapprovisionnement/index.html.twig', [
+    //            'bonapprovisionnement' => $bonapprovisionnement,
+    //        ]);
+    //    }
 
-//    #[Route('/bonapprovisionnement', name: 'bonapprovisionnement_index', methods:['GET'])]
-//    public function index(BonapprovisionnementRepository $bonapprovisionnementRepository): Response
-//    {
-//        /** @var User $user */
-//        $user = $this->getUser();
-//        $caisse = $user->getCaisse();
-//
-//        if (!$caisse) {
-//            flash()->error('Aucune caisse associée à l\'utilisateur.');
-//            return $this->redirectToRoute('app_welcome');
-//        }
-//
-//        // Récupérer les bons d'approvisionnement pour la caisse de l'utilisateur connecté
-//        $bonapprovisionnement = $bonapprovisionnementRepository->findByCaisse($caisse);
-//
-//        return $this->render('bonapprovisionnement/index.html.twig', [
-//            'bonapprovisionnement' => $bonapprovisionnement,
-//        ]);
-//    }
+    //    #[Route('/bonapprovisionnement', name: 'bonapprovisionnement_index', methods:['GET'])]
+    //    public function index(BonapprovisionnementRepository $bonapprovisionnementRepository): Response
+    //    {
+    //        /** @var User $user */
+    //        $user = $this->getUser();
+    //        $caisse = $user->getCaisse();
+    //
+    //        if (!$caisse) {
+    //            flash()->error('Aucune caisse associée à l\'utilisateur.');
+    //            return $this->redirectToRoute('app_welcome');
+    //        }
+    //
+    //        // Récupérer les bons d'approvisionnement pour la caisse de l'utilisateur connecté
+    //        $bonapprovisionnement = $bonapprovisionnementRepository->findByCaisse($caisse);
+    //
+    //        return $this->render('bonapprovisionnement/index.html.twig', [
+    //            'bonapprovisionnement' => $bonapprovisionnement,
+    //        ]);
+    //    }
 
-    #[Route('/bonapprovisionnement', name: 'bonapprovisionnement_index', methods:['GET'])]
+    #[Route('/bonapprovisionnement', name: 'bonapprovisionnement_index', methods: ['GET'])]
     public function index(BonapprovisionnementRepository $bonapprovisionnementRepository): Response
     {
         /** @var User $user */
@@ -87,7 +83,7 @@ class BonapprovisionnementController extends AbstractController
     }
 
 
-    #[Route('/bonapprovisionnement/pending', name: 'bon_app_pending', methods:['GET'])]
+    #[Route('/bonapprovisionnement/pending', name: 'bon_app_pending', methods: ['GET'])]
     public function index_pending(BonapprovisionnementRepository $bonapprovisionnementRepository): Response
     {
         $bonapprovisionnement = $bonapprovisionnementRepository->findBonPending();
@@ -97,7 +93,7 @@ class BonapprovisionnementController extends AbstractController
         ]);
     }
 
-    #[Route('/bonapprovisionnement/validate', name: 'bonapprovisionnement_validate', methods:['GET'])]
+    #[Route('/bonapprovisionnement/validate', name: 'bonapprovisionnement_validate', methods: ['GET'])]
     public function index_validated(BonapprovisionnementRepository $bonapprovisionnementRepository): Response
     {
         $bonapprovisionnement = $bonapprovisionnementRepository->findBonValidate();
@@ -108,11 +104,13 @@ class BonapprovisionnementController extends AbstractController
     }
 
     #[Route('/bonapprovisionnement/new', name: 'bonapprovisionnement_new', methods: ['GET', 'POST'])]
-    public function new(Request $request,
-                        EntityManagerInterface $entityManager,
-                        CaisseService $service,
-                        JourneeRepository $journeeRepository): Response
-    {
+    public function new(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        CaisseService $service,
+        JourneeRepository $journeeRepository,
+        SocieteService $societeService
+    ): Response {
         $activeJournee = $journeeRepository->activeJournee();
         if (!$activeJournee) {
             flash()
@@ -124,8 +122,10 @@ class BonapprovisionnementController extends AbstractController
             return $this->redirectToRoute('app_comptability_caisse_journee_open');
         }
 
+        $company = $societeService->info();
         $num_bonapprovisionnement = $service->refBonApprovisionnement();
-        $bonapprovisionnement = (new Bonapprovisionnement())->setReference($num_bonapprovisionnement)->setDestinataire('Konan Gwladys');
+        $bonapprovisionnement = (new Bonapprovisionnement())->setReference($num_bonapprovisionnement)
+            ->setDestinataire($company->getManager());
 
         $form = $this->createForm(BonapprovisionnementType::class, $bonapprovisionnement);
         $form->handleRequest($request);
@@ -168,9 +168,9 @@ class BonapprovisionnementController extends AbstractController
     #[Route('/bonapprovisionnement/{id}/show', name: 'bonapprovisionnement_show', methods: ['GET', 'POST'])]
     public function show(Bonapprovisionnement $bonapprovisionnement, Request $request, EntityManagerInterface $entityManager): Response
     {
-        
+
         if ($request->isMethod('POST') && $this->isCsrfTokenValid('validate-caisse-bonapprovisionnement', $request->request->get('_token'))) {
-            if($request->request->has('confirm_manager')) {
+            if ($request->request->has('confirm_manager')) {
                 /** @var User $user */
                 $user = $this->getUser();
                 $caisse = $user->getCaisse();
@@ -194,7 +194,6 @@ class BonapprovisionnementController extends AbstractController
                 $entityManager->flush();
 
                 return $this->redirectToRoute('app_welcome');
-
             }
         }
 
@@ -202,21 +201,17 @@ class BonapprovisionnementController extends AbstractController
             'bonapprovisionnement' => $bonapprovisionnement,
             'operation_type' => 'encaissement', // ajout de cette variable
         ]);
-
     }
 
     #[Route('/bonapprovisionnement/{uuid}/convert', name: 'bonapprovisionnement_convert', methods: ['GET', 'POST'])]
     public function convert(
         Bonapprovisionnement $bonapprovisionnement,
-        BonapprovisionnementRepository $bonapprovisionnementRepository,
-        RecuCaisseRepository $recuCaisseRepository,
         Request $request,
         EntityManagerInterface $entityManager,
         JournalCaisseRepository $jcRepo,
         JourneeRepository $journeeRepository,
         CaisseService $service
-    ): Response
-    {
+    ): Response {
         // Récupération de la caisse liée au manager
         /** @var User $user */
         $user = $this->getUser();
@@ -322,7 +317,7 @@ class BonapprovisionnementController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
-//            flash()->success('Bon d approvisionnement modifié avec succès !');
+            //            flash()->success('Bon d approvisionnement modifié avec succès !');
 
             flash()
                 ->options([
@@ -342,7 +337,7 @@ class BonapprovisionnementController extends AbstractController
     }
 
     #[Route('/bonapprovisionnement/{uuid}/print', name: 'print_bon', methods: ['GET'])]
-    public function print(Bonapprovisionnement $bonapprovisionnement ): Response
+    public function print(Bonapprovisionnement $bonapprovisionnement): Response
     {
         return $this->render('bonapprovisionnement/print.html.twig', [
             'bonapprovisionnement' => $bonapprovisionnement,
@@ -350,7 +345,7 @@ class BonapprovisionnementController extends AbstractController
     }
 
     #[Route('/bonapprovisionnement/{id}/delete', name: 'bonapprovisionnement_delete', methods: ['GET'])]
-    public function delete(EntityManagerInterface $entityManager, Bonapprovisionnement $bonapprovisionnement, ): Response
+    public function delete(EntityManagerInterface $entityManager, Bonapprovisionnement $bonapprovisionnement,): Response
     {
         $entityManager->remove($bonapprovisionnement);
         $entityManager->flush();
@@ -362,8 +357,7 @@ class BonapprovisionnementController extends AbstractController
             ])
             ->success('Bon d approvisionnement supprimé avec succès !');
 
-//        flash()->success('Bon d approvisionnement supprimé avec succès !');
+        //        flash()->success('Bon d approvisionnement supprimé avec succès !');
         return $this->redirectToRoute('bonapprovisionnement_index');
     }
-
 }
