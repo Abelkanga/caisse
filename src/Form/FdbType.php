@@ -2,26 +2,27 @@
 
 namespace App\Form;
 
-use App\Entity\Expense;
 use App\Entity\Fdb;
-use App\Entity\TypeExpense;
 use App\Entity\User;
-use App\Repository\ExpenseRepository;
-use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\EntityRepository;
+use App\Entity\Expense;
+use App\Form\DetailType;
+use App\Entity\TypeExpense;
 use Doctrine\ORM\Query\Parameter;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Bundle\SecurityBundle\Security;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\FormBuilderInterface;
+use App\Repository\UserRepository;
+use Doctrine\ORM\EntityRepository;
+use App\Repository\ExpenseRepository;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Bundle\SecurityBundle\Security;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 
 class FdbType extends AbstractType
@@ -29,9 +30,7 @@ class FdbType extends AbstractType
     public function __construct(
         private readonly Security       $security,
         private readonly UserRepository $userRepository
-    )
-    {
-    }
+    ) {}
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -46,38 +45,25 @@ class FdbType extends AbstractType
 
             ])
             ->add('numero_fiche_besoin', TextType::class, [
-                'required' => true, 'empty_data' => ''
+                'required' => true,
+                'empty_data' => ''
             ])
             ->add('validBy', EntityType::class, [
                 'class' => User::class,
                 'choice_label' => function (User $user) {
                     return $user->getFullName() . ' ' . $user->getPrenom();
-                }, // Ou autre attribut utilisateur
+                },
                 'query_builder' => function (UserRepository $userRepository) {
-                    // Si l'utilisateur est ROLE_IMPRESSION, retourner à la fois ROLE_RESPONSABLE et ROLE_MANAGER1
-                    if ($this->security->isGranted('ROLE_IMPRESSION') || $this->security->isGranted('ROLE_MANAGER') || $this->security->isGranted('ROLE_RESPONSABLE')) {
-                        return $userRepository->createQueryBuilder('u')
-                            ->where('u.roles LIKE :manager1')
-                            ->setParameter('manager1', '%"ROLE_MANAGER1"%');
-                    }
+                    /** @var User $user */
+                    $user = $this->security->getUser();
 
-                    // Sinon, retourner seulement ROLE_RESPONSABLE
                     return $userRepository->createQueryBuilder('u')
-                        ->where('u.roles LIKE :responsable')
-                        ->setParameter('responsable', '%"ROLE_RESPONSABLE"%');
+                        ->where('u.id = :p_user')
+                        ->setParameter('p_user', $user->getId());
                 },
             ])
-//            ->add('destinataire', TextType::class, [
-//                'attr' => [
-//                    'readonly' => false
-//                ],
-//                'required' => true, 'empty_data' => ''
-//            ])
+
             ->add('beneficiaire', TextType::class)
-//            ->add('typeExpense', EntityType::class, [
-//                'class' => TypeExpense::class,
-//                'placeholder' => 'Sélectionnez un type de dépense',
-//            ])
             ->add('typeExpense', EntityType::class, [
                 'class' => TypeExpense::class,
                 'placeholder' => 'Sélectionnez un type de dépense',
@@ -104,24 +90,28 @@ class FdbType extends AbstractType
                         ->createQueryBuilder('e')
                         ->where("e.typeExpense = :type")
                         ->setParameter("type", $typeExpense)
-                        ->orderBy('e.name', 'ASC'); // Tri par ordre croissant
+                        ->orderBy('e.name', 'ASC');
                 },
             ]);
         };
 
-        $builder->addEventListener(FormEvents::PRE_SET_DATA,
+        $builder->addEventListener(
+            FormEvents::PRE_SET_DATA,
             function (FormEvent $event) use ($formUpdate) {
                 /** @var Fdb $data */
                 $data = $event->getData();
                 $formUpdate($event->getForm(), $data->getTypeExpense());
-            });
+            }
+        );
 
-        $builder->get('typeExpense')->addEventListener(FormEvents::POST_SUBMIT,
+        $builder->get('typeExpense')->addEventListener(
+            FormEvents::POST_SUBMIT,
             function (FormEvent $event) use ($formUpdate) {
                 $typeExpense = $event->getForm()->getData();
                 $form = $event->getForm()->getParent();
                 $formUpdate($form, $typeExpense);
-            });
+            }
+        );
 
         $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
             /** @var Fdb $fdb */
