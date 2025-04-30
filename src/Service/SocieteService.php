@@ -9,9 +9,12 @@ class SocieteService
 {
     private SocieteRepository $societeRepository;
 
+    private ?Societe $societe = null;
+
     public function __construct(SocieteRepository $societeRepository)
     {
         $this->societeRepository = $societeRepository;
+        $societe = $this->societeRepository->getFirstResult();
     }
 
     public function __invoke(): Societe
@@ -19,5 +22,15 @@ class SocieteService
         $societe = $this->societeRepository->getFirstResult();
 
         return $societe;
+    }
+
+    public function __toString()
+    {
+        return $this->societe;;
+    }
+
+    public function setSociete(?Societe $societe): void
+    {
+        $this->societe = $societe;
     }
 }
