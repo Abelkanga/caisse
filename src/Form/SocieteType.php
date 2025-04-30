@@ -30,6 +30,7 @@ class SocieteType extends AbstractType
             ->add('Activite', TextType::class)
             ->add('siegeSocial', TextType::class)
             ->add('AdressePostale', TextType::class)
+            ->add('manager', TextType::class)
             ->add('Ville', TextType::class)
             ->add('Pays', TextType::class)
             ->add('Telephone', TextType::class)
