@@ -15,6 +15,7 @@ class SocieteService
     {
         $this->societeRepository = $societeRepository;
         $societe = $this->societeRepository->getFirstResult();
+        $this->societe = $societe;
     }
 
     public function __invoke(): Societe
@@ -27,10 +28,5 @@ class SocieteService
     public function __toString()
     {
         return $this->societe;;
-    }
-
-    public function setSociete(?Societe $societe): void
-    {
-        $this->societe = $societe;
     }
 }
