@@ -27,6 +27,9 @@ class ExpenseType extends AbstractType
                 'choice_label' => function (TypeExpense $typeExpense) {
                     return sprintf('%s  %s', $typeExpense->getCode(), $typeExpense->getName());
                 },
+                'attr' => [
+                    'class' => 'select2 '
+                ]
             ])
         ;
     }
