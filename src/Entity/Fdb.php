@@ -22,11 +22,11 @@ class Fdb
     #[ORM\Column(length: 20)]
     private ?string $numero_fiche_besoin = null;
 
-//    #[ORM\Column(type: Types::DATE_IMMUTABLE)]
-//    private ?\DateTimeImmutable $date = null;
+    //    #[ORM\Column(type: Types::DATE_IMMUTABLE)]
+    //    private ?\DateTimeImmutable $date = null;
 
-//    #[ORM\Column(length: 255)]
-//    private ?string $objet = null;
+    //    #[ORM\Column(length: 255)]
+    //    private ?string $objet = null;
 
     #[ORM\Column(length: 255)]
     private ?string $destinataire = null;
@@ -42,8 +42,8 @@ class Fdb
      * @var Collection<int, Detail>
      */
 
-//    #[ORM\OneToMany(targetEntity: Detail::class, mappedBy: 'fdb')]
-//    private Collection $details;
+    //    #[ORM\OneToMany(targetEntity: Detail::class, mappedBy: 'fdb')]
+    //    private Collection $details;
 
     #[ORM\OneToMany(targetEntity: Detail::class, mappedBy: 'fdb', cascade: ['persist', 'remove'])]
     private Collection $details;
@@ -59,8 +59,8 @@ class Fdb
     #[ORM\Column(length: 255)]
     private ?string $uuid = null;
 
-//    #[ORM\Column]
-//    private ?\DateTimeImmutable $createdAt = null;
+    //    #[ORM\Column]
+    //    private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $updatedAt = null;
@@ -114,13 +114,13 @@ class Fdb
     #[ORM\Column(nullable: true)]
     private ?bool $isConverted = null;
 
-//    #[ORM\Column(nullable: true)]
-//    private ?bool $IsActive = null;
+    //    #[ORM\Column(nullable: true)]
+    //    private ?bool $IsActive = null;
 
 
 
-//    #[ORM\ManyToOne(inversedBy: 'fdbs')]
-//    private ?JournalCaisse $JournalCaisse = null;
+    //    #[ORM\ManyToOne(inversedBy: 'fdbs')]
+    //    private ?JournalCaisse $JournalCaisse = null;
 
     public function __construct()
     {
@@ -128,7 +128,6 @@ class Fdb
         $this->bonCaisses = new ArrayCollection();
         $this->journalCaisses = new ArrayCollection();
         $this->orderMissions = new ArrayCollection();
-
     }
 
     public function getId(): ?int
@@ -148,17 +147,17 @@ class Fdb
         return $this;
     }
 
-//    public function getDate(): ?\DateTimeImmutable
-//    {
-//        return $this->date;
-//    }
-//
-//    public function setDate(\DateTimeImmutable $date): self
-//    {
-//        $this->date = $date;
-//
-//        return $this;
-//    }
+    //    public function getDate(): ?\DateTimeImmutable
+    //    {
+    //        return $this->date;
+    //    }
+    //
+    //    public function setDate(\DateTimeImmutable $date): self
+    //    {
+    //        $this->date = $date;
+    //
+    //        return $this;
+    //    }
 
 
     public function getIsActive(): ?bool
@@ -177,7 +176,7 @@ class Fdb
         return $this->destinataire;
     }
 
-    public function setDestinataire(string $destinataire): static
+    public function setDestinataire(?string $destinataire): static
     {
         $this->destinataire = $destinataire;
 
@@ -275,18 +274,18 @@ class Fdb
         return $this;
     }
 
-//    public function getCreatedAt(): ?\DateTimeImmutable
-//    {
-//        return $this->createdAt;
-//    }
-//
-//    #[ORM\PrePersist]
-//    public function setCreatedAt(): static
-//    {
-//        $this->createdAt = new \DateTimeImmutable();
-//
-//        return $this;
-//    }
+    //    public function getCreatedAt(): ?\DateTimeImmutable
+    //    {
+    //        return $this->createdAt;
+    //    }
+    //
+    //    #[ORM\PrePersist]
+    //    public function setCreatedAt(): static
+    //    {
+    //        $this->createdAt = new \DateTimeImmutable();
+    //
+    //        return $this;
+    //    }
 
     public function getUpdatedAt(): ?\DateTimeInterface
     {
@@ -402,29 +401,29 @@ class Fdb
         return $this;
     }
 
-//    public function getJournalCaisse(): ?JournalCaisse
-//    {
-//        return $this->JournalCaisse;
-//    }
-//
-//    public function setJournalCaisse(?JournalCaisse $JournalCaisse): static
-//    {
-//        $this->JournalCaisse = $JournalCaisse;
-//
-//        return $this;
-//    }
+    //    public function getJournalCaisse(): ?JournalCaisse
+    //    {
+    //        return $this->JournalCaisse;
+    //    }
+    //
+    //    public function setJournalCaisse(?JournalCaisse $JournalCaisse): static
+    //    {
+    //        $this->JournalCaisse = $JournalCaisse;
+    //
+    //        return $this;
+    //    }
 
-//public function isActive(): ?bool
-//{
-//    return $this->IsActive;
-//}
-//
-//public function setActive(?bool $IsActive): static
-//{
-//    $this->IsActive = $IsActive;
-//
-//    return $this;
-//}
+    //public function isActive(): ?bool
+    //{
+    //    return $this->IsActive;
+    //}
+    //
+    //public function setActive(?bool $IsActive): static
+    //{
+    //    $this->IsActive = $IsActive;
+    //
+    //    return $this;
+    //}
 
     public function getJournee(): ?Journee
     {
@@ -521,5 +520,4 @@ class Fdb
 
         return $this;
     }
-
 }

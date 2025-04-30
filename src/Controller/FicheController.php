@@ -350,12 +350,14 @@ class FicheController extends AbstractController
 
 
     #[Route('/fdb/{id}/edit', name: 'fdb_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Fdb $fdb, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Fdb $fdb, EntityManagerInterface $entityManager, SocieteService $societeService): Response
     {
         $form = $this->createForm(FdbType::class, $fdb);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $company = $societeService->info();
+            $fdb->setDestinataire($company->getManager());
             $entityManager->flush();
 
             flash()
@@ -381,8 +383,7 @@ class FicheController extends AbstractController
         EntityManagerInterface $entityManager,
         Pusher                 $pusher,
         UrlGeneratorInterface  $generatorUrl,
-        Request                $request,
-        CaisseRepository       $caisseRepository
+        Request                $request
     ): Response {
         $total = 0;
         foreach ($fdb->getDetails() as $detail) {
