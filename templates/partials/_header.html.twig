@@ -42,7 +42,7 @@
                 <!-- .top-bar-item -->
 
                 <div class="top-bar-item top-bar-item-full">
-                    {% set societe = societe_info %}
+                    {% set societe = societe_info.info() %}
                     {% if societe %}
                         <button class="btn-account d-flex align-items-center" type="button">
                             <span class="fa-solid fa-building p-2"></span>
