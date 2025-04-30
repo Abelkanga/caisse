@@ -112,44 +112,16 @@
 
 
 	<div class="receipt-container">
-		<div class="header text-center">
-			<img src="{{ asset('images/offset.png') }}" alt="Offset Consulting" style="max-width: 170px;">
-			<div class="header text-center">
-				<img src="{{ asset('images/offset.png') }}" alt="{{ societe_info.RaisonSociale }}" style="max-width: 170px;">
-				<p>
-					<b>
-						<i>{{ societe_info.RaisonSociale }}</i>
-					</b>
-				</p>
-				<p>
-					<b>
-						<i>{{ societe_info.Activite }}</i>
-					</b>
-				</p>
-				<p>
-					<b>
-						<i>{{ societe_info.AdressePostale }}
-							{{ societe_info.SiegeSociale }}</i>
-					</b>
-				</p>
-				<p>
-					<b>
-						<i>{{ societe_info.Telephone }}</i>
-					</b>
-				</p>
-				<p>
-					<b>
-						<i>Email:
-							{{ societe_info.Email }}</i>
-					</b>
-				</p>
-				<p>
-					<b>
-						<i>{{ societe_info.SiteInternet }}</i>
-					</b>
-				</p>
-			</div>
-		</div>
+		{% set societe = societe_info.info %}
+        <div class="header text-center">
+            <img src="{{ asset('images/offset.png') }}" alt="{{ societe.RaisonSociale }}" style="max-width: 170px;">
+            <p><b><i>{{ societe.RaisonSociale }}</i></b></p>
+            <p><b><i>{{ societe.Activite }}</i></b></p>
+            <p><b><i>{{ societe.AdressePostale }}  {{ societe.SiegeSociale }}</i></b></p>
+            <p><b><i>{{ societe.Telephone }}</i></b></p>
+            <p><b><i>Email: {{ societe.Email }}</i></b></p>
+            <p><b><i>{{ societe.SiteInternet }}</i></b></p>
+        </div>
 
 		<div class="title-box">
 			BILLETAGE
