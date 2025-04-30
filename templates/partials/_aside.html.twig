@@ -58,17 +58,13 @@
 					</li>
 					<!-- /.menu-item -->
 					<!-- .menu-item -->
-					{% if is_granted('ROLE_USER') or is_granted('ROLE_MANAGER1') or is_granted('ROLE_RESPONSABLE') %}
-						{% include('partials/_navbar.html.twig') %}
-					{% endif %}
-					{% if is_granted('ROLE_ADMIN') %}
-						{% include('partials/_navbar_admin.html.twig') %}
-					{% endif %}
-					<!-- /.menu-item -->
-					{% if is_granted('ROLE_MANAGER') %}
-						{% include('partials/_navbar_caisse.html.twig') %}
+					{% if is_granted('ROLE_USER') and not is_granted('ROLE_ADMIN') %}
+						{% include('partials/_aside_user.html.twig') %}
 					{% endif %}
 
+					{% if is_granted('ROLE_ADMIN') and is_granted('ROLE_USER') %}
+						{% include('partials/_aside_admin.html.twig') %}
+					{% endif %}
 					<!-- /.menu-item -->
 
 				</ul>

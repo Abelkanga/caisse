@@ -29,7 +29,7 @@ class CaisseController extends AbstractController
     {
         $this->entityManager = $entityManager;
     }
-    #[Route('/index', name: 'caisse_index', methods:['GET'])]
+    #[Route('/index', name: 'caisse_index', methods: ['GET'])]
     public function index(CaisseRepository $caisseRepository): Response
     {
         return $this->render('caisse/index.html.twig', [
@@ -38,7 +38,7 @@ class CaisseController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'caisse_new', methods:['GET','POST'])]
+    #[Route('/new', name: 'caisse_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $manager, CaisseService $service,): Response
     {
 
@@ -51,8 +51,13 @@ class CaisseController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $manager->persist($caisse);
+
+            $user = $caisse->getUser();
+            $newRoles = [$user->getRoles(), 'ROLE_CASHIER'];
+            $user->setRoles($newRoles);
+            $manager->persist($user);
+
             $manager->flush();
 
             flash()
@@ -71,12 +76,12 @@ class CaisseController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'caisse_edit', methods:['GET','POST'])]
+    #[Route('/{id}/edit', name: 'caisse_edit', methods: ['GET', 'POST'])]
     public function edit(Caisse $caisse, Request $request, EntityManagerInterface $manager): Response
     {
-        $form = $this->createForm(CaisseType::class,$caisse);
+        $form = $this->createForm(CaisseType::class, $caisse);
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $manager->flush();
 
             flash()
@@ -90,34 +95,35 @@ class CaisseController extends AbstractController
         }
 
         return $this->render('caisse/edit.html.twig', [
-            'form' => $form ,
+            'form' => $form,
         ]);
     }
 
-//    #[Route('/etat', name: 'app_etat_caisse', methods: ['GET'])]
-//    public function getMouvementsCaisse(JournalCaisseRepository $jCRepository, Request $request): JsonResponse {
-//        $dateDebut = $request->query->get('date_debut');
-//        $dateFin = $request->query->get('date_fin');
-//
-//        $data = [];
-//        $journals = $jCRepository->findReportingJournal($dateDebut,$dateFin);
-//        foreach ($journals as $journal) {
-//            $data[] = [
-//                'date' => date_format($journal->getDate(),'d/m/Y'),
-//                'num_piece' => $journal->getNumPiece(),
-//                'libelle' => $journal->getFdb()?->getExpense()->getName() ?? $journal->getIntitule(),
-//                'debit' => $journal->getEntree() ?? 0,
-//                'credit' => $journal->getSortie() ?? 0,
-//                'solde' => $journal->getSolde() ?? 0,
-//            ];
-//        }
-//
-//        return new JsonResponse($data);
-//
-//    }
+    //    #[Route('/etat', name: 'app_etat_caisse', methods: ['GET'])]
+    //    public function getMouvementsCaisse(JournalCaisseRepository $jCRepository, Request $request): JsonResponse {
+    //        $dateDebut = $request->query->get('date_debut');
+    //        $dateFin = $request->query->get('date_fin');
+    //
+    //        $data = [];
+    //        $journals = $jCRepository->findReportingJournal($dateDebut,$dateFin);
+    //        foreach ($journals as $journal) {
+    //            $data[] = [
+    //                'date' => date_format($journal->getDate(),'d/m/Y'),
+    //                'num_piece' => $journal->getNumPiece(),
+    //                'libelle' => $journal->getFdb()?->getExpense()->getName() ?? $journal->getIntitule(),
+    //                'debit' => $journal->getEntree() ?? 0,
+    //                'credit' => $journal->getSortie() ?? 0,
+    //                'solde' => $journal->getSolde() ?? 0,
+    //            ];
+    //        }
+    //
+    //        return new JsonResponse($data);
+    //
+    //    }
 
     #[Route('/etat', name: 'app_etat_caisse', methods: ['GET'])]
-    public function getMouvementsCaisse(JournalCaisseRepository $jCRepository, Request $request): JsonResponse {
+    public function getMouvementsCaisse(JournalCaisseRepository $jCRepository, Request $request): JsonResponse
+    {
         // Récupérer l'utilisateur connecté et la caisse associée
         /** @var User $user */
         $user = $this->getUser();
@@ -153,6 +159,4 @@ class CaisseController extends AbstractController
 
         return new JsonResponse($data);
     }
-
-
 }

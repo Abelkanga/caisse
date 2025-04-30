@@ -1,282 +1,257 @@
 <header
-        class="app-header app-header-dark">
-    <!-- .top-bar -->
-    <div
-            class="top-bar">
-        <!-- .top-bar-brand -->
-        <div
-                class="top-bar-brand">
-            <!-- toggle aside menu -->
-            <button class="hamburger hamburger-squeeze mr-2" type="button" data-toggle="aside-menu"
-                    aria-label="toggle aside menu">
+	class="app-header app-header-dark">
+	<!-- .top-bar -->
+	<div
+		class="top-bar">
+		<!-- .top-bar-brand -->
+		<div
+			class="top-bar-brand">
+			<!-- toggle aside menu -->
+			<button class="hamburger hamburger-squeeze mr-2" type="button" data-toggle="aside-menu" aria-label="toggle aside menu">
 				<span class="hamburger-box">
 					<span class="hamburger-inner"></span>
 				</span>
-            </button>
-            <!-- /toggle aside menu -->
-            <a href="">
-                ORBIS CAISSE
-            </a>
-        </div>
-        <!-- /.top-bar-brand -->
+			</button>
+			<!-- /toggle aside menu -->
+			<a href="">
+				ORBIS CAISSE
+			</a>
+		</div>
+		<!-- /.top-bar-brand -->
 
 
-        <!-- .top-bar-list -->
-        <div
-                class="top-bar-list">
-            <!-- .top-bar-item -->
-            <div
-                    class="top-bar-item px-2 d-md-none d-lg-none d-xl-none">
-                <!-- toggle menu -->
-                <button class="hamburger hamburger-squeeze" type="button" data-toggle="aside" aria-label="toggle menu">
+		<!-- .top-bar-list -->
+		<div
+			class="top-bar-list">
+			<!-- .top-bar-item -->
+			<div
+				class="top-bar-item px-2 d-md-none d-lg-none d-xl-none">
+				<!-- toggle menu -->
+				<button class="hamburger hamburger-squeeze" type="button" data-toggle="aside" aria-label="toggle menu">
 					<span class="hamburger-box">
 						<span class="hamburger-inner"></span>
 					</span>
-                </button>
-                <!-- /toggle menu -->
-            </div>
-            <!-- /.top-bar-item -->
-            <!-- .top-bar-item -->
-            <div
-                    class="top-bar-item px-0 d-none d-sm-flex">
-                <!-- .top-bar-item -->
+				</button>
+				<!-- /toggle menu -->
+			</div>
+			<!-- /.top-bar-item -->
+			<!-- .top-bar-item -->
+			<div
+				class="top-bar-item px-0 d-none d-sm-flex">
+				<!-- .top-bar-item -->
 
-                <div class="top-bar-item top-bar-item-full">
-                    {% set societe = societe_info.info() %}
-                    {% if societe %}
-                        <button class="btn-account d-flex align-items-center" type="button">
-                            <span class="fa-solid fa-building p-2"></span>
+				<div class="top-bar-item top-bar-item-full">
+					{% set societe = societe_info.info() %}
+					{% if societe %}
+						<button class="btn-account d-flex align-items-center" type="button">
+							<span class="fa-solid fa-building p-2"></span>
 
-                            <strong class="pt-1">{{ societe.RaisonSociale }}</strong>
-                        </button>
+							<strong class="pt-1">{{ societe.RaisonSociale }}</strong>
+						</button>
 
-                        <button class="btn-account d-flex align-items-center" type="button">
-                            <span class="oi oi-map-marker p-2"></span>
-                            <strong class="pt-1">{{ societe.SiegeSocial }}</strong>
-                        </button>
-                    {% endif %}
+						<button class="btn-account d-flex align-items-center" type="button">
+							<span class="oi oi-map-marker p-2"></span>
+							<strong class="pt-1">{{ societe.SiegeSocial }}</strong>
+						</button>
+					{% endif %}
 
+					{% set j = journee_service.getActive() %}
 
-                    {% set j = journee_service.getActive() %}
+					{% if app.user and app.user.caisse and is_granted('ROLE_CASHIER') %}
+						{% if j is null %}
+							<button class="btn-account" type="button" data-toggle="modal" data-target="#openJourneeModal">
+								<span class="oi oi-clock p-1"></span>
+								Caisse fermée
+							</button>
+						{% else %}
+							<button class="btn-account" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<span class="oi oi-clock p-1"></span>
+								<strong class="pt-1">Ouverture :
+									{{ j.startedAt|date('d-m-Y H:i:s') }}</strong>
+							</button>
+							<input type="hidden" name="date_journee" id="date_journee" value="{{ j.startedAt|date('Y-m-d') }}">
+						{% endif %}
 
-                    {% if is_granted('ROLE_MANAGER') or is_granted('ROLE_MANAGER1') %}
+						<button class="btn-account d-flex align-items-center" type="button">
+							<span class="oi oi-map-bill p-1"></span>
+							<strong class="pt-1">Solde :
+								{{ app.user.caisse.soldedispo|number_format(0, ',', ' ') }}
+								F</strong>
+						</button>
+					{% endif %}
+				</div>
+				<!-- /.top-bar-item -->
 
-                        {% if j is null %}
-                            <button class="btn-account" type="button" data-toggle="modal" data-target="#openJourneeModal">
-                                <span class="oi oi-clock p-1"></span>
-                                Caisse fermée
-                            </button>
-                        {% else %}
-                            <button class="btn-account" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="oi oi-clock p-1"></span>
-                                <strong class="pt-1">Ouverture : {{ j.startedAt|date('d-m-Y H:i:s') }}</strong>
-                            </button>
-                            <input type="hidden" name="date_journee" id="date_journee" value="{{ j.startedAt|date('Y-m-d') }}">
-                        {% endif %}
-                    {% endif %}
-
-                    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_RESPONSABLE') or is_granted('ROLE_USER') or is_granted('ROLE_IMPRESSION') %}
-                        <button class="btn-account d-flex align-items-center" type="button">
-                            <span class="oi oi-clock p-1"></span>
-                            <strong class="pt-1">Date du jour : {{ "now"|date('d-m-Y') }}</strong>
-                        </button>
-                    {% endif %}
-
-                    {% if app.user and app.user.caisse and is_granted('ROLE_MANAGER') or is_granted('ROLE_MANAGER1')%}
-                        {% if j is not null %}
-
-                            <button class="btn-account d-flex align-items-center" type="button">
-                                <span class="oi oi-map-bill p-1"></span>
-                                <strong class="pt-1">{{ app.user.caisse.intitule}} </strong>
-                            </button>
-
-                            <button class="btn-account d-flex align-items-center" type="button">
-                                <span class="oi oi-map-bill p-1"></span>
-                                <strong class="pt-1">Solde : {{ app.user.caisse.soldedispo|number_format(0, ',', ' ') }} F</strong>
-                            </button>
+			</div>
+			<!-- /.top-bar-item -->
+			<!-- .top-bar-item -->
+			<div class="top-bar-item top-bar-item-right px-0 d-none d-sm-flex">
+				<ul class="header-nav nav">
 
 
-                        {% endif %}
-                    {% endif %}
+					{% if is_granted('ROLE_MANAGER') and app.user.caisse is not null or is_granted('ROLE_MANAGER1') or is_granted('ROLE_RESPONSABLE') %}
 
 
-                </div>
-                <!-- /.top-bar-item -->
+						{% set notifications = notify.notifies %}
+						<li class="nav-item dropdown header-nav-dropdown {{ notifications|length > 0 ? 'has-notified' : '' }}" id="header-notification">
+							<a class="nav-link" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<span class="oi oi-envelope-open"></span>
+								<!-- Compteur affichant uniquement les notifications non lues -->
+								<span id="notification-count" class="badge badge-danger">
+									{{ notifications|filter(notification => notification.unread)|length }}
+								</span>
+							</a>
+							<!-- .dropdown-menu -->
+							<div class="dropdown-menu dropdown-menu-rich dropdown-menu-right">
+								<div class="dropdown-arrow"></div>
+								<h6 class="dropdown-header stop-propagation">
+									<span>Messages</span>
+								</h6>
+								<!-- .dropdown-scroll -->
+								<div class="{{ notifications|length > 5 ? 'dropdown-scroll has-scrollable' : '' }}" id="notification-body">
+									{% for notification in notifications %}
+										<!-- Marque les notifications non lues avec la classe 'unread' -->
 
-            </div>
-            <!-- /.top-bar-item -->
-            <!-- .top-bar-item -->
-            <div class="top-bar-item top-bar-item-right px-0 d-none d-sm-flex">
-                <ul class="header-nav nav">
-{#                    {% if is_granted('ROLE_MANAGER') and app.user.caisse.code == 'C002' or is_granted('ROLE_MANAGER1') or is_granted('ROLE_RESPONSABLE')%}#}
+										<a href="{{ notification.link }}" class="dropdown-item {{ notification.unread ? 'unread' : '' }}" data-id="{{ notification.id }}">
+											<div class="user-avatar">
+												<img src="https://ui-avatars.com/api/?name=" alt="Notification">
+											</div>
 
-                    {% if is_granted('ROLE_MANAGER') and app.user.caisse is not null or is_granted('ROLE_MANAGER1') or is_granted('ROLE_RESPONSABLE') %}
+											<div class="dropdown-item-body">
+												<p class="subject">Notification</p>
+												<p class="text text-truncate">{{ notification.message }}</p>
+												<span class="date">{{ notification.createdAt|date }}</span>
+											</div>
+										</a>
+									{% else %}
+										<a href="#" class="dropdown-item no-notification">
+											<div class="user-avatar"></div>
+											<div class="dropdown-item-body">
+												<p class="subject">Vous n'avez pas de notification</p>
+											</div>
+										</a>
+									{% endfor %}
+								</div>
+								<a href="{{ path('app_notification') }}" class="dropdown-footer">Toutes les notifications
+									<i class="fas fa-fw fa-long-arrow-alt-right"></i>
+								</a>
+							</div>
+							<!-- /.dropdown-menu -->
+						</li>
+					{% endif %}
+					<!-- /.nav-item -->
+					<!-- .nav-item -->
+				</ul>
 
+				{#            <div class="top-bar-item top-bar-item-right px-0 d-none d-sm-flex">#}
+				{#                <ul class="header-nav nav">#}
+				{#                    <li class="nav-item dropdown header-nav-dropdown has-notified" id="header-notification">#}
+				{#                        <a class="nav-link" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
+				{#                            <span class="oi oi-envelope-open"></span>#}
+				{#                        </a>#}
+				{#                        <!-- .dropdown-menu -->#}
+				{#                        <div class="dropdown-menu dropdown-menu-rich dropdown-menu-right">#}
+				{#                            <div class="dropdown-arrow"></div>#}
+				{#                            <h6 class="dropdown-header stop-propagation">#}
+				{#                                <span>Messages</span>#}
+				{#                            </h6>#}
+				{#                            <!-- .dropdown-scroll -->#}
+				{#                            <div class="dropdown-scroll has-scrollable" id="notification-body">#}
+				{#                                {% for notification in app.user.notifications|slice(0, 5) %}#}
+				{#                                    <a href="{{ notification.link }}" class="dropdown-item {% if notification.unread %}unread{% endif %}">#}
+				{#                                        <div class="user-avatar">#}
+				{#                                            <img src="https://ui-avatars.com/api/?name={{ notification.user.username }}" alt="Notification">#}
+				{#                                        </div>#}
+				{#                                        <div class="dropdown-item-body">#}
+				{#                                            <p class="subject">{{ notification.message }}</p>#}
+				{#                                            <span class="date">{{ notification.createdAt|ago }}</span>#}
+				{#                                        </div>#}
+				{#                                    </a>#}
+				{#                                {% else %}#}
+				{#                                    <a href="#" class="dropdown-item">#}
+				{#                                        <div class="dropdown-item-body">#}
+				{#                                            <p class="subject">Vous n'avez pas de notification</p>#}
+				{#                                        </div>#}
+				{#                                    </a>#}
+				{#                                {% endfor %}#}
+				{#                            </div>#}
+				{#                            <!-- /.dropdown-scroll -->#}
+				{#                            <a href="{{ path('app_notification') }}" class="dropdown-footer">Toutes les notifications#}
+				{#                                <i class="fas fa-fw fa-long-arrow-alt-right"></i>#}
+				{#                            </a>#}
+				{#                        </div>#}
+				{#                        <!-- /.dropdown-menu -->#}
+				{#                    </li>#}
+				{#                    <!-- /.nav-item -->#}
+				{#                </ul>#}
+				<!-- .top-bar-item -->
 
-                        {% set notifications = notify.notifies %}
-                        <li class="nav-item dropdown header-nav-dropdown {{ notifications|length > 0 ? 'has-notified' : '' }}" id="header-notification">
-                            <a class="nav-link" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="oi oi-envelope-open"></span>
-                                <!-- Compteur affichant uniquement les notifications non lues -->
-                                <span id="notification-count" class="badge badge-danger">
-                                {{ notifications|filter(notification => notification.unread)|length }}
-                            </span>
-                            </a>
-                            <!-- .dropdown-menu -->
-                            <div class="dropdown-menu dropdown-menu-rich dropdown-menu-right">
-                                <div class="dropdown-arrow"></div>
-                                <h6 class="dropdown-header stop-propagation">
-                                    <span>Messages</span>
-                                </h6>
-                                <!-- .dropdown-scroll -->
-                                <div class="{{ notifications|length > 5 ? 'dropdown-scroll has-scrollable' : '' }}" id="notification-body">
-                                    {% for notification in notifications %}
-                                        <!-- Marque les notifications non lues avec la classe 'unread' -->
+				<!-- /.top-bar-item -->
 
-                                        <a href="{{ notification.link }}" class="dropdown-item {{ notification.unread ? 'unread' : '' }}" data-id="{{ notification.id }}">
-                                            <div class="user-avatar">
-                                                <img src="https://ui-avatars.com/api/?name=" alt="Notification">
-                                            </div>
+				<!-- .btn-account -->
+					<div class="dropdown d-none d-md-flex"> <button class="btn-account" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
-                                            <div class="dropdown-item-body">
-                                                <p class="subject">Notification</p>
-                                                <p class="text text-truncate">{{ notification.message }}</p>
-                                                <span class="date">{{ notification.createdAt|date }}</span>
-                                            </div>
-                                        </a>
-                                    {% else %}
-                                        <a href="#" class="dropdown-item no-notification">
-                                            <div class="user-avatar"></div>
-                                            <div class="dropdown-item-body">
-                                                <p class="subject">Vous n'avez pas de notification</p>
-                                            </div>
-                                        </a>
-                                    {% endfor %}
-                                </div>
-                                <a href="{{ path('app_notification') }}" class="dropdown-footer">Toutes les notifications
-                                    <i class="fas fa-fw fa-long-arrow-alt-right"></i>
-                                </a>
-                            </div>
-                            <!-- /.dropdown-menu -->
-                        </li>
-                    {% endif %}
-                    <!-- /.nav-item -->
-                    <!-- .nav-item -->
-                </ul>
-
-                {#            <div class="top-bar-item top-bar-item-right px-0 d-none d-sm-flex">#}
-                {#                <ul class="header-nav nav">#}
-                {#                    <li class="nav-item dropdown header-nav-dropdown has-notified" id="header-notification">#}
-                {#                        <a class="nav-link" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
-                {#                            <span class="oi oi-envelope-open"></span>#}
-                {#                        </a>#}
-                {#                        <!-- .dropdown-menu -->#}
-                {#                        <div class="dropdown-menu dropdown-menu-rich dropdown-menu-right">#}
-                {#                            <div class="dropdown-arrow"></div>#}
-                {#                            <h6 class="dropdown-header stop-propagation">#}
-                {#                                <span>Messages</span>#}
-                {#                            </h6>#}
-                {#                            <!-- .dropdown-scroll -->#}
-                {#                            <div class="dropdown-scroll has-scrollable" id="notification-body">#}
-                {#                                {% for notification in app.user.notifications|slice(0, 5) %}#}
-                {#                                    <a href="{{ notification.link }}" class="dropdown-item {% if notification.unread %}unread{% endif %}">#}
-                {#                                        <div class="user-avatar">#}
-                {#                                            <img src="https://ui-avatars.com/api/?name={{ notification.user.username }}" alt="Notification">#}
-                {#                                        </div>#}
-                {#                                        <div class="dropdown-item-body">#}
-                {#                                            <p class="subject">{{ notification.message }}</p>#}
-                {#                                            <span class="date">{{ notification.createdAt|ago }}</span>#}
-                {#                                        </div>#}
-                {#                                    </a>#}
-                {#                                {% else %}#}
-                {#                                    <a href="#" class="dropdown-item">#}
-                {#                                        <div class="dropdown-item-body">#}
-                {#                                            <p class="subject">Vous n'avez pas de notification</p>#}
-                {#                                        </div>#}
-                {#                                    </a>#}
-                {#                                {% endfor %}#}
-                {#                            </div>#}
-                {#                            <!-- /.dropdown-scroll -->#}
-                {#                            <a href="{{ path('app_notification') }}" class="dropdown-footer">Toutes les notifications#}
-                {#                                <i class="fas fa-fw fa-long-arrow-alt-right"></i>#}
-                {#                            </a>#}
-                {#                        </div>#}
-                {#                        <!-- /.dropdown-menu -->#}
-                {#                    </li>#}
-                {#                    <!-- /.nav-item -->#}
-                {#                </ul>#}
-                <!-- .top-bar-item -->
-
-                <!-- /.top-bar-item -->
-
-                <!-- .btn-account -->
-                <div class="dropdown d-none d-md-flex">
-                    <button class="btn-account" type="button" data-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false">
-
-                        {% if is_granted('ROLE_ADMIN') %}
-                            <span class="user-avatar user-avatar-md">
+						{% if is_granted('ROLE_ADMIN') %}
+							<span class="user-avatar user-avatar-md">
 								<img src="https://png.pngtree.com/png-clipart/20190924/original/pngtree-avatar-icon-in-trendy-style-isolated-background-png-image_4823713.jpg" alt="">
 							</span>
-                            <span class="account-summary pr-lg-4 d-none d-lg-block">
+							<span class="account-summary pr-lg-4 d-none d-lg-block">
 								<span class="account-name">{{ app.user.pseudo }}</span>
-{#                                <span class="account-name">{{ app.user.email }}</span>#}
+								{#                                <span class="account-name">{{ app.user.email }}</span>#}
 							</span>
-                        {% elseif is_granted('ROLE_RESPONSABLE')%}
-                            <span class="user-avatar user-avatar-md">
+						{% elseif is_granted('ROLE_RESPONSABLE')%}
+							<span class="user-avatar user-avatar-md">
 								<img src="https://png.pngtree.com/png-clipart/20190924/original/pngtree-avatar-icon-in-trendy-style-isolated-background-png-image_4823713.jpg" alt="">
 							</span>
-                            <span class="account-summary pr-lg-4 d-none d-lg-block">
+							<span class="account-summary pr-lg-4 d-none d-lg-block">
 								<span class="account-name">{{ app.user.pseudo }}</span>
-{#                                <span class="account-name">{{ app.user.email }}</span>#}
+								{#                                <span class="account-name">{{ app.user.email }}</span>#}
 							</span>
-                        {% else %}
-                            <span class="user-avatar user-avatar-md">
+						{% else %}
+							<span class="user-avatar user-avatar-md">
 								<img src="https://png.pngtree.com/png-clipart/20190924/original/pngtree-avatar-icon-in-trendy-style-isolated-background-png-image_4823713.jpg" alt="">
 							</span>
-                            <span class="account-summary pr-lg-4 d-none d-lg-block">
+							<span class="account-summary pr-lg-4 d-none d-lg-block">
 								<span class="account-name">{{ app.user.pseudo }}</span>
-{#                                <span class="account-name">{{ app.user.email }}</span>#}
+								{#                                <span class="account-name">{{ app.user.email }}</span>#}
 							</span>
-                        {% endif %}
+						{% endif %}
 
-                    </button>
-                    <!-- .dropdown-menu -->
-                    <div class="dropdown-menu">
-                        <div class="dropdown-arrow d-lg-none" x-arrow=""></div>
-                        <div class="dropdown-arrow ml-3 d-none d-lg-block"></div>
-                        {% if is_granted('ROLE_ADMIN') %}
-                            <a class="dropdown-item" href=" {{ path('app_user_edit', {'id': app.user.id})}} ">
-                                <span class="dropdown-icon oi oi-person"></span>
-                                Profil
+					</button>
+					<!-- .dropdown-menu -->
+					<div class="dropdown-menu">
+						<div class="dropdown-arrow d-lg-none" x-arrow=""></div>
+						<div class="dropdown-arrow ml-3 d-none d-lg-block"></div>
+						{% if is_granted('ROLE_ADMIN') %}
+							<a class="dropdown-item" href=" {{ path('app_user_edit', {'id': app.user.id})}} ">
+								<span class="dropdown-icon oi oi-person"></span>
+								Profil
 
-                            </a>
-                            <a class="dropdown-item" href="{{ path('app_logout') }}">
-                                <span class="dropdown-icon oi oi-account-logout"></span>
-                                Déconnexion
-                            </a>
-                        {% else %}
-                            <a class="dropdown-item" href=" {{ path('app_user_edit', {'id': app.user.id})}} ">
-                                <span class="dropdown-icon oi oi-person"></span>
-                                Profil
+							</a>
+							<a class="dropdown-item" href="{{ path('app_logout') }}">
+								<span class="dropdown-icon oi oi-account-logout"></span>
+								Déconnexion
+							</a>
+						{% else %}
+							<a class="dropdown-item" href=" {{ path('app_user_edit', {'id': app.user.id})}} ">
+								<span class="dropdown-icon oi oi-person"></span>
+								Profil
 
-                            </a>
+							</a>
 
-                            <a class="dropdown-item" href="{{ path('app_logout') }}">
-                                <span class="dropdown-icon oi oi-account-logout"></span>
-                                Déconnexion
-                            </a>
-                        {% endif %}
-                    </div>
-                    <!-- /.dropdown-menu -->
-                </div>
-                <!-- /.btn-account -->
-            </div>
-            <!-- /.top-bar-item -->
-        </div>
-        <!-- /.top-bar-list -->
-    </div>
-    <!-- /.top-bar -->
-</header>
-<!-- /.app-header -->
-{{ include('/_modal_journee.html.twig') }}
+							<a class="dropdown-item" href="{{ path('app_logout') }}">
+								<span class="dropdown-icon oi oi-account-logout"></span>
+								Déconnexion
+							</a>
+						{% endif %}
+					</div>
+					<!-- /.dropdown-menu -->
+				</div>
+				<!-- /.btn-account -->
+			</div>
+			<!-- /.top-bar-item -->
+		</div>
+		<!-- /.top-bar-list -->
+	</div>
+	<!-- /.top-bar -->
+</header><!-- /.app-header -->{{ include('/_modal_journee.html.twig') }}

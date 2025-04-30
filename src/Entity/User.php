@@ -128,7 +128,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->billetages = new ArrayCollection();
         $this->approCaisses = new ArrayCollection();
         $this->notifications = new ArrayCollection();
-//        $this->users = new ArrayCollection();
+        //        $this->users = new ArrayCollection();
         $this->orderMissions = new ArrayCollection();
         $this->bonMissions = new ArrayCollection();
         $this->backCashes = new ArrayCollection();
@@ -179,7 +179,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
+
         // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
         return array_unique($roles);
     }
 
@@ -405,25 +408,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-//
-//    /**
-//     * @ORM\PrePersist
-//     * @ORM\PreUpdate
-//     */
-//    public function generatePseudoIfEmpty(): void
-//    {
-//        if (empty($this->pseudo) && !empty($this->fullName)) {
-//            $this->pseudo = $this->createPseudoFromFullName($this->fullName);
-//        }
-//    }
-//
-//    private function createPseudoFromFullName(string $fullName): string
-//    {
-//        $pseudo = strtolower(trim($fullName));
-//        $pseudo = preg_replace('/\s+/', '-', $pseudo);
-//        $pseudo = iconv('UTF-8', 'ASCII//TRANSLIT', $pseudo);
-//        return $pseudo;
-//    }
+    //
+    //    /**
+    //     * @ORM\PrePersist
+    //     * @ORM\PreUpdate
+    //     */
+    //    public function generatePseudoIfEmpty(): void
+    //    {
+    //        if (empty($this->pseudo) && !empty($this->fullName)) {
+    //            $this->pseudo = $this->createPseudoFromFullName($this->fullName);
+    //        }
+    //    }
+    //
+    //    private function createPseudoFromFullName(string $fullName): string
+    //    {
+    //        $pseudo = strtolower(trim($fullName));
+    //        $pseudo = preg_replace('/\s+/', '-', $pseudo);
+    //        $pseudo = iconv('UTF-8', 'ASCII//TRANSLIT', $pseudo);
+    //        return $pseudo;
+    //    }
 
     /**
      * @return Collection<int, ApproCaisse>
@@ -617,5 +620,4 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-
 }
