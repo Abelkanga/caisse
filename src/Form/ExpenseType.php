@@ -29,7 +29,9 @@ class ExpenseType extends AbstractType
                 },
                 'attr' => [
                     'class' => 'select2 '
-                ]
+                ],
+                'label' => 'Type d\'opération',
+                'placeholder' => 'Selectionner un type d\'opération'
             ])
         ;
     }
