@@ -25,7 +25,7 @@ class ExpenseType extends AbstractType
             ->add('typeExpense', EntityType::class, [
                 'class' => TypeExpense::class,
                 'choice_label' => function (TypeExpense $typeExpense) {
-                    return sprintf('%s  %s', $typeExpense->getCode(), $typeExpense->getName());
+                    return sprintf('%s', $typeExpense->getName());
                 },
                 'attr' => [
                     'class' => 'select2 '
