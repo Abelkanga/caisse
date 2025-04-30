@@ -15,9 +15,8 @@
 						<thead>
 							<tr>
 								<th>Id</th>
-								<th>Code</th>
-								<th>Name</th>
-								<th>Status</th>
+								<th>N° de compte</th>
+								<th>Intitulé</th>
 								<th>actions</th>
 							</tr>
 						</thead>
@@ -27,10 +26,8 @@
 									<td>{{ type_expense.id }}</td>
 									<td>{{ type_expense.code }}</td>
 									<td>{{ type_expense.name }}</td>
-									<td>{{ type_expense.status }}</td>
 									<td>
-										<a href="{{ path('app_type_expense_show', {'id': type_expense.id}) }}">show</a>
-										<a href="{{ path('app_type_expense_edit', {'id': type_expense.id}) }}">edit</a>
+										<a href="{{ path('app_type_expense_edit', {'id': type_expense.id}) }}">Modifier</a>
 									</td>
 								</tr>
 							{% endfor %}
