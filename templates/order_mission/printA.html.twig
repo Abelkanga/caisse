@@ -2,262 +2,303 @@
 
 {% block body %}
 
-    <style>
-        .receipt-container {
-            margin: 20px;
-            font-family: Arial, sans-serif;
-        }
-        .header img {
-            margin: 20px 0;
-        }
-        .header p {
-            margin: 0;
-            font-size: 14px;
-        }
-        .title-box {
-            margin: 20px 0;
-            padding: 10px;
-            border: 1px solid black;
-            text-align: center;
-            font-size: 18px;
-            font-weight: bold;
-        }
-        fieldset {
-            margin-top: 20px;
-            padding: 10px;
-            border: 1px solid #ddd;
-        }
-        legend {
-            font-size: 36px;
-            font-weight: bold;
-            margin-bottom: 10px;
+	<style>
+		.receipt-container {
+			margin: 20px;
+			font-family: Arial, sans-serif;
+		}
+		.header img {
+			margin: 20px 0;
+		}
+		.header p {
+			margin: 0;
+			font-size: 14px;
+		}
+		.title-box {
+			margin: 20px 0;
+			padding: 10px;
+			border: 1px solid black;
+			text-align: center;
+			font-size: 18px;
+			font-weight: bold;
+		}
+		fieldset {
+			margin-top: 20px;
+			padding: 10px;
+			border: 1px solid #ddd;
+		}
+		legend {
+			font-size: 36px;
+			font-weight: bold;
+			margin-bottom: 10px;
 
-        }
-        .main-content div {
-            margin-bottom: 5px;
-        }
-        .approved-by p {
-            margin: 5px 0;
-        }
-        .table th, .table td {
-            padding: 5px;
-        }
+		}
+		.main-content div {
+			margin-bottom: 5px;
+		}
+		.approved-by p {
+			margin: 5px 0;
+		}
+		.table th,
+		.table td {
+			padding: 5px;
+		}
 
-        @page {
-            size: A4 portrait;
-            margin: 0.5cm; /* Réduire les marges pour occuper plus d'espace */
-        }
+		@page {
+			size: A4 portrait;
+			margin: 0.5cm; /* Réduire les marges pour occuper plus d'espace */
+		}
 
-        @media print {
-            .btn-print, .btn-home, .btn-back, .print-button {
-                display: none !important;
-            }
-            body {
-                font-size: 16px; /* Agrandissement du texte pour A4 */
-                margin: 0;
-                padding: 0;
-            }
-            .header p {
-                font-size: 14px;
-            }
-            .receipt-container {
-                width: 100%;
-                max-width: 100%;
-                padding: 1cm;
-                box-sizing: border-box;
-            }
-            legend {
-                font-size: 58px; /* Taille augmentée pour les légendes */
-            }
-            .main-content div {
-                margin-bottom: 5px;
-                font-size: 16px; /* Taille augmentée pour les détails principaux */
-            }
-            .title-box {
-                font-size: 24px; /* Augmenté pour bien occuper l’espace */
-                font-weight: bold;
-                text-align: center;
-                margin-bottom: 20px;
-            }
+		@media print {
+			.btn-print,
+			.btn-home,
+			.btn-back,
+			.print-button {
+				display: none !important;
+			}
+			body {
+				font-size: 16px; /* Agrandissement du texte pour A4 */
+				margin: 0;
+				padding: 0;
+			}
+			.header p {
+				font-size: 14px;
+			}
+			.receipt-container {
+				width: 100%;
+				max-width: 100%;
+				padding: 1cm;
+				box-sizing: border-box;
+			}
+			legend {
+				font-size: 58px; /* Taille augmentée pour les légendes */
+			}
+			.main-content div {
+				margin-bottom: 5px;
+				font-size: 16px; /* Taille augmentée pour les détails principaux */
+			}
+			.title-box {
+				font-size: 24px; /* Augmenté pour bien occuper l’espace */
+				font-weight: bold;
+				text-align: center;
+				margin-bottom: 20px;
+			}
 
-            fieldset {
-                border: 2px solid #000;
-                padding: 15px;
-                margin-bottom: 20px;
-            }
-            fieldset legend {
-                font-size: 20px !important; /* Taille plus grande pour la légende */
-                font-weight: bold;
-            }
-            legend {
-                font-size: 20px;
-                font-weight: bold;
-                padding: 0 10px;
-            }
-            fieldset .table {
-                font-size: 20px !important; /* Augmenter la taille des textes de la table */
-                border: solid 1px black !important;
-            }
+			fieldset {
+				border: 2px solid #000;
+				padding: 15px;
+				margin-bottom: 20px;
+			}
+			fieldset legend {
+				font-size: 20px !important; /* Taille plus grande pour la légende */
+				font-weight: bold;
+			}
+			legend {
+				font-size: 20px;
+				font-weight: bold;
+				padding: 0 10px;
+			}
+			fieldset .table {
+				font-size: 20px !important; /* Augmenter la taille des textes de la table */
+				border: solid 1px black !important;
+			}
 
-            fieldset .table th,
-            fieldset .table td {
-                padding: 8px !important; /* Ajuster l'espace des cellules */
-                font-size: 20px !important; /* Taille plus grande pour le texte des cellules */
-                text-align: left;
-                border: solid 1px #808080 !important; /* Bordure visible */
-            }
-            .table {
-                width: 100%;
-                border-collapse: collapse;
-                margin-bottom: 20px;
-                font-size: 44px; /* Taille de police augmentée pour la table */
-                border: solid 1px black;
-            }
+			fieldset .table th,
+			fieldset .table td {
+				padding: 8px !important; /* Ajuster l'espace des cellules */
+				font-size: 20px !important; /* Taille plus grande pour le texte des cellules */
+				text-align: left;
+				border: solid 1px #808080 !important; /* Bordure visible */
+			}
+			.table {
+				width: 100%;
+				border-collapse: collapse;
+				margin-bottom: 20px;
+				font-size: 44px; /* Taille de police augmentée pour la table */
+				border: solid 1px black;
+			}
 
-            .table th, .table td {
-                border: solid 1px black;
-                padding: 8px; /* Plus grand pour occuper plus d’espace */
-                text-align: left;
-                vertical-align: top;
-                white-space: nowrap;
-                font-size: 14px; /* Agrandissement de la police */
-            }
-            .table td:first-child {
-                white-space: normal; /* Permet le retour à la ligne */
-                word-wrap: break-word; /* Coupe le texte en cas de dépassement */
-                max-width: 40%; /* Limite la largeur pour éviter les débordements */
-            }
-            .table td:nth-child(2),
-            .table td:nth-child(3),
-            .table td:nth-child(4) {
-                max-width: 15%; /* Ajuste la largeur */
-                white-space: nowrap; /* Empêche la coupure automatique pour les nombres */
-            }
+			.table th,
+			.table td {
+				border: solid 1px black;
+				padding: 8px; /* Plus grand pour occuper plus d’espace */
+				text-align: left;
+				vertical-align: top;
+				white-space: nowrap;
+				font-size: 14px; /* Agrandissement de la police */
+			}
+			.table td:first-child {
+				white-space: normal; /* Permet le retour à la ligne */
+				word-wrap: break-word; /* Coupe le texte en cas de dépassement */
+				max-width: 40%; /* Limite la largeur pour éviter les débordements */
+			}
+			.table td:nth-child(2),
+			.table td:nth-child(3),
+			.table td:nth-child(4) {
+				max-width: 15%; /* Ajuste la largeur */
+				white-space: nowrap; /* Empêche la coupure automatique pour les nombres */
+			}
 
-            .approved-by {
-                margin-top: 10px;
-                text-align: center;
-            }
+			.approved-by {
+				margin-top: 10px;
+				text-align: center;
+			}
 
-            .approved-by p {
-                font-size: 16px; /* Meilleure lisibilité */
-                margin: 10px 0;
-            }
+			.approved-by p {
+				font-size: 16px; /* Meilleure lisibilité */
+				margin: 10px 0;
+			}
 
-            /* Masquer le bouton d'impression */
-            .print-button {
-                display: none;
-            }
-        }
+			/* Masquer le bouton d'impression */
+			.print-button {
+				display: none;
+			}
+		}
 
-        /* Ajustements pour un meilleur remplissage de l’espace */
-        .receipt-container {
-            padding: 3em; /* Augmenté pour équilibrer l'affichage */
-        }
+		/* Ajustements pour un meilleur remplissage de l’espace */
+		.receipt-container {
+			padding: 3em; /* Augmenté pour équilibrer l'affichage */
+		}
 
-        .main-content div {
-            margin-bottom: 1.5em; /* Plus d’espace entre les éléments */
-        }
+		.main-content div {
+			margin-bottom: 1.5em; /* Plus d’espace entre les éléments */
+		}
+	</style>
 
-    </style>
+	<div class="receipt-container">
+		<div class="header text-center">
+			<img src="{{ asset('images/offset.png') }}" alt="Offset Consulting" style="max-width: 170px;">
+			<div class="header text-center">
+				<img src="{{ asset('images/offset.png') }}" alt="{{ societe_info.RaisonSociale }}" style="max-width: 170px;">
+				<p>
+					<b>
+						<i>{{ societe_info.RaisonSociale }}</i>
+					</b>
+				</p>
+				<p>
+					<b>
+						<i>{{ societe_info.Activite }}</i>
+					</b>
+				</p>
+				<p>
+					<b>
+						<i>{{ societe_info.AdressePostale }}
+							{{ societe_info.SiegeSociale }}</i>
+					</b>
+				</p>
+				<p>
+					<b>
+						<i>{{ societe_info.Telephone }}</i>
+					</b>
+				</p>
+				<p>
+					<b>
+						<i>Email:
+							{{ societe_info.Email }}</i>
+					</b>
+				</p>
+				<p>
+					<b>
+						<i>{{ societe_info.SiteInternet }}</i>
+					</b>
+				</p>
+			</div>
+		</div>
 
-    <div class="receipt-container">
-        <div class="header text-center">
-            <img src="{{ asset('images/offset.png') }}" alt="Offset Consulting" style="max-width: 170px;">
-            <p><b><i>Cabinet Offset Consulting</i></b></p>
-            <p><b><i>Audit et Conseil en Organisation Management</i></b></p>
-            <p><b><i>08 BP 2941 Abidjan 08, République de Côte d'Ivoire</i></b></p>
-            <p><b><i>Tél: (225) 27 22 01 59 71  Cél: (225) 07 78 63 63 06</i></b></p>
-            <p><b><i>Email: info@offset-consulting.com</i></b></p>
-            <p><b><i>www.offset-consulting.com</i></b></p>
-        </div>
+		<div class="title-box">
+			ORDRE DE MISSION
+		</div>
 
-        <div class="title-box">
-            ORDRE DE MISSION
-        </div>
+		<fieldset>
+			<legend>INFORMATION</legend>
+			<div class="main-content">
+				<div>
+					<strong>DATE D'EMISSION :</strong>
+					{{ order.date ? order.date|date('d-m-Y') : '' }}
+				</div>
+				<div>
+					<strong>NUMERO D'ORDRE :</strong>
+					{{ order.reference }}
+				</div>
+				<div>
+					<strong>LE GERANT DE:</strong>
+					OFFSET CONSULTING
+				</div>
+				<div>
+					<strong>DONNE ORDRE A :</strong>
+					{{ order.orderTo }}
+				</div>
+				<div>
+					<strong>DE SE RENDRE A :</strong>
+					{{ order.getTo }}
+				</div>
+				<div>
+					<strong>OBJET DE LA MISSION :</strong>
+					{{ order.fullName }}
+				</div>
+				<div>
+					<strong>DATE DE DEPART :</strong>
+					{{ order.dateDepart ? order.dateDepart|date('d-m-Y') : '' }}
+				</div>
+				<div>
+					<strong>DATE DE RETOUR :</strong>
+					{{ order.dateRetour ? order.dateRetour|date('d-m-Y') : '' }}
+				</div>
+			</div>
+		</fieldset>
 
-        <fieldset>
-            <legend>INFORMATION</legend>
-            <div class="main-content">
-                <div>
-                    <strong>DATE D'EMISSION :</strong> {{ order.date ? order.date|date('d-m-Y') : '' }}
-                </div>
-                <div>
-                    <strong>NUMERO D'ORDRE :</strong> {{ order.reference }}
-                </div>
-                <div>
-                    <strong>LE GERANT DE:</strong> OFFSET CONSULTING
-                </div>
-                <div>
-                    <strong>DONNE ORDRE A :</strong> {{ order.orderTo }}
-                </div>
-                <div>
-                    <strong>DE SE RENDRE A :</strong> {{ order.getTo }}
-                </div>
-                <div>
-                    <strong>OBJET DE LA MISSION :</strong> {{ order.fullName }}
-                </div>
-                <div>
-                    <strong>DATE DE DEPART :</strong> {{ order.dateDepart ? order.dateDepart|date('d-m-Y') : '' }}
-                </div>
-                <div>
-                    <strong>DATE DE RETOUR :</strong> {{ order.dateRetour ? order.dateRetour|date('d-m-Y') : '' }}
-                </div>
-            </div>
-        </fieldset>
+		<fieldset>
+			<legend>AGENT(S) / PRESTATAIRES(S) CONCERNE(S)</legend>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>N°</th>
+						<th>NOM & PRENOMS</th>
+						<th>FONCTION</th>
+						<th>SERVICE</th>
+						<th>SIGNATURE</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for detailMission in order.detailMission %}
+						<tr>
+							<td>{{ detailMission.reference }}</td>
+							<td>{{ detailMission.fullName }}</td>
+							<td>{{ detailMission.fonction }}</td>
+							<td>{{ detailMission.service }}</td>
+							<td>{{ detailMission.signature }}</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			<div class="row approved-by text-center">
+				<div class="col-4">
+					<p></p>
+					<p></p>
+				</div>
+				<div class="col-4">
+					<p></p>
+					<p></p>
+				</div>
+				<div class="col-4">
+					<p>Fait à Abidjan, le __________________</p>
+				</div>
+			</div>
 
-        <fieldset>
-            <legend>AGENT(S) / PRESTATAIRES(S) CONCERNE(S)</legend>
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>N°</th>
-                    <th>NOM & PRENOMS</th>
-                    <th>FONCTION</th>
-                    <th>SERVICE</th>
-                    <th>SIGNATURE</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for detailMission in order.detailMission %}
-                    <tr>
-                        <td>{{ detailMission.reference }}</td>
-                        <td>{{ detailMission.fullName }}</td>
-                        <td>{{ detailMission.fonction }}</td>
-                        <td>{{ detailMission.service }}</td>
-                        <td>{{ detailMission.signature }}</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-            <div class="row approved-by text-center">
-                <div class="col-4">
-                    <p></p>
-                    <p></p>
-                </div>
-                <div class="col-4">
-                    <p></p>
-                    <p></p>
-                </div>
-                <div class="col-4">
-                    <p>Fait à Abidjan, le __________________</p>
-                </div>
-            </div>
-
-            <div class="row approved-by text-center">
-                <div class="col-4">
-                    <p>SIGNATURE ET NOM DU GERANT</p>
-                    <p>__________________</p>
-                </div>
-                <div class="col-4">
-                    <p></p>
-                    <p></p>
-                </div>
-                <div class="col-4">
-                    <p>Nom, fonction et visa du chef de mission</p>
-                    <p>__________________</p>
-                </div>
-            </div>
-        </fieldset>
-    </div>
+			<div class="row approved-by text-center">
+				<div class="col-4">
+					<p>SIGNATURE ET NOM DU GERANT</p>
+					<p>__________________</p>
+				</div>
+				<div class="col-4">
+					<p></p>
+					<p></p>
+				</div>
+				<div class="col-4">
+					<p>Nom, fonction et visa du chef de mission</p>
+					<p>__________________</p>
+				</div>
+			</div>
+		</fieldset>
+	</div>
 {% endblock %}

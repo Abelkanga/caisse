@@ -1,167 +1,197 @@
 {% extends 'imprimer.html.twig' %}
 
 {% block body %}
-    <style>
-        .receipt-container {
-            margin: 20px;
-            font-family: Arial, sans-serif;
-        }
-        .header img {
-            margin: 20px 0;
-        }
-        .header p {
-            margin: 0;
-            font-size: 14px;
-        }
-        .title-box {
-            margin: 20px 0;
-            padding: 10px;
-            border: 1px solid black;
-            text-align: center;
-            font-size: 18px;
-            font-weight: bold;
-        }
-        fieldset {
-            margin-top: 20px;
-            padding: 10px;
-            border: 1px solid #ddd;
-        }
-        legend {
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        .table th, .table td {
-            padding: 5px;
-        }
-        .separator {
-            text-align: right;
-        }
-        @media print {
-            .table {
-                width: 100%;
-                border-collapse: collapse;
-                margin-bottom: 20px;
-                font-size: 44px; /* Taille de police augmentée pour la table */
-                border: solid 1px black;
-            }
-            .title-box {
-                margin: 10px 0;
-                padding: 5px;
-                font-size: 30px; /* Taille augmentée pour le titre */
-            }
-            .header p {
-                font-size: 14px;
-            }
-            .table th, .table td {
-                padding: 8px;
-                text-align: center;
-                font-size: 30px; /* Taille augmentée pour les cellules de table */
-                white-space: nowrap;
-            }
+	<style>
+		.receipt-container {
+			margin: 20px;
+			font-family: Arial, sans-serif;
+		}
+		.header img {
+			margin: 20px 0;
+		}
+		.header p {
+			margin: 0;
+			font-size: 14px;
+		}
+		.title-box {
+			margin: 20px 0;
+			padding: 10px;
+			border: 1px solid black;
+			text-align: center;
+			font-size: 18px;
+			font-weight: bold;
+		}
+		fieldset {
+			margin-top: 20px;
+			padding: 10px;
+			border: 1px solid #ddd;
+		}
+		legend {
+			font-size: 16px;
+			font-weight: bold;
+			margin-bottom: 10px;
+		}
+		.table th,
+		.table td {
+			padding: 5px;
+		}
+		.separator {
+			text-align: right;
+		}
+		@media print {
+			.table {
+				width: 100%;
+				border-collapse: collapse;
+				margin-bottom: 20px;
+				font-size: 44px; /* Taille de police augmentée pour la table */
+				border: solid 1px black;
+			}
+			.title-box {
+				margin: 10px 0;
+				padding: 5px;
+				font-size: 30px; /* Taille augmentée pour le titre */
+			}
+			.header p {
+				font-size: 14px;
+			}
+			.table th,
+			.table td {
+				padding: 8px;
+				text-align: center;
+				font-size: 30px; /* Taille augmentée pour les cellules de table */
+				white-space: nowrap;
+			}
 
-            /* Augmenter la taille de la légende */
-            fieldset legend {
-                font-size: 20px !important; /* Taille plus grande pour la légende */
-                font-weight: bold;
-            }
+			/* Augmenter la taille de la légende */
+			fieldset legend {
+				font-size: 20px !important; /* Taille plus grande pour la légende */
+				font-weight: bold;
+			}
 
-            /* Augmenter la taille de la table et des cellules */
-            fieldset .table {
-                font-size: 20px !important; /* Augmenter la taille des textes de la table */
-                border: solid 1px black !important;
-            }
+			/* Augmenter la taille de la table et des cellules */
+			fieldset .table {
+				font-size: 20px !important; /* Augmenter la taille des textes de la table */
+				border: solid 1px black !important;
+			}
 
-            fieldset .table th,
-            fieldset .table td {
-                padding: 8px !important; /* Ajuster l'espace des cellules */
-                font-size: 20px !important; /* Taille plus grande pour le texte des cellules */
-                text-align: center;
-                border: solid 1px #808080 !important; /* Bordure visible */
-            }
+			fieldset .table th,
+			fieldset .table td {
+				padding: 8px !important; /* Ajuster l'espace des cellules */
+				font-size: 20px !important; /* Taille plus grande pour le texte des cellules */
+				text-align: center;
+				border: solid 1px #808080 !important; /* Bordure visible */
+			}
 
-            /* Ajuster la section d'approbation pour la rendre plus lisible */
-            .approved-by p {
-                font-size: 20px;
-            }
-        }
+			/* Ajuster la section d'approbation pour la rendre plus lisible */
+			.approved-by p {
+				font-size: 20px;
+			}
+		}
+	</style>
 
-    </style>
+	<div class="receipt-container">
+		<div class="header text-center">
+			<img src="{{ asset('images/offset.png') }}" alt="Offset Consulting" style="max-width: 170px;">
+			<div class="header text-center">
+				<img src="{{ asset('images/offset.png') }}" alt="{{ societe_info.RaisonSociale }}" style="max-width: 170px;">
+				<p>
+					<b>
+						<i>{{ societe_info.RaisonSociale }}</i>
+					</b>
+				</p>
+				<p>
+					<b>
+						<i>{{ societe_info.Activite }}</i>
+					</b>
+				</p>
+				<p>
+					<b>
+						<i>{{ societe_info.AdressePostale }}
+							{{ societe_info.SiegeSociale }}</i>
+					</b>
+				</p>
+				<p>
+					<b>
+						<i>{{ societe_info.Telephone }}</i>
+					</b>
+				</p>
+				<p>
+					<b>
+						<i>Email:
+							{{ societe_info.Email }}</i>
+					</b>
+				</p>
+				<p>
+					<b>
+						<i>{{ societe_info.SiteInternet }}</i>
+					</b>
+				</p>
+			</div>
+		</div>
 
-    <div class="receipt-container">
-        <div class="header text-center">
-            <img src="{{ asset('images/offset.png') }}" alt="Offset Consulting" style="max-width: 170px;">
-            <p><b><i>Cabinet Offset Consulting</i></b></p>
-            <p><b><i>Audit et Conseil en Organisation Management</i></b></p>
-            <p><b><i>08 BP 2941 Abidjan 08, République de Côte d'Ivoire</i></b></p>
-            <p><b><i>Tél: (225) 27 22 01 59 71  Cél: (225) 07 78 63 63 06</i></b></p>
-            <p><b><i>Email: info@offset-consulting.com</i></b></p>
-            <p><b><i>www.offset-consulting.com</i></b></p>
-        </div>
-
-        <div class="title-box">
-            RECU DE CAISSE
-        </div>
+		<div class="title-box">
+			RECU DE CAISSE
+		</div>
 
 
-        <fieldset>
-            <legend>Information du bon d'approvisionnement</legend>
-            <table class="table table-sm bordered">
-                <thead class="thead-light">
-                <tr>
-                    <th class="text-center">Date</th>
-                    <th>Caisse</th>
-                    <th>Objet</th>
-                    <th class="text-center">Référence Bon</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td class="text-center">{{ bonapprovisionnement.date ? bonapprovisionnement.date|date('d-m-Y') : ''  }}</td>
-                    <td class="text-center">{{ bonapprovisionnement.caisse.intitule }}</td>
-                    <td class="align-middle">{{ bonapprovisionnement.porteur }}</td>
-                    <td class="text-center">{{ bonapprovisionnement.reference }}</td>
-                </tr>
-                </tbody>
-            </table>
-        </fieldset>
+		<fieldset>
+			<legend>Information du bon d'approvisionnement</legend>
+			<table class="table table-sm bordered">
+				<thead class="thead-light">
+					<tr>
+						<th class="text-center">Date</th>
+						<th>Caisse</th>
+						<th>Objet</th>
+						<th class="text-center">Référence Bon</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="text-center">{{ bonapprovisionnement.date ? bonapprovisionnement.date|date('d-m-Y') : ''  }}</td>
+						<td class="text-center">{{ bonapprovisionnement.caisse.intitule }}</td>
+						<td class="align-middle">{{ bonapprovisionnement.porteur }}</td>
+						<td class="text-center">{{ bonapprovisionnement.reference }}</td>
+					</tr>
+				</tbody>
+			</table>
+		</fieldset>
 
-        <fieldset>
-            <legend>Détail reçu de caisse</legend>
-            <table class="table table-sm bordered">
-                <thead class="thead-light">
-                <tr>
-                    <th class="text-center">Bénéficiaire</th>
-{#                    <th>Nom Caissier(e)</th>#}
-                    <th class="text-left">Origine des fonds</th>
-                    <th class="text-left">Référence Document</th>
-                    <th class="text-right">Montant Total (F.CFA)</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td class="align-middle">{{ bonapprovisionnement.destinataire }}</td>
-{#                    <td class="align-middle">{{ bonapprovisionnement.caisse.user }}</td>#}
-                    <td class="text-left">{{ bonapprovisionnement.modepaie }}</td>
-                    <td class="text-center">{{ bonapprovisionnement.nomTiers }}</td>
-                    <td class="text-right separator">{{ bonapprovisionnement.montanttotal | number_format(0, ',', ' ')}}</td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="row approved-by text-center">
-                <div class="col-4">
-                    <p>Approbation :</p>
-                    <p>__________________</p>
-                </div>
-                <div class="col-4">
-                    <p>Caisse :</p>
-                    <p>__________________</p>
-                </div>
-                <div class="col-4">
-                    <p>Bénéficiaire :</p>
-                    <p>__________________</p>
-                </div>
-            </div>
-        </fieldset>
-    </div>
+		<fieldset>
+			<legend>Détail reçu de caisse</legend>
+			<table class="table table-sm bordered">
+				<thead class="thead-light">
+					<tr>
+						<th class="text-center">Bénéficiaire</th>
+						{#                    <th>Nom Caissier(e)</th>#}
+						<th class="text-left">Origine des fonds</th>
+						<th class="text-left">Référence Document</th>
+						<th class="text-right">Montant Total (F.CFA)</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="align-middle">{{ bonapprovisionnement.destinataire }}</td>
+						{#                    <td class="align-middle">{{ bonapprovisionnement.caisse.user }}</td>#}
+						<td class="text-left">{{ bonapprovisionnement.modepaie }}</td>
+						<td class="text-center">{{ bonapprovisionnement.nomTiers }}</td>
+						<td class="text-right separator">{{ bonapprovisionnement.montanttotal | number_format(0, ',', ' ')}}</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="row approved-by text-center">
+				<div class="col-4">
+					<p>Approbation :</p>
+					<p>__________________</p>
+				</div>
+				<div class="col-4">
+					<p>Caisse :</p>
+					<p>__________________</p>
+				</div>
+				<div class="col-4">
+					<p>Bénéficiaire :</p>
+					<p>__________________</p>
+				</div>
+			</div>
+		</fieldset>
+	</div>
 {% endblock %}

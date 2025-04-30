@@ -1,232 +1,272 @@
 {% extends 'imprimer.html.twig' %}
 
 {% block body %}
-    <style>
-        .receipt-container {
-            margin: 20px;
-            font-family: Arial, sans-serif;
-        }
-        .header img {
-            margin: 20px 0;
-        }
-        .header p {
-            margin: 0;
-            font-size: 14px;
-        }
-        .title-box {
-            margin: 20px 0;
-            padding: 10px;
-            border: 1px solid black;
-            text-align: center;
-            font-size: 18px;
-            font-weight: bold;
-        }
-        fieldset {
-            margin-top: 20px;
-            padding: 10px;
-            border: 1px solid #ddd;
-        }
-        legend {
-            font-size: 36px;
-            font-weight: bold;
-            margin-bottom: 10px;
+	<style>
+		.receipt-container {
+			margin: 20px;
+			font-family: Arial, sans-serif;
+		}
+		.header img {
+			margin: 20px 0;
+		}
+		.header p {
+			margin: 0;
+			font-size: 14px;
+		}
+		.title-box {
+			margin: 20px 0;
+			padding: 10px;
+			border: 1px solid black;
+			text-align: center;
+			font-size: 18px;
+			font-weight: bold;
+		}
+		fieldset {
+			margin-top: 20px;
+			padding: 10px;
+			border: 1px solid #ddd;
+		}
+		legend {
+			font-size: 36px;
+			font-weight: bold;
+			margin-bottom: 10px;
 
-        }
-        .main-content div {
-            margin-bottom: 5px;
-        }
-        .approved-by p {
-            margin: 5px 0;
-        }
-        .table th, .table td {
-            padding: 5px;
-        }
-        .separator {
-            text-align: right;
-        }
-        @media print {
-            .btn-print, .btn-home, .btn-back, .print-button {
-                display: none !important;
-            }
+		}
+		.main-content div {
+			margin-bottom: 5px;
+		}
+		.approved-by p {
+			margin: 5px 0;
+		}
+		.table th,
+		.table td {
+			padding: 5px;
+		}
+		.separator {
+			text-align: right;
+		}
+		@media print {
+			.btn-print,
+			.btn-home,
+			.btn-back,
+			.print-button {
+				display: none !important;
+			}
 
-            /* Augmentation de la taille de police globale */
-            body {
-                font-size: 26px; /* Augmentation de la taille globale */
-            }
+			/* Augmentation de la taille de police globale */
+			body {
+				font-size: 26px; /* Augmentation de la taille globale */
+			}
 
-            /* Augmenter la taille des paragraphes et éléments dans le header */
-            .header p {
-                font-size: 14px;
-            }
+			/* Augmenter la taille des paragraphes et éléments dans le header */
+			.header p {
+				font-size: 14px;
+			}
 
-            /* Augmenter la taille du titre */
-            .title-box {
-                margin: 10px 0;
-                padding: 5px;
-                font-size: 30px; /* Taille augmentée pour le titre */
-            }
+			/* Augmenter la taille du titre */
+			.title-box {
+				margin: 10px 0;
+				padding: 5px;
+				font-size: 30px; /* Taille augmentée pour le titre */
+			}
 
-            /* Augmenter la taille de la légende et des textes de la div principale */
-            legend {
-                font-size: 58px; /* Taille augmentée pour les légendes */
-            }
+			/* Augmenter la taille de la légende et des textes de la div principale */
+			legend {
+				font-size: 58px; /* Taille augmentée pour les légendes */
+			}
 
-            .main-content div {
-                margin-bottom: 3px;
-                font-size: 20px; /* Taille augmentée pour les détails principaux */
-            }
+			.main-content div {
+				margin-bottom: 3px;
+				font-size: 20px; /* Taille augmentée pour les détails principaux */
+			}
 
-            .table {
-                width: 100%;
-                border-collapse: collapse;
-                margin-bottom: 20px;
-                font-size: 44px; /* Taille de police augmentée pour la table */
-                border: solid 1px black;
+			.table {
+				width: 100%;
+				border-collapse: collapse;
+				margin-bottom: 20px;
+				font-size: 44px; /* Taille de police augmentée pour la table */
+				border: solid 1px black;
 
-            }
+			}
 
-            .table th, .table td {
-                padding: 5px;
-                text-align: left;
-                font-size: 20px; /* Taille augmentée pour les cellules de table */
-                white-space: nowrap;
-                border: solid 1px black;
-                vertical-align: top;
-            }
+			.table th,
+			.table td {
+				padding: 5px;
+				text-align: left;
+				font-size: 20px; /* Taille augmentée pour les cellules de table */
+				white-space: nowrap;
+				border: solid 1px black;
+				vertical-align: top;
+			}
 
-            .table td:first-child {
-                white-space: normal; /* Permet le retour à la ligne */
-                word-wrap: break-word; /* Coupe le texte en cas de dépassement */
-                max-width: 40%; /* Limite la largeur pour éviter les débordements */
-            }
+			.table td:first-child {
+				white-space: normal; /* Permet le retour à la ligne */
+				word-wrap: break-word; /* Coupe le texte en cas de dépassement */
+				max-width: 40%; /* Limite la largeur pour éviter les débordements */
+			}
 
-            .table td:nth-child(2),
-            .table td:nth-child(3),
-            .table td:nth-child(4) {
-                max-width: 15%; /* Ajuste la largeur */
-                white-space: nowrap; /* Empêche la coupure automatique pour les nombres */
-            }
+			.table td:nth-child(2),
+			.table td:nth-child(3),
+			.table td:nth-child(4) {
+				max-width: 15%; /* Ajuste la largeur */
+				white-space: nowrap; /* Empêche la coupure automatique pour les nombres */
+			}
 
-            /* Augmenter la taille de la légende */
-            fieldset legend {
-                font-size: 20px !important; /* Taille plus grande pour la légende */
-                font-weight: bold;
-            }
+			/* Augmenter la taille de la légende */
+			fieldset legend {
+				font-size: 20px !important; /* Taille plus grande pour la légende */
+				font-weight: bold;
+			}
 
-            /* Augmenter la taille de la table et des cellules */
-            fieldset .table {
-                font-size: 20px !important; /* Augmenter la taille des textes de la table */
-                border: solid 1px black !important;
-            }
+			/* Augmenter la taille de la table et des cellules */
+			fieldset .table {
+				font-size: 20px !important; /* Augmenter la taille des textes de la table */
+				border: solid 1px black !important;
+			}
 
-            fieldset .table th,
-            fieldset .table td {
-                padding: 8px !important; /* Ajuster l'espace des cellules */
-                font-size: 20px !important; /* Taille plus grande pour le texte des cellules */
-                text-align: left;
-                border: solid 1px #808080 !important; /* Bordure visible */
-            }
+			fieldset .table th,
+			fieldset .table td {
+				padding: 8px !important; /* Ajuster l'espace des cellules */
+				font-size: 20px !important; /* Taille plus grande pour le texte des cellules */
+				text-align: left;
+				border: solid 1px #808080 !important; /* Bordure visible */
+			}
 
-            /* Ajuster la section d'approbation pour la rendre plus lisible */
-            .approved-by p {
-                font-size: 20px;
-            }
-        }
+			/* Ajuster la section d'approbation pour la rendre plus lisible */
+			.approved-by p {
+				font-size: 20px;
+			}
+		}
+	</style>
 
+	<div class="receipt-container">
+		<div class="header text-center">
+			<img src="{{ asset('images/offset.png') }}" alt="Offset Consulting" style="max-width: 170px;">
+			<div class="header text-center">
+				<img src="{{ asset('images/offset.png') }}" alt="{{ societe_info.RaisonSociale }}" style="max-width: 170px;">
+				<p>
+					<b>
+						<i>{{ societe_info.RaisonSociale }}</i>
+					</b>
+				</p>
+				<p>
+					<b>
+						<i>{{ societe_info.Activite }}</i>
+					</b>
+				</p>
+				<p>
+					<b>
+						<i>{{ societe_info.AdressePostale }}
+							{{ societe_info.SiegeSociale }}</i>
+					</b>
+				</p>
+				<p>
+					<b>
+						<i>{{ societe_info.Telephone }}</i>
+					</b>
+				</p>
+				<p>
+					<b>
+						<i>Email:
+							{{ societe_info.Email }}</i>
+					</b>
+				</p>
+				<p>
+					<b>
+						<i>{{ societe_info.SiteInternet }}</i>
+					</b>
+				</p>
+			</div>
+		</div>
 
+		<div class="title-box">
+			BON DE MISSION
 
-    </style>
+		</div>
 
-    <div class="receipt-container">
-        <div class="header text-center">
-            <img src="{{ asset('images/offset.png') }}" alt="Offset Consulting" style="max-width: 170px;">
-            <p><b><i>Cabinet Offset Consulting</i></b></p>
-            <p><b><i>Audit et Conseil en Organisation Management</i></b></p>
-            <p><b><i>08 BP 2941 Abidjan 08, République de Côte d'Ivoire</i></b></p>
-            <p><b><i>Tél: (225) 27 22 01 59 71  Cél: (225) 07 78 63 63 06</i></b></p>
-            <p><b><i>Email: info@offset-consulting.com</i></b></p>
-            <p><b><i>www.offset-consulting.com</i></b></p>
-        </div>
+		<fieldset>
+			{% for bonMission in order.bonMissions %}
+				<legend>Information Décaissement
+					{{ bonMission.reference}}</legend>
+			{% endfor %}
 
-        <div class="title-box">
-            BON DE MISSION
+			<div class="main-content">
+				<div>
+					<strong>Date :</strong>
+					{{ order.date ? order.date|date('d-m-Y') : '' }}
+				</div>
+				<div>
+					<strong>Bénéficiaire :</strong>
+					{{ order.orderTo }}
+				</div>
 
-        </div>
+				<div>
+					<strong>Objet de la mission :</strong>
+					{{ order.fullName }}
+				</div>
+				{% for bonMission in order.bonMissions %}
+					<div>
+						<strong>Montant en lettres :</strong>
+						{{ numberToWords.convertNumberToWords(bonMission.total) }}
+						francs
+					</div>
+				{% endfor %}
+				<div>
+					<strong>Statut :</strong>
+					Validé
+				</div>
+			</div>
+		</fieldset>
 
-        <fieldset>
-            {% for bonMission in order.bonMissions %}
-                <legend>Information Décaissement {{ bonMission.reference}}</legend>
-            {% endfor %}
+		<fieldset>
+			<legend>Détail Opération</legend>
+			<table class="table table-bordered table-sm">
+				<thead>
+					<tr>
+						<th>Objet de la dépense</th>
+						<th>Quantité</th>
+						<th>Prix unitaire</th>
+						<th>Montant TTC (F.CFA)</th>
+					</tr>
+				</thead>
+				<tbody id="order_mission_detailMission">
+					{% for bonMission in order.bonMissions %}
+						{% for detailBonMission in bonMission.detailBonMission %}
+							<tr>
+								<td>{{ detailBonMission.rubrique }}</td>
+								<td class="text-center">{{ detailBonMission.quantite }}</td>
+								<td class="separator text-right">{{ detailBonMission.price|number_format(0, ',', ' ') }}
+								</td>
+								<td class="separator text-right">{{ detailBonMission.montant|number_format(0, ',', ' ') }}
+								</td>
+							</tr>
+						{% endfor %}
+					{% endfor %}
+				</tbody>
+				<tfoot>
+					{% for bonMission in order.bonMissions %}
+						<tr>
+							<th colspan="3">Total</th>
+							<th class="separator text-right">{{ bonMission.total|number_format(0, ',', ' ') }}</th>
+						</tr>
+					{% endfor %}
+				</tfoot>
 
-            <div class="main-content">
-                <div>
-                    <strong>Date :</strong> {{ order.date ? order.date|date('d-m-Y') : '' }}
-                </div>
-                <div>
-                    <strong>Bénéficiaire :</strong> {{ order.orderTo }}
-                </div>
-
-                    <div>
-                        <strong>Objet de la mission :</strong> {{ order.fullName }}
-                    </div>
-                {% for bonMission in order.bonMissions %}
-                    <div>
-                        <strong>Montant en lettres :</strong> {{ numberToWords.convertNumberToWords(bonMission.total) }} francs
-                    </div>
-                {% endfor %}
-                <div>
-                    <strong>Statut :</strong> Validé
-                </div>
-            </div>
-        </fieldset>
-
-        <fieldset>
-            <legend>Détail Opération</legend>
-            <table class="table table-bordered table-sm">
-                <thead>
-                <tr>
-                    <th>Objet de la dépense</th>
-                    <th>Quantité</th>
-                    <th>Prix unitaire</th>
-                    <th>Montant TTC (F.CFA)</th>
-                </tr>
-                </thead>
-                <tbody id="order_mission_detailMission">
-                {% for bonMission in order.bonMissions %}
-                {% for detailBonMission in bonMission.detailBonMission %}
-                <tr>
-                    <td>{{ detailBonMission.rubrique }}</td>
-                    <td class="text-center">{{ detailBonMission.quantite }}</td>
-                    <td class="separator text-right">{{ detailBonMission.price|number_format(0, ',', ' ') }} </td>
-                    <td class="separator text-right">{{ detailBonMission.montant|number_format(0, ',', ' ') }} </td>
-                </tr>
-                {% endfor %}
-                {% endfor %}
-                </tbody>
-                <tfoot>
-                {% for bonMission in order.bonMissions %}
-                <tr>
-                    <th colspan="3">Total</th>
-                    <th class="separator text-right">{{ bonMission.total|number_format(0, ',', ' ') }}</th>
-                </tr>
-                {% endfor %}
-                </tfoot>
-
-            </table>
-            <div class="row approved-by text-center">
-                <div class="col-4">
-                    <p>Approbation :</p>
-                    <p>__________________</p>
-                </div>
-                <div class="col-4">
-                    <p>Caisse :</p>
-                    <p>__________________</p>
-                </div>
-                <div class="col-4">
-                    <p>Bénéficiaire :</p>
-                    <p>__________________</p>
-                </div>
-            </div>
-        </fieldset>
-    </div>
+			</table>
+			<div class="row approved-by text-center">
+				<div class="col-4">
+					<p>Approbation :</p>
+					<p>__________________</p>
+				</div>
+				<div class="col-4">
+					<p>Caisse :</p>
+					<p>__________________</p>
+				</div>
+				<div class="col-4">
+					<p>Bénéficiaire :</p>
+					<p>__________________</p>
+				</div>
+			</div>
+		</fieldset>
+	</div>
 {% endblock %}

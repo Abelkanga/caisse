@@ -8,16 +8,16 @@ use App\Repository\SocieteRepository;
 class SocieteService
 {
     private SocieteRepository $societeRepository;
+
     public function __construct(SocieteRepository $societeRepository)
     {
         $this->societeRepository = $societeRepository;
     }
 
-    public function info(): Societe
+    public function __invoke(): Societe
     {
         $societe = $this->societeRepository->getFirstResult();
 
         return $societe;
     }
-
 }

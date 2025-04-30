@@ -1,310 +1,342 @@
 {% extends 'imprimer.html.twig' %}
 
 {% block body %}
-    <style>
-        .receipt-container {
-            margin: 20px;
-            font-family: Arial, sans-serif;
-        }
-        .header img {
-            margin: 20px 0;
-        }
-        .header p {
-            margin: 0;
-            font-size: 14px;
-        }
-        .title-box {
-            margin: 20px 0;
-            padding: 10px;
-            border: 1px solid black;
-            text-align: center;
-            font-size: 18px;
-            font-weight: bold;
-        }
-        fieldset {
-            margin-top: 20px;
-            padding: 10px;
-            border: 1px solid #ddd;
-        }
-        legend {
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        .main-content div {
-            margin-bottom: 5px;
-        }
-        .approved-by p {
-            margin: 5px 0;
-        }
-        .table th, .table td {
-            padding: 5px;
-        }
-        .separator {
-            text-align: right;
-        }
-        table.table {
-            border: 1px solid #ddd;
-            border-collapse: collapse;
-            width: 100%;
-            margin-top: 20px;
-        }
+	<style>
+		.receipt-container {
+			margin: 20px;
+			font-family: Arial, sans-serif;
+		}
+		.header img {
+			margin: 20px 0;
+		}
+		.header p {
+			margin: 0;
+			font-size: 14px;
+		}
+		.title-box {
+			margin: 20px 0;
+			padding: 10px;
+			border: 1px solid black;
+			text-align: center;
+			font-size: 18px;
+			font-weight: bold;
+		}
+		fieldset {
+			margin-top: 20px;
+			padding: 10px;
+			border: 1px solid #ddd;
+		}
+		legend {
+			font-size: 16px;
+			font-weight: bold;
+			margin-bottom: 10px;
+		}
+		.main-content div {
+			margin-bottom: 5px;
+		}
+		.approved-by p {
+			margin: 5px 0;
+		}
+		.table th,
+		.table td {
+			padding: 5px;
+		}
+		.separator {
+			text-align: right;
+		}
+		table.table {
+			border: 1px solid #ddd;
+			border-collapse: collapse;
+			width: 100%;
+			margin-top: 20px;
+		}
 
-        table.table th,
-        table.table td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: center;
-            vertical-align: middle;
-        }
+		table.table th,
+		table.table td {
+			border: 1px solid #ddd;
+			padding: 8px;
+			text-align: center;
+			vertical-align: middle;
+		}
 
-        /* Table Header Styling */
-        table.table thead th {
-            background-color: #f8f9fa;
-            font-weight: bold;
-        }
+		/* Table Header Styling */
+		table.table thead th {
+			background-color: #f8f9fa;
+			font-weight: bold;
+		}
 
-        /* Legend Styling */
-        fieldset legend {
-            font-size: 1.2em;
-            font-weight: bold;
-            color: #2c3e50;
-            border-bottom: 2px solid #2c3e50;
-            padding-bottom: 5px;
-            margin-bottom: 10px;
-        }
+		/* Legend Styling */
+		fieldset legend {
+			font-size: 1.2em;
+			font-weight: bold;
+			color: #2c3e50;
+			border-bottom: 2px solid #2c3e50;
+			padding-bottom: 5px;
+			margin-bottom: 10px;
+		}
 
-        /* Input Field Styling */
-        .form-control {
-            border-radius: 4px;
-            border: 1px solid #ccc;
-            padding: 6px 12px;
-        }
+		/* Input Field Styling */
+		.form-control {
+			border-radius: 4px;
+			border: 1px solid #ccc;
+			padding: 6px 12px;
+		}
 
-        /* Output Field Styling */
-        .output {
-            font-weight: bold;
-            color: #34495e;
-        }
+		/* Output Field Styling */
+		.output {
+			font-weight: bold;
+			color: #34495e;
+		}
 
-        /* Totals and Subtotals */
-        table.table tr[style*="font-weight: 600"] td {
-            background-color: #e9ecef;
-        }
+		/* Totals and Subtotals */
+		table.table tr[style*="font-weight: 600"] td {
+			background-color: #e9ecef;
+		}
 
-        table.table tr[style*="font-weight: 900"] td {
-            background-color: #d1ecf1;
-        }
-
-
-        button:hover {
-            background-color: #0056b3;
-        }
-
-        /* Additional padding for the overall form */
-        form {
-            padding: 20px;
-            background-color: #f5f5f5;
-            border-radius: 8px;
-        }
-    </style>
+		table.table tr[style*="font-weight: 900"] td {
+			background-color: #d1ecf1;
+		}
 
 
-    <div class="receipt-container">
-        <div class="header text-center">
-            <img src="{{ asset('images/offset.png') }}" alt="Offset Consulting" style="max-width: 170px;">
-            <p><b><i>Cabinet Offset Consulting</i></b></p>
-            <p><b><i>Audit et Conseil en Organisation Management</i></b></p>
-            <p><b><i>08 BP 2941 Abidjan 08, République de Côte d'Ivoire</i></b></p>
-            <p><b><i>Tél: (225) 27 22 01 59 71  Cél: (225) 07 78 63 63 06</i></b></p>
-            <p><b><i>Email: info@offset-consulting.com</i></b></p>
-            <p><b><i>www.offset-consulting.com</i></b></p>
-        </div>
+		button:hover {
+			background-color: #0056b3;
+		}
 
-        <div class="title-box">
-            BILLETAGE
-        </div>
+		/* Additional padding for the overall form */
+		form {
+			padding: 20px;
+			background-color: #f5f5f5;
+			border-radius: 8px;
+		}
+	</style>
 
-        <fieldset>
-            <legend>Information du billetage</legend>
-            <div class="table-responsive"> <!-- Conteneur responsif ajouté -->
-            <table class="table table-bordered table-highlight-head bordered table-condensed">
-                <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Référence</th>
-                    <th>Caisse</th>
-                    <th>Solde théorique</th>
-                    <th>Solde réel</th>
-                    <th>Ecart</th>
-                    <th>Statut</th>
-                </tr>
-                </thead>
 
-                <tbody>
-                <tr>
-                    <td class="text-center">{{ billetage.date ? billetage.date|date('d/m/Y') : '' }}</td>
-                    <td class="text-center">{{ billetage.reference }}</td>
-                    <td class="text-left">{{ billetage.caisse }}</td>
-                    <td class="text-right">{{ billetage.balance | number_format(0, ',', ' ') }}</td>
-                    <td class="text-right">{{ billetage.amount | number_format(0, ',', ' ') }}</td>
-                    <td class="text-right">{{ billetage.ecart | number_format(0, ',', ' ') }}</td>
-                    <td class="text-center">
-                        <span class="label label-{{ billetage.status == 'VALIDATED' ? 'success': (billetage.status == 'DRAFT' ? 'info' : 'primary') }}">
-                            validé
-                        </span>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-            </div>
-        </fieldset>
-        <hr>
-        <fieldset>
-            {% set bt = billetage %}
-            <legend>Détail du billetage</legend>
-            <table class="table table-bordered table-highlight-head bordered table-condensed">
-                <thead>
-                <tr>
-                    <th class="align-center">Nominal</th>
-                    <th class="align-center">Montant disponible</th>
-                    <th class="align-center">Total</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td colspan="3">Billet</td>
-                </tr>
-                <tr>
-                    <td>
-                        <output>10 000</output>
-                    </td>
-                    <td class="text-right">
-                        {{ bt.b10000 }}
-                    </td>
-                    <td class="text-right">{{ (bt.b10000 * 10000)|number_format(0, ',', ' ') }}</td>
-                </tr>
-                <tr>
-                    <td>
-                        <output>5 000</output>
-                    </td>
-                    <td class="text-right">
-                        {{ bt.b5000 }}
-                    </td>
-                    <td class="text-right">{{ (bt.b5000 * 5000)|number_format(0, ',', ' ') }}</td>
-                </tr>
-                <tr>
-                    <td>
-                        <output>2 000</output>
-                    </td>
-                    <td class="text-right">
-                        {{ bt.b2000 }}
-                    </td>
-                    <td class="text-right">{{ (bt.b2000 * 2000)|number_format(0, ',', ' ') }}</td>
-                </tr>
-                <tr>
-                    <td>
-                        <output>1 000</output>
-                    </td>
-                    <td class="text-right">
-                        {{ bt.b1000 }}
-                    </td>
-                    <td class="text-right">{{ (bt.b1000 * 1000)|number_format(0, ',', ' ') }}</td>
-                </tr>
-                <tr>
-                    <td>
-                        <output>500</output>
-                    </td>
-                    <td class="text-right">
-                        {{ bt.b500 }}
-                    </td>
-                    <td class="text-right">{{ (bt.b500 * 500)|number_format(0, ',', ' ') }}</td>
-                </tr>
-                <tr style="font-weight: 600">
-                    <td colspan="2">Sous Total</td>
-                    <td class="text-right">
-                        {% set sousTotal1 = (bt.b10000 * 10000) + (bt.b5000 * 5000) + (bt.b2000 * 2000) + (bt.b1000 * 1000) + (bt.b500 * 500) %}
-                        {{ sousTotal1 | number_format(0, ',', ' ') }}
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="3">Monnaie</td>
-                </tr>
-                <tr>
-                    <td>
-                        <output>500</output>
-                    </td>
-                    <td class="text-right">
-                        {{ bt.m500 }}
-                    </td>
-                    <td class="text-right">{{ (bt.m500 * 500)|number_format(0, ',', ' ') }}</td>
-                </tr>
-                <tr>
-                    <td>
-                        <output>250</output>
-                    </td>
-                    <td class="text-right">
-                        {{ bt.m250 }}
-                    </td>
-                    <td class="text-right">{{ (bt.m250 * 250)|number_format(0, ',', ' ') }}</td>
-                </tr>
-                <tr>
-                    <td>
-                        <output>200</output>
-                    </td>
-                    <td class="text-right">
-                        {{ bt.m200 }}
-                    </td>
-                    <td class="text-right">{{ (bt.m200 * 200)|number_format(0, ',', ' ') }}</td>
-                </tr>
-                <tr>
-                    <td>
-                        <output>100</output>
-                    </td>
-                    <td class="text-right">
-                        {{ bt.m100 }}
-                    </td>
-                    <td class="text-right">{{ (bt.m100 * 100)|number_format(0, ',', ' ') }}</td>
-                </tr>
-                <tr>
-                    <td>
-                        <output>50</output>
-                    </td>
-                    <td class="text-right">
-                        {{ bt.m50 }}
-                    </td>
-                    <td class="text-right">{{ (bt.m50 * 50)|number_format(0, ',', ' ') }}</td>
-                </tr>
+	<div class="receipt-container">
+		<div class="header text-center">
+			<img src="{{ asset('images/offset.png') }}" alt="Offset Consulting" style="max-width: 170px;">
+			<div class="header text-center">
+				<img src="{{ asset('images/offset.png') }}" alt="{{ societe_info.RaisonSociale }}" style="max-width: 170px;">
+				<p>
+					<b>
+						<i>{{ societe_info.RaisonSociale }}</i>
+					</b>
+				</p>
+				<p>
+					<b>
+						<i>{{ societe_info.Activite }}</i>
+					</b>
+				</p>
+				<p>
+					<b>
+						<i>{{ societe_info.AdressePostale }}
+							{{ societe_info.SiegeSociale }}</i>
+					</b>
+				</p>
+				<p>
+					<b>
+						<i>{{ societe_info.Telephone }}</i>
+					</b>
+				</p>
+				<p>
+					<b>
+						<i>Email:
+							{{ societe_info.Email }}</i>
+					</b>
+				</p>
+				<p>
+					<b>
+						<i>{{ societe_info.SiteInternet }}</i>
+					</b>
+				</p>
+			</div>
+		</div>
 
-                <tr>
-                    <td>
-                        <output>10</output>
-                    </td>
-                    <td class="text-right">
-                        {{ bt.m10 }}
-                    </td>
-                    <td class="text-right">{{ (bt.m10 * 10)|number_format(0, ',', ' ') }}</td>
-                </tr>
-                <tr>
-                    <td>
-                        <output>5</output>
-                    </td>
-                    <td class="text-right">
-                        {{ bt.m5 }}
-                    </td>
-                    <td class="text-right">{{ (bt.m5 * 5)|number_format(0, ',', ' ') }}</td>
-                </tr>
+		<div class="title-box">
+			BILLETAGE
+		</div>
 
-                <tr style="font-weight: 600">
-                    <td colspan="2">Sous Total 2</td>
-                    <td class="text-right">
-                        {% set sousTotal2 = (bt.m500 * 500) + (bt.m250 * 250) + (bt.m200 * 200) + (bt.m100 * 100) + (bt.m50 * 50) + (bt.m10 * 10) + (bt.m5 * 5) %}
-                        {{ sousTotal2 | number_format(0, ',', ' ') }}
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </fieldset>
-    </div>
+		<fieldset>
+			<legend>Information du billetage</legend>
+			<div
+				class="table-responsive">
+				<!-- Conteneur responsif ajouté -->
+				<table class="table table-bordered table-highlight-head bordered table-condensed">
+					<thead>
+						<tr>
+							<th>Date</th>
+							<th>Référence</th>
+							<th>Caisse</th>
+							<th>Solde théorique</th>
+							<th>Solde réel</th>
+							<th>Ecart</th>
+							<th>Statut</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						<tr>
+							<td class="text-center">{{ billetage.date ? billetage.date|date('d/m/Y') : '' }}</td>
+							<td class="text-center">{{ billetage.reference }}</td>
+							<td class="text-left">{{ billetage.caisse }}</td>
+							<td class="text-right">{{ billetage.balance | number_format(0, ',', ' ') }}</td>
+							<td class="text-right">{{ billetage.amount | number_format(0, ',', ' ') }}</td>
+							<td class="text-right">{{ billetage.ecart | number_format(0, ',', ' ') }}</td>
+							<td class="text-center">
+								<span class="label label-{{ billetage.status == 'VALIDATED' ? 'success': (billetage.status == 'DRAFT' ? 'info' : 'primary') }}">
+									validé
+								</span>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</fieldset>
+		<hr>
+		<fieldset>
+			{% set bt = billetage %}
+			<legend>Détail du billetage</legend>
+			<table class="table table-bordered table-highlight-head bordered table-condensed">
+				<thead>
+					<tr>
+						<th class="align-center">Nominal</th>
+						<th class="align-center">Montant disponible</th>
+						<th class="align-center">Total</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td colspan="3">Billet</td>
+					</tr>
+					<tr>
+						<td>
+							<output>10 000</output>
+						</td>
+						<td class="text-right">
+							{{ bt.b10000 }}
+						</td>
+						<td class="text-right">{{ (bt.b10000 * 10000)|number_format(0, ',', ' ') }}</td>
+					</tr>
+					<tr>
+						<td>
+							<output>5 000</output>
+						</td>
+						<td class="text-right">
+							{{ bt.b5000 }}
+						</td>
+						<td class="text-right">{{ (bt.b5000 * 5000)|number_format(0, ',', ' ') }}</td>
+					</tr>
+					<tr>
+						<td>
+							<output>2 000</output>
+						</td>
+						<td class="text-right">
+							{{ bt.b2000 }}
+						</td>
+						<td class="text-right">{{ (bt.b2000 * 2000)|number_format(0, ',', ' ') }}</td>
+					</tr>
+					<tr>
+						<td>
+							<output>1 000</output>
+						</td>
+						<td class="text-right">
+							{{ bt.b1000 }}
+						</td>
+						<td class="text-right">{{ (bt.b1000 * 1000)|number_format(0, ',', ' ') }}</td>
+					</tr>
+					<tr>
+						<td>
+							<output>500</output>
+						</td>
+						<td class="text-right">
+							{{ bt.b500 }}
+						</td>
+						<td class="text-right">{{ (bt.b500 * 500)|number_format(0, ',', ' ') }}</td>
+					</tr>
+					<tr style="font-weight: 600">
+						<td colspan="2">Sous Total</td>
+						<td class="text-right">
+							{% set sousTotal1 = (bt.b10000 * 10000) + (bt.b5000 * 5000) + (bt.b2000 * 2000) + (bt.b1000 * 1000) + (bt.b500 * 500) %}
+							{{ sousTotal1 | number_format(0, ',', ' ') }}
+						</td>
+					</tr>
+					<tr>
+						<td colspan="3">Monnaie</td>
+					</tr>
+					<tr>
+						<td>
+							<output>500</output>
+						</td>
+						<td class="text-right">
+							{{ bt.m500 }}
+						</td>
+						<td class="text-right">{{ (bt.m500 * 500)|number_format(0, ',', ' ') }}</td>
+					</tr>
+					<tr>
+						<td>
+							<output>250</output>
+						</td>
+						<td class="text-right">
+							{{ bt.m250 }}
+						</td>
+						<td class="text-right">{{ (bt.m250 * 250)|number_format(0, ',', ' ') }}</td>
+					</tr>
+					<tr>
+						<td>
+							<output>200</output>
+						</td>
+						<td class="text-right">
+							{{ bt.m200 }}
+						</td>
+						<td class="text-right">{{ (bt.m200 * 200)|number_format(0, ',', ' ') }}</td>
+					</tr>
+					<tr>
+						<td>
+							<output>100</output>
+						</td>
+						<td class="text-right">
+							{{ bt.m100 }}
+						</td>
+						<td class="text-right">{{ (bt.m100 * 100)|number_format(0, ',', ' ') }}</td>
+					</tr>
+					<tr>
+						<td>
+							<output>50</output>
+						</td>
+						<td class="text-right">
+							{{ bt.m50 }}
+						</td>
+						<td class="text-right">{{ (bt.m50 * 50)|number_format(0, ',', ' ') }}</td>
+					</tr>
+
+					<tr>
+						<td>
+							<output>10</output>
+						</td>
+						<td class="text-right">
+							{{ bt.m10 }}
+						</td>
+						<td class="text-right">{{ (bt.m10 * 10)|number_format(0, ',', ' ') }}</td>
+					</tr>
+					<tr>
+						<td>
+							<output>5</output>
+						</td>
+						<td class="text-right">
+							{{ bt.m5 }}
+						</td>
+						<td class="text-right">{{ (bt.m5 * 5)|number_format(0, ',', ' ') }}</td>
+					</tr>
+
+					<tr style="font-weight: 600">
+						<td colspan="2">Sous Total 2</td>
+						<td class="text-right">
+							{% set sousTotal2 = (bt.m500 * 500) + (bt.m250 * 250) + (bt.m200 * 200) + (bt.m100 * 100) + (bt.m50 * 50) + (bt.m10 * 10) + (bt.m5 * 5) %}
+							{{ sousTotal2 | number_format(0, ',', ' ') }}
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</fieldset>
+	</div>
 
 {% endblock %}
