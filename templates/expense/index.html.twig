@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Expense index
+{% endblock %}
+
+{% block body %}
+	<div class="col-12 col-md-12">
+		<div class="card">
+			<div class="card-header bg-soft-custom">
+				Listes des types d'opération
+			</div>
+			<div class="card-body">
+				<div class="table-responsive">
+					<table class="table table-striped table-hover bordered table-sm basic-datatable">
+						<thead>
+							<tr>
+								<th>Id</th>
+								<th>Code</th>
+								<th>Name</th>
+								<th>Status</th>
+								<th>Autre</th>
+								<th>actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for expense in expenses %}
+								<tr>
+									<td>{{ expense.id }}</td>
+									<td>{{ expense.code }}</td>
+									<td>{{ expense.name }}</td>
+									<td>{{ expense.status }}</td>
+									<td>{{ expense.autre }}</td>
+									<td>
+										<a href="{{ path('app_expense_show', {'id': expense.id}) }}">show</a>
+										<a href="{{ path('app_expense_edit', {'id': expense.id}) }}">edit</a>
+									</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="card-footer">
+				<div class="card-footer-content">
+					<a href="{{ path('app_type_expense_new') }}" class="btn btn-success float-right ml-3">
+						Nouveau</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

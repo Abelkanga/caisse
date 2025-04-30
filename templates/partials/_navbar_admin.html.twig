@@ -1,44 +1,43 @@
 <!-- .menu-header -->
 <li class="menu-header">GESTION SOCIETE</li>
 <li class="menu-item has-child">
-    <a href="#" class="menu-link">
-        <span class="fa-solid fa-building p-2"></span>
-        <span class="menu-text">Société</span>
-    </a>
-    <!-- child menu -->
-    <ul class="menu">
-{#        <li class="menu-item {{ app.request.get('_route') == 'app_societe_new' ? 'has-active': '' }}">#}
-{#            <a href="{{ path('app_societe_new') }}" class="menu-link">Créer</a>#}
-{#        </li>#}
-        <li class="menu-item {{ app.request.get('_route') == 'app_societe_index' ? 'has-active': '' }}">
-            <a href="{{ path('app_societe_index') }}" class="menu-link">Voir</a>
-        </li>
+	<a href="#" class="menu-link">
+		<span class="fa-solid fa-building p-2"></span>
+		<span class="menu-text">Société</span>
+	</a>
+	<!-- child menu -->
+	<ul class="menu">
+		{#        <li class="menu-item {{ app.request.get('_route') == 'app_societe_new' ? 'has-active': '' }}">#}
+		{#            <a href="{{ path('app_societe_new') }}" class="menu-link">Créer</a>#}
+		{#        </li>#}
+			<li class="menu-item {{ app.request.get('_route') == 'app_societe_index' ? 'has-active': '' }}"> <a href="{{ path('app_societe_index') }}" class="menu-link">Voir</a>
+		</li>
 
-    </ul>
-    <!-- /child menu -->
-    <!-- .menu-item -->
+	</ul>
+	<!-- /child menu -->
+	<!-- .menu-item -->
 </li>
 
 
 <li class="menu-header">GESTION CAISSE</li>
 <li class="menu-item has-child">
-    <a href="#" class="menu-link">
-        <span class="fa-solid fa-money-bill p-2"></span>
+	<a href="#" class="menu-link">
+		<span class="fa-solid fa-money-bill p-2"></span>
 
-        <span class="menu-text">Caisse</span>
-    </a>
-    <!-- child menu -->
-    <ul class="menu">
-        <li class="menu-item {{ app.request.get('_route') == 'caisse_new' ? 'has-active': '' }}">
-            <a href="{{ path('caisse_new') }}" class="menu-link">Créer</a>
-        </li>
-        <li class="menu-item {{ app.request.get('_route') == 'caisse_index' ? 'has-active': '' }}">
-            <a href="{{ path('caisse_index') }}" class="menu-link">Liste</a>
-        </li>
+		<span class="menu-text">Caisse</span>
+	</a>
+	<!-- child menu -->
+	<ul class="menu">
+		<li class="menu-item {{ app.request.get('_route') == 'caisse_new' ? 'has-active': '' }}">
+			<a href="{{ path('caisse_new') }}" class="menu-link">Créer</a>
+		</li>
+		<li class="menu-item {{ app.request.get('_route') == 'caisse_index' ? 'has-active': '' }}">
+			<a href="{{ path('caisse_index') }}" class="menu-link">Liste</a>
+		</li>
 
-    </ul>
-    <!-- /child menu -->
-    <!-- .menu-item -->
+	</ul>
+	<!-- /child menu -->
+	<!-- .menu-item -->
 </li>
 
 <li class="menu-header">GESTION UTILISATEUR</li>
@@ -72,24 +71,38 @@
 {#	<!-- /child menu -->#}
 {#</li>#}
 
-<li class="menu-item has-child">
-    <a href="#" class="menu-link">
-        <span class="fa-solid fa-user p-2"></span>
+	<li class="menu-item has-child"> <a href="#" class="menu-link">
+		<span class="fa-solid fa-user p-2"></span>
 
-        <span class="menu-text">Utilisateur</span>
-    </a>
-    <!-- child menu -->
-    <ul class="menu">
-        <li class="menu-item {{ app.request.get('_route') == 'app_user_new' ? 'has-active': '' }}">
-            <a href="{{ path('app_user_new') }}" class="menu-link">Créer</a>
-        </li>
-        <li class="menu-item {{ app.request.get('_route') == 'app_user_index' ? 'has-active': '' }}">
-            <a href="{{ path('app_user_index') }}" class="menu-link">Liste</a>
-        </li>
+		<span class="menu-text">Utilisateur</span>
+	</a>
+	<!-- child menu -->
+	<ul class="menu">
+		<li class="menu-item {{ app.request.get('_route') == 'app_user_new' ? 'has-active': '' }}">
+			<a href="{{ path('app_user_new') }}" class="menu-link">Créer</a>
+		</li>
+		<li class="menu-item {{ app.request.get('_route') == 'app_user_index' ? 'has-active': '' }}">
+			<a href="{{ path('app_user_index') }}" class="menu-link">Liste</a>
+		</li>
 
-    </ul>
-    <!-- /child menu -->
-    <!-- .menu-item -->
+	</ul>
+	<!-- /child menu -->
+	<!-- .menu-item -->
 </li>
 
+<li class="menu-item has-child">
+	<a href="#" class="menu-link">
+		<span class="fa-solid fa-user p-2"></span>
 
+		<span class="menu-text">Type opération</span>
+	</a>
+	<!-- child menu -->
+	<ul class="menu">
+		<li class="menu-item {{ app.request.get('_route') == 'app_type_expense_new' ? 'has-active': '' }}"></li>
+
+		<a href="{{ path('app_user_new') }}" class="menu-link">Créer</a>
+	</li>
+</li>
+<li class="menu-item {{ app.request.get('_route') == 'app_type_expense_index' ? 'has-active': '' }}"></li>
+
+<a href="{{ path('app_user_index') }}" class="menu-link">Liste</a></li></ul><!-- /child menu --><!-- .menu-item --></li><li class="menu-item has-child"><a href="#" class="menu-link"><span class="fa-solid fa-user p-2"></span><span class="menu-text">Nature opération</span></a><!-- child menu --><ul class="menu"><li class="menu-item {{ app.request.get('_route') == 'app_expense_new' ? 'has-active': '' }}"></li><a href="{{ path('app_user_new') }}" class="menu-link">Créer</a></li></li><li class="menu-item {{ app.request.get('_route') == 'app_expense_index' ? 'has-active': '' }}"></li><a href="{{ path('app_user_index') }}" class="menu-link">Liste</a></li></ul>

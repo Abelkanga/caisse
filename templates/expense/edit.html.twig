@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Expense{% endblock %}
+
+{% block body %}
+<div class="col-12">
+	{{ form_start(form) }}
+	<div class="card card-fluid">
+		<div class="card-header bg-soft-custom">
+			<h6>Modifier une nature d'opération</h6>
+		</div>
+		<div class="card-body">
+			{{ include('expense/_form.html.twig') }}
+		</div>
+		<div class="card-footer">
+			<div class="card-footer-content">
+				<button type="submit" class="btn btn-primary float-right ml-2">Enregistrer</button>
+				<a href="{{ path('app_societe_index') }}" class="btn btn-info float-right">
+					<i class="oi oi-home"></i>
+					Retour</a>
+			</div>
+		</div>
+	</div>
+	{{ form_end(form) }}
+</div>
+
+{% endblock %}
