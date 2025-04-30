@@ -41,31 +41,34 @@
 		</li>
 	</ul>
 </li>
+
+<li class="menu-header">OPERATION</li>
 <li class="menu-item has-child">
 	<a href="#" class="menu-link">
 		<span class="fa-solid fa-file p-2"></span>
-		<span class="menu-text">Type opération</span>
+		<span class="menu-text">Type d'opérations</span>
 	</a>
-	<ul class="menu">
+	<ul class="menu ">
 		<li class="menu-item {{ app.request.get('_route') == 'app_type_expense_new' ? 'has-active': '' }}">
 			<a href="{{ path('app_type_expense_new') }}" class="menu-link">Créer</a>
 		</li>
 		<li class="menu-item {{ app.request.get('_route') == 'app_type_expense_index' ? 'has-active': '' }}">
 			<a href="{{ path('app_type_expense_index') }}" class="menu-link">Liste</a>
 		</li>
-	</li>
+	</ul>
 </li>
+
 <li class="menu-item has-child">
 	<a href="#" class="menu-link">
 		<span class="fa-solid fa-file p-2"></span>
-		<span class="menu-text">Nature opération</span>
+		<span class="menu-text">Nature d'opérations</span>
 	</a>
-	<ul class="menu">
+	<ul class="menu ">
 		<li class="menu-item {{ app.request.get('_route') == 'app_expense_new' ? 'has-active': '' }}">
-			<a href="{{ path('app_type_expense_new') }}" class="menu-link">Créer</a>
+			<a href="{{ path('app_expense_new') }}" class="menu-link">Créer</a>
 		</li>
 		<li class="menu-item {{ app.request.get('_route') == 'app_expense_index' ? 'has-active': '' }}">
 			<a href="{{ path('app_expense_index') }}" class="menu-link">Liste</a>
 		</li>
-	</li>
+	</ul>
 </li>
