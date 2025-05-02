@@ -28,7 +28,7 @@ class Fdb
     //    #[ORM\Column(length: 255)]
     //    private ?string $objet = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $destinataire = null;
 
     #[ORM\Column(length: 255, nullable: true)]
