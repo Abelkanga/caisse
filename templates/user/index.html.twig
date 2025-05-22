@@ -19,7 +19,6 @@
                             <th>Email</th>
                             <th>Fonction</th>
                             <th>Service</th>
-                            <th>Rôle</th>
                             <th>Action</th>
                         </tr>
                         </thead>
@@ -32,11 +31,6 @@
                                 <td class="align-middle">{{ u.email }}</td>
                                 <td class="align-middle">{{ u.fonction }}</td>
                                 <td class="align-middle">{{ u.emeteur }}</td>
-                                <td class="align-middle">
-                                    {% if u.roles is not empty %}
-                                        {{ u.roles[0]|replace({'ROLE_': ''}) }}
-                                    {% endif %}
-                                </td>
                                 <td class="text-center align-middle">
                                     <a class="btn btn-sm btn-icon btn-secondary" data-toggle="tooltip" data-html="true" title="Modifier" href="{{ path('app_user_edit', {'id': u.id}) }}">
                                         <i class="fa fa-pencil-alt"></i>
