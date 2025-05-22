@@ -54,7 +54,7 @@ class CaisseController extends AbstractController
             $manager->persist($caisse);
 
             $user = $caisse->getUser();
-            $newRoles = [$user->getRoles(), 'ROLE_CASHIER'];
+            $newRoles = [...$user->getRoles(), 'ROLE_CASHIER'];
             $user->setRoles($newRoles);
             $manager->persist($user);
 
