@@ -3,9 +3,7 @@
 
 namespace App\Controller;
 
-use App\Entity\ResetPasswordRequest;
 use App\Entity\User;
-use App\Form\ResetPasswordRequestFormType;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -43,12 +41,6 @@ class UserController extends AbstractController
             $hashedPassword = $passwordHasher->hashPassword($user, $plaintextPassword);
             $user->setPassword($hashedPassword);
 
-            // Si un formulaire ou un autre processus permet d'associer une caisse à cet utilisateur :
-            if ($user->getCaisse()) {
-                $caisse = $user->getCaisse();
-                $caisse->setUser($user); // S'assurer que la caisse est bien associée à cet utilisateur
-            }
-
             $entityManager->persist($user);
             $entityManager->flush();
 
@@ -68,15 +60,22 @@ class UserController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, User $user, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher, Security $security): Response
-    {
+    public function edit(
+        Request                 $request,
+        User                    $user,
+        EntityManagerInterface  $entityManager,
+        Security                $security
+    ): Response {
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $plaintextPassword = 'password';
-            $hashedPassword = $passwordHasher->hashPassword($user, $plaintextPassword);
-            $user->setPassword($hashedPassword);
+            if ($user->isCashier() && $security->isGranted('ROLE_ADMIN')) {
+                $roles = $form->get('roles')->getData();
+                $newRoles = [...$roles, 'ROLE_CASHIER'];
+                $user->setRoles($newRoles);
+            }
+
             $entityManager->flush();
 
             flash()
@@ -100,24 +99,24 @@ class UserController extends AbstractController
         ]);
     }
 
-//    #[Route('/{id}/deactivate', name: 'app_user_deactivate', methods: ['POST'])]
-//    public function deactivate(User $user, EntityManagerInterface $entityManager): Response
-//    {
-//        // Désactiver l'utilisateur en mettant `isActive` à false
-//        $user->setIsActive(false);
-//
-//        // Sauvegarder les modifications
-//        $entityManager->flush();
-//
-//        flash()
-//            ->options([
-//                'timeout' => 5000,
-//                'position' => 'bottom-right',
-//            ])
-//            ->success('Utilisateur désactivé avec succès.');
-//
-//        return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
-//    }
+    //    #[Route('/{id}/deactivate', name: 'app_user_deactivate', methods: ['POST'])]
+    //    public function deactivate(User $user, EntityManagerInterface $entityManager): Response
+    //    {
+    //        // Désactiver l'utilisateur en mettant `isActive` à false
+    //        $user->setIsActive(false);
+    //
+    //        // Sauvegarder les modifications
+    //        $entityManager->flush();
+    //
+    //        flash()
+    //            ->options([
+    //                'timeout' => 5000,
+    //                'position' => 'bottom-right',
+    //            ])
+    //            ->success('Utilisateur désactivé avec succès.');
+    //
+    //        return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+    //    }
 
     #[Route('/user/enable/{id}', name: 'user_enable')]
     public function enableUser(User $user, EntityManagerInterface $em): RedirectResponse
@@ -135,30 +134,5 @@ class UserController extends AbstractController
         $em->flush();
 
         return $this->redirectToRoute('app_user_index');
-    }
-
-    #[Route('/update_password', name: 'app_user_update', methods: ['GET', 'POST'])]
-    public function ResetPasswordRequest(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher): Response
-    {
-        $resetPasswordRequest = new ResetPasswordRequest();
-        $form = $this->createForm(ResetPasswordRequestFormType::class, $resetPasswordRequest);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            /** @var User $user */
-            $user = $this->getUser();
-            $newPasswordEncoded = $passwordHasher->hashPassword($user, $resetPasswordRequest->getNewPassword());
-            $userRepository->resetPasswordRequest($user, $newPasswordEncoded);
-
-            flash()
-                ->options([
-                    'timeout' => 5000, // 3 seconds
-                    'position' => 'bottom-right',
-                ])
-                ->success('Mot de passe modifié avec succès !');
-
-
-            return $this->redirectToRoute('app_welcome');
-        }
     }
 }

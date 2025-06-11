@@ -5,13 +5,9 @@ namespace App\Controller;
 use App\Entity\Caisse;
 use App\Entity\User;
 use App\Form\CaisseType;
-use App\Repository\BonapprovisionnementRepository;
 use App\Repository\CaisseRepository;
-use App\Repository\DepenseRepository;
-use App\Repository\FdbRepository;
 use App\Repository\JournalCaisseRepository;
 use App\Service\CaisseService;
-use App\Utils\Status;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -42,7 +38,6 @@ class CaisseController extends AbstractController
     public function new(Request $request, EntityManagerInterface $manager, CaisseService $service,): Response
     {
 
-
         $code_caisse = $service->refCaisse();
 
         $caisse = (new Caisse())->setCode($code_caisse)->setResponsable('');
@@ -51,11 +46,17 @@ class CaisseController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $manager->persist($caisse);
 
             $user = $caisse->getUser();
+
+            $user->setIsCashier(true);
+
             $newRoles = [...$user->getRoles(), 'ROLE_CASHIER'];
+
             $user->setRoles($newRoles);
+
             $manager->persist($user);
 
             $manager->flush();
@@ -82,6 +83,14 @@ class CaisseController extends AbstractController
         $form = $this->createForm(CaisseType::class, $caisse);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $user = $caisse->getUser();
+
+            if ($user->isCashier()) {
+                $newRoles = [...$user->getRoles(), 'ROLE_CASHIER'];
+                $user->setRoles($newRoles);
+                $manager->persist($user);
+            }
+
             $manager->flush();
 
             flash()

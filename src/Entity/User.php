@@ -121,6 +121,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: BackCash::class, mappedBy: 'user')]
     private Collection $backCashes;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $isCashier = null;
+
     public function __construct()
     {
         $this->depenses = new ArrayCollection();
@@ -617,6 +620,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $backCash->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isCashier(): ?bool
+    {
+        return $this->isCashier;
+    }
+
+    public function setIsCashier(?bool $isCashier): static
+    {
+        $this->isCashier = $isCashier;
 
         return $this;
     }
